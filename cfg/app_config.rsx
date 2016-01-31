@@ -1,0 +1,1 @@
+cfg.current.language=Français
