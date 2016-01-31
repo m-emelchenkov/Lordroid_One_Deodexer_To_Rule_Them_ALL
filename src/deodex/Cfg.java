@@ -19,6 +19,7 @@ package deodex;
 import java.io.File;
 import java.util.ArrayList;
 
+import deodex.tools.Os;
 import deodex.tools.PropReader;
 import deodex.tools.StringUtils;
 
@@ -29,8 +30,10 @@ import deodex.tools.StringUtils;
 public class Cfg {
 	private static final String CFG_PATH = "cfg/app_config.rsx";
 	private static final String LANG_FOLDER = "lang";
+	
+	
 	private static String currentLang;
-
+	
 	private static ArrayList<File> langFiles = new ArrayList<File>();
 	private static ArrayList<String> availableLang = new ArrayList<String>();
 
@@ -123,4 +126,15 @@ public class Cfg {
 		Cfg.currentLang = currentLang;
 	}
 
+	public static String getOs(){
+		if(Os.isLinux()) {
+			return S.LINUX;
+		} else if (Os.isWindows()){
+			return S.WINDOWS;
+		} else if (Os.isMac()){
+			return S.MAC;
+		}
+		return null;
+	}
+	
 }

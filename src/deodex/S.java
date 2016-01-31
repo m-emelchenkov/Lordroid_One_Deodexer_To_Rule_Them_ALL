@@ -47,5 +47,8 @@ public class S {
 		
 		public static final String CFG_CUR_LANG = "cfg.current.language";
 
+		public static final String WINDOWS = "windows";
+		public static final String LINUX = "linux";
+		public static final String MAC = "osx";
 		
 }

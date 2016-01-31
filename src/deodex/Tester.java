@@ -30,7 +30,8 @@ public class Tester {
 			Logger.logToStdIO("[test]" + Cfg.getCurrentLang());
 		}
 		
-		
+		String osName = System.getProperty("os.name", "generic").toLowerCase();
+		Logger.logToStdIO(osName);
 		
 		
 		for (String str : Cfg.getAvailableLaunguages()){
