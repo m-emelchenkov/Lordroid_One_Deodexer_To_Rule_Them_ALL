@@ -33,7 +33,7 @@ public class Tester {
 		String osName = System.getProperty("os.name", "generic").toLowerCase();
 		Logger.logToStdIO(osName);
 		
-		
+		S.initTempFolders();
 		for (String str : Cfg.getAvailableLaunguages()){
 			System.out.println(str);
 		}

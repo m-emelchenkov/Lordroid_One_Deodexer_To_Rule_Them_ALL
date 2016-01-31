@@ -23,6 +23,8 @@ import java.io.IOException;
 
 import org.apache.commons.compress.compressors.xz.XZCompressorInputStream;
 
+import deodex.tools.FilesUtils;
+
 public class TestXz {
 
 	public static void main(String[] args) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException{
@@ -38,7 +40,8 @@ public class TestXz {
 		}
 		out.close();
 		xzIn.close();
-
+		boolean copyStatus = FilesUtils.copyFile(new File("/tmp/a.log"), new File("/tmp/blabla/blabla/hohohoho.a"));
+		System.out.println(copyStatus);
 	}
 	
 }

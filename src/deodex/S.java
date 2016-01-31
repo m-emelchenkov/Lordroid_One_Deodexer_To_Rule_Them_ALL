@@ -51,4 +51,14 @@ public class S {
 		public static final String LINUX = "linux";
 		public static final String MAC = "osx";
 		
+		
+		public static void initTempFolders(){
+			new File(TMP+File.separator +WORKER1).mkdirs();
+			new File(TMP+File.separator +WORKER3).mkdirs();
+			new File(TMP+File.separator +WORKER2).mkdirs();
+			new File(TMP+File.separator +WORKER4).mkdirs();
+			
+			
+
+		}
 }
