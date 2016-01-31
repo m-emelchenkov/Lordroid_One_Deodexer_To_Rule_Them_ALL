@@ -49,7 +49,7 @@ public class LogoPane extends JPanel{
 	}
 	
 	public void paintComponent(Graphics g){
-		//Graphics2D g2 = (Graphics2D) g;
+		Graphics2D g2 = (Graphics2D) g;
 		g.drawImage(image, 0, 0, this);
 		
 	}
