@@ -18,26 +18,18 @@ package deodex.obj;
 import java.io.File;
 import java.io.Serializable;
 
-public class ApkObj implements Serializable{
+public class ApkObj implements Serializable {
 
 	/**
 	 * 
 	 */
-	
-	
+
 	private static final long serialVersionUID = 1L;
 	private String origFolder;
 	private String origApk;
 	private String origOdex;
-	
-	
-	
-	
-	
-	public ApkObj(File folder){
-		
-		
-		
-		
+
+	public ApkObj(File folder) {
+
 	}
 }

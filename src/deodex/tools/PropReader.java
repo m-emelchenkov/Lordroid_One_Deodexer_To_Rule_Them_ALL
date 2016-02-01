@@ -32,7 +32,8 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 
 public class PropReader {
-		private static final String LOG_HEADER = "[PropReader]";
+	private static final String LOG_HEADER = "[PropReader]";
+
 	public static String getProp(String prop, File propFile) {
 		BufferedReader br = null;
 		String value = null;
@@ -71,8 +72,7 @@ public class PropReader {
 
 	public static void writeProp(String prop, String value, File propFile) {
 		ArrayList<String> lines;
-		
-		
+
 		if (propFile.exists()) {
 			lines = propToArray(propFile);
 			boolean found = false;
@@ -86,8 +86,8 @@ public class PropReader {
 					break;
 				}
 			}
-			if(!found)
-				lines.add(prop+"="+value);
+			if (!found)
+				lines.add(prop + "=" + value);
 		} else {
 			lines = new ArrayList<String>();
 			lines.add(prop + "=" + value);
@@ -126,17 +126,15 @@ public class PropReader {
 		BufferedWriter bw = null;
 		propFile.delete();
 
-		
 		try {
 			DataOutputStream dos = new DataOutputStream(new FileOutputStream(propFile));
-			bw = new BufferedWriter(
-					new OutputStreamWriter(new BufferedOutputStream(dos), "UTF-8"));
+			bw = new BufferedWriter(new OutputStreamWriter(new BufferedOutputStream(dos), "UTF-8"));
 			for (String str : lines) {
-				Logger.logToStdIO(LOG_HEADER+Logger.INFO+" String is lines "+str);
-				
+				Logger.logToStdIO(LOG_HEADER + Logger.INFO + " String is lines " + str);
+
 				bw.write(str);
 				bw.newLine();
-				
+
 			}
 			bw.flush();
 			bw.close();

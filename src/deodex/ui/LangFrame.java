@@ -33,7 +33,7 @@ import deodex.R;
 import deodex.S;
 import deodex.tools.Logger;
 
-public class LangFrame extends JFrame{
+public class LangFrame extends JFrame {
 
 	/**
 	 * 
@@ -46,44 +46,46 @@ public class LangFrame extends JFrame{
 	JComboBox<String> langs = new JComboBox<String>();
 	JLabel langLab = new JLabel(R.getString(S.APP_LANG_BOX_LAB));
 	JButton next = new JButton(R.getString(S.APP_NEXT_BTN));
-	public LangFrame(){
-		
+
+	public LangFrame() {
+
 		try {
-			this.setIconImage(ImageIO.read(Thread.currentThread().getContextClassLoader().getResourceAsStream("images/icon.png")));
+			this.setIconImage(ImageIO
+					.read(Thread.currentThread().getContextClassLoader().getResourceAsStream("images/icon.png")));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		this.setLocationRelativeTo(null);
-		this.setLocation((Toolkit.getDefaultToolkit().getScreenSize().width-802)/2, (Toolkit.getDefaultToolkit().getScreenSize().height-400)/2);
-		
+		this.setLocation((Toolkit.getDefaultToolkit().getScreenSize().width - 802) / 2,
+				(Toolkit.getDefaultToolkit().getScreenSize().height - 400) / 2);
+
 		this.setSize(802, 400);
 		this.setTitle(R.getString(S.APP_NAME));
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setResizable(false);
-		
-		// SET FONTS 
+
+		// SET FONTS
 		title.setFont(R.TITLE_FONT);
 		text.setFont(R.NORMAL_FONT);
 		title.setForeground(Color.RED);
 		langLab.setFont(R.NORMAL_FONT);
 		langs.setFont(R.NORMAL_FONT);
 		next.setFont(R.NORMAL_FONT);
-		// SET Bounds 
+		// SET Bounds
 		logo.setBounds(0, 0, LogoPane.M_WIDTH, LogoPane.M_HEIGHT);
 		title.setBounds(10, 110, 790, 50);
 		text.setBounds(10, 170, 800, 50);
 		langLab.setBounds(10, 230, 300, 50);
-		langs.setBounds(315,230,300,50);
+		langs.setBounds(315, 230, 300, 50);
 		next.setBounds(500, 300, 260, 50);
 		// combo box add items
-		for (String str : Cfg.getAvailableLaunguages()){
+		for (String str : Cfg.getAvailableLaunguages()) {
 			langs.addItem(str);
 		}
 		langs.setSelectedItem(S.ENGLISH);
 
-		
 		// add Components
 		JPanel main = new JPanel();
 		main.setBackground(Color.WHITE);
@@ -98,49 +100,50 @@ public class LangFrame extends JFrame{
 		initActionsListeners();
 		this.setVisible(true);
 	}
-	
-	private void reloadStrings(){
+
+	private void reloadStrings() {
 		title.setText(R.getString(S.APP_WELCOME));
 		text.setText(R.getString(S.APP_WELCOME_MESSAGE));
 		langLab.setText(R.getString(S.APP_LANG_BOX_LAB));
 		next.setText(R.getString(S.APP_NEXT_BTN));
 		this.setTitle(R.getString(S.APP_NAME));
 	}
-	
-	private void initActionsListeners(){
+
+	private void initActionsListeners() {
 		langs.addActionListener(new LangsListener());
 		next.addActionListener(new NextListener());
 	}
 
-	private void  doDispose(){
+	private void disposeThis() {
 		this.dispose();
-		
+
 	}
-	
-	
-	class LangsListener implements ActionListener{
+
+	class LangsListener implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
-			Logger.logToStdIO(LOG_HEADER+Logger.INFO+"User choose "+(String)langs.getSelectedItem()+ " As language");
-			Cfg.setCurrentLang((String)langs.getSelectedItem());
+			Logger.logToStdIO(
+					LOG_HEADER + Logger.INFO + "User choose " + (String) langs.getSelectedItem() + " As language");
+			Cfg.setCurrentLang((String) langs.getSelectedItem());
 			R.initResources();
 			reloadStrings();
 		}
-		
+
 	}
-	class NextListener implements ActionListener{
+
+	class NextListener implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
 			Cfg.writeCfgFile();
-			doDispose();
+			disposeThis();
 			@SuppressWarnings("unused")
 			Window win = new Window();
-			
+
 		}
-		
+
 	}
 }

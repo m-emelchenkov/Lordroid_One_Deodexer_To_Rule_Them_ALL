@@ -30,10 +30,9 @@ import deodex.tools.StringUtils;
 public class Cfg {
 	private static final String CFG_PATH = "cfg/app_config.rsx";
 	private static final String LANG_FOLDER = "lang";
-	
-	
+
 	private static String currentLang;
-	
+
 	private static ArrayList<File> langFiles = new ArrayList<File>();
 	private static ArrayList<String> availableLang = new ArrayList<String>();
 
@@ -46,14 +45,15 @@ public class Cfg {
 	 * @return available languages as String if there is none retrrns null
 	 */
 
-	public static void writeCfgFile(){
+	public static void writeCfgFile() {
 		PropReader.writeProp(S.CFG_CUR_LANG, currentLang, new File(CFG_PATH));
 		PropReader.writeProp(S.CFG_HOST_OS, Cfg.getOs(), new File(CFG_PATH));
 	}
-	
-	public static void readCfg(){
+
+	public static void readCfg() {
 		currentLang = PropReader.getProp(S.CFG_CUR_LANG, new File(CFG_PATH));
 	}
+
 	public static ArrayList<String> getAvailableLaunguages() {
 		File langFolder = new File(LANG_FOLDER);
 		File lang[] = langFolder.listFiles();
@@ -126,15 +126,15 @@ public class Cfg {
 		Cfg.currentLang = currentLang;
 	}
 
-	public static String getOs(){
-		if(Os.isLinux()) {
+	public static String getOs() {
+		if (Os.isLinux()) {
 			return S.LINUX;
-		} else if (Os.isWindows()){
+		} else if (Os.isWindows()) {
 			return S.WINDOWS;
-		} else if (Os.isMac()){
+		} else if (Os.isMac()) {
 			return S.MAC;
 		}
 		return null;
 	}
-	
+
 }

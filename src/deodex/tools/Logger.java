@@ -21,12 +21,10 @@ public class Logger {
 	public static final String WARNNING = "[WARNNING]";
 	public static final String ERROR = "[ERROR]";
 	public static final String FATAL = "[FATAL]";
-	
-	
-	public static void logToStdIO(String str){
-		if(LOG)
+
+	public static void logToStdIO(String str) {
+		if (LOG)
 			System.out.println(str);
 	}
-	
-	
+
 }

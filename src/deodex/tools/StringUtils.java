@@ -17,54 +17,51 @@ package deodex.tools;
 
 public class StringUtils {
 
-	public static String getSubString (String str ,int startIndex)throws IndexOutOfBoundsException{
+	public static String getSubString(String str, int startIndex) throws IndexOutOfBoundsException {
 		String subStr = "";
-		if( startIndex >= str.length() || startIndex < 0){
+		if (startIndex >= str.length() || startIndex < 0) {
 			throw new IndexOutOfBoundsException();
-		} 
-		for (int i = startIndex+1 ; i < str.length() ; i++){
-			subStr = subStr + str.charAt(i);
 		}
-		
-		
-		return subStr;
-		
-	}
-	
-	public static String getCropString (String str ,int endIndex)throws IndexOutOfBoundsException{
-		String subStr = "";
-		if(  endIndex < 0){
-			throw new IndexOutOfBoundsException();
-		} else if(endIndex >= str.length())
-			return str;
-		
-		for (int i = 0; i < endIndex ; i++){
+		for (int i = startIndex + 1; i < str.length(); i++) {
 			subStr = subStr + str.charAt(i);
 		}
 
 		return subStr;
-		
+
 	}
-	
-	
-	public static String getLastchars(String str , int charCount){
-		
-		int startIndex = str.length()-(charCount+1);
+
+	public static String getCropString(String str, int endIndex) throws IndexOutOfBoundsException {
+		String subStr = "";
+		if (endIndex < 0) {
+			throw new IndexOutOfBoundsException();
+		} else if (endIndex >= str.length())
+			return str;
+
+		for (int i = 0; i < endIndex; i++) {
+			subStr = subStr + str.charAt(i);
+		}
+
+		return subStr;
+
+	}
+
+	public static String getLastchars(String str, int charCount) {
+
+		int startIndex = str.length() - (charCount + 1);
 		String tmp = StringUtils.getSubString(str, startIndex);
-		
-		
+
 		return tmp;
 	}
-	
-	public static String removeSpaces (String str){
+
+	public static String removeSpaces(String str) {
 		String tmp = "";
-		for (int i = 0 ; i < str.length() ; i++){
-			if(str.charAt(i) != ' '){
-				tmp = tmp+str.charAt(i);
+		for (int i = 0; i < str.length(); i++) {
+			if (str.charAt(i) != ' ') {
+				tmp = tmp + str.charAt(i);
 			}
 		}
-	
+
 		return str;
-		
+
 	}
 }

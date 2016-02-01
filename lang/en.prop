@@ -19,7 +19,7 @@
 file.launguage=English
 #
 #
-app.name=LUBD || by lord-ralf-adolf
+app.name=Lordroid Universal Batch Deodexer || by lord-ralf-adolf
 #
 # first window first launch !
 app.welcome=Welcome to LUBD!
@@ -28,7 +28,11 @@ app.langBoxLab=choose a language :
 app.buttonNext=Next >>
 #
 # path to system choose 
-
-
-
- 
+browse.Field= Drag and drop here or click browse to select system folder
+browseBtn=browse
+optionalPan=Optional (may not work depends on your OS)
+zipalignCheck=zipalign
+zipalignCheck.ToolTip=zipalign APK's after deodexing 
+signCheck=re-Sign APK's
+signCheck.ToolTip=resign apk's after deodexing (might be needed on some Roms & devices)
+deodexNow=Deodex now !

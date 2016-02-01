@@ -19,14 +19,15 @@ import java.awt.EventQueue;
 
 import deodex.tools.Logger;
 import deodex.ui.LangFrame;
+import deodex.ui.Window;
 
 public class Tester {
-	public static void main(String args[]){
-		if(Cfg.isFirstLaunch()){
+	public static void main(String args[]) {
+		if (Cfg.isFirstLaunch()) {
 			Cfg.setCurrentLang(S.ENGLISH);
 			R.initResources();
-			EventQueue.invokeLater(new Runnable(){
-			
+			EventQueue.invokeLater(new Runnable() {
+
 				@Override
 				public void run() {
 					// TODO Auto-generated method stub
@@ -35,15 +36,14 @@ public class Tester {
 
 				}
 			});
-	
+
 		} else {
 			Cfg.readCfg();
 			R.initResources();
 			Logger.logToStdIO("[test]" + Cfg.getCurrentLang());
+			@SuppressWarnings("unused")
+			Window win = new Window();
 		}
-		
 
-
-		
 	}
 }

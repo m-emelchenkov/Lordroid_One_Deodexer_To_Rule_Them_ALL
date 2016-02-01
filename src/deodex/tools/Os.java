@@ -12,88 +12,97 @@ import java.io.File;
  */
 public class Os {
 
-  private Os() {
-    // nada
-  }
+	private Os() {
+		// nada
+	}
 
-  public static String getOsName() {
-    return System.getProperty("os.name", "unknown");
-  }
-  
-  public static String platform() {
-    String osname = System.getProperty("os.name", "generic").toLowerCase();
-    if (osname.startsWith("windows")) {
-      return "win32";
-    }
-    else if (osname.startsWith("linux")) {
-      return "linux";
-    }
-    else if (osname.startsWith("sunos")) {
-      return "solaris";
-    }
-    else if (osname.startsWith("mac") || osname.startsWith("darwin")) {
-      return "mac";
-    }
-    else return "generic";
-  }
+	public static String getOsName() {
+		return System.getProperty("os.name", "unknown");
+	}
 
-  public static boolean isWindows() {
-    return (getOsName().toLowerCase().indexOf("windows") >= 0);
-  }
+	public static String platform() {
+		String osname = System.getProperty("os.name", "generic").toLowerCase();
+		if (osname.startsWith("windows")) {
+			return "win32";
+		} else if (osname.startsWith("linux")) {
+			return "linux";
+		} else if (osname.startsWith("sunos")) {
+			return "solaris";
+		} else if (osname.startsWith("mac") || osname.startsWith("darwin")) {
+			return "mac";
+		} else
+			return "generic";
+	}
 
-  public static boolean isLinux() {
-    return getOsName().toLowerCase().indexOf("linux") >= 0;
-  }
+	public static boolean isWindows() {
+		return (getOsName().toLowerCase().indexOf("windows") >= 0);
+	}
 
-  public static boolean isUnix() {
-    final String os = getOsName().toLowerCase();
+	public static boolean isLinux() {
+		return getOsName().toLowerCase().indexOf("linux") >= 0;
+	}
 
-    // XXX: this obviously needs some more work to be "true" in general (see bottom of file)
-    if ((os.indexOf("sunos") >= 0) || (os.indexOf("linux") >= 0)) { return true; }
+	public static boolean isUnix() {
+		final String os = getOsName().toLowerCase();
 
-    if (isMac() && (System.getProperty("os.version", "").startsWith("10."))) { return true; }
+		// XXX: this obviously needs some more work to be "true" in general (see
+		// bottom of file)
+		if ((os.indexOf("sunos") >= 0) || (os.indexOf("linux") >= 0)) {
+			return true;
+		}
 
-    return false;
-  }
+		if (isMac() && (System.getProperty("os.version", "").startsWith("10."))) {
+			return true;
+		}
 
-  public static boolean isMac() {
-    final String os = getOsName().toLowerCase();
-    return os.startsWith("mac") || os.startsWith("darwin");
-  }
+		return false;
+	}
 
-  public static boolean isSolaris() {
-    final String os = getOsName().toLowerCase();
-    return os.indexOf("sunos") >= 0;
-  }
+	public static boolean isMac() {
+		final String os = getOsName().toLowerCase();
+		return os.startsWith("mac") || os.startsWith("darwin");
+	}
 
-  public static String findWindowsSystemRoot() {
-    if (!isWindows()) { return null; }
+	public static boolean isSolaris() {
+		final String os = getOsName().toLowerCase();
+		return os.indexOf("sunos") >= 0;
+	}
 
-    // commenting this out until we actually need it. I'm sick of seeing the
-    // "use of deprecated API" warnings in our compiler output
-    //
-    // if (System.getProperty("java.version", "").startsWith("1.5.")) {
-    // // System.getEnv(String name) is deprecated in java 1.2 through 1.4.
-    // // Not only is it deprecated, it throws java.lang.Error upon invocation!
-    // // It is has been un-deprecated in 1.5 though, so use it if we can
-    // String root = System.getenv("SYSTEMROOT");
-    // if (root != null) { return root; }
-    // }
+	public static String findWindowsSystemRoot() {
+		if (!isWindows()) {
+			return null;
+		}
 
-    // try to find it by looking at the file system
-    final char begin = 'c';
-    final char end = 'z';
+		// commenting this out until we actually need it. I'm sick of seeing the
+		// "use of deprecated API" warnings in our compiler output
+		//
+		// if (System.getProperty("java.version", "").startsWith("1.5.")) {
+		// // System.getEnv(String name) is deprecated in java 1.2 through 1.4.
+		// // Not only is it deprecated, it throws java.lang.Error upon
+		// invocation!
+		// // It is has been un-deprecated in 1.5 though, so use it if we can
+		// String root = System.getenv("SYSTEMROOT");
+		// if (root != null) { return root; }
+		// }
 
-    for (char drive = begin; drive < end; drive++) {
-      File root = new File(drive + ":\\WINDOWS");
-      if (root.exists() && root.isDirectory()) { return root.getAbsolutePath().toString(); }
+		// try to find it by looking at the file system
+		final char begin = 'c';
+		final char end = 'z';
 
-      root = new File(drive + ":\\WINNT");
-      if (root.exists() && root.isDirectory()) { return root.getAbsolutePath().toString(); }
-    }
+		for (char drive = begin; drive < end; drive++) {
+			File root = new File(drive + ":\\WINDOWS");
+			if (root.exists() && root.isDirectory()) {
+				return root.getAbsolutePath().toString();
+			}
 
-    return null;
-  }
+			root = new File(drive + ":\\WINNT");
+			if (root.exists() && root.isDirectory()) {
+				return root.getAbsolutePath().toString();
+			}
+		}
+
+		return null;
+	}
 
 }
 
@@ -271,7 +280,8 @@ public class Os {
 // os.name= "Windows 95" "windows 95"
 // os.arch= "Pentium" "pentium"
 // os.version= "4.0" "4.0"
-// java.vendor= "Netscape Communications Corporation""netscape communications corporation"
+// java.vendor= "Netscape Communications Corporation""netscape communications
+// corporation"
 // java.class.version= "45.3" "45.3"
 // java.version= "1.02" "1.02"
 // file.separator= "/" "/"
@@ -424,7 +434,8 @@ public class Os {
 // os.name= "Mac OS" "mac os"
 // os.arch= "PowerPC" "powerpc"
 // os.version= "7.5" "7.5"
-// java.vendor= "Netscape Communications Corporation""netscape communications corporation"
+// java.vendor= "Netscape Communications Corporation""netscape communications
+// corporation"
 // java.class.version= "45.3" "45.3"
 // java.version= "1.1.2" "1.1.2"
 // file.separator= "/" "/"
@@ -436,7 +447,8 @@ public class Os {
 // OS: MacOS version 8.1
 // Processor: PowerPC 750 (?)
 // VM: Microsoft Virtual Machine
-// Notes: Obtained in Internet Explorer 4.01 (PowerPC) with "Java virtual Machine"
+// Notes: Obtained in Internet Explorer 4.01 (PowerPC) with "Java virtual
+// Machine"
 // pop-up preference set to "Microsoft Virtual Machine".
 // Contributor: DG
 //
@@ -455,7 +467,8 @@ public class Os {
 // OS: MacOS version 8.1
 // Processor: PowerPC 750 (?)
 // VM: Apple MRJ
-// Notes: Obtained in Internet Explorer 4.01 (PowerPC) with "Java virtual Machine"
+// Notes: Obtained in Internet Explorer 4.01 (PowerPC) with "Java virtual
+// Machine"
 // pop-up preference set to "Apple MRJ".
 // Contributor: DG
 //
@@ -489,7 +502,8 @@ public class Os {
 // os.name= "Linux" "linux"
 // os.arch= "x86" "x86"
 // os.version= "2.0.31" "2.0.31"
-// java.vendor= "Sun Microsystems Inc., ported by Randy Chapman and Steve Byrne""sun microsystems inc., ported by randy
+// java.vendor= "Sun Microsystems Inc., ported by Randy Chapman and Steve
+// Byrne""sun microsystems inc., ported by randy
 // chapman and steve byrne"
 // java.class.version= "45.3" "45.3"
 // java.version= "1.1.6" "1.1.6"
@@ -683,7 +697,8 @@ public class Os {
 //
 // ------------------------------------------------------
 // here are the results for the latest HP-UX JDK (HP-UX 10.20):
-// AS told me (CK) that for HP-UX java.version will always have the same general format;
+// AS told me (CK) that for HP-UX java.version will always have the same general
+// format;
 // the letter ( "C" in the sample ) might change, and there may or may
 // not be a date after the version number.
 // Contributor: AS
@@ -693,7 +708,8 @@ public class Os {
 // os.version= "B.10.20" "b.10.20"
 // java.vendor= "Hewlett Packard Co." "hewlett packard co."
 // java.class.version= "45.3" "45.3"
-// java.version= "HP-UX Java C.01.15.03 07/07/98""hp-ux java c.01.15.03 07/07/98"
+// java.version= "HP-UX Java C.01.15.03 07/07/98""hp-ux java c.01.15.03
+// 07/07/98"
 // file.separator= "/" "/"
 // path.separator= ":" ":"
 // line.separator= "0xa" "0xa"
@@ -751,7 +767,8 @@ public class Os {
 // OS: FreeBSD 2.2.2
 // Processor: Intel Pentium
 // VM: FreeBSD port of JDK1.0.2 (Jeff Hsu?)
-// Notes: This is actually for FreeBSD with the JDK 1.0.2. It probably says Solaris
+// Notes: This is actually for FreeBSD with the JDK 1.0.2. It probably says
+// Solaris
 // since it was a really early port.
 // Contributor: CA
 //
@@ -776,7 +793,8 @@ public class Os {
 // os.name= "FreeBSD" "freebsd"
 // os.arch= "x86" "x86"
 // os.version= "2.2.2-RELEASE" "2.2.2-release"
-// java.vendor= "Sun Microsystems Inc., port by java-port@FreeBSD.org""sun microsystems inc., port by
+// java.vendor= "Sun Microsystems Inc., port by java-port@FreeBSD.org""sun
+// microsystems inc., port by
 // java-port@freebsd.org"
 // java.class.version= "45.3" "45.3"
 // java.version= "1.1.6" "1.1.6"

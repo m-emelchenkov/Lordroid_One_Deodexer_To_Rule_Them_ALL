@@ -27,7 +27,8 @@ import deodex.tools.FilesUtils;
 
 public class TestXz {
 
-	public static void main(String[] args) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException{
+	public static void main(String[] args)
+			throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException {
 
 		FileInputStream fin = new FileInputStream(new File("/tmp/ImsSettings.odex.art.xz"));
 		BufferedInputStream in = new BufferedInputStream(fin);
@@ -36,12 +37,12 @@ public class TestXz {
 		final byte[] buffer = new byte[1024];
 		int n = 0;
 		while (-1 != (n = xzIn.read(buffer))) {
-		    out.write(buffer, 0, n);
+			out.write(buffer, 0, n);
 		}
 		out.close();
 		xzIn.close();
 		boolean copyStatus = FilesUtils.copyFile(new File("/tmp/a.log"), new File("/tmp/blabla/blabla/hohohoho.a"));
 		System.out.println(copyStatus);
 	}
-	
+
 }
