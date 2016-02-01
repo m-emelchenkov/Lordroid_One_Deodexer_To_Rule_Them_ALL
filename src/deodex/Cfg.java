@@ -48,7 +48,7 @@ public class Cfg {
 
 	public static void writeCfgFile(){
 		PropReader.writeProp(S.CFG_CUR_LANG, currentLang, new File(CFG_PATH));
-		
+		PropReader.writeProp(S.CFG_HOST_OS, Cfg.getOs(), new File(CFG_PATH));
 	}
 	
 	public static void readCfg(){

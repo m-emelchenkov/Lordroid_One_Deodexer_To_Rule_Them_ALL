@@ -15,6 +15,8 @@
  */
 package deodex;
 
+import java.awt.EventQueue;
+
 import deodex.tools.Logger;
 import deodex.ui.LangFrame;
 
@@ -23,20 +25,24 @@ public class Tester {
 		if(Cfg.isFirstLaunch()){
 			Cfg.setCurrentLang(S.ENGLISH);
 			R.initResources();
-			LangFrame win = new LangFrame();
+			EventQueue.invokeLater(new Runnable(){
+			
+				@Override
+				public void run() {
+					// TODO Auto-generated method stub
+					@SuppressWarnings("unused")
+					LangFrame win = new LangFrame();
+
+				}
+			});
+	
 		} else {
 			Cfg.readCfg();
 			R.initResources();
 			Logger.logToStdIO("[test]" + Cfg.getCurrentLang());
 		}
 		
-		String osName = System.getProperty("os.name", "generic").toLowerCase();
-		Logger.logToStdIO(osName);
-		
-		S.initTempFolders();
-		for (String str : Cfg.getAvailableLaunguages()){
-			System.out.println(str);
-		}
+
 
 		
 	}

@@ -16,6 +16,7 @@
 package deodex.ui;
 
 import java.awt.Color;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -54,6 +55,8 @@ public class LangFrame extends JFrame{
 			e.printStackTrace();
 		}
 		
+		this.setLocationRelativeTo(null);
+		this.setLocation((Toolkit.getDefaultToolkit().getScreenSize().width-802)/2, (Toolkit.getDefaultToolkit().getScreenSize().height-400)/2);
 		
 		this.setSize(802, 400);
 		this.setTitle(R.getString(S.APP_NAME));
@@ -108,7 +111,11 @@ public class LangFrame extends JFrame{
 		langs.addActionListener(new LangsListener());
 		next.addActionListener(new NextListener());
 	}
-	
+
+	private void  doDispose(){
+		this.dispose();
+		
+	}
 	
 	
 	class LangsListener implements ActionListener{
@@ -129,6 +136,10 @@ public class LangFrame extends JFrame{
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
 			Cfg.writeCfgFile();
+			doDispose();
+			@SuppressWarnings("unused")
+			Window win = new Window();
+			
 		}
 		
 	}
