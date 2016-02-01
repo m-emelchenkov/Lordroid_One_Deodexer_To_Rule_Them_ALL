@@ -15,8 +15,6 @@
  */
 package deodex.ui;
 
-import java.awt.BorderLayout;
-import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.io.IOException;
@@ -29,47 +27,48 @@ import javax.swing.JScrollPane;
 
 import deodex.R;
 
-public class LoggerPan extends JPanel{
+public class LoggerPan extends JPanel {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	Image bg ;
+	Image bg;
 	JList<String> logs = new JList<String>();
 	DefaultListModel<String> model = new DefaultListModel<String>();
-	public LoggerPan(){
+
+	public LoggerPan() {
 		super();
-		this.setSize(798,300);
+		this.setSize(798, 300);
 		try {
-			this.bg = ImageIO.read(Thread.currentThread().getContextClassLoader().getResourceAsStream("images/logger_back.png"));
+			this.bg = ImageIO
+					.read(Thread.currentThread().getContextClassLoader().getResourceAsStream("images/logger_back.png"));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
-		
 		logs = new JList<String>(model);
 		logs.setFont(R.COURIER_LOGGER);
-		//logs.setBounds(2, 2, this.getWidth()-4, this.getHeight()-4);
+		// logs.setBounds(2, 2, this.getWidth()-4, this.getHeight()-4);
 		this.setLayout(null);
 		JScrollPane scroll = new JScrollPane(logs);
-		scroll.setBounds(2, 2, this.getWidth()-4, this.getHeight()-4);
+		scroll.setBounds(2, 2, this.getWidth() - 4, this.getHeight() - 4);
 		this.add(scroll);
-		
+
 	}
 
-	
-	// TODO remove this and add it to a new OBserver / Observabe interface keep it synchronized ! 
+	// TODO remove this and add it to a new OBserver / Observabe interface keep
+	// it synchronized !
 	// multiple threads can log here !
-	public synchronized void  addLog(String str){
+	public synchronized void addLog(String str) {
 		model.addElement(str);
 		this.repaint();
 	}
-	
-	public void paintComponent(Graphics g){
+
+	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		g.drawImage(bg, 0, 0, this);
 	}
-	
+
 }

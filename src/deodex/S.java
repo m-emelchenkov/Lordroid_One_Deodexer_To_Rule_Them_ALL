@@ -40,7 +40,7 @@ public class S {
 	public static final String APP_NEXT_BTN = "app.buttonNext";
 	public static final String APP_WELCOME_MESSAGE = "app.welcome.message";
 	public static final String BROWSE_FEILD = "browse.Field";
-	
+
 	public static final String ENGLISH = "English";
 	public static final String FRENCH = "Français";
 	public static final String ARABIC = "العربية";

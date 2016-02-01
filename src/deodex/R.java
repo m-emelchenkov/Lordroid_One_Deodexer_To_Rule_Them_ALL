@@ -35,8 +35,8 @@ import deodex.tools.StringUtils;
 public class R {
 	public static final Font TITLE_FONT = new Font("Arial", Font.BOLD, 40);
 	public static final Font NORMAL_FONT = new Font("Arial", Font.BOLD, 16);
-	public static final Font COURIER_NORMAL = new Font("Courier 10 Pitch",Font.PLAIN,18);
-	public static final Font COURIER_LOGGER = new Font("Courier 10 Pitch",Font.PLAIN,22);
+	public static final Font COURIER_NORMAL = new Font("Courier 10 Pitch", Font.PLAIN, 18);
+	public static final Font COURIER_LOGGER = new Font("Courier 10 Pitch", Font.PLAIN, 22);
 
 	// public static final LogoPane LOGO_PANE =
 	public static final String LOG_HEADER = "[R]";
@@ -44,8 +44,7 @@ public class R {
 	private static ArrayList<String> strings = new ArrayList<String>();
 	public static Image borderRight;
 	public static Image borderLeft;
-	
-	
+
 	public static void initResources() {
 		File langFile = Cfg.getLangFile();
 		BufferedReader br = null;
@@ -67,14 +66,16 @@ public class R {
 		}
 
 		try {
-			borderRight = ImageIO.read(Thread.currentThread().getContextClassLoader().getResource("images/borderRight.png"));
-			borderLeft = ImageIO.read(Thread.currentThread().getContextClassLoader().getResource("images/borderLeft.png"));
+			borderRight = ImageIO
+					.read(Thread.currentThread().getContextClassLoader().getResource("images/borderRight.png"));
+			borderLeft = ImageIO
+					.read(Thread.currentThread().getContextClassLoader().getResource("images/borderLeft.png"));
 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 	}
 
 	public static String getString(String prop) {
