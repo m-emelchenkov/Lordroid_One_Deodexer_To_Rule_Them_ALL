@@ -18,6 +18,8 @@ package deodex.ui;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.imageio.ImageIO;
 import javax.swing.DefaultListModel;
@@ -58,14 +60,20 @@ public class LoggerPan extends JPanel {
 
 	}
 
-	// TODO remove this and add it to a new OBserver / Observabe interface keep
-	// it synchronized !
+	
+	
 	// multiple threads can log here !
 	public synchronized void addLog(String str) {
-		model.addElement(str);
+		long yourmilliseconds = System.currentTimeMillis();
+		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");    //dd/MMM/yyyy
+		Date resultdate = new Date(yourmilliseconds);
+		String str2 = sdf.format(resultdate);
+		model.addElement("["+str2+"]"+str);
 		this.repaint();
 	}
-
+	public void clearAllLogs(){
+		model.removeAllElements();
+	}
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		g.drawImage(bg, 0, 0, this);

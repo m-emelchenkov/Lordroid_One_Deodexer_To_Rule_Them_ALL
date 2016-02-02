@@ -44,7 +44,7 @@ public class PropReader {
 					new InputStreamReader(new BufferedInputStream(dis), Charset.forName("UTF-8").newDecoder()));
 			String line;
 			while ((line = br.readLine()) != null) {
-				if (line.charAt(0) != '#' && line.lastIndexOf("=") > 0) {
+				if (line.length() >0 && line.charAt(0) != '#' && line.lastIndexOf("=") > 0) {
 					String tmpProp = StringUtils.getCropString(line, line.lastIndexOf("="));
 					tmpProp = StringUtils.removeSpaces(tmpProp);
 					if (tmpProp.equals(prop)) {

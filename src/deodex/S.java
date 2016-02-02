@@ -21,7 +21,13 @@ public class S {
 	public static final String APK_EXT = ".apk";
 	public static final String ODEX_EXT = ".odex";
 	public static final String COMP_ODEX_EXT = ".odex.xz";
-
+	public static final String SYSTEM_APP = "app";
+	public static final String SYSTEM_PRIV_APP = "priv-app";
+	public static final String SYSTEM_BUILD_PROP = "build.prop";
+	public static final String SYSTEM_FRAMEWORK ="framework";
+	public static final String SYSTEM_FRAMEWORK_BOOT ="boot.oat";
+	public static final String SDK_LEVEL_PROP = "ro.build.version.sdk";
+	
 	public static final String DEX_EXT = ".dex";
 	public static final String DEX2_EXT = "-classes2.dex";
 	public static final String CLASSES = "classes.dex";
@@ -40,7 +46,17 @@ public class S {
 	public static final String APP_NEXT_BTN = "app.buttonNext";
 	public static final String APP_WELCOME_MESSAGE = "app.welcome.message";
 	public static final String BROWSE_FEILD = "browse.Field";
-
+	public static final String LOG_WARNING = "log.warning";
+	public static final String LOG_ERROR = "log.error";
+	public static final String LOG_INFO = "log.info";
+	public static final String LOG_SUCCESS = "log.success";
+	public static final String LOG_FAIL = "log.fail";
+	public static final String LOG_NO_BUILD_PROP = "log.no.build.prop";
+	public static final String CANT_READ_SDK_LEVEL = "log.could.not.read.sdk_level";
+	public static final String LOG_SYSTEM_APP_FOUND = "log.app.found";
+	public static final String LOG_SYSTEM_APP_NOT_FOUND = "log.app.not.found";
+	public static final String LOG_NOT_A_SYSTEM_FOLDER ="log.not.a.system.folder";
+	
 	public static final String ENGLISH = "English";
 	public static final String FRENCH = "Français";
 	public static final String ARABIC = "العربية";
@@ -52,6 +68,8 @@ public class S {
 	public static final String LINUX = "linux";
 	public static final String MAC = "osx";
 
+	public static final String[] ARCH = {"arm","arm64","mips","mips64","x86","x86_64"};
+	
 	public static void initTempFolders() {
 		new File(TMP + File.separator + WORKER1).mkdirs();
 		new File(TMP + File.separator + WORKER3).mkdirs();

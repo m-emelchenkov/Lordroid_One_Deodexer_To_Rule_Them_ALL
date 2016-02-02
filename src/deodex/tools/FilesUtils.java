@@ -23,6 +23,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import deodex.R;
+import deodex.S;
+import deodex.ui.LoggerPan;
+
 public class FilesUtils {
 
 	public static boolean copyFile(File input, File dest) {
@@ -95,4 +99,86 @@ public class FilesUtils {
 		return dest.exists();
 	}
 
+	public static boolean isAValideSystemDir(File systemFolder ,LoggerPan log){
+		//File files[] = systemFolder.listFiles();
+		
+		if (!new File(systemFolder.getAbsolutePath()+File.separator+S.SYSTEM_BUILD_PROP).exists()){
+			log.addLog(R.getString(S.LOG_ERROR)+R.getString(S.LOG_NO_BUILD_PROP));
+			return false;
+		} 
+		int sdkLevel ;
+		try {
+			sdkLevel = Integer.parseInt(PropReader.getProp(S.SDK_LEVEL_PROP, new File(systemFolder.getAbsolutePath()+File.separator+S.SYSTEM_BUILD_PROP)));
+			//String str = PropReader.getProp(S.SDK_LEVEL_PROP, new File(systemFolder.getAbsolutePath()+File.separator+S.SYSTEM_BUILD_PROP));
+			//Logger.logToStdIO("[WHAT ?] "+str);
+		} catch (Exception e ){
+			e.printStackTrace();
+			log.addLog(R.getString(S.LOG_ERROR)+R.getString(S.CANT_READ_SDK_LEVEL));
+			return false;
+		}
+		
+		boolean isapp = new File(systemFolder.getAbsolutePath()+File.separator+S.SYSTEM_APP).exists();
+		boolean isprivApp= new File(systemFolder.getAbsolutePath()+File.separator+S.SYSTEM_PRIV_APP).exists();
+		boolean isframwork= new File(systemFolder.getAbsolutePath()+File.separator+S.SYSTEM_FRAMEWORK).exists();
+		if(!isapp && !isprivApp && !isframwork){
+			log.addLog(R.getString(S.LOG_ERROR)+R.getString(S.LOG_NOT_A_SYSTEM_FOLDER));
+		}
+			// is there /app
+			if(isapp){
+				log.addLog(R.getString(S.LOG_INFO)+ R.getString(S.LOG_SYSTEM_APP_FOUND));
+			} else{
+				log.addLog(R.getString(S.LOG_WARNING)+ R.getString(S.LOG_SYSTEM_APP_NOT_FOUND));
+			}
+			// is there privz app 
+			if(sdkLevel > 18)
+			if(isprivApp){
+				log.addLog(R.getString(S.LOG_INFO)+ R.getString("log.privapp.found"));
+			} else{
+				log.addLog(R.getString(S.LOG_WARNING)+ R.getString("log.privapp.not.found"));
+			}
+			
+			if(isapp){
+				
+				log.addLog(R.getString(S.LOG_INFO)+ R.getString("log.framework.found"));
+			} else{
+				log.addLog(R.getString(S.LOG_WARNING)+ R.getString("log.framwork.not.found"));
+				if(sdkLevel > 20){
+					log.addLog(R.getString(S.LOG_ERROR)+ R.getString("log.framwork.not.found.error"));
+					return false;
+				}
+			}
+			String arch = getRomArch(systemFolder);
+		// can we detetect arch ?
+			if(arch.equals("null")){
+				log.addLog(R.getString(S.LOG_ERROR)+ R.getString("log.no.arch.detected"));
+				return false;
+			}
+			// is boot .oat there ?
+		if(sdkLevel > 20){
+			if(!new File (systemFolder.getAbsolutePath()+File.separator+S.SYSTEM_FRAMEWORK+File.separator+arch+File.separator+S.SYSTEM_FRAMEWORK_BOOT).exists()){
+				log.addLog(R.getString(S.LOG_ERROR)+ R.getString("log.no.boot.oat"));
+				return false;
+			}
+		}
+		
+
+		
+		
+		
+		return true;
+	}
+	public static String getRomArch(File systemFolder){
+		File frameworkFolder = new File(systemFolder.getAbsolutePath()+File.separator+S.SYSTEM_FRAMEWORK);
+		File[] list = frameworkFolder.listFiles();
+		for (File f : list){
+			if(f.isDirectory()){
+				for (String str : S.ARCH){
+					if(str.equals(f.getName())){
+						return str;
+					}
+				}
+			}
+		}
+		return "null";
+	}
 }

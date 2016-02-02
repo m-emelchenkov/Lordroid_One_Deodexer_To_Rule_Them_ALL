@@ -20,10 +20,12 @@ import java.awt.Graphics;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
@@ -31,6 +33,7 @@ import javax.swing.JTextField;
 
 import deodex.R;
 import deodex.S;
+import deodex.tools.FilesUtils;
 
 public class Window extends JFrame {
 
@@ -45,6 +48,13 @@ public class Window extends JFrame {
 	 * @author lord-ralf-adolf
 	 */
 
+	// 
+	boolean sign = false;
+	boolean zipalign = true;
+	File systemFolder;
+	
+	
+	
 	JPanel rootPanel = new JPanel() {
 		/**
 		 * 
@@ -94,6 +104,7 @@ public class Window extends JFrame {
 		rootPane.setLayout(null);
 		rootPane.setBackground(new Color(206, 194, 229));
 		rootPane.setOpaque(true);
+		
 
 		// fonts
 		browseField.setFont(R.COURIER_NORMAL);
@@ -140,17 +151,16 @@ public class Window extends JFrame {
 		// toolTips
 		// zipalignCheck.setToolTipText(R.getString("zipalignCheck.ToolTip"));
 		// signCheck.setToolTipText(R.getString("signCheck.ToolTip"));
-
 		// other propreties
 		optionalPan.setOpaque(true);
 		optionalPan.setLayout(null);
 
 		// adding component
 
-		// XXX: need this to steal the ficus from textField ?
+		// XXX: need this to steal the focus from textField ?
 		// is there an other way to do this ?
 		focusStealer.setBounds(-50, -50, 1, 1);
-
+		
 		rootPane.add(logger);
 		rootPane.add(focusStealer);
 		rootPane.add(deodexNow);
@@ -164,19 +174,29 @@ public class Window extends JFrame {
 		this.repaint();
 
 		// TODO remove this
-		browseBtn.addActionListener(new ActionListener() {
-			int i = 0;
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				i++;
-				// TODO Auto-generated method stub
-				logger.addLog("click received from " + ((JButton) arg0.getSource()).getText() + " for the " + i
-						+ " time ....................lsls");
-			}
-
-		});
-
+		browseBtn.addActionListener(new BrowseAction());
 	}
+	
+	
+	class BrowseAction implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+			boolean valide =false;
+			JFileChooser f = new JFileChooser();
+			f.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+			int i = f.showOpenDialog(rootPane);
+			if(i == 0){
+			//	logger.clearAllLogs();
+				valide = FilesUtils.isAValideSystemDir(f.getSelectedFile(), logger);
+			}
+			if(valide){
+				browseField.setText(f.getSelectedFile().getAbsolutePath());
+			}
+		}
+		
+	}
+
 
 }
