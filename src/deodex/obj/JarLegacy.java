@@ -13,14 +13,8 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  */
-package deodex.controlers;
+package deodex.obj;
 
-public interface Observable {
-	public void addObserver(Observer o);
-
-	public void removeObserver(Observer o);
-
-	public void updateObservers(String source ,String type ,String update);
-	
+public class JarLegacy {
 
 }

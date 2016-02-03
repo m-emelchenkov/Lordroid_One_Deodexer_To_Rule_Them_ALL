@@ -56,3 +56,11 @@ log.no.boot.oat=Could not find boot.oat ! can't deodex without it ! skd > 20 !
 log.ok=[OK]
 log.rom.arch=Rom arch detected ===>  
 log.build.prop.found=/system/build.prop found ... [OK]
+log.copy.to.tmp.failed= couldn't copy apk to working folder can't deodex ! [APK SKIPED]
+log.extract.to.tmp.failed= couldn't extract compressed odex file! can't deodex ! [APK SKIPED]
+log.deodex.failed= couldn't deodex odex file! can't deodex this apk ! [APK SKIPED]
+log.classes.failed= couldn't create classes.dex [APK SKIPED]
+log.add.classes.failed= couldn't add classes.dex to apk file  [APK SKIPED]
+log.already.deodex= Already deodexed ! [SUCESSEDED !]
+
+

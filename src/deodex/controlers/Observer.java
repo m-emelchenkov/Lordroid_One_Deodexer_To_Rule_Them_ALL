@@ -19,5 +19,5 @@
 package deodex.controlers;
 
 public interface Observer {
-	public void updateReceived(String update);
+	public void updateReceived(String source ,String type ,String update);
 }

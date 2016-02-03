@@ -68,6 +68,19 @@ public class S {
 	public static final String LINUX = "linux";
 	public static final String MAC = "osx";
 
+	public static final String OAT2DEX_JAR = "bins/oat2dex/oat2dex.jar";
+	public static final String BACKSMALI_JAR = "bins/smali_backsmali/backsmali.jar";
+	public static final String SMALI_JAR = "bins/smali_backsmali/smali.jar";
+	
+	//temporary folders 
+	public static File worker1Folder = new File(TMP + File.separator + WORKER1);
+	public static File worker2Folder = new File(TMP + File.separator + WORKER2);
+	public static File worker3Folder = new File(TMP + File.separator + WORKER3);
+	public static File worker4Folder = new File(TMP + File.separator + WORKER4);
+	public static File bootTmp = new File(TMP + File.separator + File.separator+"boot"+File.separator+"boot.oat");
+	public static File bootTmpDex = new File(TMP + File.separator + File.separator+"boot"+File.separator+"dex");
+
+	
 	public static final String[] ARCH = {"arm","arm64","mips","mips64","x86","x86_64"};
 	
 	public static void initTempFolders() {
@@ -75,6 +88,6 @@ public class S {
 		new File(TMP + File.separator + WORKER3).mkdirs();
 		new File(TMP + File.separator + WORKER2).mkdirs();
 		new File(TMP + File.separator + WORKER4).mkdirs();
-
+		new File(TMP + File.separator + "boot").mkdirs();
 	}
 }

@@ -40,6 +40,7 @@ public class Tester {
 		} else {
 			Cfg.readCfg();
 			R.initResources();
+			S.initTempFolders();
 			Logger.logToStdIO("[test]" + Cfg.getCurrentLang());
 			@SuppressWarnings("unused")
 			Window win = new Window();

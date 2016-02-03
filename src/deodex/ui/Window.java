@@ -33,6 +33,8 @@ import javax.swing.JTextField;
 
 import deodex.R;
 import deodex.S;
+import deodex.SessionCfg;
+import deodex.controlers.MainWorker;
 import deodex.tools.FilesUtils;
 
 public class Window extends JFrame {
@@ -175,6 +177,7 @@ public class Window extends JFrame {
 
 		// TODO remove this
 		browseBtn.addActionListener(new BrowseAction());
+		this.deodexNow.addActionListener(new DeodexNowAction());
 	}
 	
 	
@@ -193,10 +196,25 @@ public class Window extends JFrame {
 			}
 			if(valide){
 				browseField.setText(f.getSelectedFile().getAbsolutePath());
+				deodexNow.setEnabled(true);
+			} else {
+				deodexNow.setEnabled(false);
 			}
 		}
 		
 	}
 
+	class DeodexNowAction implements ActionListener{
 
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+			// TODO Auto-generated method stub
+			SessionCfg.setSign(signCheck.isSelected());
+			SessionCfg.setZipalign(zipalignCheck.isSelected());
+			Thread t = new Thread(new MainWorker(SessionCfg.getSystemFolder(), logger));
+			t.start();
+			
+		}
+		
+	}
 }

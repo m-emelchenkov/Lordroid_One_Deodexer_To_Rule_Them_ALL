@@ -29,7 +29,6 @@ import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 
-import deodex.tools.Logger;
 import deodex.tools.StringUtils;
 
 public class R {
@@ -57,7 +56,7 @@ public class R {
 			while ((line = br.readLine()) != null) {
 				if (line.length() > 0 && line.charAt(0) != '#' && line.lastIndexOf("=") > 0) {
 					strings.add(line);
-					Logger.logToStdIO(LOG_HEADER + Logger.INFO + " String loaded : " + line);
+					//Logger.logToStdIO(LOG_HEADER + Logger.INFO + " String loaded : " + line);
 				}
 			}
 
@@ -105,7 +104,7 @@ public class R {
 			}
 		}
 		tmp = tmp + str.charAt(str.length() - 1);
-		Logger.logToStdIO(LOG_HEADER + Logger.INFO + " String legalized :" + tmp);
+		//Logger.logToStdIO(LOG_HEADER + Logger.INFO + " String legalized :" + tmp);
 		return tmp;
 	}
 

@@ -103,6 +103,8 @@ public class FilesUtils {
 	public static boolean isAValideSystemDir(File systemFolder ,LoggerPan log){
 		//File files[] = systemFolder.listFiles();
 		
+		
+		
 		if (!new File(systemFolder.getAbsolutePath()+File.separator+S.SYSTEM_BUILD_PROP).exists()){
 			log.addLog(R.getString(S.LOG_ERROR)+R.getString(S.LOG_NO_BUILD_PROP));
 			return false;
@@ -165,8 +167,11 @@ public class FilesUtils {
 
 		// Session Settings set them
 		SessionCfg.setSdk(sdkLevel);
+		log.addLog(R.getString(S.LOG_INFO)+" Detected Sdk level : "+sdkLevel);
 		SessionCfg.setArch(arch);
+		log.addLog(R.getString(S.LOG_INFO)+" Detected ARCH : "+arch);
 		SessionCfg.setSystemFolder(systemFolder);
+		log.addLog(R.getString(S.LOG_INFO)+" chosen systemFolder :"+systemFolder);
 		
 		return true;
 	}
