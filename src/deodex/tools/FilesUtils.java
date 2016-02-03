@@ -25,6 +25,7 @@ import java.io.OutputStream;
 
 import deodex.R;
 import deodex.S;
+import deodex.SessionCfg;
 import deodex.ui.LoggerPan;
 
 public class FilesUtils {
@@ -162,8 +163,10 @@ public class FilesUtils {
 		}
 		
 
-		
-		
+		// Session Settings set them
+		SessionCfg.setSdk(sdkLevel);
+		SessionCfg.setArch(arch);
+		SessionCfg.setSystemFolder(systemFolder);
 		
 		return true;
 	}
@@ -180,5 +183,30 @@ public class FilesUtils {
 			}
 		}
 		return "null";
+	}
+	
+	// be very very carefull when using this ! it will delete folder and all it's subfolder's and files !
+	
+	public static boolean deleteRecursively(File f){
+	boolean done = false;
+		if(f.isFile()){
+			f.delete();
+			return true;
+		} 
+		if(f.isDirectory()){
+			File[] list = f.listFiles();
+			if(list.length < 0){		
+				return f.delete();
+			} else {
+				
+				for (File file : list){
+					deleteRecursively(file);
+				}
+				
+				return f.delete();
+			}
+			
+		}
+	return done;
 	}
 }
