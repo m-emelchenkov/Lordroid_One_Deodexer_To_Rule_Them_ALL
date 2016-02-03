@@ -23,6 +23,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -49,10 +50,10 @@ public class ZipTools {
 	 * @return the name of the name of the deodexed odex if it is already decompressed 
 	 * @throws IOException
 	 */
-	public static File extractOdex(File odex) throws IOException{
+	public static boolean extractOdex(File odex) throws IOException{
 		File Decomdex =new File(odex.getParentFile().getAbsolutePath()+StringUtils.getCropString(odex.getName(), odex.getName().length()-4));
 		if (odex.getName().endsWith(S.ODEX_EXT)){
-			return odex;
+			return true;
 		} else {
 			FileInputStream fin = new FileInputStream(odex);
 			BufferedInputStream in = new BufferedInputStream(fin);
@@ -70,7 +71,7 @@ public class ZipTools {
 			
 			
 		}
-		return Decomdex;
+		return Decomdex.exists();
 	}
 
 //	// XXX : remove this !
@@ -117,12 +118,50 @@ public class ZipTools {
 	}
 	
 	/**
+	 * 	this will add the files to the root of the zip file !
+	 * @param filesToAdd ArrayList with files to add to the archive 
+	 * @param zipFile
+	 * @return true only if files are in the outzip 
+	 */
+	public static boolean addFilesToZip(ArrayList<File> filesToAdd ,File zipFile){
+		try {
+			File tmpFolder = unzip(zipFile);
+			if(!tmpFolder.exists()){
+				return false;
+			}
+			for (File f : filesToAdd){
+			FilesUtils.copyFile(f, new File(tmpFolder.getAbsolutePath()+File.separator+f.getName()));
+			}
+			addFilesToZip(tmpFolder,zipFile);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ArchiveException e) {
+			e.printStackTrace();
+		}
+		try {
+			boolean success = true;
+			for (File f : filesToAdd){
+				success = success && isFileinZip(f.getName(),new ZipFile(zipFile));
+			}
+			return success;
+		} catch (ZipException e) {
+			e.printStackTrace();
+		}
+		return false;
+		
+		
+		//return true;
+	}
+	
+	/**
 	 *    search a filename is a zip file
 	 * @param fileName
 	 * @param zipFile
 	 * @return returns true is a file with the same name is in the zip file !
 	 */
-	private static boolean isFileinZip(String fileName ,ZipFile zipFile){
+	public static boolean isFileinZip(String fileName ,ZipFile zipFile){
 		try {
 			// Initiate ZipFile object with the path/name of the zip file.
 			//ZipFile zipFile = new ZipFile("/tmp/Maps.apk");
