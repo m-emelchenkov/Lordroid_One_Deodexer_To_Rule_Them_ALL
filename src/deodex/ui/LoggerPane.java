@@ -28,8 +28,9 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import deodex.R;
+import deodex.controlers.LoggerPan;
 
-public class LoggerPan extends JPanel {
+public class LoggerPane extends JPanel implements LoggerPan {
 
 	/**
 	 * 
@@ -39,7 +40,7 @@ public class LoggerPan extends JPanel {
 	JList<String> logs = new JList<String>();
 	DefaultListModel<String> model = new DefaultListModel<String>();
 
-	public LoggerPan() {
+	public LoggerPane() {
 		super();
 		this.setSize(798, 300);
 		try {
@@ -61,9 +62,8 @@ public class LoggerPan extends JPanel {
 	}
 
 	
-	
 	// multiple threads can log here !
-	public synchronized void addLog(String str) {
+	public synchronized void addLogR(String str) {
 		long yourmilliseconds = System.currentTimeMillis();
 		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");    //dd/MMM/yyyy
 		Date resultdate = new Date(yourmilliseconds);
@@ -77,6 +77,13 @@ public class LoggerPan extends JPanel {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		g.drawImage(bg, 0, 0, this);
+	}
+
+
+	@Override
+	public void addLog(String str) {
+		// TODO Auto-generated method stub
+		addLogR(str);
 	}
 
 }
