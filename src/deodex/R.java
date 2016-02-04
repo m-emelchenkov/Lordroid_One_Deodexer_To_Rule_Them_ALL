@@ -104,7 +104,8 @@ public class R {
 			}
 		}
 		tmp = tmp + str.charAt(str.length() - 1);
-		//Logger.logToStdIO(LOG_HEADER + Logger.INFO + " String legalized :" + tmp);
+		// Logger.logToStdIO(LOG_HEADER + Logger.INFO + " String legalized :" +
+		// tmp);
 		return tmp;
 	}
 

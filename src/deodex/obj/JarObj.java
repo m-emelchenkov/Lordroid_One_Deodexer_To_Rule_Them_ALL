@@ -20,6 +20,7 @@ import java.io.File;
 import deodex.S;
 import deodex.SessionCfg;
 import deodex.tools.FilesUtils;
+import deodex.tools.Logger;
 
 public class JarObj {
 
@@ -47,7 +48,7 @@ public class JarObj {
 		
 		this.origJar = new File(SessionCfg.getSystemFolder().getAbsolutePath()+File.separator+S.SYSTEM_FRAMEWORK+File.separator+absoluteName+".jar") ;
 		//this .tmpFolder = new File(S.)
-				
+		Logger.logToStdIO(origJar.getAbsolutePath());
 	}
 	
 	public boolean copyNeedFiles(File tmpFolder){
@@ -58,10 +59,10 @@ public class JarObj {
 		tmpodex = new File(this.tmpFolder.getAbsolutePath()+File
 		.separator + odexFile.getName());
 		tmpJar = new File(this.tmpFolder.getAbsolutePath()+File.separator+this.origJar.getName());
-		tmpdex = new File(this.tmpFolder.getAbsolutePath()+File.pathSeparator+this.absoluteName+S.DEX_EXT);
-		tmpdex2 = new File(this.tmpFolder.getAbsolutePath()+File.pathSeparator+this.absoluteName+S.DEX2_EXT);
-		tmpClasses =   new File(this.tmpFolder.getAbsolutePath()+File.pathSeparator+this.absoluteName+S.CLASSES);
-		tmpClasses2 =  new File(this.tmpFolder.getAbsolutePath()+File.pathSeparator+this.absoluteName+S.CLASSES_2);
+		tmpdex = new File(this.tmpFolder.getAbsolutePath()+File.separator+this.absoluteName+S.DEX_EXT);
+		tmpdex2 = new File(this.tmpFolder.getAbsolutePath()+File.separator+this.absoluteName+S.DEX2_EXT);
+		tmpClasses =   new File(this.tmpFolder.getAbsolutePath()+File.separator+S.CLASSES);
+		tmpClasses2 =  new File(this.tmpFolder.getAbsolutePath()+File.separator+S.CLASSES_2);
 		
 		
 		boolean copyStatus = FilesUtils.copyFile(odexFile, tmpodex);

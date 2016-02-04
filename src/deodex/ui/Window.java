@@ -85,7 +85,7 @@ public class Window extends JFrame {
 	JCheckBox signCheck = new JCheckBox(R.getString("signCheck"));
 	JButton deodexNow = new JButton(R.getString("deodexNow"));
 	JRadioButton focusStealer = new JRadioButton();
-	LoggerPan logger = new LoggerPan();
+	LoggerPane logger = new LoggerPane();
 
 	public Window() {
 		this.setResizable(false);

@@ -64,9 +64,10 @@ public class TestXz {
 			// TODO : add a method to add multiple files as an array that way 
 			// because calling this like it is now will use lots resources
 			// extract and compress for eatch file !
-		System.out.println(addFileToZip(new File("/tmp/CalendarGoogle.apk"),new File("/tmp/Bluetooth.apk")));
-		System.out.println(addFileToZip(new File("/tmp/Bluetooth2.apk"),new File("/tmp/Bluetooth.apk")));
-		System.out.println(addFileToZip(new File("/tmp/Bluetooth.odex"),new File("/tmp/Bluetooth.apk")));
+//		System.out.println(addFileToZip(new File("/tmp/CalendarGoogle.apk"),new File("/tmp/Bluetooth.apk")));
+//		System.out.println(addFileToZip(new File("/tmp/Bluetooth2.apk"),new File("/tmp/Bluetooth.apk")));
+//		System.out.println(addFileToZip(new File("/tmp/Bluetooth.odex"),new File("/tmp/Bluetooth.apk")));
+		System.out.println(FilesUtils.copyFileRecurcively(new File("/tmp/system"), new File("/tmp/test")));
 	}
 	/**
 	 * 	adds a file to the given zip 

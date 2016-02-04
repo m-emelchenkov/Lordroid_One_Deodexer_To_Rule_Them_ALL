@@ -130,7 +130,7 @@ public class ZipTools {
 				return false;
 			}
 			for (File f : filesToAdd){
-			FilesUtils.copyFile(f, new File(tmpFolder.getAbsolutePath()+File.separator+f.getName()));
+			FilesUtils.copyFileRecurcively(f, new File(tmpFolder.getAbsolutePath()+File.separator+f.getName()));
 			}
 			addFilesToZip(tmpFolder,zipFile);
 		} catch (FileNotFoundException e) {
@@ -205,13 +205,18 @@ public class ZipTools {
 		path.mkdirs();
 		try {
 			ZipArchiveInputStream zais = new ZipArchiveInputStream(new FileInputStream(zipfile));
+			
 			ZipArchiveEntry z1 = null;
 			while ((z1 = zais.getNextZipEntry())!=null){
 				String fn = z1.getName();
+				
 				if(fn.endsWith("/")){
 					fn = fn.substring(z1.getName().lastIndexOf("/"));
+					Logger.logToStdIO("XXX : fn == "+fn);
 				}
+				if(!fn.equals("/")){
 				File f = new File(path+File.separator+fn);
+				Logger.logToStdIO("XXX f = :"+f.getAbsolutePath());
 				f.getParentFile().mkdirs();
 				FileOutputStream fos = new FileOutputStream(f);
 				BufferedOutputStream bos = new BufferedOutputStream(fos, 32768);
@@ -226,6 +231,7 @@ public class ZipTools {
 				bos.flush();
 				bos.close();
 				fos.close();
+				}
 			}
 			
 			zais.close();

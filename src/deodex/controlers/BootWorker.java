@@ -21,41 +21,92 @@ import java.util.ArrayList;
 import deodex.S;
 import deodex.SessionCfg;
 import deodex.tools.FilesUtils;
+import deodex.tools.ZipTools;
+import net.lingala.zip4j.core.ZipFile;
+import net.lingala.zip4j.exception.ZipException;
 
-public class BootWorker implements Runnable{
-	ArrayList <File>bootFiles;
+public class BootWorker implements Runnable ,Watchable{
+	ArrayList<File> bootFiles;
 	File tmpFolder;
-	
-	public  BootWorker(ArrayList<File> bootList ,File tmpFolder){
+	ThreadWatcher threadWatcher;
+	LoggerPan log;
+	public BootWorker(ArrayList<File> bootList, File tmpFolder,LoggerPan log) {
 		bootFiles = bootList;
 		this.tmpFolder = tmpFolder;
+		this.log = log;
 	}
+
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
-		
+		for (File file : bootFiles){
+			boolean success = deoDexBootFile(file);
+			if(success){
+				log.addLog("[ "+file.getName()+" ]"+" [SUCCESS]");
+			} else{
+				log.addLog("[ "+file.getName()+" ]"+" [FAILED ]");
+
+			}
+		}
+		FilesUtils.deleteRecursively(tmpFolder);
+		this.threadWatcher.done(this);
 	}
 
-	private boolean deoDexBootFile(File file){
-		File tmpClasses = new File (tmpFolder.getAbsolutePath()+File.separator+S.CLASSES);
-		File tmpClasses2 = new File (tmpFolder.getAbsolutePath()+File.separator+S.CLASSES_2);
+	private boolean deoDexBootFile(File file) {
+		File tmpClasses = new File(tmpFolder.getAbsolutePath() + File.separator + S.CLASSES);
+		File tmpClasses2 = new File(tmpFolder.getAbsolutePath() + File.separator + S.CLASSES_2);
 		String absoluteName = file.getName().substring(0, file.getName().lastIndexOf("."));
 
-		File tmpJar = new File(tmpFolder.getAbsolutePath()+File.separator+absoluteName+".jar");
-		File origJar = new File(SessionCfg.getSystemFolder().getAbsolutePath()+File.separator+S.SYSTEM_FRAMEWORK+absoluteName+".jar");
-		
-		
+		File tmpJar = new File(tmpFolder.getAbsolutePath() + File.separator + absoluteName + ".jar");
+		File origJar = new File(SessionCfg.getSystemFolder().getAbsolutePath() + File.separator + S.SYSTEM_FRAMEWORK + File.separator
+				+ absoluteName + ".jar");
+
 		boolean copyStatus = false;
 		copyStatus = FilesUtils.copyFile(origJar, tmpJar);
-		if(!copyStatus){
-			//TODO add LOGGING for this
+		if (!copyStatus) {
+			// TODO add LOGGING for this
 			return false;
+		} else{
+			copyStatus = FilesUtils.copyFile(file, tmpClasses);
+			if(absoluteName.equals("framework")){
+				copyStatus = FilesUtils.copyFile(new File(
+						file.getParentFile().getAbsolutePath()+File.separator+absoluteName+S.DEX2_EXT), tmpClasses2);
+			}
+			if(!copyStatus){
+				return false;
+			} else {
+				boolean addStatus = false;
+				ArrayList <File> list =new ArrayList<File>();
+				list.add(tmpClasses);
+				if(absoluteName.equals("framework")){
+					list.add(tmpClasses2);
+				}
+				list.add(new File("dummies/META-INF"));
+				ZipTools.addFilesToZip(list, tmpJar);
+				
+				try {
+					addStatus =  ZipTools.isFileinZip(S.CLASSES, new ZipFile(tmpJar));
+				} catch (ZipException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+					return false;
+				}
+				if(!addStatus){
+					return false;
+				} else{
+					copyStatus = FilesUtils.copyFile(tmpJar, origJar);
+				}
+			}
 		}
 		
-		
-		
-		return false;
-		
+		return copyStatus;
+
 	}
-	
+
+	@Override
+	public void addThreadWatcher(ThreadWatcher watcher) {
+		// TODO Auto-generated method stub
+		this.threadWatcher = watcher;
+	}
+
 }

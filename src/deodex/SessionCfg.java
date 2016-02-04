@@ -27,20 +27,21 @@ public class SessionCfg {
 	private static File bootOatFile;
 	public static boolean zipalign = false;
 	public static boolean sign = false;
-	
+
 	/**
 	 * @return the zipalign
 	 */
 	public static boolean isZipalign() {
-		Logger.logToStdIO("sent  zipAlign = "+zipalign);
+		Logger.logToStdIO("sent  zipAlign = " + zipalign);
 		return zipalign;
 	}
 
 	/**
-	 * @param zipalign the zipalign to set
+	 * @param zipalign
+	 *            the zipalign to set
 	 */
 	public static void setZipalign(boolean zipalignp) {
-		Logger.logToStdIO("received  zipAlign = "+zipalignp);
+		Logger.logToStdIO("received  zipAlign = " + zipalignp);
 
 		zipalign = zipalignp;
 	}
@@ -53,7 +54,8 @@ public class SessionCfg {
 	}
 
 	/**
-	 * @param sign the sign to set
+	 * @param sign
+	 *            the sign to set
 	 */
 	public static void setSign(boolean signp) {
 		sign = signp;
@@ -66,7 +68,7 @@ public class SessionCfg {
 	public static String getArch() {
 		return arch;
 	}
-	
+
 	/**
 	 * 
 	 * @param arch
@@ -74,6 +76,7 @@ public class SessionCfg {
 	public static void setArch(String arch) {
 		SessionCfg.arch = arch;
 	}
+
 	/**
 	 * 
 	 * @return
@@ -81,6 +84,7 @@ public class SessionCfg {
 	public static int getSdk() {
 		return sdk;
 	}
+
 	/**
 	 * 
 	 * @param sdk
@@ -88,6 +92,7 @@ public class SessionCfg {
 	public static void setSdk(int sdk) {
 		SessionCfg.sdk = sdk;
 	}
+
 	/**
 	 * 
 	 * @return
@@ -95,14 +100,17 @@ public class SessionCfg {
 	public static File getSystemFolder() {
 		return systemFolder;
 	}
+
 	/**
 	 * 
 	 * @param systemFolder
 	 */
 	public static void setSystemFolder(File systemFolder) {
 		SessionCfg.systemFolder = systemFolder;
-		setBootOatFile(new File(systemFolder.getAbsolutePath()+File.separator+S.SYSTEM_FRAMEWORK+File.separator+arch+File.separator+S.SYSTEM_FRAMEWORK_BOOT));
+		setBootOatFile(new File(systemFolder.getAbsolutePath() + File.separator + S.SYSTEM_FRAMEWORK + File.separator
+				+ arch + File.separator + S.SYSTEM_FRAMEWORK_BOOT));
 	}
+
 	/**
 	 * 
 	 * @return bootOatFile location on the chosen folder
@@ -110,6 +118,7 @@ public class SessionCfg {
 	public static File getBootOatFile() {
 		return bootOatFile;
 	}
+
 	/**
 	 * 
 	 * @param bootOatFile
@@ -117,5 +126,5 @@ public class SessionCfg {
 	public static void setBootOatFile(File bootOatFile) {
 		SessionCfg.bootOatFile = bootOatFile;
 	}
-	
+
 }

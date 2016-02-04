@@ -26,10 +26,30 @@ import java.io.OutputStream;
 import deodex.R;
 import deodex.S;
 import deodex.SessionCfg;
-import deodex.ui.LoggerPan;
+import deodex.controlers.LoggerPan;
 
 public class FilesUtils {
 
+	
+	public static boolean copyFileRecurcively(File in , File out){
+		boolean status = true;
+		if(in.isDirectory()){
+			out.mkdir();
+			File[] list = in.listFiles();
+			for (File f : list ){
+		//		if (f.isDirectory()){
+					status = status && copyFileRecurcively(f , new File(out.getAbsolutePath()+File.separator+f.getName()));
+			//	} else {
+				//	status = status && copyFile(f,new File(out.getAbsolutePath()+File.separator+f.getName()));
+			//	}
+			}
+		} else {
+			status = status && copyFile(in,out);
+		}
+		
+		return out.exists() && status;
+	}
+	
 	public static boolean copyFile(File input, File dest) {
 		// making sure the path is there and writable !
 		dest.getParentFile().mkdirs();
@@ -37,6 +57,7 @@ public class FilesUtils {
 
 		if (dest.getParentFile().exists()) { // if the parent doesn't exist then
 												// don't bother copy
+
 			try {
 
 				InputStream is = new FileInputStream(input);
@@ -56,7 +77,7 @@ public class FilesUtils {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		} else {
+			} else {
 			return false;
 		}
 		return dest.exists();

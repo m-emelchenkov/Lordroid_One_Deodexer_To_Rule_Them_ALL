@@ -22,131 +22,181 @@ import deodex.S;
 import deodex.SessionCfg;
 import deodex.tools.Deodexer;
 import deodex.tools.FilesUtils;
-import deodex.ui.LoggerPan;
+import deodex.tools.Logger;
 
-public class MainWorker implements Runnable{
-	
+public class MainWorker implements Runnable ,ThreadWatcher{
+
+	private int workingThreadCount = 4;
 	private int Totalprogress = 0;
-	
+
 	private ArrayList<File> worker1List;
 	private Thread ApkWorker1;
-	private int progressWorker1 ;
-	private int TotalProgressWorker1 ;
-	
+	private int progressWorker1;
+	private int TotalProgressWorker1;
+
 	private ArrayList<File> worker2List;
 	private Thread ApkWorker2;
-	private int progressWorker2 ;
-	private int TotalProgressWorker2 ;
+	private int progressWorker2;
+	private int TotalProgressWorker2;
 
 	private ArrayList<File> worker3List;
 	private Thread framWorker1;
-	private int progressFramWorker1 ;
-	private int TotalProgressFramWorker1 ;
+	private int progressFramWorker1;
+	private int TotalProgressFramWorker1;
 
 	private ArrayList<File> worker4List;
 	private Thread framWorker2;
-	private int progressFramWorker2 ;
-	private int TotalProgressFramWorker2 ;
+	private int progressFramWorker2;
+	private int TotalProgressFramWorker2;
 	private LoggerPan logPan;
-	
+
 	File folder;
-	
-	boolean isinitialized = false; 
-	public MainWorker(File folder ,LoggerPan logPane){
+	BootWorker boot;
+	JarWorker jar;
+	ApkWorker apk1;
+	ApkWorker apk2;
+	boolean isinitialized = false;
+
+	public MainWorker(File folder, LoggerPan logPane) {
 		this.logPan = logPane;
 		this.folder = folder;
-		if(SessionCfg.getSdk() > 20){
+		if (SessionCfg.getSdk() > 20) {
 			init();
 		} else {
 			initLegacy();
 		}
-		
+
 	}
-	
-	
-	private void init(){
+
+	private void init() {
 		isinitialized = FilesUtils.copyFile(SessionCfg.getBootOatFile(), S.bootTmp);
 		isinitialized = isinitialized && Deodexer.oat2dexBoot(S.bootTmp);
-		if(!isinitialized){
+		if (!isinitialized) {
 			return;
 		}
-		
-		File appFolder = new File(folder.getAbsolutePath()+File.separator+"app");
-		File privAppFolder = new File(folder.getAbsolutePath()+File.separator+S.SYSTEM_PRIV_APP);
-		File framework = new File(folder.getAbsolutePath()+File.separator+S.SYSTEM_FRAMEWORK);
+
+		File appFolder = new File(folder.getAbsolutePath() + File.separator + "app");
+		File privAppFolder = new File(folder.getAbsolutePath() + File.separator + S.SYSTEM_PRIV_APP);
+		File framework = new File(folder.getAbsolutePath() + File.separator + S.SYSTEM_FRAMEWORK+File.separator+SessionCfg.getArch());
 		File bootFiles = new File(S.bootTmpDex.getAbsolutePath());
-		
-		
+
 		// apkfiles
 		File[] apps = appFolder.listFiles();
 		this.worker1List = new ArrayList<File>();
-		for (File f : apps){
-			if(f.isDirectory()){
-				if (new File(f.getAbsolutePath()+File.separator+SessionCfg.getArch()).exists()){
+		for (File f : apps) {
+			if (f.isDirectory()) {
+				if (new File(f.getAbsolutePath() + File.separator + SessionCfg.getArch()).exists()) {
 					worker1List.add(f);
 				}
 			}
 		}
-		if (privAppFolder.exists()){
+		if (privAppFolder.exists()) {
 			File[] privApps = privAppFolder.listFiles();
-			for (File f : privApps){
-				if(f.isDirectory()){
-					if (new File(f.getAbsolutePath()+File.separator+SessionCfg.getArch()).exists()){
+			for (File f : privApps) {
+				if (f.isDirectory()) {
+					if (new File(f.getAbsolutePath() + File.separator + SessionCfg.getArch()).exists()) {
 						worker1List.add(f);
 					}
 				}
 			}
 		}
-		int half = worker1List.size()/2;
-		for (File f : worker1List){
-			System.out.println(f.getName());
-		}
-		
+		int half = worker1List.size() / 2;
+
 		worker2List = new ArrayList<File>();
-		for (int i = worker1List.size()-1 ; i >  half ; i = worker1List.size()-1){
+		for (int i = worker1List.size() - 1; i > half; i = worker1List.size() - 1) {
 			worker2List.add(worker1List.get(i));
 			worker1List.remove(i);
 		}
-		
-		for (File f : worker1List){
-			System.out.println("[LIST 01]"+f.getName());
-		}
-		for (File f : worker2List){
-			System.out.println("[LIST 02]"+f.getName());
-		}
-		ApkWorker apk1 = new ApkWorker(worker1List, logPan, S.worker1Folder,  SessionCfg.isSign(),SessionCfg.isZipalign());
+
+		apk1 = new ApkWorker(worker1List, logPan, S.worker1Folder, SessionCfg.isSign(),
+				SessionCfg.isZipalign());
 		progressWorker1 = apk1.getProgressBar().getMinimum();
 		TotalProgressWorker1 = apk1.getProgressBar().getMaximum();
-		ApkWorker apk2 = new ApkWorker(worker2List, logPan, S.worker2Folder,  SessionCfg.isSign(),SessionCfg.isZipalign());
+		apk2 = new ApkWorker(worker2List, logPan, S.worker2Folder, SessionCfg.isSign(),
+				SessionCfg.isZipalign());
 		progressWorker2 = apk2.getProgressBar().getMinimum();
 		TotalProgressWorker2 = apk2.getProgressBar().getMaximum();
-		ApkWorker1 = new Thread (apk1);
-		ApkWorker2 = new Thread (apk2);
+		ApkWorker1 = new Thread(apk1);
+		ApkWorker2 = new Thread(apk2);
+
+		/// framework 
+		File[] list = framework.listFiles();
+		worker3List = new ArrayList<File>();
+		for (File f : list){
+			if(f.getName().endsWith(S.ODEX_EXT) || f.getName().endsWith(S.COMP_ODEX_EXT)){
+				worker3List.add(f);
+			}
+		}
+		jar = new JarWorker(worker3List, logPan, S.worker3Folder);
+		this.framWorker1 = new Thread(jar);
 		
 		
-		
-		
+		// bootFile
+		File[] boots = bootFiles.listFiles();
+		worker4List = new ArrayList<File>();
+		for (File f : boots){
+			if(!f.getName().equals("framework-classes2.dex")){
+				if(f.getName().endsWith(".dex")){
+					worker4List.add(f);
+				}
+			}
+		}
+		 boot = new BootWorker(worker4List, S.worker4Folder,this.logPan);
+		this.framWorker2 = new Thread(boot);
+		apk1.addThreadWatcher(this);
+		apk2.addThreadWatcher(this);
+		boot.addThreadWatcher(this);
+		jar.addThreadWatcher(this);
 	}
-	
-	
-	
-	
-	private void initLegacy(){
-		
+
+	private void initLegacy() {
+
 	}
-	
+
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
 		ApkWorker1.start();
 		ApkWorker2.start();
-		
-		
+		framWorker1.start();
+		framWorker2.start();
+
 	}
 
-	
-	public synchronized void stepProgress(){
-		Totalprogress ++;
+	public synchronized void stepProgress() {
+		Totalprogress++;
 		// TODO progress Bar set this new Value
+	}
+
+	@Override
+	public void done(Runnable r) {
+		// TODO Auto-generated method stub
+		if(r.equals(apk1)){
+			workingThreadCount--;
+		} else if (r.equals(apk2)){
+			workingThreadCount--;
+
+		} else if (r.equals(boot)){
+			workingThreadCount--;
+
+		} else if (r.equals(jar)){
+			workingThreadCount--;
+		}
+		if(workingThreadCount ==0){
+			new Thread(new Runnable(){
+
+				@Override
+				public void run() {
+					// TODO Auto-generated method stub
+					FilesUtils.deleteRecursively(new File(SessionCfg.getSystemFolder().getAbsolutePath()+File.separator+S.SYSTEM_FRAMEWORK
+							+File.separator+SessionCfg.getArch()));
+					// TODO remove this
+					Logger.logToStdIO("ALL JOBS THERMINATED ");
+					System.exit(0);
+				}
+				
+			}).start();
+
+		}
 	}
 }

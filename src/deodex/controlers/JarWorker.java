@@ -25,16 +25,16 @@ import deodex.obj.JarObj;
 import deodex.tools.Deodexer;
 import deodex.tools.FilesUtils;
 import deodex.tools.ZipTools;
-import deodex.ui.LoggerPan;
 import net.lingala.zip4j.core.ZipFile;
 import net.lingala.zip4j.exception.ZipException;
 
-public class JarWorker implements Runnable{
+public class JarWorker implements Runnable ,Watchable{
 
 	ArrayList<File> odexFiles = new ArrayList<File>();
 	LoggerPan logPan;
 	File tmpFolder;
 	JProgressBar progressBar;
+	private ThreadWatcher threadWatcher;
 	public JarWorker(ArrayList<File> odexList, LoggerPan logPan, File tmpFolder ){
 		this.odexFiles = odexList;
 		this.logPan = logPan;
@@ -52,11 +52,16 @@ public class JarWorker implements Runnable{
 			boolean success = deodexJar(jar);
 			if(success){
 				// TODO log Sucess
+				logPan.addLog("[ "+jar.getName()+" ]"+" [SUCCESS]");
 			} else {
 				// TODO log FAILED
+				logPan.addLog("[ "+jar.getName()+" ]"+" [FAILED]");
 			}
 			this.progressBar.setValue(i++);
 		}
+		FilesUtils.deleteRecursively(tmpFolder);
+
+		this.threadWatcher.done(this);
 	}
 
 	private boolean deodexJar(File odex){
@@ -91,6 +96,7 @@ public class JarWorker implements Runnable{
 					}
 					rename = jar.getTmpdex2().exists() ?  
 							jar.getTmpClasses().exists()&& jar.getTmpClasses2().exists(): jar.getTmpClasses().exists() ;
+						//if(rename)	return true;
 					if(!rename){
 						// TODO : add log to this
 						return false;
@@ -100,13 +106,14 @@ public class JarWorker implements Runnable{
 						if (jar.getTmpClasses2().exists()){
 							list.add(jar.getTmpClasses2());
 						}
+						list.add(new File("dummies/META-INF"));
 						ZipTools.addFilesToZip(list, jar.getTmpJar());
 						boolean addstatus = false;
 						try {
 							addstatus = ZipTools.isFileinZip(jar.getTmpClasses().getName(), new ZipFile(jar.getTmpJar()));
-							if(list.size() > 1){
-								addstatus = addstatus && ZipTools.isFileinZip(jar.getTmpClasses2().getName(), new ZipFile(jar.getTmpJar()));
-							}
+		//					if(list.size() > 1){
+		//						addstatus = addstatus && ZipTools.isFileinZip(jar.getTmpClasses2().getName(), new ZipFile(jar.getTmpJar()));
+		//					}
 						} catch (ZipException e) {
 							e.printStackTrace();
 						}
@@ -125,10 +132,16 @@ public class JarWorker implements Runnable{
 				}
 			}
 		}
-		FilesUtils.deleteRecursively(jar.getTmpFolder());
-		FilesUtils.deleteRecursively(jar.getOdexFile());
+		//FilesUtils.deleteRecursively(jar.getTmpFolder());
+		//FilesUtils.deleteRecursively(jar.getOdexFile());
 		
 		
 		return true;
+	}
+	@Override
+	public void addThreadWatcher(ThreadWatcher watcher) {
+		// TODO Auto-generated method stub
+		this.threadWatcher = watcher;
+
 	}
 }
