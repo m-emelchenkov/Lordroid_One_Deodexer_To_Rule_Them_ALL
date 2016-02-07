@@ -91,7 +91,7 @@ public class ZipTools {
 	 * @param zipFile
 	 * @return true only and only if the file is present in the zip after adding it !
 	 */
-	public static boolean addFileToZip(File fileToAdd ,File zipFile){
+	private static boolean addFileToZip(File fileToAdd ,File zipFile){
 		try {
 			File tmpFolder = unzip(zipFile);
 			if(!tmpFolder.exists()){
@@ -123,7 +123,7 @@ public class ZipTools {
 	 * @param zipFile
 	 * @return true only if files are in the outzip 
 	 */
-	public static boolean addFilesToZip(ArrayList<File> filesToAdd ,File zipFile){
+	private static boolean addFilesToZip(ArrayList<File> filesToAdd ,File zipFile){
 		try {
 			File tmpFolder = unzip(zipFile);
 			if(!tmpFolder.exists()){
@@ -178,6 +178,7 @@ public class ZipTools {
 				if(name.contains("/")){
 					name =name.substring(name.lastIndexOf("/"));
 				}
+				Logger.logToStdIO("[ZipTools][comparing ] " +name +"==> " +fileName);
 				if (name.equals(fileName)){
 					return true;
 				}

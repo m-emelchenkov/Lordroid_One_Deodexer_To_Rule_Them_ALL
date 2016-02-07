@@ -97,7 +97,8 @@ public class Zip {
 			success = false ;
 		}
        }
-       
-       return false;
+       tempFile.delete();
+
+       return success;
    }
 }

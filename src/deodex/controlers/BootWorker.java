@@ -16,11 +16,13 @@
 package deodex.controlers;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import deodex.S;
 import deodex.SessionCfg;
 import deodex.tools.FilesUtils;
+import deodex.tools.Zip;
 import deodex.tools.ZipTools;
 import net.lingala.zip4j.core.ZipFile;
 import net.lingala.zip4j.exception.ZipException;
@@ -81,16 +83,12 @@ public class BootWorker implements Runnable ,Watchable{
 				if(absoluteName.equals("framework")){
 					list.add(tmpClasses2);
 				}
-				list.add(new File("dummies/META-INF"));
-				ZipTools.addFilesToZip(list, tmpJar);
-				
 				try {
-					addStatus =  ZipTools.isFileinZip(S.CLASSES, new ZipFile(tmpJar));
-				} catch (ZipException e) {
-					// TODO Auto-generated catch block
+					addStatus = Zip.addFilesToExistingZip(tmpJar, list);
+				} catch (IOException e) {
 					e.printStackTrace();
-					return false;
 				}
+				
 				if(!addStatus){
 					return false;
 				} else{

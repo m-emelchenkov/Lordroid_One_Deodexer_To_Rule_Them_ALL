@@ -26,6 +26,7 @@ import deodex.S;
 import deodex.obj.ApkObj;
 import deodex.tools.Deodexer;
 import deodex.tools.FilesUtils;
+import deodex.tools.Zip;
 import deodex.tools.ZipTools;
 
 public class ApkWorker implements Runnable {
@@ -77,7 +78,7 @@ public class ApkWorker implements Runnable {
 
 		logPan.addLog("All jobs trminaled !");
 		System.out.println("All jobs done for this thread !");
-		FilesUtils.deleteRecursively(tmpFolder);
+		//FilesUtils.deleteRecursively(tmpFolder);
 		if(!this.threadWatcher.equals(null))
 		this.threadWatcher.done(this);
 	}
@@ -163,11 +164,16 @@ public class ApkWorker implements Runnable {
 						classesFiles.add(apk.getTempClasses1());
 						if (apk.getTempClasses2().exists())
 							classesFiles.add(apk.getTempClasses1());
-						boolean addClassesToApkStatus = ZipTools.addFilesToZip(classesFiles, apk.getTempApk());
+						boolean addClassesToApkStatus =false;
+						try {
+							addClassesToApkStatus = Zip.addFilesToExistingZip(apk.getTempApk(), classesFiles);
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
 						if (!addClassesToApkStatus) {
 							logPan.addLog(R.getString(S.LOG_WARNING) + " [" + apk.getOrigApk().getName() + "]"
 									+ R.getString("log.add.classes.failed"));
-							FilesUtils.deleteRecursively(apk.getTempApk().getParentFile());
+							//FilesUtils.deleteRecursively(apk.getTempApk().getParentFile());
 							return false;
 						} else {
 							if (this.doSign) {
