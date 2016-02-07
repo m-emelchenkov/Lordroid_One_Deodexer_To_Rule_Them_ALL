@@ -192,7 +192,6 @@ public class MainWorker implements Runnable ,ThreadWatcher{
 							+File.separator+SessionCfg.getArch()));
 					// TODO remove this
 					Logger.logToStdIO("ALL JOBS THERMINATED ");
-					System.exit(0);
 				}
 				
 			}).start();
