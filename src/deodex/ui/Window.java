@@ -21,9 +21,7 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.io.IOException;
 
-import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -31,6 +29,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.JRadioButton;
@@ -213,7 +212,7 @@ public class Window extends JFrame implements ThreadWatcher{
 		rootPane.setBackground(new Color(206, 194, 229));
 		rootPane.setOpaque(true);
 		
-
+		
 		
 		
 		// 
@@ -232,6 +231,28 @@ public class Window extends JFrame implements ThreadWatcher{
 		quitbtn.setBackground(new Color(89, 195, 216));
 		restart.setBackground(new Color(89, 195, 216));
 		
+		// Action listners
+		quitbtn.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				int i =JOptionPane.showConfirmDialog(rootPane, R.getString("dialog.sure.exit.message"), R.getString("dialog.sure.exit"), JOptionPane.INFORMATION_MESSAGE, JOptionPane.YES_NO_OPTION);
+				if(i == 0){
+					System.exit(0);
+				}
+			}
+			
+		});
+		
+		restart.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				initBrowseView();
+			}
+			
+		});
 		//
 		rootPane.add(logo);
 		rootPane.add(logger);
@@ -239,7 +260,6 @@ public class Window extends JFrame implements ThreadWatcher{
 		rootPane.add(quitbtn);
 		rootPane.add(restart);
 		
-		System.out.println("init Progress ?!");
 		rootPane.revalidate();
 		this.repaint();
 	}
@@ -250,7 +270,10 @@ public class Window extends JFrame implements ThreadWatcher{
 		rootPane.setBackground(new Color(206, 194, 229));
 		rootPane.setOpaque(true);
 		
-		
+		JLabel waiting = new JLabel("Preparing working environnement this may take a minute...");
+		waiting.setFont(R.COURIER_NORMAL);
+		waiting.setBounds(50, 200, 748, 50);
+		waiting.setBackground(new Color(0,0,0,0));
 		logo.setBounds(0, 0, 802, 100);
 		logger.setBounds(1, 270, 798, 300);
 		
@@ -260,12 +283,12 @@ public class Window extends JFrame implements ThreadWatcher{
 	    JLabel progLAb = new JLabel(icon);
 	    // Play animation
 	    progress.setIndeterminate(true);
-	    progLAb.setBounds(0, 0, 798, this.getHeight());
+	    progLAb.setBounds(0, 95, 798, this.getHeight());
 
 	    rootPane.add(progLAb);
 	    //rootPane.add(logger);
 	    rootPane.add(logo);
-		System.out.println("init Progress ?!!!");
+	    rootPane.add(waiting);
 		rootPane.revalidate();
 		this.repaint();
 	}
@@ -323,6 +346,7 @@ public class Window extends JFrame implements ThreadWatcher{
 	@Override
 	public void done(Runnable r) {
 		// TODO Auto-generated method stub
+		this.initProgress();
 		this.quitbtn.setEnabled(true);
 		this.restart.setEnabled(true);
 		this.repaint();
