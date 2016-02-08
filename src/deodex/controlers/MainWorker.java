@@ -185,9 +185,11 @@ public class MainWorker implements Runnable, ThreadWatcher {
 
 				@Override
 				public void run() {
+					logPan.saveToFile();
 					// TODO Auto-generated method stub
 					FilesUtils.deleteRecursively(new File(SessionCfg.getSystemFolder().getAbsolutePath()
 							+ File.separator + S.SYSTEM_FRAMEWORK + File.separator + SessionCfg.getArch()));
+					FilesUtils.deleteRecursively(S.bootTmp.getParentFile());
 					// TODO remove this
 					Logger.logToStdIO("ALL JOBS THERMINATED ");
 				}

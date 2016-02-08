@@ -86,6 +86,7 @@ public class Window extends JFrame {
 
 	public Window() {
 		this.setResizable(false);
+		this.setIconImage(R.icon);
 		this.setTitle(R.getString(S.APP_NAME));
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setLocation((Toolkit.getDefaultToolkit().getScreenSize().width - W_WIDTH) / 2,

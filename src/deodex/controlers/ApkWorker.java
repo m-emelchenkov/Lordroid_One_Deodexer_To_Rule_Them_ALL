@@ -76,9 +76,8 @@ public class ApkWorker implements Runnable {
 			System.out.println("Progress = " + progressBar.getValue() + " / " + progressBar.getMaximum());
 		}
 
-		logPan.addLog("All jobs terminaled !");
-		System.out.println("All jobs done for this thread !");
-		// FilesUtils.deleteRecursively(tmpFolder);
+		logPan.addLog("[APK WORKER] All jobs terminaled !");
+		FilesUtils.deleteRecursively(tmpFolder);
 		if (!this.threadWatcher.equals(null))
 			this.threadWatcher.done(this);
 	}

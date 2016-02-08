@@ -17,8 +17,10 @@ package deodex.ui;
 
 import java.awt.Graphics;
 import java.awt.Image;
+import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 import javax.imageio.ImageIO;
@@ -29,6 +31,8 @@ import javax.swing.JScrollPane;
 
 import deodex.R;
 import deodex.controlers.LoggerPan;
+import deodex.tools.PathUtils;
+import deodex.tools.PropReader;
 
 public class LoggerPane extends JPanel implements LoggerPan {
 
@@ -39,7 +43,7 @@ public class LoggerPane extends JPanel implements LoggerPan {
 	Image bg;
 	JList<String> logs = new JList<String>();
 	DefaultListModel<String> model = new DefaultListModel<String>();
-
+	
 	public LoggerPane() {
 		super();
 		this.setSize(798, 300);
@@ -86,4 +90,23 @@ public class LoggerPane extends JPanel implements LoggerPan {
 		addLogR(str);
 	}
 
+	@Override
+	public void saveToFile() {
+		// TODO Auto-generated method stub
+		
+		long yourmilliseconds = System.currentTimeMillis();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd|HH:mm:ss"); // dd/MMM/yyyy
+		Date resultdate = new Date(yourmilliseconds);
+		String str = PathUtils.getExcutionPath()+File.separator +"logs"+File.separator+ sdf.format(resultdate)+".log";
+		File logFile = new File(str);
+		
+		ArrayList <String> logs = new ArrayList<String>();
+		
+		for (int i = 0 ; i < model.size() ; i++){
+			logs.add(model.getElementAt(i));
+		}
+		PropReader.ArrayToProp(logs, logFile);
+	}
+	
+	
 }

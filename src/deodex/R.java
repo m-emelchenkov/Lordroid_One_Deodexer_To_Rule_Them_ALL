@@ -43,6 +43,7 @@ public class R {
 	private static ArrayList<String> strings = new ArrayList<String>();
 	public static Image borderRight;
 	public static Image borderLeft;
+	public static Image icon;
 
 	public static void initResources() {
 		File langFile = Cfg.getLangFile();
@@ -70,6 +71,8 @@ public class R {
 					.read(Thread.currentThread().getContextClassLoader().getResource("images/borderRight.png"));
 			borderLeft = ImageIO
 					.read(Thread.currentThread().getContextClassLoader().getResource("images/borderLeft.png"));
+			icon  = ImageIO
+					.read(Thread.currentThread().getContextClassLoader().getResource("images/icon.png"));
 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

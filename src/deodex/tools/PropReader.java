@@ -125,7 +125,7 @@ public class PropReader {
 	public static void ArrayToProp(ArrayList<String> lines, File propFile) {
 		BufferedWriter bw = null;
 		propFile.delete();
-
+		propFile.getParentFile().mkdirs();
 		try {
 			DataOutputStream dos = new DataOutputStream(new FileOutputStream(propFile));
 			bw = new BufferedWriter(new OutputStreamWriter(new BufferedOutputStream(dos), "UTF-8"));
