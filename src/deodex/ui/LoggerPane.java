@@ -43,6 +43,7 @@ public class LoggerPane extends JPanel implements LoggerPan {
 	Image bg;
 	JList<String> logs = new JList<String>();
 	DefaultListModel<String> model = new DefaultListModel<String>();
+	JScrollPane scroll;
 	
 	public LoggerPane() {
 		super();
@@ -57,9 +58,10 @@ public class LoggerPane extends JPanel implements LoggerPan {
 
 		logs = new JList<String>(model);
 		logs.setFont(R.COURIER_LOGGER);
+		logs.setAutoscrolls(true);
 		// logs.setBounds(2, 2, this.getWidth()-4, this.getHeight()-4);
 		this.setLayout(null);
-		JScrollPane scroll = new JScrollPane(logs);
+		scroll = new JScrollPane(logs);
 		scroll.setBounds(2, 2, this.getWidth() - 4, this.getHeight() - 4);
 		this.add(scroll);
 
@@ -72,6 +74,7 @@ public class LoggerPane extends JPanel implements LoggerPan {
 		Date resultdate = new Date(yourmilliseconds);
 		String str2 = sdf.format(resultdate);
 		model.addElement("[" + str2 + "]" + str);
+		scroll.getViewport().setViewPosition(logs.indexToLocation(model.size()-1));
 		this.repaint();
 	}
 

@@ -103,7 +103,8 @@ public class Window extends JFrame implements ThreadWatcher{
 
 		this.setContentPane(rootPanel);
 		icon = new ImageIcon(Window.this.getClass().getResource("/loading.gif"));
-		
+		browseBtn.addActionListener(new BrowseAction());
+		this.deodexNow.addActionListener(new DeodexNowAction());
 		initBrowseView();
 	}
 
@@ -182,8 +183,7 @@ public class Window extends JFrame implements ThreadWatcher{
 		rootPane.revalidate();
 		this.repaint();
 
-		browseBtn.addActionListener(new BrowseAction());
-		this.deodexNow.addActionListener(new DeodexNowAction());
+
 		@SuppressWarnings("unused")
 		FileDrop fd = new FileDrop(this.browseField , new FileDrop.Listener() {
 			
@@ -212,11 +212,12 @@ public class Window extends JFrame implements ThreadWatcher{
 		rootPane.setBackground(new Color(206, 194, 229));
 		rootPane.setOpaque(true);
 		
-		
+		quitbtn = new JButton(R.getString("window.exitbtn"));
+		restart = new JButton(R.getString("window.restartbtn"));
 		
 		
 		// 
-		mainWorker.mainPannel.setBounds(0, 101, 795, 122);
+		mainWorker.mainPannel.setBounds(0, 101, 795, 128);
 		logo.setBounds(0, 0, 802, 100);
 		logger.setBounds(1, 270, 798, 300);
 		quitbtn.setBounds(483, 235, 300, 30);
@@ -236,7 +237,8 @@ public class Window extends JFrame implements ThreadWatcher{
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				int i =JOptionPane.showConfirmDialog(rootPane, R.getString("dialog.sure.exit.message"), R.getString("dialog.sure.exit"), JOptionPane.INFORMATION_MESSAGE, JOptionPane.YES_NO_OPTION);
+				int i =JOptionPane.showConfirmDialog(rootPane, R.getString("dialog.sure.exit.message"), R.getString("dialog.sure.exit"), JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
+				
 				if(i == 0){
 					System.exit(0);
 				}
@@ -249,6 +251,7 @@ public class Window extends JFrame implements ThreadWatcher{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
+				logger.clearAllLogs();
 				initBrowseView();
 			}
 			
