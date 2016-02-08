@@ -17,6 +17,8 @@ package deodex;
 
 import java.io.File;
 
+import deodex.tools.PathUtils;
+
 public class S {
 	public static final String APK_EXT = ".apk";
 	public static final String ODEX_EXT = ".odex";
@@ -68,13 +70,13 @@ public class S {
 	public static final String LINUX = "linux";
 	public static final String MAC = "osx";
 
-	public static final String OAT2DEX_JAR = "bins/oat2dex/oat2dex.jar";
-	public static final String BACKSMALI_JAR = "bins/smali_backsmali/backsmali.jar";
-	public static final String SMALI_JAR = "bins/smali_backsmali/smali.jar";
-	public static final String ZIPALIGN_BIN = "bins/native/zipAlign";
-	public static final String SIGN_APK = "bins/sign/signapk.jar";
-	public static final String TEST_KEY_PK8 = "bins/sign/testkey.pk8";
-	public static final String TEST_KEY_X509 = "bins/sign/testkey.x509.pem";
+	public static final String OAT2DEX_JAR = PathUtils.getExcutionPath()+File.separator+"bins/oat2dex/oat2dex.jar";
+	public static final String BACKSMALI_JAR = PathUtils.getExcutionPath()+File.separator+"bins/smali_backsmali/backsmali.jar";
+	public static final String SMALI_JAR = PathUtils.getExcutionPath()+File.separator+"bins/smali_backsmali/smali.jar";
+	public static final String ZIPALIGN_BIN = PathUtils.getExcutionPath()+File.separator+"bins/native/zipAlign";
+	public static final String SIGN_APK = PathUtils.getExcutionPath()+File.separator+"bins/sign/signapk.jar";
+	public static final String TEST_KEY_PK8 = PathUtils.getExcutionPath()+File.separator+"bins/sign/testkey.pk8";
+	public static final String TEST_KEY_X509 = PathUtils.getExcutionPath()+File.separator+"bins/sign/testkey.x509.pem";
 
 	// temporary folders
 	public static File worker1Folder = new File(TMP + File.separator + WORKER1);

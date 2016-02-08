@@ -32,10 +32,10 @@ import net.lingala.zip4j.model.FileHeader;
 public class ZipTools {
 
 	/**
-	 * @returns
+	 * @returns success
 	 * @param odex
-	 * @return the name of the name of the deodexed odex if it is already
-	 *         decompressed
+	 * @return success
+	 *         
 	 * @throws IOException
 	 */
 	public static boolean extractOdex(File odex) throws IOException {

@@ -20,6 +20,7 @@ import java.io.File;
 import java.util.ArrayList;
 
 import deodex.tools.Os;
+import deodex.tools.PathUtils;
 import deodex.tools.PropReader;
 import deodex.tools.StringUtils;
 
@@ -28,8 +29,8 @@ import deodex.tools.StringUtils;
  *
  */
 public class Cfg {
-	private static final String CFG_PATH = "cfg/app_config.rsx";
-	private static final String LANG_FOLDER = "lang";
+	private static final String CFG_PATH = PathUtils.getExcutionPath()+File.separator+"cfg/app_config.rsx";
+	private static final String LANG_FOLDER = PathUtils.getExcutionPath()+File.separator+"lang";
 
 	private static String currentLang;
 
