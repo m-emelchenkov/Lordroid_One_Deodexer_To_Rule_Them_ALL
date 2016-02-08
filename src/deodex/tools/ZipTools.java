@@ -69,8 +69,6 @@ public class ZipTools {
 	 */
 	public static boolean isFileinZip(String fileName, ZipFile zipFile) {
 		try {
-			// Initiate ZipFile object with the path/name of the zip file.
-			// ZipFile zipFile = new ZipFile("/tmp/Maps.apk");
 
 			// Get the list of file headers from the zip file
 			@SuppressWarnings("rawtypes")
@@ -79,19 +77,14 @@ public class ZipTools {
 			// Loop through the file headers
 			for (int i = 0; i < fileHeaderList.size(); i++) {
 				FileHeader fileHeader = (FileHeader) fileHeaderList.get(i);
-				// FileHeader contains all the properties of the file
-				System.out.println("Name: " + fileHeader.getFileName());
 				String name = fileHeader.getFileName();
 				if (name.contains("/")) {
 					name = name.substring(name.lastIndexOf("/"));
 				}
-				Logger.logToStdIO("[ZipTools][comparing ] " + name + "==> " + fileName);
 				if (name.equals(fileName)) {
 					return true;
 				}
-				// Various other properties are available in FileHeader. Please
-				// have a look at FileHeader
-				// class to see all the properties
+
 			}
 
 		} catch (ZipException e) {
