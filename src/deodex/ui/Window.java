@@ -21,13 +21,18 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JProgressBar;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
@@ -35,9 +40,10 @@ import deodex.R;
 import deodex.S;
 import deodex.SessionCfg;
 import deodex.controlers.MainWorker;
+import deodex.controlers.ThreadWatcher;
 import deodex.tools.FilesUtils;
 
-public class Window extends JFrame {
+public class Window extends JFrame implements ThreadWatcher{
 
 	public static final int W_WIDTH = 802;
 	public static final int W_HEIGHT = 597;
@@ -83,8 +89,10 @@ public class Window extends JFrame {
 	JButton deodexNow = new JButton(R.getString("deodexNow"));
 	JRadioButton focusStealer = new JRadioButton();
 	LoggerPane logger = new LoggerPane();
-
-	public Window() {
+	JButton quitbtn = new JButton(R.getString("window.exitbtn"));
+	JButton restart = new JButton(R.getString("window.restartbtn"));
+	ImageIcon icon;
+	public Window()  {
 		this.setResizable(false);
 		this.setIconImage(R.icon);
 		this.setTitle(R.getString(S.APP_NAME));
@@ -95,7 +103,8 @@ public class Window extends JFrame {
 		this.setVisible(true);
 
 		this.setContentPane(rootPanel);
-
+		icon = new ImageIcon(Window.this.getClass().getResource("/loading.gif"));
+		
 		initBrowseView();
 	}
 
@@ -176,11 +185,11 @@ public class Window extends JFrame {
 
 		browseBtn.addActionListener(new BrowseAction());
 		this.deodexNow.addActionListener(new DeodexNowAction());
+		@SuppressWarnings("unused")
 		FileDrop fd = new FileDrop(this.browseField , new FileDrop.Listener() {
 			
 			@Override
 			public void filesDropped(File[] files) {
-				// TODO Auto-generated method stub
 				File file = files[0];
 				if(!file.equals(null) && file.exists() && file.isDirectory()){
 					boolean valid = FilesUtils.isAValideSystemDir(file, logger);
@@ -198,13 +207,73 @@ public class Window extends JFrame {
 		});
 	}
 
+	public void initProgress(){
+		rootPane.removeAll();
+		rootPane.setLayout(null);
+		rootPane.setBackground(new Color(206, 194, 229));
+		rootPane.setOpaque(true);
+		
+
+		
+		
+		// 
+		mainWorker.mainPannel.setBounds(0, 101, 795, 122);
+		logo.setBounds(0, 0, 802, 100);
+		logger.setBounds(1, 270, 798, 300);
+		quitbtn.setBounds(483, 235, 300, 30);
+		restart.setBounds(10, 235, 300, 30);
+		
+		quitbtn.setFont(R.COURIER_NORMAL);
+		restart.setFont(R.COURIER_NORMAL);
+		
+		quitbtn.setEnabled(false);
+		restart.setEnabled(false);
+		
+		quitbtn.setBackground(new Color(89, 195, 216));
+		restart.setBackground(new Color(89, 195, 216));
+		
+		//
+		rootPane.add(logo);
+		rootPane.add(logger);
+		rootPane.add(mainWorker.mainPannel);
+		rootPane.add(quitbtn);
+		rootPane.add(restart);
+		
+		System.out.println("init Progress ?!");
+		rootPane.revalidate();
+		this.repaint();
+	}
 	
+	private void initwaiting(){
+		rootPane.removeAll();
+		rootPane.setLayout(null);
+		rootPane.setBackground(new Color(206, 194, 229));
+		rootPane.setOpaque(true);
+		
+		
+		logo.setBounds(0, 0, 802, 100);
+		logger.setBounds(1, 270, 798, 300);
+		
+	    int min = 0;
+	    int max = 100;
+	    JProgressBar progress = new JProgressBar(min, max);
+	    JLabel progLAb = new JLabel(icon);
+	    // Play animation
+	    progress.setIndeterminate(true);
+	    progLAb.setBounds(0, 0, 798, this.getHeight());
+
+	    rootPane.add(progLAb);
+	    //rootPane.add(logger);
+	    rootPane.add(logo);
+		System.out.println("init Progress ?!!!");
+		rootPane.revalidate();
+		this.repaint();
+	}
 	
 	class BrowseAction implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			// TODO Auto-generated method stub
 			boolean valide = false;
 			JFileChooser f = new JFileChooser();
 			f.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
@@ -223,17 +292,45 @@ public class Window extends JFrame {
 
 	}
 
+	public void addThreadWatcher(){
+		mainWorker.addThreadWatcher(this);
+	}
 	class DeodexNowAction implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
+			initwaiting();
 			SessionCfg.setSign(signCheck.isSelected());
 			SessionCfg.setZipalign(zipalignCheck.isSelected());
-			mainWorker = new MainWorker(SessionCfg.getSystemFolder(), logger);
-			Thread t = new Thread(mainWorker);
-			t.start();
-			deodexNow.setEnabled(false);
+			new Thread(new Runnable(){
+
+				@Override
+				public void run() {
+					// TODO Auto-generated method stub
+					mainWorker = new MainWorker(SessionCfg.getSystemFolder(), logger,4);
+					addThreadWatcher();
+					Thread t = new Thread(mainWorker);
+					t.start();
+					deodexNow.setEnabled(false);
+				}
+				
+			}).start();
+
 		}
 
+	}
+
+	@Override
+	public void done(Runnable r) {
+		// TODO Auto-generated method stub
+		this.quitbtn.setEnabled(true);
+		this.restart.setEnabled(true);
+		this.repaint();
+	}
+
+	@Override
+	public void updateProgress() {
+		// TODO Auto-generated method stub
+		initProgress();
 	}
 }

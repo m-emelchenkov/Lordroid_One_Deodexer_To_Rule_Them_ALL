@@ -19,6 +19,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.swing.JProgressBar;
+
+import deodex.R;
 import deodex.S;
 import deodex.SessionCfg;
 import deodex.tools.FilesUtils;
@@ -29,11 +32,15 @@ public class BootWorker implements Runnable, Watchable {
 	File tmpFolder;
 	ThreadWatcher threadWatcher;
 	LoggerPan log;
-
+	JProgressBar progressBar ;
 	public BootWorker(ArrayList<File> bootList, File tmpFolder, LoggerPan log) {
 		bootFiles = bootList;
 		this.tmpFolder = tmpFolder;
 		this.log = log;
+		progressBar = new JProgressBar();
+		progressBar.setMinimum(0);
+		progressBar.setMaximum(bootList.size());
+		progressBar.setStringPainted(true);
 	}
 
 	@Override
@@ -47,8 +54,13 @@ public class BootWorker implements Runnable, Watchable {
 				log.addLog("[" + file.getName().substring(0, file.getName().lastIndexOf(".")) + ".jar]" + " [FAILED ]");
 
 			}
+			progressBar.setValue(progressBar.getValue()+1);
+			progressBar.setString(R.getString("progress.bootFiles")+" ("+progressBar.getValue()+"/"+progressBar.getMaximum()+")");
+			threadWatcher.updateProgress();
 		}
 		FilesUtils.deleteRecursively(tmpFolder);
+		progressBar.setValue(progressBar.getMaximum());
+		progressBar.setString(R.getString("progress.done"));
 		this.threadWatcher.done(this);
 	}
 

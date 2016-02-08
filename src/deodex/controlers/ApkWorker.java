@@ -73,11 +73,13 @@ public class ApkWorker implements Runnable {
 				logPan.addLog("[" + apk.getName() + ".apk]" + R.getString(S.LOG_SUCCESS));
 			}
 			progressBar.setValue(i++);
-			System.out.println("Progress = " + progressBar.getValue() + " / " + progressBar.getMaximum());
+			progressBar.setString(R.getString("progress.apks")+" ("+progressBar.getValue()+"/"+progressBar.getMaximum()+")");
+			threadWatcher.updateProgress();
 		}
-
-		logPan.addLog("[APK WORKER] All jobs terminaled !");
+		
 		FilesUtils.deleteRecursively(tmpFolder);
+		progressBar.setValue(progressBar.getMaximum());
+		progressBar.setString(R.getString("progress.done"));
 		if (!this.threadWatcher.equals(null))
 			this.threadWatcher.done(this);
 	}

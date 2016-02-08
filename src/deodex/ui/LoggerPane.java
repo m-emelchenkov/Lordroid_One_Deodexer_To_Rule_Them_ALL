@@ -91,7 +91,7 @@ public class LoggerPane extends JPanel implements LoggerPan {
 	}
 
 	@Override
-	public void saveToFile() {
+	public synchronized void saveToFile() {
 		// TODO Auto-generated method stub
 		
 		long yourmilliseconds = System.currentTimeMillis();
@@ -106,6 +106,7 @@ public class LoggerPane extends JPanel implements LoggerPan {
 			logs.add(model.getElementAt(i));
 		}
 		PropReader.ArrayToProp(logs, logFile);
+		this.repaint();
 	}
 	
 	

@@ -21,6 +21,7 @@ import java.util.ArrayList;
 
 import javax.swing.JProgressBar;
 
+import deodex.R;
 import deodex.obj.JarObj;
 import deodex.tools.Deodexer;
 import deodex.tools.FilesUtils;
@@ -30,6 +31,8 @@ import deodex.tools.ZipTools;
 public class JarWorker implements Runnable, Watchable {
 
 	ArrayList<File> odexFiles = new ArrayList<File>();
+
+
 	LoggerPan logPan;
 	File tmpFolder;
 	JProgressBar progressBar;
@@ -42,7 +45,7 @@ public class JarWorker implements Runnable, Watchable {
 		this.progressBar = new JProgressBar();
 		progressBar.setMinimum(0);
 		progressBar.setMaximum(odexList.size());
-
+		progressBar.setStringPainted(true);
 	}
 
 	@Override
@@ -58,9 +61,12 @@ public class JarWorker implements Runnable, Watchable {
 				logPan.addLog("[" + jar.getName().substring(0, jar.getName().lastIndexOf(".")) + ".jar]" + " [FAILED]");
 			}
 			this.progressBar.setValue(i++);
+			progressBar.setString(R.getString("progress.jar")+" ("+progressBar.getValue()+"/"+progressBar.getMaximum()+")");
+			threadWatcher.updateProgress();
 		}
 		FilesUtils.deleteRecursively(tmpFolder);
-
+		this.progressBar.setValue(this.progressBar.getMaximum());
+		progressBar.setString(R.getString("progress.done"));
 		this.threadWatcher.done(this);
 	}
 
@@ -134,6 +140,13 @@ public class JarWorker implements Runnable, Watchable {
 		return true;
 	}
 
+	/**
+	 * @return the progressBar
+	 */
+	public JProgressBar getProgressBar() {
+		return progressBar;
+	}
+	
 	@Override
 	public void addThreadWatcher(ThreadWatcher watcher) {
 		// TODO Auto-generated method stub
