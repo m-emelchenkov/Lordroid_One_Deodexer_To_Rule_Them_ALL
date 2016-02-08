@@ -72,6 +72,10 @@ public class S {
 	public static final String BACKSMALI_JAR = "bins/smali_backsmali/backsmali.jar";
 	public static final String SMALI_JAR = "bins/smali_backsmali/smali.jar";
 	public static final String ZIPALIGN_BIN = "bins/native/zipAlign";
+	public static final String SIGN_APK = "bins/sign/signapk.jar";
+	public static final String TEST_KEY_PK8 = "bins/sign/testkey.pk8";
+	public static final String TEST_KEY_X509 = "bins/sign/testkey.x509.pem";
+	
 	
 	//temporary folders 
 	public static File worker1Folder = new File(TMP + File.separator + WORKER1);

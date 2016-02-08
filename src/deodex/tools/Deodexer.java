@@ -85,4 +85,14 @@ public class Deodexer {
 		
 		return S.bootTmpDex.exists();
 	}
+	public static boolean signApk(File in , File out) throws IOException, InterruptedException {
+		String[] cmd = {"java","-jar",new File(S.SIGN_APK).getAbsolutePath() ,new File(S.TEST_KEY_X509).getAbsolutePath()
+				,new File(S.TEST_KEY_PK8).getAbsolutePath() , in.getAbsolutePath() , out.getAbsolutePath()};
+		Process p;
+		p = Runtime.getRuntime().exec(cmd);
+		p.waitFor();
+		
+		return out.exists();
+	}
+	
 }

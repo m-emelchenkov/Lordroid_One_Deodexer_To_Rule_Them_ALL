@@ -114,14 +114,6 @@ public class ApkWorker implements Runnable {
 
 	private boolean deodexApk(File apkFolder) {
 		ApkObj apk = new ApkObj(apkFolder);
-		// boolean deodexed = true;
-		//
-		// if(!deodexed){
-		// logPan.addLog(R.getString(S.LOG_INFO) + " [" +
-		// apk.getOrigApk().getName() + "]"
-		// + R.getString("log.copy.to.tmp.failed"));
-		// return true;
-		// }
 
 		boolean copyStatus = apk.copyNeededFilesToTempFolder(tmpFolder);
 		if (!copyStatus) {
@@ -178,16 +170,20 @@ public class ApkWorker implements Runnable {
 						} else {
 							if (this.doSign) {
 								// TODO sign !
+								try {
+									Deodexer.signApk(apk.getTempApk(), apk.getTempApkSigned());
+								} catch (IOException | InterruptedException e) {
+									FilesUtils.copyFile(apk.getTempApk(), apk.getTempApkSigned());
+								}
 							} else {
 								FilesUtils.copyFile(apk.getTempApk(), apk.getTempApkSigned());
 
 							}
 							if (this.doZipalign) {
-								// TODO zipalign this app
 								try {
 									Zip.zipAlignAPk(apk.getTempApkSigned(), apk.getTempApkZipalign());
 								} catch (IOException | InterruptedException e) {
-									e.printStackTrace();
+									FilesUtils.copyFile(apk.getTempApkSigned(), apk.getTempApkZipalign());
 								}
 							} else {
 								FilesUtils.copyFile(apk.getTempApkSigned(), apk.getTempApkZipalign());
