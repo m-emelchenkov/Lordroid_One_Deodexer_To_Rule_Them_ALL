@@ -71,6 +71,7 @@ public class S {
 	public static final String OAT2DEX_JAR = "bins/oat2dex/oat2dex.jar";
 	public static final String BACKSMALI_JAR = "bins/smali_backsmali/backsmali.jar";
 	public static final String SMALI_JAR = "bins/smali_backsmali/smali.jar";
+	public static final String ZIPALIGN_BIN = "bins/native/zipAlign";
 	
 	//temporary folders 
 	public static File worker1Folder = new File(TMP + File.separator + WORKER1);

@@ -54,7 +54,7 @@ public class ApkWorker implements Runnable {
 		this.doZipalign = doZipalign;
 
 		progressBar = new JProgressBar();
-		progressBar.setMinimum(0);
+		progressBar.setMinimum(1);
 		progressBar.setMaximum(apkList.size());
 		progressBar.setStringPainted(true);
 	}
@@ -76,7 +76,7 @@ public class ApkWorker implements Runnable {
 			System.out.println("Progress = " + progressBar.getValue() + " / " + progressBar.getMaximum());
 		}
 
-		logPan.addLog("All jobs trminaled !");
+		logPan.addLog("All jobs terminaled !");
 		System.out.println("All jobs done for this thread !");
 		//FilesUtils.deleteRecursively(tmpFolder);
 		if(!this.threadWatcher.equals(null))
@@ -184,16 +184,20 @@ public class ApkWorker implements Runnable {
 							}
 							if (this.doZipalign) {
 								// TODO zipalign this app
+								try {
+									Zip.zipAlignAPk(apk.getTempApkSigned(), apk.getTempApkZipalign());
+								} catch (IOException | InterruptedException e) {
+									e.printStackTrace();
+								}
 							} else {
 								FilesUtils.copyFile(apk.getTempApkSigned(), apk.getTempApkZipalign());
 							}
-							//FilesUtils.copyFile(apk.getTempApkZipalign() , apk.getOrigApk());
 						}
 					}
 				}
 			}
 		}
-	//	 the process is successful no copy and clean !
+	//	 the process is successful now copy and clean !
 		 FilesUtils.copyFile(apk.getTempApkZipalign(), apk.getOrigApk());
 		
 		 // delete the arch folder clearlly we dont need it any more
@@ -205,7 +209,7 @@ public class ApkWorker implements Runnable {
 		 FilesUtils.deleteRecursively(f);
 		 }
 		 files = apk.getArchFolder().listFiles();
-		 if(files.length < 0){
+		 if(files.length <= 0){
 		 apk.getArchFolder().delete();
 		 }
 		 FilesUtils.deleteRecursively(apk.getTempApkZipalign().getParentFile());
