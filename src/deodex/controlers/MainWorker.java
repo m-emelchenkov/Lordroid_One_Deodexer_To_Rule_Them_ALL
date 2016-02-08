@@ -24,7 +24,7 @@ import deodex.tools.Deodexer;
 import deodex.tools.FilesUtils;
 import deodex.tools.Logger;
 
-public class MainWorker implements Runnable ,ThreadWatcher{
+public class MainWorker implements Runnable, ThreadWatcher {
 
 	private int workingThreadCount = 4;
 	private int Totalprogress = 0;
@@ -77,7 +77,8 @@ public class MainWorker implements Runnable ,ThreadWatcher{
 
 		File appFolder = new File(folder.getAbsolutePath() + File.separator + "app");
 		File privAppFolder = new File(folder.getAbsolutePath() + File.separator + S.SYSTEM_PRIV_APP);
-		File framework = new File(folder.getAbsolutePath() + File.separator + S.SYSTEM_FRAMEWORK+File.separator+SessionCfg.getArch());
+		File framework = new File(
+				folder.getAbsolutePath() + File.separator + S.SYSTEM_FRAMEWORK + File.separator + SessionCfg.getArch());
 		File bootFiles = new File(S.bootTmpDex.getAbsolutePath());
 
 		// apkfiles
@@ -108,40 +109,37 @@ public class MainWorker implements Runnable ,ThreadWatcher{
 			worker1List.remove(i);
 		}
 
-		apk1 = new ApkWorker(worker1List, logPan, S.worker1Folder, SessionCfg.isSign(),
-				SessionCfg.isZipalign());
+		apk1 = new ApkWorker(worker1List, logPan, S.worker1Folder, SessionCfg.isSign(), SessionCfg.isZipalign());
 		progressWorker1 = apk1.getProgressBar().getMinimum();
 		TotalProgressWorker1 = apk1.getProgressBar().getMaximum();
-		apk2 = new ApkWorker(worker2List, logPan, S.worker2Folder, SessionCfg.isSign(),
-				SessionCfg.isZipalign());
+		apk2 = new ApkWorker(worker2List, logPan, S.worker2Folder, SessionCfg.isSign(), SessionCfg.isZipalign());
 		progressWorker2 = apk2.getProgressBar().getMinimum();
 		TotalProgressWorker2 = apk2.getProgressBar().getMaximum();
 		ApkWorker1 = new Thread(apk1);
 		ApkWorker2 = new Thread(apk2);
 
-		/// framework 
+		/// framework
 		File[] list = framework.listFiles();
 		worker3List = new ArrayList<File>();
-		for (File f : list){
-			if(f.getName().endsWith(S.ODEX_EXT) || f.getName().endsWith(S.COMP_ODEX_EXT)){
+		for (File f : list) {
+			if (f.getName().endsWith(S.ODEX_EXT) || f.getName().endsWith(S.COMP_ODEX_EXT)) {
 				worker3List.add(f);
 			}
 		}
 		jar = new JarWorker(worker3List, logPan, S.worker3Folder);
 		this.framWorker1 = new Thread(jar);
-		
-		
+
 		// bootFile
 		File[] boots = bootFiles.listFiles();
 		worker4List = new ArrayList<File>();
-		for (File f : boots){
-			if(!f.getName().equals("framework-classes2.dex")){
-				if(f.getName().endsWith(".dex")){
+		for (File f : boots) {
+			if (!f.getName().equals("framework-classes2.dex")) {
+				if (f.getName().endsWith(".dex")) {
 					worker4List.add(f);
 				}
 			}
 		}
-		 boot = new BootWorker(worker4List, S.worker4Folder,this.logPan);
+		boot = new BootWorker(worker4List, S.worker4Folder, this.logPan);
 		this.framWorker2 = new Thread(boot);
 		apk1.addThreadWatcher(this);
 		apk2.addThreadWatcher(this);
@@ -171,29 +169,29 @@ public class MainWorker implements Runnable ,ThreadWatcher{
 	@Override
 	public void done(Runnable r) {
 		// TODO Auto-generated method stub
-		if(r.equals(apk1)){
+		if (r.equals(apk1)) {
 			workingThreadCount--;
-		} else if (r.equals(apk2)){
-			workingThreadCount--;
-
-		} else if (r.equals(boot)){
+		} else if (r.equals(apk2)) {
 			workingThreadCount--;
 
-		} else if (r.equals(jar)){
+		} else if (r.equals(boot)) {
+			workingThreadCount--;
+
+		} else if (r.equals(jar)) {
 			workingThreadCount--;
 		}
-		if(workingThreadCount ==0){
-			new Thread(new Runnable(){
+		if (workingThreadCount == 0) {
+			new Thread(new Runnable() {
 
 				@Override
 				public void run() {
 					// TODO Auto-generated method stub
-					FilesUtils.deleteRecursively(new File(SessionCfg.getSystemFolder().getAbsolutePath()+File.separator+S.SYSTEM_FRAMEWORK
-							+File.separator+SessionCfg.getArch()));
+					FilesUtils.deleteRecursively(new File(SessionCfg.getSystemFolder().getAbsolutePath()
+							+ File.separator + S.SYSTEM_FRAMEWORK + File.separator + SessionCfg.getArch()));
 					// TODO remove this
 					Logger.logToStdIO("ALL JOBS THERMINATED ");
 				}
-				
+
 			}).start();
 
 		}

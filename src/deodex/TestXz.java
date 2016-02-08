@@ -43,46 +43,54 @@ public class TestXz {
 
 	public static void main(String[] args) {
 
-//		FileInputStream fin = new FileInputStream(new File("/tmp/ImsSettings.odex.art.xz"));
-//		BufferedInputStream in = new BufferedInputStream(fin);
-//		FileOutputStream out = new FileOutputStream(new File("/tmp/ImsSettings.odex.art"));
-//		XZCompressorInputStream xzIn = new XZCompressorInputStream(in);
-//		final byte[] buffer = new byte[1024];
-//		int n = 0;
-//		while (-1 != (n = xzIn.read(buffer))) {
-//			out.write(buffer, 0, n);
-//		}
-//		out.close();
-//		xzIn.close();
-//		boolean copyStatus = FilesUtils.copyFile(new File("/tmp/a.log"), new File("/tmp/blabla/blabla/hohohoho.a"));
-//		System.out.println(copyStatus);
-//		File file = new File("/tmp/app");
-//		FilesUtils.deleteRecursively(file);
-		
+		// FileInputStream fin = new FileInputStream(new
+		// File("/tmp/ImsSettings.odex.art.xz"));
+		// BufferedInputStream in = new BufferedInputStream(fin);
+		// FileOutputStream out = new FileOutputStream(new
+		// File("/tmp/ImsSettings.odex.art"));
+		// XZCompressorInputStream xzIn = new XZCompressorInputStream(in);
+		// final byte[] buffer = new byte[1024];
+		// int n = 0;
+		// while (-1 != (n = xzIn.read(buffer))) {
+		// out.write(buffer, 0, n);
+		// }
+		// out.close();
+		// xzIn.close();
+		// boolean copyStatus = FilesUtils.copyFile(new File("/tmp/a.log"), new
+		// File("/tmp/blabla/blabla/hohohoho.a"));
+		// System.out.println(copyStatus);
+		// File file = new File("/tmp/app");
+		// FilesUtils.deleteRecursively(file);
 
-		
-			// TODO : add a method to add multiple files as an array that way 
-			// because calling this like it is now will use lots resources
-			// extract and compress for eatch file !
-//		System.out.println(addFileToZip(new File("/tmp/CalendarGoogle.apk"),new File("/tmp/Bluetooth.apk")));
-//		System.out.println(addFileToZip(new File("/tmp/Bluetooth2.apk"),new File("/tmp/Bluetooth.apk")));
-//		System.out.println(addFileToZip(new File("/tmp/Bluetooth.odex"),new File("/tmp/Bluetooth.apk")));
+		// TODO : add a method to add multiple files as an array that way
+		// because calling this like it is now will use lots resources
+		// extract and compress for eatch file !
+		// System.out.println(addFileToZip(new
+		// File("/tmp/CalendarGoogle.apk"),new File("/tmp/Bluetooth.apk")));
+		// System.out.println(addFileToZip(new File("/tmp/Bluetooth2.apk"),new
+		// File("/tmp/Bluetooth.apk")));
+		// System.out.println(addFileToZip(new File("/tmp/Bluetooth.odex"),new
+		// File("/tmp/Bluetooth.apk")));
 		System.out.println(FilesUtils.copyFileRecurcively(new File("/tmp/system"), new File("/tmp/test")));
 	}
+
 	/**
-	 * 	adds a file to the given zip 
+	 * adds a file to the given zip
+	 * 
 	 * @param fileToAdd
 	 * @param zipFile
-	 * @return true only and only if the file is present in the zip after adding it !
+	 * @return true only and only if the file is present in the zip after adding
+	 *         it !
 	 */
-	public static boolean addFileToZip(File fileToAdd ,File zipFile){
+	public static boolean addFileToZip(File fileToAdd, File zipFile) {
 		try {
 			File tmpFolder = unzip(zipFile);
-			if(!tmpFolder.exists()){
+			if (!tmpFolder.exists()) {
 				return false;
 			}
-			FilesUtils.copyFile(fileToAdd, new File(tmpFolder.getAbsolutePath()+File.separator+fileToAdd.getName()));
-			addFilesToZip(tmpFolder,zipFile);
+			FilesUtils.copyFile(fileToAdd,
+					new File(tmpFolder.getAbsolutePath() + File.separator + fileToAdd.getName()));
+			addFilesToZip(tmpFolder, zipFile);
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -94,142 +102,153 @@ public class TestXz {
 			e.printStackTrace();
 		}
 		try {
-			return isFileinZip(fileToAdd.getName(),new ZipFile(zipFile));
+			return isFileinZip(fileToAdd.getName(), new ZipFile(zipFile));
 		} catch (ZipException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return false;
-		
-		
-		//return true;
+
+		// return true;
 	}
-	
+
 	/**
-	 *    search a filename is a zip file
+	 * search a filename is a zip file
+	 * 
 	 * @param fileName
 	 * @param zipFile
 	 * @return returns true is a file with the same name is in the zip file !
 	 */
-	private static boolean isFileinZip(String fileName ,ZipFile zipFile){
+	private static boolean isFileinZip(String fileName, ZipFile zipFile) {
 		try {
 			// Initiate ZipFile object with the path/name of the zip file.
-			//ZipFile zipFile = new ZipFile("/tmp/Maps.apk");
-			
+			// ZipFile zipFile = new ZipFile("/tmp/Maps.apk");
+
 			// Get the list of file headers from the zip file
 			List fileHeaderList = zipFile.getFileHeaders();
-			
+
 			// Loop through the file headers
 			for (int i = 0; i < fileHeaderList.size(); i++) {
-				FileHeader fileHeader = (FileHeader)fileHeaderList.get(i);
+				FileHeader fileHeader = (FileHeader) fileHeaderList.get(i);
 				// FileHeader contains all the properties of the file
 				System.out.println("Name: " + fileHeader.getFileName());
 				String name = fileHeader.getFileName();
-				if(name.contains("/")){
-					name =name.substring(name.lastIndexOf("/"));
+				if (name.contains("/")) {
+					name = name.substring(name.lastIndexOf("/"));
 				}
-				if (name.equals(fileName)){
+				if (name.equals(fileName)) {
 					return true;
 				}
-				// Various other properties are available in FileHeader. Please have a look at FileHeader
+				// Various other properties are available in FileHeader. Please
+				// have a look at FileHeader
 				// class to see all the properties
 			}
-			
+
 		} catch (ZipException e) {
 			e.printStackTrace();
 		}
 		return false;
 	}
-	
+
 	/**
-	 * 	unzip all files from the zipfile return the folder containing the extracted files 
+	 * unzip all files from the zipfile return the folder containing the
+	 * extracted files
 	 * 
 	 * @param zipfile
-	 * @return the folder containing the extracted files in the same path as the zip and have the same name with no extension
+	 * @return the folder containing the extracted files in the same path as the
+	 *         zip and have the same name with no extension
 	 * 
 	 * @throws FileNotFoundException
 	 */
-	
+
 	private static File unzip(File zipfile) throws FileNotFoundException {
-		File path = new File(zipfile.getParentFile().getAbsolutePath()+File.separator+zipfile.getName().substring(0, zipfile.getName().lastIndexOf(".")));
+		File path = new File(zipfile.getParentFile().getAbsolutePath() + File.separator
+				+ zipfile.getName().substring(0, zipfile.getName().lastIndexOf(".")));
 		path.mkdirs();
 		try {
 			ZipArchiveInputStream zais = new ZipArchiveInputStream(new FileInputStream(zipfile));
 			ZipArchiveEntry z1 = null;
-			while ((z1 = zais.getNextZipEntry())!=null){
+			while ((z1 = zais.getNextZipEntry()) != null) {
 				String fn = z1.getName();
-				if(fn.endsWith("/")){
+				if (fn.endsWith("/")) {
 					fn = fn.substring(z1.getName().lastIndexOf("/"));
 				}
-				File f = new File(path+File.separator+fn);
+				File f = new File(path + File.separator + fn);
 				f.getParentFile().mkdirs();
 				FileOutputStream fos = new FileOutputStream(f);
 				BufferedOutputStream bos = new BufferedOutputStream(fos, 32768);
 
-
 				int n = 0;
 				byte[] content = new byte[32768];
 				while (-1 != (n = zais.read(content))) {
-				    fos.write(content, 0, n);
+					fos.write(content, 0, n);
 				}
 
 				bos.flush();
 				bos.close();
 				fos.close();
 			}
-			
+
 			zais.close();
 			zipfile.delete();
-		}
-		catch(IOException ioe){
+		} catch (IOException ioe) {
 			ioe.printStackTrace();
 		}
 
 		return path;
 	}
-	
-    /**
-     * Add all files from the source directory to the destination zip file
-     *
-     * @param source      the directory with files to add
-     * @param destination the zip file that should contain the files
-     * @throws IOException      if the io fails
-     * @throws ArchiveException if creating or adding to the archive fails
-     */
-    private static void addFilesToZip(File source, File destination) throws IOException, ArchiveException {
-        OutputStream archiveStream = new FileOutputStream(destination);
-        ArchiveOutputStream archive = new ArchiveStreamFactory().createArchiveOutputStream(ArchiveStreamFactory.ZIP, archiveStream);
 
-        Collection<File> fileList = FileUtils.listFiles(source, null, true);
+	/**
+	 * Add all files from the source directory to the destination zip file
+	 *
+	 * @param source
+	 *            the directory with files to add
+	 * @param destination
+	 *            the zip file that should contain the files
+	 * @throws IOException
+	 *             if the io fails
+	 * @throws ArchiveException
+	 *             if creating or adding to the archive fails
+	 */
+	private static void addFilesToZip(File source, File destination) throws IOException, ArchiveException {
+		OutputStream archiveStream = new FileOutputStream(destination);
+		ArchiveOutputStream archive = new ArchiveStreamFactory().createArchiveOutputStream(ArchiveStreamFactory.ZIP,
+				archiveStream);
 
-        for (File file : fileList) {
-            String entryName = getEntryName(source, file);
-            ZipArchiveEntry entry = new ZipArchiveEntry(entryName);
-            archive.putArchiveEntry(entry);
+		Collection<File> fileList = FileUtils.listFiles(source, null, true);
 
-            BufferedInputStream input = new BufferedInputStream(new FileInputStream(file));
+		for (File file : fileList) {
+			String entryName = getEntryName(source, file);
+			ZipArchiveEntry entry = new ZipArchiveEntry(entryName);
+			archive.putArchiveEntry(entry);
 
-            IOUtils.copy(input, archive);
-            input.close();
-            archive.closeArchiveEntry();
-        }
+			BufferedInputStream input = new BufferedInputStream(new FileInputStream(file));
 
-        archive.finish();
-        archiveStream.close();
-    }
+			IOUtils.copy(input, archive);
+			input.close();
+			archive.closeArchiveEntry();
+		}
 
-    /**
-     * Remove the leading part of each entry that contains the source directory name
-     *
-     * @param source the directory where the file entry is found
-     * @param file   the file that is about to be added
-     * @return the name of an archive entry
-     * @throws IOException if the io fails
-     */
-    private static String getEntryName(File source, File file) throws IOException {
-        int index = source.getAbsolutePath().length() + 1;
-        String path = file.getCanonicalPath();
+		archive.finish();
+		archiveStream.close();
+	}
 
-        return path.substring(index);
-    }
+	/**
+	 * Remove the leading part of each entry that contains the source directory
+	 * name
+	 *
+	 * @param source
+	 *            the directory where the file entry is found
+	 * @param file
+	 *            the file that is about to be added
+	 * @return the name of an archive entry
+	 * @throws IOException
+	 *             if the io fails
+	 */
+	private static String getEntryName(File source, File file) throws IOException {
+		int index = source.getAbsolutePath().length() + 1;
+		String path = file.getCanonicalPath();
+
+		return path.substring(index);
+	}
 }

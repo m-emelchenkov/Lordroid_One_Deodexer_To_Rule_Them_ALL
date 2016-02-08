@@ -56,7 +56,8 @@ public class R {
 			while ((line = br.readLine()) != null) {
 				if (line.length() > 0 && line.charAt(0) != '#' && line.lastIndexOf("=") > 0) {
 					strings.add(line);
-					//Logger.logToStdIO(LOG_HEADER + Logger.INFO + " String loaded : " + line);
+					// Logger.logToStdIO(LOG_HEADER + Logger.INFO + " String
+					// loaded : " + line);
 				}
 			}
 

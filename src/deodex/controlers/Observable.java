@@ -20,7 +20,6 @@ public interface Observable {
 
 	public void removeObserver(Observer o);
 
-	public void updateObservers(String source ,String type ,String update);
-	
+	public void updateObservers(String source, String type, String update);
 
 }

@@ -50,13 +50,11 @@ public class Window extends JFrame {
 	 * @author lord-ralf-adolf
 	 */
 
-	// 
+	//
 	boolean sign = false;
 	boolean zipalign = true;
 	File systemFolder;
-	
-	
-	
+
 	JPanel rootPanel = new JPanel() {
 		/**
 		 * 
@@ -106,7 +104,6 @@ public class Window extends JFrame {
 		rootPane.setLayout(null);
 		rootPane.setBackground(new Color(206, 194, 229));
 		rootPane.setOpaque(true);
-		
 
 		// fonts
 		browseField.setFont(R.COURIER_NORMAL);
@@ -162,7 +159,7 @@ public class Window extends JFrame {
 		// XXX: need this to steal the focus from textField ?
 		// is there an other way to do this ?
 		focusStealer.setBounds(-50, -50, 1, 1);
-		
+
 		rootPane.add(logger);
 		rootPane.add(focusStealer);
 		rootPane.add(deodexNow);
@@ -179,32 +176,31 @@ public class Window extends JFrame {
 		browseBtn.addActionListener(new BrowseAction());
 		this.deodexNow.addActionListener(new DeodexNowAction());
 	}
-	
-	
-	class BrowseAction implements ActionListener{
+
+	class BrowseAction implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
-			boolean valide =false;
+			boolean valide = false;
 			JFileChooser f = new JFileChooser();
 			f.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 			int i = f.showOpenDialog(rootPane);
-			if(i == 0){
-			//	logger.clearAllLogs();
+			if (i == 0) {
+				// logger.clearAllLogs();
 				valide = FilesUtils.isAValideSystemDir(f.getSelectedFile(), logger);
 			}
-			if(valide){
+			if (valide) {
 				browseField.setText(f.getSelectedFile().getAbsolutePath());
 				deodexNow.setEnabled(true);
 			} else {
 				deodexNow.setEnabled(false);
 			}
 		}
-		
+
 	}
 
-	class DeodexNowAction implements ActionListener{
+	class DeodexNowAction implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
@@ -213,8 +209,8 @@ public class Window extends JFrame {
 			SessionCfg.setZipalign(zipalignCheck.isSelected());
 			Thread t = new Thread(new MainWorker(SessionCfg.getSystemFolder(), logger));
 			t.start();
-			
+
 		}
-		
+
 	}
 }

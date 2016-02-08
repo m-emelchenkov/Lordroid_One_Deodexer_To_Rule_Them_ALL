@@ -30,26 +30,27 @@ import deodex.controlers.LoggerPan;
 
 public class FilesUtils {
 
-	
-	public static boolean copyFileRecurcively(File in , File out){
+	public static boolean copyFileRecurcively(File in, File out) {
 		boolean status = true;
-		if(in.isDirectory()){
+		if (in.isDirectory()) {
 			out.mkdir();
 			File[] list = in.listFiles();
-			for (File f : list ){
-		//		if (f.isDirectory()){
-					status = status && copyFileRecurcively(f , new File(out.getAbsolutePath()+File.separator+f.getName()));
-			//	} else {
-				//	status = status && copyFile(f,new File(out.getAbsolutePath()+File.separator+f.getName()));
-			//	}
+			for (File f : list) {
+				// if (f.isDirectory()){
+				status = status
+						&& copyFileRecurcively(f, new File(out.getAbsolutePath() + File.separator + f.getName()));
+				// } else {
+				// status = status && copyFile(f,new
+				// File(out.getAbsolutePath()+File.separator+f.getName()));
+				// }
 			}
 		} else {
-			status = status && copyFile(in,out);
+			status = status && copyFile(in, out);
 		}
-		
+
 		return out.exists() && status;
 	}
-	
+
 	public static boolean copyFile(File input, File dest) {
 		// making sure the path is there and writable !
 		dest.getParentFile().mkdirs();
@@ -77,7 +78,7 @@ public class FilesUtils {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			} else {
+		} else {
 			return false;
 		}
 		return dest.exists();
@@ -121,88 +122,89 @@ public class FilesUtils {
 		return dest.exists();
 	}
 
-	public static boolean isAValideSystemDir(File systemFolder ,LoggerPan log){
-		//File files[] = systemFolder.listFiles();
-		
-		
-		
-		if (!new File(systemFolder.getAbsolutePath()+File.separator+S.SYSTEM_BUILD_PROP).exists()){
-			log.addLog(R.getString(S.LOG_ERROR)+R.getString(S.LOG_NO_BUILD_PROP));
+	public static boolean isAValideSystemDir(File systemFolder, LoggerPan log) {
+		// File files[] = systemFolder.listFiles();
+
+		if (!new File(systemFolder.getAbsolutePath() + File.separator + S.SYSTEM_BUILD_PROP).exists()) {
+			log.addLog(R.getString(S.LOG_ERROR) + R.getString(S.LOG_NO_BUILD_PROP));
 			return false;
-		} 
-		int sdkLevel ;
+		}
+		int sdkLevel;
 		try {
-			sdkLevel = Integer.parseInt(PropReader.getProp(S.SDK_LEVEL_PROP, new File(systemFolder.getAbsolutePath()+File.separator+S.SYSTEM_BUILD_PROP)));
-			//String str = PropReader.getProp(S.SDK_LEVEL_PROP, new File(systemFolder.getAbsolutePath()+File.separator+S.SYSTEM_BUILD_PROP));
-			//Logger.logToStdIO("[WHAT ?] "+str);
-		} catch (Exception e ){
+			sdkLevel = Integer.parseInt(PropReader.getProp(S.SDK_LEVEL_PROP,
+					new File(systemFolder.getAbsolutePath() + File.separator + S.SYSTEM_BUILD_PROP)));
+			// String str = PropReader.getProp(S.SDK_LEVEL_PROP, new
+			// File(systemFolder.getAbsolutePath()+File.separator+S.SYSTEM_BUILD_PROP));
+			// Logger.logToStdIO("[WHAT ?] "+str);
+		} catch (Exception e) {
 			e.printStackTrace();
-			log.addLog(R.getString(S.LOG_ERROR)+R.getString(S.CANT_READ_SDK_LEVEL));
+			log.addLog(R.getString(S.LOG_ERROR) + R.getString(S.CANT_READ_SDK_LEVEL));
 			return false;
 		}
-		
-		boolean isapp = new File(systemFolder.getAbsolutePath()+File.separator+S.SYSTEM_APP).exists();
-		boolean isprivApp= new File(systemFolder.getAbsolutePath()+File.separator+S.SYSTEM_PRIV_APP).exists();
-		boolean isframwork= new File(systemFolder.getAbsolutePath()+File.separator+S.SYSTEM_FRAMEWORK).exists();
-		if(!isapp && !isprivApp && !isframwork){
-			log.addLog(R.getString(S.LOG_ERROR)+R.getString(S.LOG_NOT_A_SYSTEM_FOLDER));
+
+		boolean isapp = new File(systemFolder.getAbsolutePath() + File.separator + S.SYSTEM_APP).exists();
+		boolean isprivApp = new File(systemFolder.getAbsolutePath() + File.separator + S.SYSTEM_PRIV_APP).exists();
+		boolean isframwork = new File(systemFolder.getAbsolutePath() + File.separator + S.SYSTEM_FRAMEWORK).exists();
+		if (!isapp && !isprivApp && !isframwork) {
+			log.addLog(R.getString(S.LOG_ERROR) + R.getString(S.LOG_NOT_A_SYSTEM_FOLDER));
 		}
-			// is there /app
-			if(isapp){
-				log.addLog(R.getString(S.LOG_INFO)+ R.getString(S.LOG_SYSTEM_APP_FOUND));
-			} else{
-				log.addLog(R.getString(S.LOG_WARNING)+ R.getString(S.LOG_SYSTEM_APP_NOT_FOUND));
+		// is there /app
+		if (isapp) {
+			log.addLog(R.getString(S.LOG_INFO) + R.getString(S.LOG_SYSTEM_APP_FOUND));
+		} else {
+			log.addLog(R.getString(S.LOG_WARNING) + R.getString(S.LOG_SYSTEM_APP_NOT_FOUND));
+		}
+		// is there privz app
+		if (sdkLevel > 18)
+			if (isprivApp) {
+				log.addLog(R.getString(S.LOG_INFO) + R.getString("log.privapp.found"));
+			} else {
+				log.addLog(R.getString(S.LOG_WARNING) + R.getString("log.privapp.not.found"));
 			}
-			// is there privz app 
-			if(sdkLevel > 18)
-			if(isprivApp){
-				log.addLog(R.getString(S.LOG_INFO)+ R.getString("log.privapp.found"));
-			} else{
-				log.addLog(R.getString(S.LOG_WARNING)+ R.getString("log.privapp.not.found"));
+
+		if (isapp) {
+
+			log.addLog(R.getString(S.LOG_INFO) + R.getString("log.framework.found"));
+		} else {
+			log.addLog(R.getString(S.LOG_WARNING) + R.getString("log.framwork.not.found"));
+			if (sdkLevel > 20) {
+				log.addLog(R.getString(S.LOG_ERROR) + R.getString("log.framwork.not.found.error"));
+				return false;
 			}
-			
-			if(isapp){
-				
-				log.addLog(R.getString(S.LOG_INFO)+ R.getString("log.framework.found"));
-			} else{
-				log.addLog(R.getString(S.LOG_WARNING)+ R.getString("log.framwork.not.found"));
-				if(sdkLevel > 20){
-					log.addLog(R.getString(S.LOG_ERROR)+ R.getString("log.framwork.not.found.error"));
-					return false;
-				}
-			}
-			String arch = getRomArch(systemFolder);
+		}
+		String arch = getRomArch(systemFolder);
 		// can we detetect arch ?
-			if(arch.equals("null")){
-				log.addLog(R.getString(S.LOG_ERROR)+ R.getString("log.no.arch.detected"));
-				return false;
-			}
-			// is boot .oat there ?
-		if(sdkLevel > 20){
-			if(!new File (systemFolder.getAbsolutePath()+File.separator+S.SYSTEM_FRAMEWORK+File.separator+arch+File.separator+S.SYSTEM_FRAMEWORK_BOOT).exists()){
-				log.addLog(R.getString(S.LOG_ERROR)+ R.getString("log.no.boot.oat"));
+		if (arch.equals("null")) {
+			log.addLog(R.getString(S.LOG_ERROR) + R.getString("log.no.arch.detected"));
+			return false;
+		}
+		// is boot .oat there ?
+		if (sdkLevel > 20) {
+			if (!new File(systemFolder.getAbsolutePath() + File.separator + S.SYSTEM_FRAMEWORK + File.separator + arch
+					+ File.separator + S.SYSTEM_FRAMEWORK_BOOT).exists()) {
+				log.addLog(R.getString(S.LOG_ERROR) + R.getString("log.no.boot.oat"));
 				return false;
 			}
 		}
-		
 
 		// Session Settings set them
 		SessionCfg.setSdk(sdkLevel);
-		log.addLog(R.getString(S.LOG_INFO)+" Detected Sdk level : "+sdkLevel);
+		log.addLog(R.getString(S.LOG_INFO) + " Detected Sdk level : " + sdkLevel);
 		SessionCfg.setArch(arch);
-		log.addLog(R.getString(S.LOG_INFO)+" Detected ARCH : "+arch);
+		log.addLog(R.getString(S.LOG_INFO) + " Detected ARCH : " + arch);
 		SessionCfg.setSystemFolder(systemFolder);
-		log.addLog(R.getString(S.LOG_INFO)+" chosen systemFolder :"+systemFolder);
-		
+		log.addLog(R.getString(S.LOG_INFO) + " chosen systemFolder :" + systemFolder);
+
 		return true;
 	}
-	public static String getRomArch(File systemFolder){
-		File frameworkFolder = new File(systemFolder.getAbsolutePath()+File.separator+S.SYSTEM_FRAMEWORK);
+
+	public static String getRomArch(File systemFolder) {
+		File frameworkFolder = new File(systemFolder.getAbsolutePath() + File.separator + S.SYSTEM_FRAMEWORK);
 		File[] list = frameworkFolder.listFiles();
-		for (File f : list){
-			if(f.isDirectory()){
-				for (String str : S.ARCH){
-					if(str.equals(f.getName())){
+		for (File f : list) {
+			if (f.isDirectory()) {
+				for (String str : S.ARCH) {
+					if (str.equals(f.getName())) {
 						return str;
 					}
 				}
@@ -210,29 +212,30 @@ public class FilesUtils {
 		}
 		return "null";
 	}
-	
-	// be very very carefull when using this ! it will delete folder and all it's subfolder's and files !
-	
-	public static boolean deleteRecursively(File f){
-	boolean done = false;
-		if(f.isFile()){
+
+	// be very very carefull when using this ! it will delete folder and all
+	// it's subfolder's and files !
+
+	public static boolean deleteRecursively(File f) {
+		boolean done = false;
+		if (f.isFile()) {
 			f.delete();
 			return true;
-		} 
-		if(f.isDirectory()){
+		}
+		if (f.isDirectory()) {
 			File[] list = f.listFiles();
-			if(list.length < 0){		
+			if (list.length < 0) {
 				return f.delete();
 			} else {
-				
-				for (File file : list){
+
+				for (File file : list) {
 					deleteRecursively(file);
 				}
-				
+
 				return f.delete();
 			}
-			
+
 		}
-	return done;
+		return done;
 	}
 }

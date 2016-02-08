@@ -78,9 +78,9 @@ public class ApkWorker implements Runnable {
 
 		logPan.addLog("All jobs terminaled !");
 		System.out.println("All jobs done for this thread !");
-		//FilesUtils.deleteRecursively(tmpFolder);
-		if(!this.threadWatcher.equals(null))
-		this.threadWatcher.done(this);
+		// FilesUtils.deleteRecursively(tmpFolder);
+		if (!this.threadWatcher.equals(null))
+			this.threadWatcher.done(this);
 	}
 
 	/**
@@ -91,7 +91,8 @@ public class ApkWorker implements Runnable {
 	}
 
 	/**
-	 * @param threadWatcher the threadWatcher to set
+	 * @param threadWatcher
+	 *            the threadWatcher to set
 	 */
 	public void addThreadWatcher(ThreadWatcher threadWatcher) {
 		this.threadWatcher = threadWatcher;
@@ -156,7 +157,7 @@ public class ApkWorker implements Runnable {
 						classesFiles.add(apk.getTempClasses1());
 						if (apk.getTempClasses2().exists())
 							classesFiles.add(apk.getTempClasses1());
-						boolean addClassesToApkStatus =false;
+						boolean addClassesToApkStatus = false;
 						try {
 							addClassesToApkStatus = Zip.addFilesToExistingZip(apk.getTempApk(), classesFiles);
 						} catch (IOException e) {
@@ -165,7 +166,7 @@ public class ApkWorker implements Runnable {
 						if (!addClassesToApkStatus) {
 							logPan.addLog(R.getString(S.LOG_WARNING) + " [" + apk.getOrigApk().getName() + "]"
 									+ R.getString("log.add.classes.failed"));
-							//FilesUtils.deleteRecursively(apk.getTempApk().getParentFile());
+							// FilesUtils.deleteRecursively(apk.getTempApk().getParentFile());
 							return false;
 						} else {
 							if (this.doSign) {
@@ -193,23 +194,22 @@ public class ApkWorker implements Runnable {
 				}
 			}
 		}
-	//	 the process is successful now copy and clean !
-		 FilesUtils.copyFile(apk.getTempApkZipalign(), apk.getOrigApk());
-		
-		 // delete the arch folder clearlly we dont need it any more
-		 File[] files = apk.getArchFolder().listFiles();
-		 // make sure there is no libs in that folder before deleting it
+		// the process is successful now copy and clean !
+		FilesUtils.copyFile(apk.getTempApkZipalign(), apk.getOrigApk());
+
+		// delete the arch folder clearlly we dont need it any more
+		File[] files = apk.getArchFolder().listFiles();
+		// make sure there is no libs in that folder before deleting it
 		// (bootloops are no tolerated ! )
-		 for( File f : files){
-		 if(!f.getName().endsWith(".so"))
-		 FilesUtils.deleteRecursively(f);
-		 }
-		 files = apk.getArchFolder().listFiles();
-		 if(files.length <= 0){
-		 apk.getArchFolder().delete();
-		 }
-		 FilesUtils.deleteRecursively(apk.getTempApkZipalign().getParentFile());
-		
+		for (File f : files) {
+			if (!f.getName().endsWith(".so"))
+				FilesUtils.deleteRecursively(f);
+		}
+		files = apk.getArchFolder().listFiles();
+		if (files.length <= 0) {
+			apk.getArchFolder().delete();
+		}
+		FilesUtils.deleteRecursively(apk.getTempApkZipalign().getParentFile());
 
 		return true;
 	}

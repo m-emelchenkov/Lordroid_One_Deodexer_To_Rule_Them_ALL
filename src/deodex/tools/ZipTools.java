@@ -31,16 +31,17 @@ import net.lingala.zip4j.model.FileHeader;
 
 public class ZipTools {
 
-	
 	/**
-	 * @returns 
+	 * @returns
 	 * @param odex
-	 * @return the name of the name of the deodexed odex if it is already decompressed 
+	 * @return the name of the name of the deodexed odex if it is already
+	 *         decompressed
 	 * @throws IOException
 	 */
-	public static boolean extractOdex(File odex) throws IOException{
-		File Decomdex =new File(odex.getParentFile().getAbsolutePath()+StringUtils.getCropString(odex.getName(), odex.getName().length()-4));
-		if (odex.getName().endsWith(S.ODEX_EXT)){
+	public static boolean extractOdex(File odex) throws IOException {
+		File Decomdex = new File(odex.getParentFile().getAbsolutePath()
+				+ StringUtils.getCropString(odex.getName(), odex.getName().length() - 4));
+		if (odex.getName().endsWith(S.ODEX_EXT)) {
 			return true;
 		} else {
 			FileInputStream fin = new FileInputStream(odex);
@@ -54,50 +55,49 @@ public class ZipTools {
 			}
 			out.close();
 			xzIn.close();
-			
-			
-			
-			
+
 		}
 		return Decomdex.exists();
 	}
 
 	/**
-	 *    search a filename is a zip file
+	 * search a filename is a zip file
+	 * 
 	 * @param fileName
 	 * @param zipFile
 	 * @return returns true is a file with the same name is in the zip file !
 	 */
-	public static boolean isFileinZip(String fileName ,ZipFile zipFile){
+	public static boolean isFileinZip(String fileName, ZipFile zipFile) {
 		try {
 			// Initiate ZipFile object with the path/name of the zip file.
-			//ZipFile zipFile = new ZipFile("/tmp/Maps.apk");
-			
+			// ZipFile zipFile = new ZipFile("/tmp/Maps.apk");
+
 			// Get the list of file headers from the zip file
 			@SuppressWarnings("rawtypes")
 			List fileHeaderList = zipFile.getFileHeaders();
-			
+
 			// Loop through the file headers
 			for (int i = 0; i < fileHeaderList.size(); i++) {
-				FileHeader fileHeader = (FileHeader)fileHeaderList.get(i);
+				FileHeader fileHeader = (FileHeader) fileHeaderList.get(i);
 				// FileHeader contains all the properties of the file
 				System.out.println("Name: " + fileHeader.getFileName());
 				String name = fileHeader.getFileName();
-				if(name.contains("/")){
-					name =name.substring(name.lastIndexOf("/"));
+				if (name.contains("/")) {
+					name = name.substring(name.lastIndexOf("/"));
 				}
-				Logger.logToStdIO("[ZipTools][comparing ] " +name +"==> " +fileName);
-				if (name.equals(fileName)){
+				Logger.logToStdIO("[ZipTools][comparing ] " + name + "==> " + fileName);
+				if (name.equals(fileName)) {
 					return true;
 				}
-				// Various other properties are available in FileHeader. Please have a look at FileHeader
+				// Various other properties are available in FileHeader. Please
+				// have a look at FileHeader
 				// class to see all the properties
 			}
-			
+
 		} catch (ZipException e) {
 			e.printStackTrace();
 		}
 		return false;
 	}
-	
+
 }

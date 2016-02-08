@@ -24,10 +24,10 @@ public class S {
 	public static final String SYSTEM_APP = "app";
 	public static final String SYSTEM_PRIV_APP = "priv-app";
 	public static final String SYSTEM_BUILD_PROP = "build.prop";
-	public static final String SYSTEM_FRAMEWORK ="framework";
-	public static final String SYSTEM_FRAMEWORK_BOOT ="boot.oat";
+	public static final String SYSTEM_FRAMEWORK = "framework";
+	public static final String SYSTEM_FRAMEWORK_BOOT = "boot.oat";
 	public static final String SDK_LEVEL_PROP = "ro.build.version.sdk";
-	
+
 	public static final String DEX_EXT = ".dex";
 	public static final String DEX2_EXT = "-classes2.dex";
 	public static final String CLASSES = "classes.dex";
@@ -55,8 +55,8 @@ public class S {
 	public static final String CANT_READ_SDK_LEVEL = "log.could.not.read.sdk_level";
 	public static final String LOG_SYSTEM_APP_FOUND = "log.app.found";
 	public static final String LOG_SYSTEM_APP_NOT_FOUND = "log.app.not.found";
-	public static final String LOG_NOT_A_SYSTEM_FOLDER ="log.not.a.system.folder";
-	
+	public static final String LOG_NOT_A_SYSTEM_FOLDER = "log.not.a.system.folder";
+
 	public static final String ENGLISH = "English";
 	public static final String FRENCH = "Français";
 	public static final String ARABIC = "العربية";
@@ -75,19 +75,17 @@ public class S {
 	public static final String SIGN_APK = "bins/sign/signapk.jar";
 	public static final String TEST_KEY_PK8 = "bins/sign/testkey.pk8";
 	public static final String TEST_KEY_X509 = "bins/sign/testkey.x509.pem";
-	
-	
-	//temporary folders 
+
+	// temporary folders
 	public static File worker1Folder = new File(TMP + File.separator + WORKER1);
 	public static File worker2Folder = new File(TMP + File.separator + WORKER2);
 	public static File worker3Folder = new File(TMP + File.separator + WORKER3);
 	public static File worker4Folder = new File(TMP + File.separator + WORKER4);
-	public static File bootTmp = new File(TMP + File.separator + File.separator+"boot"+File.separator+"boot.oat");
-	public static File bootTmpDex = new File(TMP + File.separator + File.separator+"boot"+File.separator+"dex");
+	public static File bootTmp = new File(TMP + File.separator + File.separator + "boot" + File.separator + "boot.oat");
+	public static File bootTmpDex = new File(TMP + File.separator + File.separator + "boot" + File.separator + "dex");
 
-	
-	public static final String[] ARCH = {"arm","arm64","mips","mips64","x86","x86_64"};
-	
+	public static final String[] ARCH = { "arm", "arm64", "mips", "mips64", "x86", "x86_64" };
+
 	public static void initTempFolders() {
 		new File(TMP + File.separator + WORKER1).mkdirs();
 		new File(TMP + File.separator + WORKER3).mkdirs();

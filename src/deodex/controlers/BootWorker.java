@@ -24,12 +24,13 @@ import deodex.SessionCfg;
 import deodex.tools.FilesUtils;
 import deodex.tools.Zip;
 
-public class BootWorker implements Runnable ,Watchable{
+public class BootWorker implements Runnable, Watchable {
 	ArrayList<File> bootFiles;
 	File tmpFolder;
 	ThreadWatcher threadWatcher;
 	LoggerPan log;
-	public BootWorker(ArrayList<File> bootList, File tmpFolder,LoggerPan log) {
+
+	public BootWorker(ArrayList<File> bootList, File tmpFolder, LoggerPan log) {
 		bootFiles = bootList;
 		this.tmpFolder = tmpFolder;
 		this.log = log;
@@ -38,12 +39,12 @@ public class BootWorker implements Runnable ,Watchable{
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
-		for (File file : bootFiles){
+		for (File file : bootFiles) {
 			boolean success = deoDexBootFile(file);
-			if(success){
-				log.addLog("["+file.getName().substring(0, file.getName().lastIndexOf("."))+".jar]"+ " [SUCCESS]");
-			} else{
-				log.addLog("["+file.getName().substring(0, file.getName().lastIndexOf("."))+".jar]"+ " [FAILED ]");
+			if (success) {
+				log.addLog("[" + file.getName().substring(0, file.getName().lastIndexOf(".")) + ".jar]" + " [SUCCESS]");
+			} else {
+				log.addLog("[" + file.getName().substring(0, file.getName().lastIndexOf(".")) + ".jar]" + " [FAILED ]");
 
 			}
 		}
@@ -57,27 +58,28 @@ public class BootWorker implements Runnable ,Watchable{
 		String absoluteName = file.getName().substring(0, file.getName().lastIndexOf("."));
 
 		File tmpJar = new File(tmpFolder.getAbsolutePath() + File.separator + absoluteName + ".jar");
-		File origJar = new File(SessionCfg.getSystemFolder().getAbsolutePath() + File.separator + S.SYSTEM_FRAMEWORK + File.separator
-				+ absoluteName + ".jar");
+		File origJar = new File(SessionCfg.getSystemFolder().getAbsolutePath() + File.separator + S.SYSTEM_FRAMEWORK
+				+ File.separator + absoluteName + ".jar");
 
 		boolean copyStatus = false;
 		copyStatus = FilesUtils.copyFile(origJar, tmpJar);
 		if (!copyStatus) {
 			// TODO add LOGGING for this
 			return false;
-		} else{
+		} else {
 			copyStatus = FilesUtils.copyFile(file, tmpClasses);
-			if(absoluteName.equals("framework")){
-				copyStatus = FilesUtils.copyFile(new File(
-						file.getParentFile().getAbsolutePath()+File.separator+absoluteName+S.DEX2_EXT), tmpClasses2);
+			if (absoluteName.equals("framework")) {
+				copyStatus = FilesUtils.copyFile(
+						new File(file.getParentFile().getAbsolutePath() + File.separator + absoluteName + S.DEX2_EXT),
+						tmpClasses2);
 			}
-			if(!copyStatus){
+			if (!copyStatus) {
 				return false;
 			} else {
 				boolean addStatus = false;
-				ArrayList <File> list =new ArrayList<File>();
+				ArrayList<File> list = new ArrayList<File>();
 				list.add(tmpClasses);
-				if(absoluteName.equals("framework")){
+				if (absoluteName.equals("framework")) {
 					list.add(tmpClasses2);
 				}
 				try {
@@ -85,15 +87,15 @@ public class BootWorker implements Runnable ,Watchable{
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-				
-				if(!addStatus){
+
+				if (!addStatus) {
 					return false;
-				} else{
+				} else {
 					copyStatus = FilesUtils.copyFile(tmpJar, origJar);
 				}
 			}
 		}
-		
+
 		return copyStatus;
 
 	}

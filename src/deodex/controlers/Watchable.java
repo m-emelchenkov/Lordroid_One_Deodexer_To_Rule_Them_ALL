@@ -17,5 +17,5 @@ package deodex.controlers;
 
 public interface Watchable {
 	public void addThreadWatcher(ThreadWatcher watcher);
-	
+
 }

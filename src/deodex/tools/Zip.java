@@ -31,23 +31,21 @@ import net.lingala.zip4j.core.ZipFile;
 import net.lingala.zip4j.exception.ZipException;
 
 public class Zip {
-	
-	
-	public static boolean zipAlignAPk(File in , File out) throws IOException, InterruptedException{
-		if(out.exists()){
+
+	public static boolean zipAlignAPk(File in, File out) throws IOException, InterruptedException {
+		if (out.exists()) {
 			return true;
 		}
-		String[] cmd = {new File(S.ZIPALIGN_BIN+File.separator+Cfg.getOs()).getAbsolutePath() ,"4",in.getAbsolutePath(),out.getAbsolutePath()};
+		String[] cmd = { new File(S.ZIPALIGN_BIN + File.separator + Cfg.getOs()).getAbsolutePath(), "4",
+				in.getAbsolutePath(), out.getAbsolutePath() };
 		Process p;
 		p = Runtime.getRuntime().exec(cmd);
-		
+
 		p.waitFor();
-		
-		
+
 		return out.exists();
 	}
-	
-	
+
 	/**
 	 * 
 	 * @param zipFile

@@ -31,47 +31,42 @@ public class JarObj {
 	File tmpdex;
 	File tmpdex2;
 	File tmpClasses;
-	File tmpClasses2;	
+	File tmpClasses2;
 	File tmpJar;
-	String absoluteName ;
-	
-	
-	public JarObj(File odexFile){
+	String absoluteName;
+
+	public JarObj(File odexFile) {
 		this.odexFile = odexFile;
-		
-		
-		if(odexFile.getName().endsWith(".odex")){
-			absoluteName = odexFile.getName().substring(0,odexFile.getName().lastIndexOf("."));
-		} else if (odexFile.getName().endsWith(".odex.xz")){
-			absoluteName = odexFile.getName().substring(0,-9);
+
+		if (odexFile.getName().endsWith(".odex")) {
+			absoluteName = odexFile.getName().substring(0, odexFile.getName().lastIndexOf("."));
+		} else if (odexFile.getName().endsWith(".odex.xz")) {
+			absoluteName = odexFile.getName().substring(0, -9);
 		}
-		
-		this.origJar = new File(SessionCfg.getSystemFolder().getAbsolutePath()+File.separator+S.SYSTEM_FRAMEWORK+File.separator+absoluteName+".jar") ;
-		//this .tmpFolder = new File(S.)
+
+		this.origJar = new File(SessionCfg.getSystemFolder().getAbsolutePath() + File.separator + S.SYSTEM_FRAMEWORK
+				+ File.separator + absoluteName + ".jar");
+		// this .tmpFolder = new File(S.)
 		Logger.logToStdIO(origJar.getAbsolutePath());
 	}
-	
-	public boolean copyNeedFiles(File tmpFolder){
+
+	public boolean copyNeedFiles(File tmpFolder) {
 		this.tmpFolder = new File(tmpFolder.getAbsolutePath() + File.separator + this.absoluteName);
 		tmpFolder.mkdirs();
-		if(!tmpFolder.exists())
+		if (!tmpFolder.exists())
 			return false;
-		tmpodex = new File(this.tmpFolder.getAbsolutePath()+File
-		.separator + odexFile.getName());
-		tmpJar = new File(this.tmpFolder.getAbsolutePath()+File.separator+this.origJar.getName());
-		tmpdex = new File(this.tmpFolder.getAbsolutePath()+File.separator+this.absoluteName+S.DEX_EXT);
-		tmpdex2 = new File(this.tmpFolder.getAbsolutePath()+File.separator+this.absoluteName+S.DEX2_EXT);
-		tmpClasses =   new File(this.tmpFolder.getAbsolutePath()+File.separator+S.CLASSES);
-		tmpClasses2 =  new File(this.tmpFolder.getAbsolutePath()+File.separator+S.CLASSES_2);
-		
-		
+		tmpodex = new File(this.tmpFolder.getAbsolutePath() + File.separator + odexFile.getName());
+		tmpJar = new File(this.tmpFolder.getAbsolutePath() + File.separator + this.origJar.getName());
+		tmpdex = new File(this.tmpFolder.getAbsolutePath() + File.separator + this.absoluteName + S.DEX_EXT);
+		tmpdex2 = new File(this.tmpFolder.getAbsolutePath() + File.separator + this.absoluteName + S.DEX2_EXT);
+		tmpClasses = new File(this.tmpFolder.getAbsolutePath() + File.separator + S.CLASSES);
+		tmpClasses2 = new File(this.tmpFolder.getAbsolutePath() + File.separator + S.CLASSES_2);
+
 		boolean copyStatus = FilesUtils.copyFile(odexFile, tmpodex);
 		boolean copyStatus2 = FilesUtils.copyFile(origJar, tmpJar);
-		
-		
-		
+
 		return copyStatus && copyStatus2;
-		
+
 	}
 
 	/**
@@ -82,7 +77,8 @@ public class JarObj {
 	}
 
 	/**
-	 * @param origJar the origJar to set
+	 * @param origJar
+	 *            the origJar to set
 	 */
 	public void setOrigJar(File origJar) {
 		this.origJar = origJar;
@@ -96,7 +92,8 @@ public class JarObj {
 	}
 
 	/**
-	 * @param odexFile the odexFile to set
+	 * @param odexFile
+	 *            the odexFile to set
 	 */
 	public void setOdexFile(File odexFile) {
 		this.odexFile = odexFile;
@@ -110,7 +107,8 @@ public class JarObj {
 	}
 
 	/**
-	 * @param tmpFolder the tmpFolder to set
+	 * @param tmpFolder
+	 *            the tmpFolder to set
 	 */
 	public void setTmpFolder(File tmpFolder) {
 		this.tmpFolder = tmpFolder;
@@ -124,7 +122,8 @@ public class JarObj {
 	}
 
 	/**
-	 * @param tmpodex the tmpodex to set
+	 * @param tmpodex
+	 *            the tmpodex to set
 	 */
 	public void setTmpodex(File tmpodex) {
 		this.tmpodex = tmpodex;
@@ -138,7 +137,8 @@ public class JarObj {
 	}
 
 	/**
-	 * @param tmpdex the tmpdex to set
+	 * @param tmpdex
+	 *            the tmpdex to set
 	 */
 	public void setTmpdex(File tmpdex) {
 		this.tmpdex = tmpdex;
@@ -152,7 +152,8 @@ public class JarObj {
 	}
 
 	/**
-	 * @param tmpdex2 the tmpdex2 to set
+	 * @param tmpdex2
+	 *            the tmpdex2 to set
 	 */
 	public void setTmpdex2(File tmpdex2) {
 		this.tmpdex2 = tmpdex2;
@@ -166,7 +167,8 @@ public class JarObj {
 	}
 
 	/**
-	 * @param tmpClasses the tmpClasses to set
+	 * @param tmpClasses
+	 *            the tmpClasses to set
 	 */
 	public void setTmpClasses(File tmpClasses) {
 		this.tmpClasses = tmpClasses;
@@ -180,7 +182,8 @@ public class JarObj {
 	}
 
 	/**
-	 * @param tmpClasses2 the tmpClasses2 to set
+	 * @param tmpClasses2
+	 *            the tmpClasses2 to set
 	 */
 	public void setTmpClasses2(File tmpClasses2) {
 		this.tmpClasses2 = tmpClasses2;
@@ -194,7 +197,8 @@ public class JarObj {
 	}
 
 	/**
-	 * @param tmpJar the tmpJar to set
+	 * @param tmpJar
+	 *            the tmpJar to set
 	 */
 	public void setTmpJar(File tmpJar) {
 		this.tmpJar = tmpJar;
@@ -208,10 +212,11 @@ public class JarObj {
 	}
 
 	/**
-	 * @param absoluteName the absoluteName to set
+	 * @param absoluteName
+	 *            the absoluteName to set
 	 */
 	public void setAbsoluteName(String absoluteName) {
 		this.absoluteName = absoluteName;
 	}
-	
+
 }

@@ -61,24 +61,24 @@ public class LoggerPane extends JPanel implements LoggerPan {
 
 	}
 
-	
 	// multiple threads can log here !
 	public synchronized void addLogR(String str) {
 		long yourmilliseconds = System.currentTimeMillis();
-		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");    //dd/MMM/yyyy
+		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss"); // dd/MMM/yyyy
 		Date resultdate = new Date(yourmilliseconds);
 		String str2 = sdf.format(resultdate);
-		model.addElement("["+str2+"]"+str);
+		model.addElement("[" + str2 + "]" + str);
 		this.repaint();
 	}
-	public void clearAllLogs(){
+
+	public void clearAllLogs() {
 		model.removeAllElements();
 	}
+
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		g.drawImage(bg, 0, 0, this);
 	}
-
 
 	@Override
 	public void addLog(String str) {
