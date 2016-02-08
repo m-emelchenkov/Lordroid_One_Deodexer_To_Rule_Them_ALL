@@ -54,7 +54,8 @@ public class Window extends JFrame {
 	boolean sign = false;
 	boolean zipalign = true;
 	File systemFolder;
-
+	MainWorker mainWorker;
+	
 	JPanel rootPanel = new JPanel() {
 		/**
 		 * 
@@ -63,8 +64,6 @@ public class Window extends JFrame {
 
 		public void paintComponent(Graphics g) {
 
-			// TODO still doesn"t work see this when you are less tired for
-			// god's sake !
 			super.paintComponent(g);
 			g.setColor(new Color(206, 194, 229));
 			g.fillRect(0, 0, this.getWidth(), this.getHeight());
@@ -129,7 +128,9 @@ public class Window extends JFrame {
 		zipalignCheck.setSelected(true);
 		signCheck.setSelected(false);
 		deodexNow.setEnabled(false);
-
+		browseField.setEnabled(false);
+		
+		
 		// Components bounds
 		logo.setBounds(0, 0, 802, 100);
 		browseField.setBounds(10, 110, 650, 40);
@@ -172,11 +173,32 @@ public class Window extends JFrame {
 		rootPane.revalidate();
 		this.repaint();
 
-		// TODO remove this
 		browseBtn.addActionListener(new BrowseAction());
 		this.deodexNow.addActionListener(new DeodexNowAction());
+		FileDrop fd = new FileDrop(this.browseField , new FileDrop.Listener() {
+			
+			@Override
+			public void filesDropped(File[] files) {
+				// TODO Auto-generated method stub
+				File file = files[0];
+				if(!file.equals(null) && file.exists() && file.isDirectory()){
+					boolean valid = FilesUtils.isAValideSystemDir(file, logger);
+					if(valid){
+						browseField.setText(file.getAbsolutePath());
+						deodexNow.setEnabled(true);
+					} else {
+						deodexNow.setEnabled(false);
+					}
+					
+				}
+				
+				
+			}
+		});
 	}
 
+	
+	
 	class BrowseAction implements ActionListener {
 
 		@Override
@@ -204,12 +226,12 @@ public class Window extends JFrame {
 
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
-			// TODO Auto-generated method stub
 			SessionCfg.setSign(signCheck.isSelected());
 			SessionCfg.setZipalign(zipalignCheck.isSelected());
-			Thread t = new Thread(new MainWorker(SessionCfg.getSystemFolder(), logger));
+			mainWorker = new MainWorker(SessionCfg.getSystemFolder(), logger);
+			Thread t = new Thread(mainWorker);
 			t.start();
-
+			deodexNow.setEnabled(false);
 		}
 
 	}
