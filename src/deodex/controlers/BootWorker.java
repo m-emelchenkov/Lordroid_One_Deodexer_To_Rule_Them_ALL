@@ -23,9 +23,6 @@ import deodex.S;
 import deodex.SessionCfg;
 import deodex.tools.FilesUtils;
 import deodex.tools.Zip;
-import deodex.tools.ZipTools;
-import net.lingala.zip4j.core.ZipFile;
-import net.lingala.zip4j.exception.ZipException;
 
 public class BootWorker implements Runnable ,Watchable{
 	ArrayList<File> bootFiles;
@@ -44,9 +41,9 @@ public class BootWorker implements Runnable ,Watchable{
 		for (File file : bootFiles){
 			boolean success = deoDexBootFile(file);
 			if(success){
-				log.addLog("[ "+file.getName()+" ]"+" [SUCCESS]");
+				log.addLog("["+file.getName().substring(0, file.getName().lastIndexOf("."))+".jar]"+ " [SUCCESS]");
 			} else{
-				log.addLog("[ "+file.getName()+" ]"+" [FAILED ]");
+				log.addLog("["+file.getName().substring(0, file.getName().lastIndexOf("."))+".jar]"+ " [FAILED ]");
 
 			}
 		}

@@ -26,8 +26,6 @@ import deodex.tools.Deodexer;
 import deodex.tools.FilesUtils;
 import deodex.tools.Zip;
 import deodex.tools.ZipTools;
-import net.lingala.zip4j.core.ZipFile;
-import net.lingala.zip4j.exception.ZipException;
 
 public class JarWorker implements Runnable, Watchable {
 
@@ -54,11 +52,9 @@ public class JarWorker implements Runnable, Watchable {
 		for (File jar : odexFiles) {
 			boolean success = deodexJar(jar);
 			if (success) {
-				// TODO log Sucess
-				logPan.addLog("[ " + jar.getName() + " ]" + " [SUCCESS]");
+				logPan.addLog("[" + jar.getName().substring(0, jar.getName().lastIndexOf(".")) + ".jar]" + " [SUCCESS]");
 			} else {
-				// TODO log FAILED
-				logPan.addLog("[ " + jar.getName() + " ]" + " [FAILED]");
+				logPan.addLog("[" + jar.getName().substring(0, jar.getName().lastIndexOf(".")) + ".jar]" + " [FAILED]");
 			}
 			this.progressBar.setValue(i++);
 		}

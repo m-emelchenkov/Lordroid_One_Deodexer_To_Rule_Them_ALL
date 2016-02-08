@@ -68,9 +68,9 @@ public class ApkWorker implements Runnable {
 
 			boolean sucess = deodexApk(apk);
 			if (!sucess) {
-				logPan.addLog("[ " + apk.getName() + ".apk  ]" + R.getString(S.LOG_FAIL));
+				logPan.addLog("[" + apk.getName() + ".apk]" + R.getString(S.LOG_FAIL));
 			} else {
-				logPan.addLog("[ " + apk.getName() + ".apk  ]" + R.getString(S.LOG_SUCCESS));
+				logPan.addLog("[" + apk.getName() + ".apk]" + R.getString(S.LOG_SUCCESS));
 			}
 			progressBar.setValue(i++);
 			System.out.println("Progress = " + progressBar.getValue() + " / " + progressBar.getMaximum());
