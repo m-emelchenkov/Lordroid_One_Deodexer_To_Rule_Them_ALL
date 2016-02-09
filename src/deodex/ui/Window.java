@@ -26,6 +26,7 @@ import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -91,6 +92,8 @@ public class Window extends JFrame implements ThreadWatcher{
 	JButton quitbtn = new JButton(R.getString("window.exitbtn"));
 	JButton restart = new JButton(R.getString("window.restartbtn"));
 	ImageIcon icon;
+	JComboBox<Integer> jobs = new JComboBox<Integer>();
+	Integer[] ints = {1,2,3,4};
 	public Window()  {
 		this.setResizable(false);
 		this.setIconImage(R.icon);
@@ -100,15 +103,21 @@ public class Window extends JFrame implements ThreadWatcher{
 				((Toolkit.getDefaultToolkit().getScreenSize().height - W_HEIGHT) / 2));
 		this.setSize(W_WIDTH, W_HEIGHT);
 		this.setVisible(true);
-
-		this.setContentPane(rootPanel);
+		rootPanel.setSize(W_WIDTH, W_HEIGHT);
+		//this.setContentPane(rootPanel);
+		this.add(rootPanel);
 		icon = new ImageIcon(Window.this.getClass().getResource("/loading.gif"));
 		browseBtn.addActionListener(new BrowseAction());
 		this.deodexNow.addActionListener(new DeodexNowAction());
+
+		for (Integer i : ints)
+		jobs.addItem(i);
+		
 		initBrowseView();
-	}
+		}
 
 	private void initBrowseView() {
+		JLabel boxsLabel = new JLabel(R.getString("box.jobs"));
 		rootPane.removeAll();
 		rootPane.setLayout(null);
 		rootPane.setBackground(new Color(206, 194, 229));
@@ -127,6 +136,8 @@ public class Window extends JFrame implements ThreadWatcher{
 		browseField.setBackground(new Color(220, 237, 193));
 		optionalPan.setBackground(new Color(206, 194, 229));
 		zipalignCheck.setBackground(new Color(206, 194, 229));
+		boxsLabel.setBackground(new Color(206, 194, 229));
+		jobs.setBackground(new Color(206, 194, 229));
 		signCheck.setBackground(new Color(206, 194, 229));
 		deodexNow.setBackground(new Color(89, 195, 216));
 		logger.setBackground(Color.WHITE);
@@ -136,6 +147,7 @@ public class Window extends JFrame implements ThreadWatcher{
 		browseBtn.setEnabled(true);
 		browseField.setEnabled(true);
 		zipalignCheck.setSelected(true);
+		jobs.setSelectedIndex(0);
 		signCheck.setSelected(false);
 		deodexNow.setEnabled(false);
 		browseField.setEnabled(false);
@@ -149,8 +161,13 @@ public class Window extends JFrame implements ThreadWatcher{
 		// zipalignCheck.setBounds(15, 170, 430, 35);
 		// signCheck.setBounds(15, 207, 430, 35);
 		zipalignCheck.setBounds(5, 20, 115, 35);
+//		boxsLabel.setBounds(125, 20, 50, 35);
+//		jobs.setBounds(180, 20, 50, 35);
 		signCheck.setBounds(5, 57, 168, 35);
 		deodexNow.setBounds(500, 170, 260, 60);
+//		deodexNow.setBounds(610, 170, 150, 60);
+//		boxsLabel.setBounds(470, 185, 100, 30);
+//		jobs.setBounds(570, 185, 34, 30);
 		logger.setBounds(1, 270, 798, 300);
 
 		// borders
@@ -162,7 +179,7 @@ public class Window extends JFrame implements ThreadWatcher{
 		// zipalignCheck.setToolTipText(R.getString("zipalignCheck.ToolTip"));
 		// signCheck.setToolTipText(R.getString("signCheck.ToolTip"));
 		// other propreties
-		optionalPan.setOpaque(true);
+		optionalPan.setOpaque(false);
 		optionalPan.setLayout(null);
 
 		// adding component
@@ -171,15 +188,17 @@ public class Window extends JFrame implements ThreadWatcher{
 		// is there an other way to do this ?
 		focusStealer.setBounds(-50, -50, 1, 1);
 
+		rootPane.add(optionalPan);
 		rootPane.add(logger);
 		rootPane.add(focusStealer);
 		rootPane.add(deodexNow);
 		optionalPan.add(this.signCheck);
 		optionalPan.add(this.zipalignCheck);
+//		rootPane.add(jobs);
+//		rootPane.add(boxsLabel);
 		rootPane.add(logo);
 		rootPane.add(browseField);
 		rootPane.add(browseBtn);
-		rootPane.add(optionalPan);
 		rootPane.revalidate();
 		this.repaint();
 

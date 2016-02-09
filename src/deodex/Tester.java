@@ -18,15 +18,16 @@ package deodex;
 import java.awt.EventQueue;
 
 import deodex.tools.Logger;
-import deodex.tools.PathUtils;
 import deodex.ui.LangFrame;
 import deodex.ui.Window;
 
 public class Tester {
 	public static void main(String args[]) {
-		System.out.println("excution PAth is :" +PathUtils.getExcutionPath());
-		
-		if (Cfg.isFirstLaunch()) {
+//		System.out.println("excution PAth is :" +PathUtils.getExcutionPath());
+//		SessionCfg.setSdk(19);
+//		boolean b =Deodexer.deoDexApkLegacy(new File("/tmp/AlarmWidget.odex"), new File("/tmp/classes.dex") );
+//		System.out.println(b);
+				if (Cfg.isFirstLaunch()) {
 			Cfg.setCurrentLang(S.ENGLISH);
 			R.initResources();
 			EventQueue.invokeLater(new Runnable() {

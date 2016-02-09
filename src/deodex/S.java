@@ -39,7 +39,7 @@ public class S {
 	public static final String WORKER2 = "worker2";
 	public static final String WORKER3 = "worker3";
 	public static final String WORKER4 = "worker4";
-	public static final String TMP = System.getProperty("java.io.tmpdir") + File.separator + "LUBD";
+	public static final String TMP = System.getProperty("java.io.tmpdir") + File.separator + "L U B D";
 
 	public static final String LANGUAGE_PROP = "file.launguage";
 	public static final String APP_NAME = "app.name";
@@ -71,7 +71,7 @@ public class S {
 	public static final String MAC = "osx";
 
 	public static final String OAT2DEX_JAR = PathUtils.getExcutionPath()+File.separator+"bins/oat2dex/oat2dex.jar";
-	public static final String BACKSMALI_JAR = PathUtils.getExcutionPath()+File.separator+"bins/smali_backsmali/backsmali.jar";
+	public static final String BACKSMALI_JAR = PathUtils.getExcutionPath()+File.separator+"bins/smali_backsmali/baksmali.jar";
 	public static final String SMALI_JAR = PathUtils.getExcutionPath()+File.separator+"bins/smali_backsmali/smali.jar";
 	public static final String ZIPALIGN_BIN = PathUtils.getExcutionPath()+File.separator+"bins/native/zipAlign";
 	public static final String SIGN_APK = PathUtils.getExcutionPath()+File.separator+"bins/sign/signapk.jar";

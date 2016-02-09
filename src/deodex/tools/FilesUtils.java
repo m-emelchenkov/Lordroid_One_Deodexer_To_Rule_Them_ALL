@@ -166,15 +166,13 @@ public class FilesUtils {
 
 			log.addLog(R.getString(S.LOG_INFO) + R.getString("log.framework.found"));
 		} else {
-			log.addLog(R.getString(S.LOG_WARNING) + R.getString("log.framwork.not.found"));
-			if (sdkLevel > 20) {
 				log.addLog(R.getString(S.LOG_ERROR) + R.getString("log.framwork.not.found.error"));
 				return false;
-			}
+			
 		}
 		String arch = getRomArch(systemFolder);
 		// can we detetect arch ?
-		if (arch.equals("null")) {
+		if (arch.equals("null") && sdkLevel > 20) {
 			log.addLog(R.getString(S.LOG_ERROR) + R.getString("log.no.arch.detected"));
 			return false;
 		}

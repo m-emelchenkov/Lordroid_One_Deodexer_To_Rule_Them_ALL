@@ -41,24 +41,33 @@ public class Deodexer {
 	}
 
 	public static boolean deoDexApkLegacy(File odexFile, File classesFile) {
-		String[] cmd = { "java", "-jar", S.BACKSMALI_JAR, "-a", "" + SessionCfg.getSdk(), "-d",
-				S.bootTmp.getAbsolutePath(), "-x", odexFile.getAbsolutePath(),
-				new File(odexFile.getParentFile().getAbsolutePath() + File.separator + "smali").getAbsolutePath() };
-
+		classesFile.getParentFile().mkdirs();
+		File tempSmali = new File(odexFile.getParentFile().getAbsolutePath() + File.separator + 
+				odexFile.getName().substring(0, odexFile.getName().lastIndexOf(".odex")));
+		tempSmali.getParentFile().mkdirs();
+		String[] cmd = { "java", "-jar", S.BACKSMALI_JAR, "-a", ""+SessionCfg.getSdk(), "-d",
+				S.bootTmpDex.getAbsolutePath(), "-x", odexFile.getAbsolutePath(),
+				"-o" ,tempSmali.getAbsolutePath() };
 		String[] cmd2 = { "java", "-jar", S.SMALI_JAR, "-a", "" + SessionCfg.getSdk(),
-				new File(odexFile.getParentFile().getAbsolutePath() + File.separator + "smali").getAbsolutePath(),
-				classesFile.getAbsolutePath() };
+				"-o", classesFile.getAbsolutePath(),
+				tempSmali.getAbsolutePath()	 };
+
+		for (String str : cmd2){
+			System.out.print(str+" ");
+		}
+		System.out.println();
 
 		// TODO search further info (can apks here have 2 classes.dex ? if so
-		// what should we do here ?)
+		// what should we do here ?) XXX: there is none that I know about !
 		Process p;
 
 		try {
 			p = Runtime.getRuntime().exec(cmd);
 			p.waitFor();
-			if (!new File(odexFile.getParentFile().getAbsolutePath() + File.separator + "smali").exists()) {
+			if (!tempSmali.exists()) {
 				return false;
 			}
+			System.out.println("baksmali worked !");
 			p = Runtime.getRuntime().exec(cmd2);
 			p.waitFor();
 			if (!classesFile.exists()) {
@@ -69,7 +78,7 @@ public class Deodexer {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
+		FilesUtils.deleteRecursively(tempSmali);
 		return classesFile.exists();
 	}
 

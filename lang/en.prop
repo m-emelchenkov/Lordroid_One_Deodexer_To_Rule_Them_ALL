@@ -73,3 +73,4 @@ progress.jar=Deodexing Jars
 overal.progress=Overal progress 
 dialog.sure.exit=Are you sure ?
 dialog.sure.exit.message=Please confirm you action are you sure you wanna exit ?
+box.jobs=Max Jobs
