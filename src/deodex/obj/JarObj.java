@@ -70,18 +70,10 @@ public class JarObj {
 	}
 
 	/**
-	 * @return the origJar
+	 * @return the absoluteName
 	 */
-	public File getOrigJar() {
-		return origJar;
-	}
-
-	/**
-	 * @param origJar
-	 *            the origJar to set
-	 */
-	public void setOrigJar(File origJar) {
-		this.origJar = origJar;
+	public String getAbsoluteName() {
+		return absoluteName;
 	}
 
 	/**
@@ -89,6 +81,70 @@ public class JarObj {
 	 */
 	public File getOdexFile() {
 		return odexFile;
+	}
+
+	/**
+	 * @return the origJar
+	 */
+	public File getOrigJar() {
+		return origJar;
+	}
+
+	/**
+	 * @return the tmpClasses
+	 */
+	public File getTmpClasses() {
+		return tmpClasses;
+	}
+
+	/**
+	 * @return the tmpClasses2
+	 */
+	public File getTmpClasses2() {
+		return tmpClasses2;
+	}
+
+	/**
+	 * @return the tmpdex
+	 */
+	public File getTmpdex() {
+		return tmpdex;
+	}
+
+	/**
+	 * @return the tmpdex2
+	 */
+	public File getTmpdex2() {
+		return tmpdex2;
+	}
+
+	/**
+	 * @return the tmpFolder
+	 */
+	public File getTmpFolder() {
+		return tmpFolder;
+	}
+
+	/**
+	 * @return the tmpJar
+	 */
+	public File getTmpJar() {
+		return tmpJar;
+	}
+
+	/**
+	 * @return the tmpodex
+	 */
+	public File getTmpodex() {
+		return tmpodex;
+	}
+
+	/**
+	 * @param absoluteName
+	 *            the absoluteName to set
+	 */
+	public void setAbsoluteName(String absoluteName) {
+		this.absoluteName = absoluteName;
 	}
 
 	/**
@@ -100,70 +156,11 @@ public class JarObj {
 	}
 
 	/**
-	 * @return the tmpFolder
+	 * @param origJar
+	 *            the origJar to set
 	 */
-	public File getTmpFolder() {
-		return tmpFolder;
-	}
-
-	/**
-	 * @param tmpFolder
-	 *            the tmpFolder to set
-	 */
-	public void setTmpFolder(File tmpFolder) {
-		this.tmpFolder = tmpFolder;
-	}
-
-	/**
-	 * @return the tmpodex
-	 */
-	public File getTmpodex() {
-		return tmpodex;
-	}
-
-	/**
-	 * @param tmpodex
-	 *            the tmpodex to set
-	 */
-	public void setTmpodex(File tmpodex) {
-		this.tmpodex = tmpodex;
-	}
-
-	/**
-	 * @return the tmpdex
-	 */
-	public File getTmpdex() {
-		return tmpdex;
-	}
-
-	/**
-	 * @param tmpdex
-	 *            the tmpdex to set
-	 */
-	public void setTmpdex(File tmpdex) {
-		this.tmpdex = tmpdex;
-	}
-
-	/**
-	 * @return the tmpdex2
-	 */
-	public File getTmpdex2() {
-		return tmpdex2;
-	}
-
-	/**
-	 * @param tmpdex2
-	 *            the tmpdex2 to set
-	 */
-	public void setTmpdex2(File tmpdex2) {
-		this.tmpdex2 = tmpdex2;
-	}
-
-	/**
-	 * @return the tmpClasses
-	 */
-	public File getTmpClasses() {
-		return tmpClasses;
+	public void setOrigJar(File origJar) {
+		this.origJar = origJar;
 	}
 
 	/**
@@ -175,13 +172,6 @@ public class JarObj {
 	}
 
 	/**
-	 * @return the tmpClasses2
-	 */
-	public File getTmpClasses2() {
-		return tmpClasses2;
-	}
-
-	/**
 	 * @param tmpClasses2
 	 *            the tmpClasses2 to set
 	 */
@@ -190,10 +180,27 @@ public class JarObj {
 	}
 
 	/**
-	 * @return the tmpJar
+	 * @param tmpdex
+	 *            the tmpdex to set
 	 */
-	public File getTmpJar() {
-		return tmpJar;
+	public void setTmpdex(File tmpdex) {
+		this.tmpdex = tmpdex;
+	}
+
+	/**
+	 * @param tmpdex2
+	 *            the tmpdex2 to set
+	 */
+	public void setTmpdex2(File tmpdex2) {
+		this.tmpdex2 = tmpdex2;
+	}
+
+	/**
+	 * @param tmpFolder
+	 *            the tmpFolder to set
+	 */
+	public void setTmpFolder(File tmpFolder) {
+		this.tmpFolder = tmpFolder;
 	}
 
 	/**
@@ -205,18 +212,11 @@ public class JarObj {
 	}
 
 	/**
-	 * @return the absoluteName
+	 * @param tmpodex
+	 *            the tmpodex to set
 	 */
-	public String getAbsoluteName() {
-		return absoluteName;
-	}
-
-	/**
-	 * @param absoluteName
-	 *            the absoluteName to set
-	 */
-	public void setAbsoluteName(String absoluteName) {
-		this.absoluteName = absoluteName;
+	public void setTmpodex(File tmpodex) {
+		this.tmpodex = tmpodex;
 	}
 
 }

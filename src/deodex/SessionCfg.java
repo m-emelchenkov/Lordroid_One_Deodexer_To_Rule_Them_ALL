@@ -29,39 +29,6 @@ public class SessionCfg {
 	public static boolean sign = false;
 
 	/**
-	 * @return the zipalign
-	 */
-	public static boolean isZipalign() {
-		Logger.logToStdIO("sent  zipAlign = " + zipalign);
-		return zipalign;
-	}
-
-	/**
-	 * @param zipalign
-	 *            the zipalign to set
-	 */
-	public static void setZipalign(boolean zipalignp) {
-		Logger.logToStdIO("received  zipAlign = " + zipalignp);
-
-		zipalign = zipalignp;
-	}
-
-	/**
-	 * @return the sign
-	 */
-	public static boolean isSign() {
-		return sign;
-	}
-
-	/**
-	 * @param sign
-	 *            the sign to set
-	 */
-	public static void setSign(boolean signp) {
-		sign = signp;
-	}
-
-	/**
 	 * 
 	 * @return
 	 */
@@ -71,10 +38,10 @@ public class SessionCfg {
 
 	/**
 	 * 
-	 * @param arch
+	 * @return bootOatFile location on the chosen folder
 	 */
-	public static void setArch(String arch) {
-		SessionCfg.arch = arch;
+	public static File getBootOatFile() {
+		return bootOatFile;
 	}
 
 	/**
@@ -87,6 +54,45 @@ public class SessionCfg {
 
 	/**
 	 * 
+	 * @return
+	 */
+	public static File getSystemFolder() {
+		return systemFolder;
+	}
+
+	/**
+	 * @return the sign
+	 */
+	public static boolean isSign() {
+		return sign;
+	}
+
+	/**
+	 * @return the zipalign
+	 */
+	public static boolean isZipalign() {
+		Logger.logToStdIO("sent  zipAlign = " + zipalign);
+		return zipalign;
+	}
+
+	/**
+	 * 
+	 * @param arch
+	 */
+	public static void setArch(String arch) {
+		SessionCfg.arch = arch;
+	}
+
+	/**
+	 * 
+	 * @param bootOatFile
+	 */
+	public static void setBootOatFile(File bootOatFile) {
+		SessionCfg.bootOatFile = bootOatFile;
+	}
+
+	/**
+	 * 
 	 * @param sdk
 	 */
 	public static void setSdk(int sdk) {
@@ -94,11 +100,11 @@ public class SessionCfg {
 	}
 
 	/**
-	 * 
-	 * @return
+	 * @param sign
+	 *            the sign to set
 	 */
-	public static File getSystemFolder() {
-		return systemFolder;
+	public static void setSign(boolean signp) {
+		sign = signp;
 	}
 
 	/**
@@ -112,19 +118,13 @@ public class SessionCfg {
 	}
 
 	/**
-	 * 
-	 * @return bootOatFile location on the chosen folder
+	 * @param zipalign
+	 *            the zipalign to set
 	 */
-	public static File getBootOatFile() {
-		return bootOatFile;
-	}
+	public static void setZipalign(boolean zipalignp) {
+		Logger.logToStdIO("received  zipAlign = " + zipalignp);
 
-	/**
-	 * 
-	 * @param bootOatFile
-	 */
-	public static void setBootOatFile(File bootOatFile) {
-		SessionCfg.bootOatFile = bootOatFile;
+		zipalign = zipalignp;
 	}
 
 }

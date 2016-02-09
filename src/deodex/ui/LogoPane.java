@@ -30,11 +30,11 @@ public class LogoPane extends JPanel {
 	public static final int M_HEIGHT = 100;
 	public static final String LOG_HEADER = "[LogoPane]";
 
-	private Image image;
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	private Image image;
 
 	public LogoPane() {
 		this.setSize(M_WIDTH, M_HEIGHT);

@@ -36,27 +36,29 @@ public class ApkLegacy implements Serializable {
 	public File origOdex;
 	public File tempZipaligned;
 	public File tempSigned;
-	
-	
-	public ApkLegacy (File odexFile){
+
+	public ApkLegacy(File odexFile) {
 		this.origOdex = odexFile;
-		this.origApk = new File(origOdex.getAbsolutePath().subSequence(0, origOdex.getAbsolutePath().lastIndexOf("."))+S.APK_EXT);
-		
+		this.origApk = new File(
+				origOdex.getAbsolutePath().subSequence(0, origOdex.getAbsolutePath().lastIndexOf(".")) + S.APK_EXT);
+
 	}
-	
-	public boolean copyNeededFiles(File tempFolder1){
+
+	public boolean copyNeededFiles(File tempFolder1) {
 		String pureName = this.origApk.getName().substring(0, this.origApk.getName().lastIndexOf("."));
-		File tempFolder = new File(tempFolder1.getAbsolutePath()+File.separator+this.origApk.getName().substring(0,origApk.getName().lastIndexOf(".")));
-		this.tempApk = new File(tempFolder.getAbsolutePath()+File.separator+origApk.getName());
-		this.tempOdex = new File(tempFolder.getAbsolutePath()+File.separator+origOdex.getName());
-		smaliFolder = new File(tempFolder.getAbsolutePath()+File.separator+origApk.getName().substring(0, origApk.getName().lastIndexOf(".")));
-		classes = new File(tempFolder.getAbsolutePath()+File.separator+S.CLASSES);
-		this.tempZipaligned = new File(tempFolder.getAbsolutePath()+File.separator+pureName+"_zipaligned.apk");
-		this.tempSigned = new File(tempFolder.getAbsolutePath()+File.separator+pureName+"_signed.apk");
+		File tempFolder = new File(tempFolder1.getAbsolutePath() + File.separator
+				+ this.origApk.getName().substring(0, origApk.getName().lastIndexOf(".")));
+		this.tempApk = new File(tempFolder.getAbsolutePath() + File.separator + origApk.getName());
+		this.tempOdex = new File(tempFolder.getAbsolutePath() + File.separator + origOdex.getName());
+		smaliFolder = new File(tempFolder.getAbsolutePath() + File.separator
+				+ origApk.getName().substring(0, origApk.getName().lastIndexOf(".")));
+		classes = new File(tempFolder.getAbsolutePath() + File.separator + S.CLASSES);
+		this.tempZipaligned = new File(tempFolder.getAbsolutePath() + File.separator + pureName + "_zipaligned.apk");
+		this.tempSigned = new File(tempFolder.getAbsolutePath() + File.separator + pureName + "_signed.apk");
 		FilesUtils.copyFileRecurcively(origApk, tempApk);
 		FilesUtils.copyFileRecurcively(origOdex, tempOdex);
-		
-		return tempApk.exists() && tempOdex.exists();		
+
+		return tempApk.exists() && tempOdex.exists();
 	}
-	
+
 }

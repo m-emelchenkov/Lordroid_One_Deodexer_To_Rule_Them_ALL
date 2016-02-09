@@ -42,18 +42,16 @@ public class Deodexer {
 
 	public static boolean deoDexApkLegacy(File odexFile, File classesFile) {
 		classesFile.getParentFile().mkdirs();
-		File tempSmali = new File(odexFile.getParentFile().getAbsolutePath() + File.separator + 
-				odexFile.getName().substring(0, odexFile.getName().lastIndexOf(".odex")));
+		File tempSmali = new File(odexFile.getParentFile().getAbsolutePath() + File.separator
+				+ odexFile.getName().substring(0, odexFile.getName().lastIndexOf(".odex")));
 		tempSmali.getParentFile().mkdirs();
-		String[] cmd = { "java", "-jar", S.BACKSMALI_JAR, "-a", ""+SessionCfg.getSdk(), "-d",
-				S.bootTmpDex.getAbsolutePath(), "-x", odexFile.getAbsolutePath(),
-				"-o" ,tempSmali.getAbsolutePath() };
-		String[] cmd2 = { "java", "-jar", S.SMALI_JAR, "-a", "" + SessionCfg.getSdk(),
-				"-o", classesFile.getAbsolutePath(),
-				tempSmali.getAbsolutePath()	 };
+		String[] cmd = { "java", "-jar", S.BACKSMALI_JAR, "-a", "" + SessionCfg.getSdk(), "-d",
+				S.bootTmpDex.getAbsolutePath(), "-x", odexFile.getAbsolutePath(), "-o", tempSmali.getAbsolutePath() };
+		String[] cmd2 = { "java", "-jar", S.SMALI_JAR, "-a", "" + SessionCfg.getSdk(), "-o",
+				classesFile.getAbsolutePath(), tempSmali.getAbsolutePath() };
 
-		for (String str : cmd2){
-			System.out.print(str+" ");
+		for (String str : cmd2) {
+			System.out.print(str + " ");
 		}
 		System.out.println();
 

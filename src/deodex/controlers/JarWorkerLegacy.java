@@ -29,35 +29,40 @@ import deodex.tools.FilesUtils;
 import deodex.tools.Logger;
 import deodex.tools.Zip;
 
-public class JarWorkerLegacy implements Watchable ,Runnable{
+public class JarWorkerLegacy implements Watchable, Runnable {
 
 	ArrayList<File> jarList;
 	File tempFolder;
 	LoggerPan logPan;
 	JProgressBar progressBar = new JProgressBar();
 	ThreadWatcher threadWatcher;
-	
-	public JarWorkerLegacy(ArrayList <File> jarList ,LoggerPan logPan ,File tempFolder ){
-	this.jarList = jarList;
-	this.logPan = logPan;
-	this.tempFolder = tempFolder;
-	
-	progressBar.setMinimum(0);
-	progressBar.setMaximum(jarList.size());
-	progressBar.setStringPainted(true);
-	
+
+	public JarWorkerLegacy(ArrayList<File> jarList, LoggerPan logPan, File tempFolder) {
+		this.jarList = jarList;
+		this.logPan = logPan;
+		this.tempFolder = tempFolder;
+
+		progressBar.setMinimum(0);
+		progressBar.setMaximum(jarList.size());
+		progressBar.setStringPainted(true);
+
 	}
-	
-	private boolean deodexJar(JarLegacy jar){
+
+	@Override
+	public void addThreadWatcher(ThreadWatcher watcher) {
+		threadWatcher = watcher;
+	}
+
+	private boolean deodexJar(JarLegacy jar) {
 		boolean copyStatus = jar.copyNeededFiles(tempFolder);
-		if(!copyStatus){
-			Logger.logToStdIO("["+jar.origJar+"]"+"Failed to coppy neededFiles");
+		if (!copyStatus) {
+			Logger.logToStdIO("[" + jar.origJar + "]" + "Failed to coppy neededFiles");
 			return false;
 		}
-		// deodexing 
+		// deodexing
 		boolean deodexStatus = Deodexer.deoDexApkLegacy(jar.tempOdex, jar.classes);
-		if(!deodexStatus){
-			Logger.logToStdIO("["+jar.origJar+"]"+"Failed to deodex ");
+		if (!deodexStatus) {
+			Logger.logToStdIO("[" + jar.origJar + "]" + "Failed to deodex ");
 			return false;
 		}
 		// putback
@@ -70,48 +75,24 @@ public class JarWorkerLegacy implements Watchable ,Runnable{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		if(!putBack){
-			Logger.logToStdIO("["+jar.origJar+"]"+"Failed to push classes.dex ");
+		if (!putBack) {
+			Logger.logToStdIO("[" + jar.origJar + "]" + "Failed to push classes.dex ");
 			return false;
 		}
-		
+
 		// pushBack
 		boolean pushBack = false;
 		pushBack = FilesUtils.copyFile(jar.tempJar, jar.origJar);
-		if(!pushBack){
-			Logger.logToStdIO("["+jar.origJar+"]"+"Failed to push apk back ");
+		if (!pushBack) {
+			Logger.logToStdIO("[" + jar.origJar + "]" + "Failed to push apk back ");
 			return false;
 		}
-		
+
 		FilesUtils.deleteRecursively(jar.tempJar);
 		FilesUtils.deleteRecursively(jar.origOdex);
-		FilesUtils.deleteRecursively(jar.classes);	
-		
-		return true;
-	}
+		FilesUtils.deleteRecursively(jar.classes);
 
-	@Override
-	public void run() {
-		// TODO Auto-generated method stub
-		boolean success = false;
-		for (File f : this.jarList){
-			JarLegacy jar = new JarLegacy (f);
-			success = this.deodexJar(jar);
-			if(success){
-				logPan.addLog("["+jar.origJar.getName()+"]"+R.getString(S.LOG_SUCCESS));
-			} else {
-				logPan.addLog("["+jar.origJar.getName()+"]"+R.getString(S.LOG_FAIL));
-			}
-			progressBar.setValue(progressBar.getValue()+1);
-			progressBar.setString(R.getString("progress.jar")+"("+progressBar.getValue()+"/"+progressBar.getMaximum()+")");
-			threadWatcher.updateProgress();
-		}
-		FilesUtils.deleteRecursively(tempFolder);
-		progressBar.setValue(progressBar.getMaximum());
-		progressBar.setString(R.getString("progress.done"));
-		threadWatcher.updateProgress();
-		threadWatcher.done(this);
-		
+		return true;
 	}
 
 	/**
@@ -121,15 +102,36 @@ public class JarWorkerLegacy implements Watchable ,Runnable{
 		return progressBar;
 	}
 
+	@Override
+	public void run() {
+		// TODO Auto-generated method stub
+		boolean success = false;
+		for (File f : this.jarList) {
+			JarLegacy jar = new JarLegacy(f);
+			success = this.deodexJar(jar);
+			if (success) {
+				logPan.addLog("[" + jar.origJar.getName() + "]" + R.getString(S.LOG_SUCCESS));
+			} else {
+				logPan.addLog("[" + jar.origJar.getName() + "]" + R.getString(S.LOG_FAIL));
+			}
+			progressBar.setValue(progressBar.getValue() + 1);
+			progressBar.setString(
+					R.getString("progress.jar") + "(" + progressBar.getValue() + "/" + progressBar.getMaximum() + ")");
+			threadWatcher.updateProgress();
+		}
+		FilesUtils.deleteRecursively(tempFolder);
+		progressBar.setValue(progressBar.getMaximum());
+		progressBar.setString(R.getString("progress.done"));
+		threadWatcher.updateProgress();
+		threadWatcher.done(this);
+
+	}
+
 	/**
-	 * @param progressBar the progressBar to set
+	 * @param progressBar
+	 *            the progressBar to set
 	 */
 	public void setProgressBar(JProgressBar progressBar) {
 		this.progressBar = progressBar;
-	}
-
-	@Override
-	public void addThreadWatcher(ThreadWatcher watcher) {
-		threadWatcher = watcher;
 	}
 }

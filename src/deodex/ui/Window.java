@@ -43,15 +43,60 @@ import deodex.controlers.MainWorker;
 import deodex.controlers.ThreadWatcher;
 import deodex.tools.FilesUtils;
 
-public class Window extends JFrame implements ThreadWatcher{
+public class Window extends JFrame implements ThreadWatcher {
 
+	class BrowseAction implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			boolean valide = false;
+			JFileChooser f = new JFileChooser();
+			f.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+			int i = f.showOpenDialog(rootPane);
+			if (i == 0) {
+				// logger.clearAllLogs();
+				valide = FilesUtils.isAValideSystemDir(f.getSelectedFile(), logger);
+			}
+			if (valide) {
+				browseField.setText(f.getSelectedFile().getAbsolutePath());
+				deodexNow.setEnabled(true);
+			} else {
+				deodexNow.setEnabled(false);
+			}
+		}
+
+	}
+	class DeodexNowAction implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+			initwaiting();
+			SessionCfg.setSign(signCheck.isSelected());
+			SessionCfg.setZipalign(zipalignCheck.isSelected());
+			new Thread(new Runnable() {
+
+				@Override
+				public void run() {
+					// TODO Auto-generated method stub
+					mainWorker = new MainWorker(SessionCfg.getSystemFolder(), logger, 4);
+					addThreadWatcher();
+					Thread t = new Thread(mainWorker);
+					t.start();
+					deodexNow.setEnabled(false);
+				}
+
+			}).start();
+
+		}
+
+	}
 	public static final int W_WIDTH = 802;
+
 	public static final int W_HEIGHT = 597;
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
 	/**
 	 * @author lord-ralf-adolf
 	 */
@@ -59,9 +104,10 @@ public class Window extends JFrame implements ThreadWatcher{
 	//
 	boolean sign = false;
 	boolean zipalign = true;
+
 	File systemFolder;
+
 	MainWorker mainWorker;
-	
 	JPanel rootPanel = new JPanel() {
 		/**
 		 * 
@@ -78,7 +124,6 @@ public class Window extends JFrame implements ThreadWatcher{
 
 		}
 	};
-
 	// fields BrowseView
 	LogoPane logo = new LogoPane();
 	JTextField browseField = new JTextField(R.getString(S.BROWSE_FEILD));
@@ -92,9 +137,12 @@ public class Window extends JFrame implements ThreadWatcher{
 	JButton quitbtn = new JButton(R.getString("window.exitbtn"));
 	JButton restart = new JButton(R.getString("window.restartbtn"));
 	ImageIcon icon;
+
 	JComboBox<Integer> jobs = new JComboBox<Integer>();
-	Integer[] ints = {1,2,3,4};
-	public Window()  {
+
+	Integer[] ints = { 1, 2, 3, 4 };
+
+	public Window() {
 		this.setResizable(false);
 		this.setIconImage(R.icon);
 		this.setTitle(R.getString(S.APP_NAME));
@@ -104,17 +152,30 @@ public class Window extends JFrame implements ThreadWatcher{
 		this.setSize(W_WIDTH, W_HEIGHT);
 		this.setVisible(true);
 		rootPanel.setSize(W_WIDTH, W_HEIGHT);
-		//this.setContentPane(rootPanel);
+		// this.setContentPane(rootPanel);
 		this.add(rootPanel);
 		icon = new ImageIcon(Window.this.getClass().getResource("/loading.gif"));
 		browseBtn.addActionListener(new BrowseAction());
 		this.deodexNow.addActionListener(new DeodexNowAction());
 
 		for (Integer i : ints)
-		jobs.addItem(i);
-		
+			jobs.addItem(i);
+
 		initBrowseView();
-		}
+	}
+
+	public void addThreadWatcher() {
+		mainWorker.addThreadWatcher(this);
+	}
+
+	@Override
+	public void done(Runnable r) {
+		// TODO Auto-generated method stub
+		this.initProgress();
+		this.quitbtn.setEnabled(true);
+		this.restart.setEnabled(true);
+		this.repaint();
+	}
 
 	private void initBrowseView() {
 		JLabel boxsLabel = new JLabel(R.getString("box.jobs"));
@@ -151,8 +212,7 @@ public class Window extends JFrame implements ThreadWatcher{
 		signCheck.setSelected(false);
 		deodexNow.setEnabled(false);
 		browseField.setEnabled(false);
-		
-		
+
 		// Components bounds
 		logo.setBounds(0, 0, 802, 100);
 		browseField.setBounds(10, 110, 650, 40);
@@ -161,13 +221,13 @@ public class Window extends JFrame implements ThreadWatcher{
 		// zipalignCheck.setBounds(15, 170, 430, 35);
 		// signCheck.setBounds(15, 207, 430, 35);
 		zipalignCheck.setBounds(5, 20, 115, 35);
-//		boxsLabel.setBounds(125, 20, 50, 35);
-//		jobs.setBounds(180, 20, 50, 35);
+		// boxsLabel.setBounds(125, 20, 50, 35);
+		// jobs.setBounds(180, 20, 50, 35);
 		signCheck.setBounds(5, 57, 168, 35);
 		deodexNow.setBounds(500, 170, 260, 60);
-//		deodexNow.setBounds(610, 170, 150, 60);
-//		boxsLabel.setBounds(470, 185, 100, 30);
-//		jobs.setBounds(570, 185, 34, 30);
+		// deodexNow.setBounds(610, 170, 150, 60);
+		// boxsLabel.setBounds(470, 185, 100, 30);
+		// jobs.setBounds(570, 185, 34, 30);
 		logger.setBounds(1, 270, 798, 300);
 
 		// borders
@@ -194,78 +254,76 @@ public class Window extends JFrame implements ThreadWatcher{
 		rootPane.add(deodexNow);
 		optionalPan.add(this.signCheck);
 		optionalPan.add(this.zipalignCheck);
-//		rootPane.add(jobs);
-//		rootPane.add(boxsLabel);
+		// rootPane.add(jobs);
+		// rootPane.add(boxsLabel);
 		rootPane.add(logo);
 		rootPane.add(browseField);
 		rootPane.add(browseBtn);
 		rootPane.revalidate();
 		this.repaint();
 
-
 		@SuppressWarnings("unused")
-		FileDrop fd = new FileDrop(this.browseField , new FileDrop.Listener() {
-			
+		FileDrop fd = new FileDrop(this.browseField, new FileDrop.Listener() {
+
 			@Override
 			public void filesDropped(File[] files) {
 				File file = files[0];
-				if(!file.equals(null) && file.exists() && file.isDirectory()){
+				if (!file.equals(null) && file.exists() && file.isDirectory()) {
 					boolean valid = FilesUtils.isAValideSystemDir(file, logger);
-					if(valid){
+					if (valid) {
 						browseField.setText(file.getAbsolutePath());
 						deodexNow.setEnabled(true);
 					} else {
 						deodexNow.setEnabled(false);
 					}
-					
+
 				}
-				
-				
+
 			}
 		});
 	}
 
-	public void initProgress(){
+	public void initProgress() {
 		rootPane.removeAll();
 		rootPane.setLayout(null);
 		rootPane.setBackground(new Color(206, 194, 229));
 		rootPane.setOpaque(true);
-		
+
 		quitbtn = new JButton(R.getString("window.exitbtn"));
 		restart = new JButton(R.getString("window.restartbtn"));
-		
-		
-		// 
+
+		//
 		mainWorker.mainPannel.setBounds(0, 101, 795, 128);
 		logo.setBounds(0, 0, 802, 100);
 		logger.setBounds(1, 270, 798, 300);
 		quitbtn.setBounds(483, 235, 300, 30);
 		restart.setBounds(10, 235, 300, 30);
-		
+
 		quitbtn.setFont(R.COURIER_NORMAL);
 		restart.setFont(R.COURIER_NORMAL);
-		
+
 		quitbtn.setEnabled(false);
 		restart.setEnabled(false);
-		
+
 		quitbtn.setBackground(new Color(89, 195, 216));
 		restart.setBackground(new Color(89, 195, 216));
-		
+
 		// Action listners
-		quitbtn.addActionListener(new ActionListener(){
+		quitbtn.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				int i =JOptionPane.showConfirmDialog(rootPane, R.getString("dialog.sure.exit.message"), R.getString("dialog.sure.exit"), JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
-				
-				if(i == 0){
+				int i = JOptionPane.showConfirmDialog(rootPane, R.getString("dialog.sure.exit.message"),
+						R.getString("dialog.sure.exit"), JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
+
+				if (i == 0) {
 					System.exit(0);
 				}
 			}
-			
+
 		});
-		
-		restart.addActionListener(new ActionListener(){
+
+		restart.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -273,7 +331,7 @@ public class Window extends JFrame implements ThreadWatcher{
 				logger.clearAllLogs();
 				initBrowseView();
 			}
-			
+
 		});
 		//
 		rootPane.add(logo);
@@ -281,96 +339,37 @@ public class Window extends JFrame implements ThreadWatcher{
 		rootPane.add(mainWorker.mainPannel);
 		rootPane.add(quitbtn);
 		rootPane.add(restart);
-		
+
 		rootPane.revalidate();
 		this.repaint();
 	}
-	
-	private void initwaiting(){
+
+	private void initwaiting() {
 		rootPane.removeAll();
 		rootPane.setLayout(null);
 		rootPane.setBackground(new Color(206, 194, 229));
 		rootPane.setOpaque(true);
-		
+
 		JLabel waiting = new JLabel("Preparing working environnement this may take a minute...");
 		waiting.setFont(R.COURIER_NORMAL);
 		waiting.setBounds(50, 200, 748, 50);
-		waiting.setBackground(new Color(0,0,0,0));
+		waiting.setBackground(new Color(0, 0, 0, 0));
 		logo.setBounds(0, 0, 802, 100);
 		logger.setBounds(1, 270, 798, 300);
-		
-	    int min = 0;
-	    int max = 100;
-	    JProgressBar progress = new JProgressBar(min, max);
-	    JLabel progLAb = new JLabel(icon);
-	    // Play animation
-	    progress.setIndeterminate(true);
-	    progLAb.setBounds(0, 95, 798, this.getHeight());
 
-	    rootPane.add(progLAb);
-	    //rootPane.add(logger);
-	    rootPane.add(logo);
-	    rootPane.add(waiting);
+		int min = 0;
+		int max = 100;
+		JProgressBar progress = new JProgressBar(min, max);
+		JLabel progLAb = new JLabel(icon);
+		// Play animation
+		progress.setIndeterminate(true);
+		progLAb.setBounds(0, 95, 798, this.getHeight());
+
+		rootPane.add(progLAb);
+		// rootPane.add(logger);
+		rootPane.add(logo);
+		rootPane.add(waiting);
 		rootPane.revalidate();
-		this.repaint();
-	}
-	
-	class BrowseAction implements ActionListener {
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			boolean valide = false;
-			JFileChooser f = new JFileChooser();
-			f.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-			int i = f.showOpenDialog(rootPane);
-			if (i == 0) {
-				// logger.clearAllLogs();
-				valide = FilesUtils.isAValideSystemDir(f.getSelectedFile(), logger);
-			}
-			if (valide) {
-				browseField.setText(f.getSelectedFile().getAbsolutePath());
-				deodexNow.setEnabled(true);
-			} else {
-				deodexNow.setEnabled(false);
-			}
-		}
-
-	}
-
-	public void addThreadWatcher(){
-		mainWorker.addThreadWatcher(this);
-	}
-	class DeodexNowAction implements ActionListener {
-
-		@Override
-		public void actionPerformed(ActionEvent arg0) {
-			initwaiting();
-			SessionCfg.setSign(signCheck.isSelected());
-			SessionCfg.setZipalign(zipalignCheck.isSelected());
-			new Thread(new Runnable(){
-
-				@Override
-				public void run() {
-					// TODO Auto-generated method stub
-					mainWorker = new MainWorker(SessionCfg.getSystemFolder(), logger,4);
-					addThreadWatcher();
-					Thread t = new Thread(mainWorker);
-					t.start();
-					deodexNow.setEnabled(false);
-				}
-				
-			}).start();
-
-		}
-
-	}
-
-	@Override
-	public void done(Runnable r) {
-		// TODO Auto-generated method stub
-		this.initProgress();
-		this.quitbtn.setEnabled(true);
-		this.restart.setEnabled(true);
 		this.repaint();
 	}
 

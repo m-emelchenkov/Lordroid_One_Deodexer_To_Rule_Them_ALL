@@ -18,7 +18,7 @@ package deodex.tools;
 import java.net.URISyntaxException;
 
 public class PathUtils {
-	public static String getExcutionPath(){
+	public static String getExcutionPath() {
 		String path = "";
 		try {
 			path = PathUtils.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath();

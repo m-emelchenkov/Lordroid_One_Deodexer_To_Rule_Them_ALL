@@ -35,6 +35,32 @@ import deodex.tools.Logger;
 
 public class LangFrame extends JFrame {
 
+	class LangsListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+			Logger.logToStdIO(
+					LOG_HEADER + Logger.INFO + "User choose " + (String) langs.getSelectedItem() + " As language");
+			Cfg.setCurrentLang((String) langs.getSelectedItem());
+			R.initResources();
+			reloadStrings();
+		}
+
+	}
+	class NextListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+			Cfg.writeCfgFile();
+			disposeThis();
+			@SuppressWarnings("unused")
+			Window win = new Window();
+
+		}
+
+	}
 	/**
 	 * 
 	 */
@@ -44,7 +70,9 @@ public class LangFrame extends JFrame {
 	JLabel text = new JLabel(R.getString(S.APP_WELCOME_MESSAGE));
 	LogoPane logo = new LogoPane();
 	JComboBox<String> langs = new JComboBox<String>();
+
 	JLabel langLab = new JLabel(R.getString(S.APP_LANG_BOX_LAB));
+
 	JButton next = new JButton(R.getString(S.APP_NEXT_BTN));
 
 	public LangFrame() {
@@ -101,12 +129,9 @@ public class LangFrame extends JFrame {
 		this.setVisible(true);
 	}
 
-	private void reloadStrings() {
-		title.setText(R.getString(S.APP_WELCOME));
-		text.setText(R.getString(S.APP_WELCOME_MESSAGE));
-		langLab.setText(R.getString(S.APP_LANG_BOX_LAB));
-		next.setText(R.getString(S.APP_NEXT_BTN));
-		this.setTitle(R.getString(S.APP_NAME));
+	private void disposeThis() {
+		this.dispose();
+
 	}
 
 	private void initActionsListeners() {
@@ -114,36 +139,11 @@ public class LangFrame extends JFrame {
 		next.addActionListener(new NextListener());
 	}
 
-	private void disposeThis() {
-		this.dispose();
-
-	}
-
-	class LangsListener implements ActionListener {
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			// TODO Auto-generated method stub
-			Logger.logToStdIO(
-					LOG_HEADER + Logger.INFO + "User choose " + (String) langs.getSelectedItem() + " As language");
-			Cfg.setCurrentLang((String) langs.getSelectedItem());
-			R.initResources();
-			reloadStrings();
-		}
-
-	}
-
-	class NextListener implements ActionListener {
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			// TODO Auto-generated method stub
-			Cfg.writeCfgFile();
-			disposeThis();
-			@SuppressWarnings("unused")
-			Window win = new Window();
-
-		}
-
+	private void reloadStrings() {
+		title.setText(R.getString(S.APP_WELCOME));
+		text.setText(R.getString(S.APP_WELCOME_MESSAGE));
+		langLab.setText(R.getString(S.APP_LANG_BOX_LAB));
+		next.setText(R.getString(S.APP_NEXT_BTN));
+		this.setTitle(R.getString(S.APP_NAME));
 	}
 }

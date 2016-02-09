@@ -12,62 +12,6 @@ import java.io.File;
  */
 public class Os {
 
-	private Os() {
-		// nada
-	}
-
-	public static String getOsName() {
-		return System.getProperty("os.name", "unknown");
-	}
-
-	public static String platform() {
-		String osname = System.getProperty("os.name", "generic").toLowerCase();
-		if (osname.startsWith("windows")) {
-			return "win32";
-		} else if (osname.startsWith("linux")) {
-			return "linux";
-		} else if (osname.startsWith("sunos")) {
-			return "solaris";
-		} else if (osname.startsWith("mac") || osname.startsWith("darwin")) {
-			return "mac";
-		} else
-			return "generic";
-	}
-
-	public static boolean isWindows() {
-		return (getOsName().toLowerCase().indexOf("windows") >= 0);
-	}
-
-	public static boolean isLinux() {
-		return getOsName().toLowerCase().indexOf("linux") >= 0;
-	}
-
-	public static boolean isUnix() {
-		final String os = getOsName().toLowerCase();
-
-		// XXX: this obviously needs some more work to be "true" in general (see
-		// bottom of file)
-		if ((os.indexOf("sunos") >= 0) || (os.indexOf("linux") >= 0)) {
-			return true;
-		}
-
-		if (isMac() && (System.getProperty("os.version", "").startsWith("10."))) {
-			return true;
-		}
-
-		return false;
-	}
-
-	public static boolean isMac() {
-		final String os = getOsName().toLowerCase();
-		return os.startsWith("mac") || os.startsWith("darwin");
-	}
-
-	public static boolean isSolaris() {
-		final String os = getOsName().toLowerCase();
-		return os.indexOf("sunos") >= 0;
-	}
-
 	public static String findWindowsSystemRoot() {
 		if (!isWindows()) {
 			return null;
@@ -102,6 +46,62 @@ public class Os {
 		}
 
 		return null;
+	}
+
+	public static String getOsName() {
+		return System.getProperty("os.name", "unknown");
+	}
+
+	public static boolean isLinux() {
+		return getOsName().toLowerCase().indexOf("linux") >= 0;
+	}
+
+	public static boolean isMac() {
+		final String os = getOsName().toLowerCase();
+		return os.startsWith("mac") || os.startsWith("darwin");
+	}
+
+	public static boolean isSolaris() {
+		final String os = getOsName().toLowerCase();
+		return os.indexOf("sunos") >= 0;
+	}
+
+	public static boolean isUnix() {
+		final String os = getOsName().toLowerCase();
+
+		// XXX: this obviously needs some more work to be "true" in general (see
+		// bottom of file)
+		if ((os.indexOf("sunos") >= 0) || (os.indexOf("linux") >= 0)) {
+			return true;
+		}
+
+		if (isMac() && (System.getProperty("os.version", "").startsWith("10."))) {
+			return true;
+		}
+
+		return false;
+	}
+
+	public static boolean isWindows() {
+		return (getOsName().toLowerCase().indexOf("windows") >= 0);
+	}
+
+	public static String platform() {
+		String osname = System.getProperty("os.name", "generic").toLowerCase();
+		if (osname.startsWith("windows")) {
+			return "win32";
+		} else if (osname.startsWith("linux")) {
+			return "linux";
+		} else if (osname.startsWith("sunos")) {
+			return "solaris";
+		} else if (osname.startsWith("mac") || osname.startsWith("darwin")) {
+			return "mac";
+		} else
+			return "generic";
+	}
+
+	private Os() {
+		// nada
 	}
 
 }

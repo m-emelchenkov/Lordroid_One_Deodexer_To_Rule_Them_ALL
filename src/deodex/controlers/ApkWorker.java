@@ -59,59 +59,12 @@ public class ApkWorker implements Runnable {
 		progressBar.setStringPainted(true);
 	}
 
-	@Override
-	public void run() {
-		// TODO Auto-generated method stub
-
-		int i = 0;
-		for (File apk : apkList) {
-
-			boolean sucess = deodexApk(apk);
-			if (!sucess) {
-				logPan.addLog("[" + apk.getName() + ".apk]" + R.getString(S.LOG_FAIL));
-			} else {
-				logPan.addLog("[" + apk.getName() + ".apk]" + R.getString(S.LOG_SUCCESS));
-			}
-			progressBar.setValue(i++);
-			progressBar.setString(R.getString("progress.apks")+" ("+progressBar.getValue()+"/"+progressBar.getMaximum()+")");
-			threadWatcher.updateProgress();
-		}
-		
-		FilesUtils.deleteRecursively(tmpFolder);
-		progressBar.setValue(progressBar.getMaximum());
-		progressBar.setString(R.getString("progress.done"));
-		if (!this.threadWatcher.equals(null))
-			this.threadWatcher.done(this);
-	}
-
-	/**
-	 * @return the threadWatcher
-	 */
-	public ThreadWatcher getThreadWatcher() {
-		return threadWatcher;
-	}
-
 	/**
 	 * @param threadWatcher
 	 *            the threadWatcher to set
 	 */
 	public void addThreadWatcher(ThreadWatcher threadWatcher) {
 		this.threadWatcher = threadWatcher;
-	}
-
-	/**
-	 * @return the progressBar
-	 */
-	public JProgressBar getProgressBar() {
-		return progressBar;
-	}
-
-	/**
-	 * @param progressBar
-	 *            the progressBar to set
-	 */
-	public void setProgressBar(JProgressBar progressBar) {
-		this.progressBar = progressBar;
 	}
 
 	private boolean deodexApk(File apkFolder) {
@@ -213,5 +166,53 @@ public class ApkWorker implements Runnable {
 		FilesUtils.deleteRecursively(apk.getTempApkZipalign().getParentFile());
 
 		return true;
+	}
+
+	/**
+	 * @return the progressBar
+	 */
+	public JProgressBar getProgressBar() {
+		return progressBar;
+	}
+
+	/**
+	 * @return the threadWatcher
+	 */
+	public ThreadWatcher getThreadWatcher() {
+		return threadWatcher;
+	}
+
+	@Override
+	public void run() {
+		// TODO Auto-generated method stub
+
+		int i = 0;
+		for (File apk : apkList) {
+
+			boolean sucess = deodexApk(apk);
+			if (!sucess) {
+				logPan.addLog("[" + apk.getName() + ".apk]" + R.getString(S.LOG_FAIL));
+			} else {
+				logPan.addLog("[" + apk.getName() + ".apk]" + R.getString(S.LOG_SUCCESS));
+			}
+			progressBar.setValue(i++);
+			progressBar.setString(R.getString("progress.apks") + " (" + progressBar.getValue() + "/"
+					+ progressBar.getMaximum() + ")");
+			threadWatcher.updateProgress();
+		}
+
+		FilesUtils.deleteRecursively(tmpFolder);
+		progressBar.setValue(progressBar.getMaximum());
+		progressBar.setString(R.getString("progress.done"));
+		if (!this.threadWatcher.equals(null))
+			this.threadWatcher.done(this);
+	}
+
+	/**
+	 * @param progressBar
+	 *            the progressBar to set
+	 */
+	public void setProgressBar(JProgressBar progressBar) {
+		this.progressBar = progressBar;
 	}
 }

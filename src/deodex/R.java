@@ -45,6 +45,21 @@ public class R {
 	public static Image borderLeft;
 	public static Image icon;
 
+	public static String getString(String prop) {
+		String value = null;
+		for (String str : strings) {
+			String tmp = StringUtils.getCropString(str, str.lastIndexOf("="));
+			tmp = StringUtils.removeSpaces(tmp);
+			if (tmp.equals(prop)) {
+				value = StringUtils.getSubString(str, str.lastIndexOf("="));
+				break;
+			}
+
+		}
+
+		return legalize(value);
+	}
+
 	public static void initResources() {
 		File langFile = Cfg.getLangFile();
 		BufferedReader br = null;
@@ -71,29 +86,13 @@ public class R {
 					.read(Thread.currentThread().getContextClassLoader().getResource("images/borderRight.png"));
 			borderLeft = ImageIO
 					.read(Thread.currentThread().getContextClassLoader().getResource("images/borderLeft.png"));
-			icon  = ImageIO
-					.read(Thread.currentThread().getContextClassLoader().getResource("images/icon.png"));
+			icon = ImageIO.read(Thread.currentThread().getContextClassLoader().getResource("images/icon.png"));
 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
-	}
-
-	public static String getString(String prop) {
-		String value = null;
-		for (String str : strings) {
-			String tmp = StringUtils.getCropString(str, str.lastIndexOf("="));
-			tmp = StringUtils.removeSpaces(tmp);
-			if (tmp.equals(prop)) {
-				value = StringUtils.getSubString(str, str.lastIndexOf("="));
-				break;
-			}
-
-		}
-
-		return legalize(value);
 	}
 
 	private static String legalize(String str) {

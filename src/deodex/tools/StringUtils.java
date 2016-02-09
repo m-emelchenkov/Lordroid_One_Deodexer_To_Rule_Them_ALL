@@ -17,19 +17,6 @@ package deodex.tools;
 
 public class StringUtils {
 
-	public static String getSubString(String str, int startIndex) throws IndexOutOfBoundsException {
-		String subStr = "";
-		if (startIndex >= str.length() || startIndex < 0) {
-			throw new IndexOutOfBoundsException();
-		}
-		for (int i = startIndex + 1; i < str.length(); i++) {
-			subStr = subStr + str.charAt(i);
-		}
-
-		return subStr;
-
-	}
-
 	public static String getCropString(String str, int endIndex) throws IndexOutOfBoundsException {
 		String subStr = "";
 		if (endIndex < 0) {
@@ -51,6 +38,19 @@ public class StringUtils {
 		String tmp = StringUtils.getSubString(str, startIndex);
 
 		return tmp;
+	}
+
+	public static String getSubString(String str, int startIndex) throws IndexOutOfBoundsException {
+		String subStr = "";
+		if (startIndex >= str.length() || startIndex < 0) {
+			throw new IndexOutOfBoundsException();
+		}
+		for (int i = startIndex + 1; i < str.length(); i++) {
+			subStr = subStr + str.charAt(i);
+		}
+
+		return subStr;
+
 	}
 
 	public static String removeSpaces(String str) {

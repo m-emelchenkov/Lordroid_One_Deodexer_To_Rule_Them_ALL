@@ -35,7 +35,7 @@ public class ZipTools {
 	 * @returns success
 	 * @param odex
 	 * @return success
-	 *         
+	 * 
 	 * @throws IOException
 	 */
 	public static boolean extractOdex(File odex) throws IOException {

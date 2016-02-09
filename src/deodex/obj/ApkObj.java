@@ -102,16 +102,36 @@ public class ApkObj implements Serializable {
 		return tempApk.exists() && tempOdex.exists();
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
+	public File getArchFolder() {
+		return archFolder;
+	}
+
 	public File getFolder() {
 		return folder;
 	}
 
-	public File getTempApk() {
-		return tempApk;
+	/**
+	 * 
+	 * @return
+	 */
+	public File getOdexFile() {
+		return odexFile;
 	}
 
-	public File getTempApkZipalign() {
-		return tempApkZipalign;
+	/**
+	 * 
+	 * @return
+	 */
+	public File getOrigApk() {
+		return origApk;
+	}
+
+	public File getTempApk() {
+		return tempApk;
 	}
 
 	/**
@@ -122,12 +142,22 @@ public class ApkObj implements Serializable {
 		return tempApkSigned;
 	}
 
+	public File getTempApkZipalign() {
+		return tempApkZipalign;
+	}
+
 	/**
-	 * 
-	 * @return
+	 * @return the tempClasses1
 	 */
-	public File getTempOdex() {
-		return tempOdex;
+	public File getTempClasses1() {
+		return tempClasses1;
+	}
+
+	/**
+	 * @return the tempClasses2
+	 */
+	public File getTempClasses2() {
+		return tempClasses2;
 	}
 
 	/**
@@ -148,34 +178,10 @@ public class ApkObj implements Serializable {
 
 	/**
 	 * 
-	 * @param odexFile
-	 */
-	public void setOdexFile(File odexFile) {
-		this.odexFile = odexFile;
-	}
-
-	/**
-	 * 
 	 * @return
 	 */
-	public File getOrigApk() {
-		return origApk;
-	}
-
-	/**
-	 * 
-	 * @return
-	 */
-	public File getArchFolder() {
-		return archFolder;
-	}
-
-	/**
-	 * 
-	 * @return
-	 */
-	public File getOdexFile() {
-		return odexFile;
+	public File getTempOdex() {
+		return tempOdex;
 	}
 
 	/**
@@ -195,10 +201,11 @@ public class ApkObj implements Serializable {
 	}
 
 	/**
-	 * @return the tempClasses1
+	 * 
+	 * @param odexFile
 	 */
-	public File getTempClasses1() {
-		return tempClasses1;
+	public void setOdexFile(File odexFile) {
+		this.odexFile = odexFile;
 	}
 
 	/**
@@ -207,13 +214,6 @@ public class ApkObj implements Serializable {
 	 */
 	public void setTempClasses1(File tempClasses1) {
 		this.tempClasses1 = tempClasses1;
-	}
-
-	/**
-	 * @return the tempClasses2
-	 */
-	public File getTempClasses2() {
-		return tempClasses2;
 	}
 
 	/**

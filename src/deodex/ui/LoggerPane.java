@@ -44,7 +44,7 @@ public class LoggerPane extends JPanel implements LoggerPan {
 	JList<String> logs = new JList<String>();
 	DefaultListModel<String> model = new DefaultListModel<String>();
 	JScrollPane scroll;
-	
+
 	public LoggerPane() {
 		super();
 		this.setSize(798, 300);
@@ -67,6 +67,12 @@ public class LoggerPane extends JPanel implements LoggerPan {
 
 	}
 
+	@Override
+	public void addLog(String str) {
+		// TODO Auto-generated method stub
+		addLogR(str);
+	}
+
 	// multiple threads can log here !
 	public synchronized void addLogR(String str) {
 		long yourmilliseconds = System.currentTimeMillis();
@@ -74,7 +80,7 @@ public class LoggerPane extends JPanel implements LoggerPan {
 		Date resultdate = new Date(yourmilliseconds);
 		String str2 = sdf.format(resultdate);
 		model.addElement("[" + str2 + "]" + str);
-		scroll.getViewport().setViewPosition(logs.indexToLocation(model.size()-1));
+		scroll.getViewport().setViewPosition(logs.indexToLocation(model.size() - 1));
 		this.repaint();
 	}
 
@@ -88,29 +94,23 @@ public class LoggerPane extends JPanel implements LoggerPan {
 	}
 
 	@Override
-	public void addLog(String str) {
-		// TODO Auto-generated method stub
-		addLogR(str);
-	}
-
-	@Override
 	public synchronized void saveToFile() {
 		// TODO Auto-generated method stub
-		
+
 		long yourmilliseconds = System.currentTimeMillis();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd|HH:mm:ss"); // dd/MMM/yyyy
 		Date resultdate = new Date(yourmilliseconds);
-		String str = PathUtils.getExcutionPath()+File.separator +"logs"+File.separator+ sdf.format(resultdate)+".log";
+		String str = PathUtils.getExcutionPath() + File.separator + "logs" + File.separator + sdf.format(resultdate)
+				+ ".log";
 		File logFile = new File(str);
-		
-		ArrayList <String> logs = new ArrayList<String>();
-		
-		for (int i = 0 ; i < model.size() ; i++){
+
+		ArrayList<String> logs = new ArrayList<String>();
+
+		for (int i = 0; i < model.size(); i++) {
 			logs.add(model.getElementAt(i));
 		}
 		PropReader.ArrayToProp(logs, logFile);
 		this.repaint();
 	}
-	
-	
+
 }

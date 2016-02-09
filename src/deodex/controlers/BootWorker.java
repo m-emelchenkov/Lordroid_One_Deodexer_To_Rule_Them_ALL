@@ -32,7 +32,8 @@ public class BootWorker implements Runnable, Watchable {
 	File tmpFolder;
 	ThreadWatcher threadWatcher;
 	LoggerPan log;
-	JProgressBar progressBar ;
+	JProgressBar progressBar;
+
 	public BootWorker(ArrayList<File> bootList, File tmpFolder, LoggerPan log) {
 		bootFiles = bootList;
 		this.tmpFolder = tmpFolder;
@@ -44,24 +45,9 @@ public class BootWorker implements Runnable, Watchable {
 	}
 
 	@Override
-	public void run() {
+	public void addThreadWatcher(ThreadWatcher watcher) {
 		// TODO Auto-generated method stub
-		for (File file : bootFiles) {
-			boolean success = deoDexBootFile(file);
-			if (success) {
-				log.addLog("[" + file.getName().substring(0, file.getName().lastIndexOf(".")) + ".jar]" + " [SUCCESS]");
-			} else {
-				log.addLog("[" + file.getName().substring(0, file.getName().lastIndexOf(".")) + ".jar]" + " [FAILED ]");
-
-			}
-			progressBar.setValue(progressBar.getValue()+1);
-			progressBar.setString(R.getString("progress.bootFiles")+" ("+progressBar.getValue()+"/"+progressBar.getMaximum()+")");
-			threadWatcher.updateProgress();
-		}
-		FilesUtils.deleteRecursively(tmpFolder);
-		progressBar.setValue(progressBar.getMaximum());
-		progressBar.setString(R.getString("progress.done"));
-		this.threadWatcher.done(this);
+		this.threadWatcher = watcher;
 	}
 
 	private boolean deoDexBootFile(File file) {
@@ -113,9 +99,25 @@ public class BootWorker implements Runnable, Watchable {
 	}
 
 	@Override
-	public void addThreadWatcher(ThreadWatcher watcher) {
+	public void run() {
 		// TODO Auto-generated method stub
-		this.threadWatcher = watcher;
+		for (File file : bootFiles) {
+			boolean success = deoDexBootFile(file);
+			if (success) {
+				log.addLog("[" + file.getName().substring(0, file.getName().lastIndexOf(".")) + ".jar]" + " [SUCCESS]");
+			} else {
+				log.addLog("[" + file.getName().substring(0, file.getName().lastIndexOf(".")) + ".jar]" + " [FAILED ]");
+
+			}
+			progressBar.setValue(progressBar.getValue() + 1);
+			progressBar.setString(R.getString("progress.bootFiles") + " (" + progressBar.getValue() + "/"
+					+ progressBar.getMaximum() + ")");
+			threadWatcher.updateProgress();
+		}
+		FilesUtils.deleteRecursively(tmpFolder);
+		progressBar.setValue(progressBar.getMaximum());
+		progressBar.setString(R.getString("progress.done"));
+		this.threadWatcher.done(this);
 	}
 
 }

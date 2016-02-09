@@ -32,7 +32,6 @@ public class JarWorker implements Runnable, Watchable {
 
 	ArrayList<File> odexFiles = new ArrayList<File>();
 
-
 	LoggerPan logPan;
 	File tmpFolder;
 	JProgressBar progressBar;
@@ -49,25 +48,10 @@ public class JarWorker implements Runnable, Watchable {
 	}
 
 	@Override
-	public void run() {
+	public void addThreadWatcher(ThreadWatcher watcher) {
 		// TODO Auto-generated method stub
-		int i = 0;
-		for (File jar : odexFiles) {
-			boolean success = deodexJar(jar);
-			if (success) {
-				logPan.addLog(
-						"[" + jar.getName().substring(0, jar.getName().lastIndexOf(".")) + ".jar]" + " [SUCCESS]");
-			} else {
-				logPan.addLog("[" + jar.getName().substring(0, jar.getName().lastIndexOf(".")) + ".jar]" + " [FAILED]");
-			}
-			this.progressBar.setValue(i++);
-			progressBar.setString(R.getString("progress.jar")+" ("+progressBar.getValue()+"/"+progressBar.getMaximum()+")");
-			threadWatcher.updateProgress();
-		}
-		FilesUtils.deleteRecursively(tmpFolder);
-		this.progressBar.setValue(this.progressBar.getMaximum());
-		progressBar.setString(R.getString("progress.done"));
-		this.threadWatcher.done(this);
+		this.threadWatcher = watcher;
+
 	}
 
 	private boolean deodexJar(File odex) {
@@ -146,11 +130,27 @@ public class JarWorker implements Runnable, Watchable {
 	public JProgressBar getProgressBar() {
 		return progressBar;
 	}
-	
-	@Override
-	public void addThreadWatcher(ThreadWatcher watcher) {
-		// TODO Auto-generated method stub
-		this.threadWatcher = watcher;
 
+	@Override
+	public void run() {
+		// TODO Auto-generated method stub
+		int i = 0;
+		for (File jar : odexFiles) {
+			boolean success = deodexJar(jar);
+			if (success) {
+				logPan.addLog(
+						"[" + jar.getName().substring(0, jar.getName().lastIndexOf(".")) + ".jar]" + " [SUCCESS]");
+			} else {
+				logPan.addLog("[" + jar.getName().substring(0, jar.getName().lastIndexOf(".")) + ".jar]" + " [FAILED]");
+			}
+			this.progressBar.setValue(i++);
+			progressBar.setString(
+					R.getString("progress.jar") + " (" + progressBar.getValue() + "/" + progressBar.getMaximum() + ")");
+			threadWatcher.updateProgress();
+		}
+		FilesUtils.deleteRecursively(tmpFolder);
+		this.progressBar.setValue(this.progressBar.getMaximum());
+		progressBar.setString(R.getString("progress.done"));
+		this.threadWatcher.done(this);
 	}
 }

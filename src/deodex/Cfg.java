@@ -29,31 +29,13 @@ import deodex.tools.StringUtils;
  *
  */
 public class Cfg {
-	private static final String CFG_PATH = PathUtils.getExcutionPath()+File.separator+"cfg/app_config.rsx";
-	private static final String LANG_FOLDER = PathUtils.getExcutionPath()+File.separator+"lang";
+	private static final String CFG_PATH = PathUtils.getExcutionPath() + File.separator + "cfg/app_config.rsx";
+	private static final String LANG_FOLDER = PathUtils.getExcutionPath() + File.separator + "lang";
 
 	private static String currentLang;
 
 	private static ArrayList<File> langFiles = new ArrayList<File>();
 	private static ArrayList<String> availableLang = new ArrayList<String>();
-
-	public static boolean isFirstLaunch() {
-		return !new File(CFG_PATH).exists();
-	}
-
-	/**
-	 * 
-	 * @return available languages as String if there is none retrrns null
-	 */
-
-	public static void writeCfgFile() {
-		PropReader.writeProp(S.CFG_CUR_LANG, currentLang, new File(CFG_PATH));
-		PropReader.writeProp(S.CFG_HOST_OS, Cfg.getOs(), new File(CFG_PATH));
-	}
-
-	public static void readCfg() {
-		currentLang = PropReader.getProp(S.CFG_CUR_LANG, new File(CFG_PATH));
-	}
 
 	public static ArrayList<String> getAvailableLaunguages() {
 		File langFolder = new File(LANG_FOLDER);
@@ -78,6 +60,13 @@ public class Cfg {
 
 		return availableLang;
 
+	}
+
+	/**
+	 * @return the currentLang
+	 */
+	public static String getCurrentLang() {
+		return currentLang;
 	}
 
 	public static File getLangFile() {
@@ -112,11 +101,23 @@ public class Cfg {
 		return tmp;
 	}
 
-	/**
-	 * @return the currentLang
-	 */
-	public static String getCurrentLang() {
-		return currentLang;
+	public static String getOs() {
+		if (Os.isLinux()) {
+			return S.LINUX;
+		} else if (Os.isWindows()) {
+			return S.WINDOWS;
+		} else if (Os.isMac()) {
+			return S.MAC;
+		}
+		return null;
+	}
+
+	public static boolean isFirstLaunch() {
+		return !new File(CFG_PATH).exists();
+	}
+
+	public static void readCfg() {
+		currentLang = PropReader.getProp(S.CFG_CUR_LANG, new File(CFG_PATH));
 	}
 
 	/**
@@ -127,15 +128,14 @@ public class Cfg {
 		Cfg.currentLang = currentLang;
 	}
 
-	public static String getOs() {
-		if (Os.isLinux()) {
-			return S.LINUX;
-		} else if (Os.isWindows()) {
-			return S.WINDOWS;
-		} else if (Os.isMac()) {
-			return S.MAC;
-		}
-		return null;
+	/**
+	 * 
+	 * @return available languages as String if there is none retrrns null
+	 */
+
+	public static void writeCfgFile() {
+		PropReader.writeProp(S.CFG_CUR_LANG, currentLang, new File(CFG_PATH));
+		PropReader.writeProp(S.CFG_HOST_OS, Cfg.getOs(), new File(CFG_PATH));
 	}
 
 }

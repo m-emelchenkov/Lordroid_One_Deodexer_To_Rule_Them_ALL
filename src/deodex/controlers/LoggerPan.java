@@ -17,5 +17,6 @@ package deodex.controlers;
 
 public interface LoggerPan {
 	public void addLog(String str);
+
 	public void saveToFile();
 }

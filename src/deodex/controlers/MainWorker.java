@@ -29,7 +29,7 @@ import deodex.tools.Deodexer;
 import deodex.tools.FilesUtils;
 import deodex.tools.Logger;
 
-public class MainWorker implements Runnable, ThreadWatcher ,Watchable{
+public class MainWorker implements Runnable, ThreadWatcher, Watchable {
 
 	private int workingThreadCount = 4;
 
@@ -44,25 +44,24 @@ public class MainWorker implements Runnable, ThreadWatcher ,Watchable{
 
 	ThreadWatcher threadWatcher;
 	File folder;
-	
+
 	BootWorker boot;
 	JarWorker jar;
 	ApkWorker apk1;
 	ApkWorker apk2;
-	
+
 	ApkWorkerLegacy apk1l;
 	ApkWorkerLegacy apk2l;
 	JarWorkerLegacy jar1l;
 	JarWorkerLegacy jar2l;
-	
-	
+
 	boolean isinitialized = false;
 	int maxThreading = 2;
-	public JPanel mainPannel = new JPanel ();
+	public JPanel mainPannel = new JPanel();
 	JProgressBar progressBar;
 	ArrayList<Runnable> tasks = new ArrayList<Runnable>();
-	
-	public MainWorker(File folder, LoggerPan logPane,int maxThreads) {
+
+	public MainWorker(File folder, LoggerPan logPane, int maxThreads) {
 		workingThreadCount = maxThreads;
 		this.logPan = logPane;
 		this.folder = folder;
@@ -71,7 +70,46 @@ public class MainWorker implements Runnable, ThreadWatcher ,Watchable{
 		} else {
 			initLegacy();
 		}
-		
+
+	}
+
+	@Override
+	public void addThreadWatcher(ThreadWatcher watcher) {
+		// TODO Auto-generated method stub
+		threadWatcher = watcher;
+	}
+
+	@Override
+	public void done(Runnable r) {
+		if (tasks.size() > 0) {
+			new Thread(tasks.get(0)).start();
+			tasks.remove(0);
+		}
+		workingThreadCount--;
+		// if (r.equals(apk1)) {
+		// workingThreadCount--;
+		// } else if (r.equals(apk2)) {
+		// workingThreadCount--;
+		//
+		// } else if (r.equals(boot)) {
+		// workingThreadCount--;
+		//
+		// } else if (r.equals(jar)) {
+		// workingThreadCount--;
+		// }
+		if (workingThreadCount == 0) {
+			logPan.saveToFile();
+			FilesUtils.deleteRecursively(new File(SessionCfg.getSystemFolder().getAbsolutePath() + File.separator
+					+ S.SYSTEM_FRAMEWORK + File.separator + SessionCfg.getArch()));
+			FilesUtils.deleteRecursively(S.bootTmp.getParentFile().getParentFile());
+			// TODO remove this
+			Logger.logToStdIO("ALL JOBS THERMINATED ");
+			// logPan.addLog(R.getString(S.LOG_INFO)+R.getString("mainWorker.alljobsDone"));
+			// logPan.addLog(R.getString(S.LOG_INFO)+R.getString("mainworker.finallog"));
+			progressBar.setValue(progressBar.getMaximum());
+			progressBar.setString(R.getString("progress.done"));
+			updateWatcher();
+		}
 	}
 
 	private void init() {
@@ -150,114 +188,69 @@ public class MainWorker implements Runnable, ThreadWatcher ,Watchable{
 		this.initPannel();
 	}
 
-	public void initPannel(){
-		progressBar = new JProgressBar();
-		progressBar.setFont(R.COURIER_NORMAL);
-		progressBar.setStringPainted(true);
-		
-		mainPannel.setSize(798, 222);
-		mainPannel.setLayout(null);
-		mainPannel.setBackground(new Color(206, 194, 229));
-		apk1.getProgressBar().setBounds(10, 5, 780, 22);
-		apk1.getProgressBar().setFont(R.COURIER_NORMAL);
-		apk1.getProgressBar().setBackground(Color.white);
-		apk1.getProgressBar().setForeground(new Color(0, 183, 92));
-		
-		
-		apk2.getProgressBar().setBounds(10, 29, 780, 22);
-		apk2.getProgressBar().setFont(R.COURIER_NORMAL);
-		apk2.getProgressBar().setBackground(Color.white);
-		apk2.getProgressBar().setForeground(new Color(0, 183, 92));
-		
-		jar.getProgressBar().setBounds(10, 53, 780, 22);
-		jar.getProgressBar().setFont(R.COURIER_NORMAL);
-		jar.getProgressBar().setBackground(Color.white);
-		jar.getProgressBar().setForeground(new Color(0, 183, 92));
-		
-		boot.progressBar.setBounds(10, 77, 780, 22);
-		boot.progressBar.setFont(R.COURIER_NORMAL);
-		boot.progressBar.setBackground(Color.white);
-		boot.progressBar.setForeground(new Color(0, 183, 92));
-		
-		progressBar.setBounds(10, 101, 780, 22);
-		progressBar.setMinimum(0);
-		progressBar.setMaximum(apk1.getProgressBar().getMaximum()+apk2.getProgressBar().getMaximum()+jar.getProgressBar().getMaximum()
-				+boot.progressBar.getMaximum());
-		progressBar.setForeground(new Color( 175, 122, 197 ));
-		progressBar.setBackground(Color.WHITE);
-		
-		mainPannel.add(apk1.getProgressBar());
-		mainPannel.add(apk2.getProgressBar());
-		mainPannel.add(jar.getProgressBar());
-		mainPannel.add(boot.progressBar);
-
-		mainPannel.add(progressBar);
-	}
-	
-	
 	private void initLegacy() {
-		File framwork = new File(folder.getAbsolutePath()+File.separator+S.SYSTEM_FRAMEWORK);
-		File app = new File(folder.getAbsolutePath()+File.separator+S.SYSTEM_APP);
-		File privApp = new File(folder.getAbsolutePath()+File.separator+S.SYSTEM_PRIV_APP);
-		
-		this.worker1List =new ArrayList<File>();
-		this.worker2List =new ArrayList<File>();
-		this.worker3List =new ArrayList<File>();
+		File framwork = new File(folder.getAbsolutePath() + File.separator + S.SYSTEM_FRAMEWORK);
+		File app = new File(folder.getAbsolutePath() + File.separator + S.SYSTEM_APP);
+		File privApp = new File(folder.getAbsolutePath() + File.separator + S.SYSTEM_PRIV_APP);
+
+		this.worker1List = new ArrayList<File>();
+		this.worker2List = new ArrayList<File>();
+		this.worker3List = new ArrayList<File>();
 		this.worker4List = new ArrayList<File>();
-		
+
 		File[] appList = app.listFiles();
 		File[] privList = null;
-		if(privApp.exists())
-		privList = privApp.listFiles();
-		
+		if (privApp.exists())
+			privList = privApp.listFiles();
+
 		File framworkList[] = framwork.listFiles();
-		
-		for (File f : framworkList){
-			if(f.getName().endsWith(".odex")){
+
+		for (File f : framworkList) {
+			if (f.getName().endsWith(".odex")) {
 				worker3List.add(f);
-				FilesUtils.copyFileRecurcively(f, new File(S.bootTmpDex+File.separator+f.getName()));
+				FilesUtils.copyFileRecurcively(f, new File(S.bootTmpDex + File.separator + f.getName()));
 			}
 		}
-		// FIXME: check this before 
+		// FIXME: check this before
 		isinitialized = true;
-		for(File f : appList){
-			if(f.getName().endsWith(".odex")){
+		for (File f : appList) {
+			if (f.getName().endsWith(".odex")) {
 				worker1List.add(f);
 			}
 		}
-		if(privList!=null ){
-			for (File f : privList){
-				if(f.getName().endsWith(".odex")){
+		if (privList != null) {
+			for (File f : privList) {
+				if (f.getName().endsWith(".odex")) {
 					worker1List.add(f);
 				}
 			}
 		}
 		// framworklists
-		if(worker3List.size() >0){
-		int half = worker3List.size()/2;
-		for(int i = 0;i <= half;i++){
-			worker4List.add(worker3List.get(0));
-			worker3List.remove(0);
-		}
+		if (worker3List.size() > 0) {
+			int half = worker3List.size() / 2;
+			for (int i = 0; i <= half; i++) {
+				worker4List.add(worker3List.get(0));
+				worker3List.remove(0);
+			}
 		}
 		// apps
-		if(worker1List.size() >0){
-		int half = worker1List.size()/2;
-		for (int i = 0;i<= half;i++){
-			worker2List.add(worker1List.get(0));
-			worker1List.remove(0);
+		if (worker1List.size() > 0) {
+			int half = worker1List.size() / 2;
+			for (int i = 0; i <= half; i++) {
+				worker2List.add(worker1List.get(0));
+				worker1List.remove(0);
+			}
 		}
-		}
-		// initialize workers 
-		 apk1l = new ApkWorkerLegacy(worker1List, logPan, S.worker1Folder, SessionCfg.sign, SessionCfg.zipalign);
-		 apk2l = new ApkWorkerLegacy(worker2List, logPan, S.worker2Folder, SessionCfg.sign, SessionCfg.zipalign);
-		 jar1l = new JarWorkerLegacy(worker3List, logPan, S.worker3Folder);
-		 jar2l = new JarWorkerLegacy(worker4List, logPan, S.worker4Folder);
+		// initialize workers
+		apk1l = new ApkWorkerLegacy(worker1List, logPan, S.worker1Folder, SessionCfg.sign, SessionCfg.zipalign);
+		apk2l = new ApkWorkerLegacy(worker2List, logPan, S.worker2Folder, SessionCfg.sign, SessionCfg.zipalign);
+		jar1l = new JarWorkerLegacy(worker3List, logPan, S.worker3Folder);
+		jar2l = new JarWorkerLegacy(worker4List, logPan, S.worker4Folder);
 		apk1l.addThreadWatcher(this);
 		apk2l.addThreadWatcher(this);
 		jar1l.addThreadWatcher(this);
 		jar2l.addThreadWatcher(this);
-		
+
 		tasks = new ArrayList<Runnable>();
 		tasks.add(apk1l);
 		tasks.add(apk2l);
@@ -266,11 +259,54 @@ public class MainWorker implements Runnable, ThreadWatcher ,Watchable{
 		this.initPannelLegacy();
 	}
 
-	public void initPannelLegacy(){
+	public void initPannel() {
 		progressBar = new JProgressBar();
 		progressBar.setFont(R.COURIER_NORMAL);
 		progressBar.setStringPainted(true);
-		
+
+		mainPannel.setSize(798, 222);
+		mainPannel.setLayout(null);
+		mainPannel.setBackground(new Color(206, 194, 229));
+		apk1.getProgressBar().setBounds(10, 5, 780, 22);
+		apk1.getProgressBar().setFont(R.COURIER_NORMAL);
+		apk1.getProgressBar().setBackground(Color.white);
+		apk1.getProgressBar().setForeground(new Color(0, 183, 92));
+
+		apk2.getProgressBar().setBounds(10, 29, 780, 22);
+		apk2.getProgressBar().setFont(R.COURIER_NORMAL);
+		apk2.getProgressBar().setBackground(Color.white);
+		apk2.getProgressBar().setForeground(new Color(0, 183, 92));
+
+		jar.getProgressBar().setBounds(10, 53, 780, 22);
+		jar.getProgressBar().setFont(R.COURIER_NORMAL);
+		jar.getProgressBar().setBackground(Color.white);
+		jar.getProgressBar().setForeground(new Color(0, 183, 92));
+
+		boot.progressBar.setBounds(10, 77, 780, 22);
+		boot.progressBar.setFont(R.COURIER_NORMAL);
+		boot.progressBar.setBackground(Color.white);
+		boot.progressBar.setForeground(new Color(0, 183, 92));
+
+		progressBar.setBounds(10, 101, 780, 22);
+		progressBar.setMinimum(0);
+		progressBar.setMaximum(apk1.getProgressBar().getMaximum() + apk2.getProgressBar().getMaximum()
+				+ jar.getProgressBar().getMaximum() + boot.progressBar.getMaximum());
+		progressBar.setForeground(new Color(175, 122, 197));
+		progressBar.setBackground(Color.WHITE);
+
+		mainPannel.add(apk1.getProgressBar());
+		mainPannel.add(apk2.getProgressBar());
+		mainPannel.add(jar.getProgressBar());
+		mainPannel.add(boot.progressBar);
+
+		mainPannel.add(progressBar);
+	}
+
+	public void initPannelLegacy() {
+		progressBar = new JProgressBar();
+		progressBar.setFont(R.COURIER_NORMAL);
+		progressBar.setStringPainted(true);
+
 		mainPannel.setSize(798, 222);
 		mainPannel.setLayout(null);
 		mainPannel.setBackground(new Color(206, 194, 229));
@@ -278,29 +314,29 @@ public class MainWorker implements Runnable, ThreadWatcher ,Watchable{
 		apk1l.getProgressBar().setFont(R.COURIER_NORMAL);
 		apk1l.getProgressBar().setBackground(Color.white);
 		apk1l.getProgressBar().setForeground(new Color(0, 183, 92));
-		
-		
+
 		apk2l.getProgressBar().setBounds(10, 29, 780, 22);
 		apk2l.getProgressBar().setFont(R.COURIER_NORMAL);
 		apk2l.getProgressBar().setBackground(Color.white);
 		apk2l.getProgressBar().setForeground(new Color(0, 183, 92));
-		
+
 		jar1l.getProgressBar().setBounds(10, 53, 780, 22);
 		jar1l.getProgressBar().setFont(R.COURIER_NORMAL);
 		jar1l.getProgressBar().setBackground(Color.white);
 		jar1l.getProgressBar().setForeground(new Color(0, 183, 92));
-		
+
 		jar2l.progressBar.setBounds(10, 77, 780, 22);
 		jar2l.progressBar.setFont(R.COURIER_NORMAL);
 		jar2l.progressBar.setBackground(Color.white);
 		jar2l.progressBar.setForeground(new Color(0, 183, 92));
-		
+
 		progressBar.setBounds(10, 101, 780, 22);
 		progressBar.setMinimum(0);
-		progressBar.setMaximum(this.worker1List.size()+this.worker2List.size()+this.worker3List.size()+this.worker4List.size());
-		progressBar.setForeground(new Color( 175, 122, 197 ));
+		progressBar.setMaximum(
+				this.worker1List.size() + this.worker2List.size() + this.worker3List.size() + this.worker4List.size());
+		progressBar.setForeground(new Color(175, 122, 197));
 		progressBar.setBackground(Color.WHITE);
-		
+
 		mainPannel.add(apk1l.getProgressBar());
 		mainPannel.add(apk2l.getProgressBar());
 		mainPannel.add(jar1l.getProgressBar());
@@ -308,77 +344,38 @@ public class MainWorker implements Runnable, ThreadWatcher ,Watchable{
 
 		mainPannel.add(progressBar);
 	}
-	
-	
-	
+
 	@Override
 	public void run() {
 		this.threadWatcher.updateProgress();
 
-		for (int i = 0 ; i < this.maxThreading && tasks.size() >0 ; i++){
+		for (int i = 0; i < this.maxThreading && tasks.size() > 0; i++) {
 			new Thread(tasks.get(0)).start();
 			tasks.remove(0);
 		}
 	}
 
-	@Override
-	public void done(Runnable r) {
-		if(tasks.size() > 0){
-			new Thread(tasks.get(0)).start();
-			tasks.remove(0);
-		}
-		workingThreadCount--;
-//		if (r.equals(apk1)) {
-//			workingThreadCount--;
-//		} else if (r.equals(apk2)) {
-//			workingThreadCount--;
-//
-//		} else if (r.equals(boot)) {
-//			workingThreadCount--;
-//
-//		} else if (r.equals(jar)) {
-//			workingThreadCount--;
-//		}
-		if (workingThreadCount == 0) {
-			logPan.saveToFile();
-			FilesUtils.deleteRecursively(new File(SessionCfg.getSystemFolder().getAbsolutePath()
-							+ File.separator + S.SYSTEM_FRAMEWORK + File.separator + SessionCfg.getArch()));
-					FilesUtils.deleteRecursively(S.bootTmp.getParentFile().getParentFile());
-					// TODO remove this
-					Logger.logToStdIO("ALL JOBS THERMINATED ");
-					//logPan.addLog(R.getString(S.LOG_INFO)+R.getString("mainWorker.alljobsDone"));
-					//logPan.addLog(R.getString(S.LOG_INFO)+R.getString("mainworker.finallog"));
-					progressBar.setValue(progressBar.getMaximum());
-					progressBar.setString(R.getString("progress.done"));
-					updateWatcher();
-		}
-	}
-
-	private void updateWatcher(){
-		threadWatcher.done(this);
-	}
-	
-	private synchronized void setProgress(){
-		if(SessionCfg.getSdk() > 20){
-		progressBar.setValue(apk1.getProgressBar().getValue()+apk2.getProgressBar().getValue()+boot.progressBar.getValue()+
-				jar.progressBar.getValue());
-		progressBar.setString(R.getString("overal.progress")+"("+progressBar.getValue()+"/"+progressBar.getMaximum()+")");
+	private synchronized void setProgress() {
+		if (SessionCfg.getSdk() > 20) {
+			progressBar.setValue(apk1.getProgressBar().getValue() + apk2.getProgressBar().getValue()
+					+ boot.progressBar.getValue() + jar.progressBar.getValue());
+			progressBar.setString(R.getString("overal.progress") + "(" + progressBar.getValue() + "/"
+					+ progressBar.getMaximum() + ")");
 		} else {
-			progressBar.setValue(apk1l.getProgressBar().getValue()+apk2l.getProgressBar().getValue()
-					+jar1l.getProgressBar().getValue()+jar2l.getProgressBar().getValue());
-			progressBar.setString(R.getString("overal.progress")+"("+progressBar.getValue()+"/"+progressBar.getMaximum()+")");
+			progressBar.setValue(apk1l.getProgressBar().getValue() + apk2l.getProgressBar().getValue()
+					+ jar1l.getProgressBar().getValue() + jar2l.getProgressBar().getValue());
+			progressBar.setString(R.getString("overal.progress") + "(" + progressBar.getValue() + "/"
+					+ progressBar.getMaximum() + ")");
 		}
 	}
-	
+
 	@Override
 	public void updateProgress() {
 		setProgress();
-		
+
 	}
 
-	@Override
-	public void addThreadWatcher(ThreadWatcher watcher) {
-		// TODO Auto-generated method stub
-		threadWatcher = watcher;
+	private void updateWatcher() {
+		threadWatcher.done(this);
 	}
 }

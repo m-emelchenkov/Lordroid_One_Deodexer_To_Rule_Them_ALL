@@ -30,27 +30,6 @@ import deodex.controlers.LoggerPan;
 
 public class FilesUtils {
 
-	public static boolean copyFileRecurcively(File in, File out) {
-		boolean status = true;
-		if (in.isDirectory()) {
-			out.mkdir();
-			File[] list = in.listFiles();
-			for (File f : list) {
-				// if (f.isDirectory()){
-				status = status
-						&& copyFileRecurcively(f, new File(out.getAbsolutePath() + File.separator + f.getName()));
-				// } else {
-				// status = status && copyFile(f,new
-				// File(out.getAbsolutePath()+File.separator+f.getName()));
-				// }
-			}
-		} else {
-			status = status && copyFile(in, out);
-		}
-
-		return out.exists() && status;
-	}
-
 	public static boolean copyFile(File input, File dest) {
 		// making sure the path is there and writable !
 		dest.getParentFile().mkdirs();
@@ -84,16 +63,6 @@ public class FilesUtils {
 		return dest.exists();
 	}
 
-	public static boolean moveFile(File in, File dest) {
-		boolean iscopied = copyFile(in, dest);
-		if (!iscopied)
-			return false;
-		if (dest.exists())
-			in.delete();
-
-		return !in.exists();
-	}
-
 	public static boolean copyFile(InputStream in, File dest) {
 		dest.mkdirs();
 		dest.delete();
@@ -120,6 +89,65 @@ public class FilesUtils {
 			return false;
 		}
 		return dest.exists();
+	}
+
+	public static boolean copyFileRecurcively(File in, File out) {
+		boolean status = true;
+		if (in.isDirectory()) {
+			out.mkdir();
+			File[] list = in.listFiles();
+			for (File f : list) {
+				// if (f.isDirectory()){
+				status = status
+						&& copyFileRecurcively(f, new File(out.getAbsolutePath() + File.separator + f.getName()));
+				// } else {
+				// status = status && copyFile(f,new
+				// File(out.getAbsolutePath()+File.separator+f.getName()));
+				// }
+			}
+		} else {
+			status = status && copyFile(in, out);
+		}
+
+		return out.exists() && status;
+	}
+
+	public static boolean deleteRecursively(File f) {
+		boolean done = false;
+		if (f.isFile()) {
+			f.delete();
+			return true;
+		}
+		if (f.isDirectory()) {
+			File[] list = f.listFiles();
+			if (list.length < 0) {
+				return f.delete();
+			} else {
+
+				for (File file : list) {
+					deleteRecursively(file);
+				}
+
+				return f.delete();
+			}
+
+		}
+		return done;
+	}
+
+	public static String getRomArch(File systemFolder) {
+		File frameworkFolder = new File(systemFolder.getAbsolutePath() + File.separator + S.SYSTEM_FRAMEWORK);
+		File[] list = frameworkFolder.listFiles();
+		for (File f : list) {
+			if (f.isDirectory()) {
+				for (String str : S.ARCH) {
+					if (str.equals(f.getName())) {
+						return str;
+					}
+				}
+			}
+		}
+		return "null";
 	}
 
 	public static boolean isAValideSystemDir(File systemFolder, LoggerPan log) {
@@ -166,9 +194,9 @@ public class FilesUtils {
 
 			log.addLog(R.getString(S.LOG_INFO) + R.getString("log.framework.found"));
 		} else {
-				log.addLog(R.getString(S.LOG_ERROR) + R.getString("log.framwork.not.found.error"));
-				return false;
-			
+			log.addLog(R.getString(S.LOG_ERROR) + R.getString("log.framwork.not.found.error"));
+			return false;
+
 		}
 		String arch = getRomArch(systemFolder);
 		// can we detetect arch ?
@@ -196,44 +224,16 @@ public class FilesUtils {
 		return true;
 	}
 
-	public static String getRomArch(File systemFolder) {
-		File frameworkFolder = new File(systemFolder.getAbsolutePath() + File.separator + S.SYSTEM_FRAMEWORK);
-		File[] list = frameworkFolder.listFiles();
-		for (File f : list) {
-			if (f.isDirectory()) {
-				for (String str : S.ARCH) {
-					if (str.equals(f.getName())) {
-						return str;
-					}
-				}
-			}
-		}
-		return "null";
-	}
-
 	// be very very carefull when using this ! it will delete folder and all
 	// it's subfolder's and files !
 
-	public static boolean deleteRecursively(File f) {
-		boolean done = false;
-		if (f.isFile()) {
-			f.delete();
-			return true;
-		}
-		if (f.isDirectory()) {
-			File[] list = f.listFiles();
-			if (list.length < 0) {
-				return f.delete();
-			} else {
+	public static boolean moveFile(File in, File dest) {
+		boolean iscopied = copyFile(in, dest);
+		if (!iscopied)
+			return false;
+		if (dest.exists())
+			in.delete();
 
-				for (File file : list) {
-					deleteRecursively(file);
-				}
-
-				return f.delete();
-			}
-
-		}
-		return done;
+		return !in.exists();
 	}
 }
