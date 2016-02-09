@@ -24,16 +24,14 @@ import deodex.SessionCfg;
 public class Deodexer {
 
 	public static boolean deodexApk(File odexFile, File dexFile) {
-		String cmd[] = { "java", "-jar", S.OAT2DEX_JAR, odexFile.getAbsolutePath(), S.bootTmpDex.getAbsolutePath() };
+		String cmd[] = { "java", "-jar", new File(S.OAT2DEX_JAR).getAbsolutePath(), odexFile.getAbsolutePath(), S.bootTmpDex.getAbsolutePath() };
 		try {
 			Process p = Runtime.getRuntime().exec(cmd);
 			p.waitFor();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return false;
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -45,9 +43,9 @@ public class Deodexer {
 		File tempSmali = new File(odexFile.getParentFile().getAbsolutePath() + File.separator
 				+ odexFile.getName().substring(0, odexFile.getName().lastIndexOf(".odex")));
 		tempSmali.getParentFile().mkdirs();
-		String[] cmd = { "java", "-jar", S.BACKSMALI_JAR, "-a", "" + SessionCfg.getSdk(), "-d",
+		String[] cmd = { "java", "-jar", new File(S.BACKSMALI_JAR).getAbsolutePath(), "-a", "" + SessionCfg.getSdk(), "-d",
 				S.bootTmpDex.getAbsolutePath(), "-x", odexFile.getAbsolutePath(), "-o", tempSmali.getAbsolutePath() };
-		String[] cmd2 = { "java", "-jar", S.SMALI_JAR, "-a", "" + SessionCfg.getSdk(), "-o",
+		String[] cmd2 = { "java", "-jar", new File(S.SMALI_JAR).getAbsolutePath(), "-a", "" + SessionCfg.getSdk(), "-o",
 				classesFile.getAbsolutePath(), tempSmali.getAbsolutePath() };
 
 		for (String str : cmd2) {
@@ -81,7 +79,7 @@ public class Deodexer {
 	}
 
 	public static boolean oat2dexBoot(File bootOat) {
-		String[] cmd = { "java", "-jar", S.OAT2DEX_JAR, "boot", bootOat.getAbsolutePath() };
+		String[] cmd = { "java", "-jar", new File(S.OAT2DEX_JAR).getAbsolutePath(), "boot", bootOat.getAbsolutePath() };
 		try {
 			Process p = Runtime.getRuntime().exec(cmd);
 			p.waitFor();
