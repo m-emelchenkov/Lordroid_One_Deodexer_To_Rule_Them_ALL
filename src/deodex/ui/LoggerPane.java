@@ -98,7 +98,7 @@ public class LoggerPane extends JPanel implements LoggerPan {
 		// TODO Auto-generated method stub
 
 		long yourmilliseconds = System.currentTimeMillis();
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd|HH:mm:ss"); // dd/MMM/yyyy
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd_HH.mm.ss"); // dd/MMM/yyyy
 		Date resultdate = new Date(yourmilliseconds);
 		String str = PathUtils.getExcutionPath() + File.separator + "logs" + File.separator + sdf.format(resultdate)
 				+ ".log";
