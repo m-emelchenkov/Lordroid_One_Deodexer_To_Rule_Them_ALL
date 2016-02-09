@@ -26,6 +26,7 @@ import deodex.S;
 import deodex.obj.ApkObj;
 import deodex.tools.Deodexer;
 import deodex.tools.FilesUtils;
+import deodex.tools.Logger;
 import deodex.tools.Zip;
 import deodex.tools.ZipTools;
 
@@ -110,7 +111,7 @@ public class ApkWorker implements Runnable {
 						ArrayList<File> classesFiles = new ArrayList<File>();
 						classesFiles.add(apk.getTempClasses1());
 						if (apk.getTempClasses2().exists())
-							classesFiles.add(apk.getTempClasses1());
+							classesFiles.add(apk.getTempClasses2());
 						boolean addClassesToApkStatus = false;
 						try {
 							addClassesToApkStatus = Zip.addFilesToExistingZip(apk.getTempApk(), classesFiles);
@@ -126,7 +127,7 @@ public class ApkWorker implements Runnable {
 							if (this.doSign) {
 								// TODO sign !
 								try {
-									Deodexer.signApk(apk.getTempApk(), apk.getTempApkSigned());
+									Logger.logToStdIO(Deodexer.signApk(apk.getTempApk(), apk.getTempApkSigned())+" sign status for "+apk.getOrigApk().getName());
 								} catch (IOException | InterruptedException e) {
 									FilesUtils.copyFile(apk.getTempApk(), apk.getTempApkSigned());
 								}
@@ -152,17 +153,12 @@ public class ApkWorker implements Runnable {
 		FilesUtils.copyFile(apk.getTempApkZipalign(), apk.getOrigApk());
 
 		// delete the arch folder clearlly we dont need it any more
-		File[] files = apk.getArchFolder().listFiles();
-		// make sure there is no libs in that folder before deleting it
-		// (bootloops are no tolerated ! )
-		for (File f : files) {
-			if (!f.getName().endsWith(".so"))
-				FilesUtils.deleteRecursively(f);
-		}
-		files = apk.getArchFolder().listFiles();
-		if (files.length <= 0) {
-			apk.getArchFolder().delete();
-		}
+		// FIXME : clean all odexFiles in the folder 
+		FilesUtils.deleteFiles(FilesUtils.searchrecursively(apk.getFolder(), S.ODEX_EXT));
+		FilesUtils.deleteFiles(FilesUtils.searchrecursively(apk.getFolder(), S.COMP_ODEX_EXT));
+		FilesUtils.deleteUmptyFoldersInFolder(apk.getFolder());
+
+		
 		FilesUtils.deleteRecursively(apk.getTempApkZipalign().getParentFile());
 
 		return true;
@@ -191,9 +187,9 @@ public class ApkWorker implements Runnable {
 
 			boolean sucess = deodexApk(apk);
 			if (!sucess) {
-				logPan.addLog("[" + apk.getName() + ".apk]" + R.getString(S.LOG_FAIL));
+				logPan.addLog("[" + new ApkObj(apk).getOrigApk().getName() + "]" + R.getString(S.LOG_FAIL));
 			} else {
-				logPan.addLog("[" + apk.getName() + ".apk]" + R.getString(S.LOG_SUCCESS));
+				logPan.addLog("[" + new ApkObj(apk).getOrigApk().getName() + "]" + R.getString(S.LOG_SUCCESS));
 			}
 			progressBar.setValue(i++);
 			progressBar.setString(R.getString("progress.apks") + " (" + progressBar.getValue() + "/"

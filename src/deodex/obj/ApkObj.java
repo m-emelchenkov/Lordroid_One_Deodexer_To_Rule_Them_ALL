@@ -19,7 +19,6 @@ import java.io.File;
 import java.io.Serializable;
 
 import deodex.S;
-import deodex.SessionCfg;
 import deodex.tools.FilesUtils;
 
 public class ApkObj implements Serializable {
@@ -30,10 +29,9 @@ public class ApkObj implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private File origApk;
-	private File archFolder;
+//	private File archFolder;
 	private File odexFile;
 	private File tmpWorkingFolder;
-	private boolean isdeodexNeeded = false;
 	private File folder;
 
 	private File tempApk;
@@ -44,37 +42,32 @@ public class ApkObj implements Serializable {
 	private File tempDex2;
 	private File tempClasses1;
 	private File tempClasses2;
-
+	private String pureName;
+	
 	/**
 	 * 
 	 * @param folder
 	 * @param arch
 	 */
-	public ApkObj(File folder) {
-		this.folder = folder;
-		// apk location
-		origApk = new File(folder.getAbsolutePath() + File.separator + folder.getName() + S.APK_EXT);
-
-		// arch folder we delete this one if the apk was deodexed successfully
-		archFolder = new File(folder.getAbsolutePath() + File.separator + SessionCfg.getArch());
-
-		// odex file ,now in 5.X and above it can be compressed or it can be not
-		// compressed
-		if (archFolder.exists() && archFolder.isDirectory()) {
-			File[] archFiles = archFolder.listFiles();
-			for (File f : archFiles) {
-				if (f.getName().endsWith(S.ODEX_EXT)) {
-					odexFile = f;
-					break;
-				} else if (f.getName().endsWith(S.COMP_ODEX_EXT)) {
-					odexFile = f;
+	public ApkObj(File odexFile) {
+			this.odexFile = odexFile;
+			if(odexFile.getName().endsWith(S.COMP_ODEX_EXT)){
+				setPureName(odexFile.getName().substring(0, odexFile.getName().lastIndexOf(S.COMP_ODEX_EXT)));
+			} else {
+				setPureName(odexFile.getName().substring(0, odexFile.getName().lastIndexOf(S.ODEX_EXT)));
+			}
+			//this.folder = new File(odexFile.getAbsolutePath().substring(0,
+			//		odexFile.getAbsolutePath().lastIndexOf(File.separator+this.pureName+File.separator)));
+			File f = odexFile;
+			while(true){
+				f = f.getParentFile();
+				if(f.isDirectory() && f.getName().equals(this.pureName)){
+					this.folder = f;
 					break;
 				}
 			}
-			if (odexFile != null)
-				isdeodexNeeded = true;
-		}
-
+			this.origApk = new File(folder.getAbsolutePath()+File.separator+this.pureName+S.APK_EXT);
+			
 	}
 
 	/**
@@ -102,13 +95,6 @@ public class ApkObj implements Serializable {
 		return tempApk.exists() && tempOdex.exists();
 	}
 
-	/**
-	 * 
-	 * @return
-	 */
-	public File getArchFolder() {
-		return archFolder;
-	}
 
 	public File getFolder() {
 		return folder;
@@ -192,13 +178,6 @@ public class ApkObj implements Serializable {
 		return tmpWorkingFolder;
 	}
 
-	/**
-	 * 
-	 * @return
-	 */
-	public boolean isIsdeodexNeeded() {
-		return isdeodexNeeded;
-	}
 
 	/**
 	 * 
@@ -222,5 +201,19 @@ public class ApkObj implements Serializable {
 	 */
 	public void setTempClasses2(File tempClasses2) {
 		this.tempClasses2 = tempClasses2;
+	}
+
+	/**
+	 * @return the pureName
+	 */
+	public String getPureName() {
+		return pureName;
+	}
+
+	/**
+	 * @param pureName the pureName to set
+	 */
+	public void setPureName(String pureName) {
+		this.pureName = pureName;
 	}
 }

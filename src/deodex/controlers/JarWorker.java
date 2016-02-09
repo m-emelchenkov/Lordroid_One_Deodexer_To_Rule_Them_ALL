@@ -22,6 +22,8 @@ import java.util.ArrayList;
 import javax.swing.JProgressBar;
 
 import deodex.R;
+import deodex.S;
+import deodex.SessionCfg;
 import deodex.obj.JarObj;
 import deodex.tools.Deodexer;
 import deodex.tools.FilesUtils;
@@ -118,9 +120,10 @@ public class JarWorker implements Runnable, Watchable {
 				}
 			}
 		}
-		// FilesUtils.deleteRecursively(jar.getTmpFolder());
-		// FilesUtils.deleteRecursively(jar.getOdexFile());
-
+		 FilesUtils.deleteRecursively(jar.getTmpFolder());
+		 FilesUtils.deleteRecursively(jar.getOdexFile());
+		 FilesUtils.deleteFiles(FilesUtils.searchrecursively(new File(SessionCfg.getSystemFolder()+
+				 File.separator+S.SYSTEM_FRAMEWORK), jar.getOdexFile().getName()));
 		return true;
 	}
 

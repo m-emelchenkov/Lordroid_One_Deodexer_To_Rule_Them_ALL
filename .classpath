@@ -6,6 +6,5 @@
 	<classpathentry exported="true" kind="lib" path="libs/commons-compress-1.10.jar"/>
 	<classpathentry exported="true" kind="lib" path="libs/zip4j_1.3.2.jar"/>
 	<classpathentry exported="true" kind="lib" path="libs/xz.jar"/>
-	<classpathentry kind="lib" path="libs/commons-io-2.4.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -22,6 +22,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
 
 import deodex.R;
 import deodex.S;
@@ -138,14 +139,17 @@ public class FilesUtils {
 	public static String getRomArch(File systemFolder) {
 		File frameworkFolder = new File(systemFolder.getAbsolutePath() + File.separator + S.SYSTEM_FRAMEWORK);
 		File[] list = frameworkFolder.listFiles();
-		for (File f : list) {
-			if (f.isDirectory()) {
+		
+			
 				for (String str : S.ARCH) {
+					for (File f : list) {
+						if (f.isDirectory()) {
 					if (str.equals(f.getName())) {
 						return str;
 					}
-				}
-			}
+						}
+					}
+			
 		}
 		return "null";
 	}
@@ -236,4 +240,48 @@ public class FilesUtils {
 
 		return !in.exists();
 	}
+	
+	/**
+	 * 
+	 * @param folder
+	 * @param ext
+	 * @return ArrayfilesList
+	 */
+	public static ArrayList <File> searchrecursively(File folder ,  String ext){
+		ArrayList<File> list = new ArrayList<File>();
+		File[] files = folder.listFiles();
+		for(File f : files){
+			if(f.isDirectory()){
+				for (File f1 : searchrecursively(f , ext)){
+					list.add(f1);
+				}
+			} else if(f.isFile() && f.getName().endsWith(ext)){
+				list.add(f);
+			}
+		}
+		return list;
+	}
+	public static void deleteFiles(ArrayList<File> files){
+		if(files!=null && files.size()>0)
+		for (File f : files){
+			if(f.isFile())
+				f.delete();
+		}
+		
+	}
+	public static void deleteUmptyFoldersInFolder(File folder){
+		if(folder.isFile()) return ;
+		if(folder.listFiles()==null || folder.listFiles().length<=0){
+			folder.delete();
+		} else {
+			for(File f : folder.listFiles()){
+				if(f.isDirectory())
+					deleteUmptyFoldersInFolder(f);
+			}
+		}
+		if(folder.listFiles()==null || folder.listFiles().length<=0){
+			folder.delete();
+		}
+	}
+	
 }

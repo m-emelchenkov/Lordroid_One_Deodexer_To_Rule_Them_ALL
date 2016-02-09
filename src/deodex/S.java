@@ -13,6 +13,7 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  */
+
 package deodex;
 
 import java.io.File;
@@ -28,7 +29,8 @@ public class S {
 	public static final String SYSTEM_BUILD_PROP = "build.prop";
 	public static final String SYSTEM_FRAMEWORK = "framework";
 	public static final String SYSTEM_FRAMEWORK_BOOT = "boot.oat";
-	public static final String SDK_LEVEL_PROP = "ro.build.version.sdk";
+	public static final String SYSTEM_FRAMEWORK_BOOT_ART = "boot.art";
+		public static final String SDK_LEVEL_PROP = "ro.build.version.sdk";
 
 	public static final String DEX_EXT = ".dex";
 	public static final String DEX2_EXT = "-classes2.dex";
@@ -89,7 +91,7 @@ public class S {
 	public static File bootTmp = new File(TMP + File.separator + File.separator + "boot" + File.separator + "boot.oat");
 	public static File bootTmpDex = new File(TMP + File.separator + File.separator + "boot" + File.separator + "dex");
 
-	public static final String[] ARCH = { "arm", "arm64", "mips", "mips64", "x86", "x86_64" };
+	public static final String[] ARCH = { "arm64", "arm", "mips64", "mips", "x86_64", "x86" };
 
 	public static void initTempFolders() {
 		new File(TMP + File.separator + WORKER1).mkdirs();

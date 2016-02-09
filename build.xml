@@ -16,7 +16,6 @@
             <zipfileset excludes="META-INF/*.SF" src="${dir.jarfile}/libs/commons-compress-1.10.jar"/>
             <zipfileset excludes="META-INF/*.SF" src="${dir.jarfile}/libs/zip4j_1.3.2.jar"/>
             <zipfileset excludes="META-INF/*.SF" src="${dir.jarfile}/libs/xz.jar"/>
-            <zipfileset excludes="META-INF/*.SF" src="${dir.jarfile}/libs/commons-io-2.4.jar"/>
         </jar>
     </target>
 </project>
