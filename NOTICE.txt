@@ -1,0 +1,14 @@
+# =================         NOTICE ==============================
+# for /libs/commons-io-2.4.jar && /libs/commons-compress-1.10.jar
+Apache Commons IO
+Copyright 2002-2012 The Apache Software Foundation
+
+This product includes software developed by
+The Apache Software Foundation (http://www.apache.org/).
+
+            Apache License
+         Version 2.0, January 2004
+     http://www.apache.org/licenses/
+
+# ====================      END NOTICE ===========================
+ 
