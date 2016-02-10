@@ -45,7 +45,7 @@ public class JarWorker implements Runnable, Watchable {
 		this.tmpFolder = tmpFolder;
 		this.progressBar = new JProgressBar();
 		progressBar.setMinimum(0);
-		progressBar.setMaximum(odexList.size());
+		progressBar.setMaximum(odexList.size()*6);
 		progressBar.setStringPainted(true);
 	}
 
@@ -58,71 +58,96 @@ public class JarWorker implements Runnable, Watchable {
 
 	private boolean deodexJar(File odex) {
 		JarObj jar = new JarObj(odex);
+		// phase 1
 		boolean copyStatus = jar.copyNeedFiles(tmpFolder);
 		if (!copyStatus) {
 			// TODO add loggin for this
 			return false;
-		} else {
-			boolean extractStatus = false;
-			try {
-				extractStatus = ZipTools.extractOdex(jar.getTmpodex());
-			} catch (IOException e) {
-				// TODO Auto-generated catch block XXX : add logging for this
-				e.printStackTrace();
-				return false;
-			}
-			if (!extractStatus) {
-				// TODO add logging for this
-				return false;
-			} else {
-				boolean deodexStatus = false;
-				deodexStatus = Deodexer.deodexApk(jar.getTmpodex(), jar.getTmpdex());
-				if (!deodexStatus) {
-					// TODO : add LOGGIN for this
-					deodexStatus = Deodexer.deodexApkFailSafe(jar.getTmpodex(), jar.getTmpdex());
-					if (!deodexStatus)
-						return false;
-				}
-
-				boolean rename = false;
-				rename = FilesUtils.copyFile(jar.getTmpdex(), jar.getTmpClasses());
-				if (jar.getTmpdex2().exists()) {
-					rename = rename && FilesUtils.copyFile(jar.getTmpdex2(), jar.getTmpClasses2());
-				}
-				rename = jar.getTmpdex2().exists() ? jar.getTmpClasses().exists() && jar.getTmpClasses2().exists()
-						: jar.getTmpClasses().exists();
-				// if(rename) return true;
-				if (!rename) {
-					// TODO : add log to this
-					return false;
-				} else {
-					ArrayList<File> list = new ArrayList<File>();
-					list.add(jar.getTmpClasses());
-					if (jar.getTmpClasses2().exists()) {
-						list.add(jar.getTmpClasses2());
-					}
-					boolean addstatus = false;
-					try {
-						addstatus = Zip.addFilesToExistingZip(jar.getTmpJar(), list);
-					} catch (IOException e1) {
-						e1.printStackTrace();
-					}
-
-					if (!addstatus) {
-						// TODO add logging for this
-						return false;
-					} else {
-						boolean putBack = false;
-						putBack = FilesUtils.copyFile(jar.getTmpJar(), jar.getOrigJar());
-						if (!putBack) {
-							// TODO : add LOGGING to this
-							return false;
-						}
-					}
-				}
-
-			}
 		}
+		this.progressBar.setValue(this.progressBar.getValue()+1);
+		progressBar.setString(
+				R.getString("progress.jar") + " " + this.getPercent() + "%");
+		threadWatcher.updateProgress();
+		
+		// phase 02
+		boolean extractStatus = false;
+		try {
+			extractStatus = ZipTools.extractOdex(jar.getTmpodex());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block XXX : add logging for this
+			e.printStackTrace();
+			return false;
+		}
+		if (!extractStatus) {
+			// TODO add logging for this
+			return false;
+		}
+		this.progressBar.setValue(this.progressBar.getValue()+1);
+		progressBar.setString(
+				R.getString("progress.jar") + " " + this.getPercent() + "%");
+		threadWatcher.updateProgress();
+		
+		// phase 3
+		boolean deodexStatus = false;
+		deodexStatus = Deodexer.deodexApk(jar.getTmpodex(), jar.getTmpdex());
+		if (!deodexStatus) {
+			// TODO : add LOGGIN for this
+			deodexStatus = Deodexer.deodexApkFailSafe(jar.getTmpodex(), jar.getTmpdex());
+			if (!deodexStatus)
+				return false;
+		}
+		this.progressBar.setValue(this.progressBar.getValue()+1);
+		progressBar.setString(
+				R.getString("progress.jar") + " " + this.getPercent() + "%");
+		threadWatcher.updateProgress();
+		
+		// phase 4
+		boolean rename = false;
+		rename = FilesUtils.copyFile(jar.getTmpdex(), jar.getTmpClasses());
+		if (jar.getTmpdex2().exists()) {
+			rename = rename && FilesUtils.copyFile(jar.getTmpdex2(), jar.getTmpClasses2());
+		}
+		rename = jar.getTmpdex2().exists() ? jar.getTmpClasses().exists() && jar.getTmpClasses2().exists()
+				: jar.getTmpClasses().exists();
+		// if(rename) return true;
+		if (!rename) {
+			// TODO : add log to this
+			return false;
+		}
+		this.progressBar.setValue(this.progressBar.getValue()+1);
+		progressBar.setString(
+				R.getString("progress.jar") + " " + this.getPercent() + "%");
+		threadWatcher.updateProgress();
+		
+		// phase 5
+		ArrayList<File> list = new ArrayList<File>();
+		list.add(jar.getTmpClasses());
+		if (jar.getTmpClasses2().exists()) {
+			list.add(jar.getTmpClasses2());
+		}
+		boolean addstatus = false;
+		try {
+			addstatus = Zip.addFilesToExistingZip(jar.getTmpJar(), list);
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+		if (!addstatus) {
+			// TODO add logging for this
+			return false;
+		}
+		this.progressBar.setValue(this.progressBar.getValue()+1);
+		progressBar.setString(
+				R.getString("progress.jar") + " " + this.getPercent() + "%");
+		threadWatcher.updateProgress();
+		
+		// phase 6
+		boolean putBack = false;
+		putBack = FilesUtils.copyFile(jar.getTmpJar(), jar.getOrigJar());
+		if (!putBack) {
+			// TODO : add LOGGING to this
+			return false;
+		}
+
 		FilesUtils.deleteRecursively(jar.getTmpFolder());
 		FilesUtils.deleteRecursively(jar.getOdexFile());
 		FilesUtils.deleteFiles(FilesUtils.searchExactFileNames(
@@ -137,11 +162,15 @@ public class JarWorker implements Runnable, Watchable {
 	public JProgressBar getProgressBar() {
 		return progressBar;
 	}
-
+	private int getPercent(){
+		//   max ===> 100
+		//   value ===> ?
+		// ? = value*100/max;
+		return (this.progressBar.getValue()*100)/this.progressBar.getMaximum();
+		
+	}
 	@Override
 	public void run() {
-		// TODO Auto-generated method stub
-		int i = 0;
 		for (File jar : odexFiles) {
 			boolean success = deodexJar(jar);
 			if (success) {
@@ -150,10 +179,15 @@ public class JarWorker implements Runnable, Watchable {
 			} else {
 				logPan.addLog("[" + jar.getName().substring(0, jar.getName().lastIndexOf(".")) + ".jar]" + " [FAILED]");
 			}
-			this.progressBar.setValue(i++);
+			this.progressBar.setValue(this.progressBar.getValue()+1);
 			progressBar.setString(
-					R.getString("progress.jar") + " (" + progressBar.getValue() + "/" + progressBar.getMaximum() + ")");
+					R.getString("progress.jar") + " " + this.getPercent() + "%");
 			threadWatcher.updateProgress();
+		}
+		try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
 		}
 		FilesUtils.deleteRecursively(tmpFolder);
 		this.progressBar.setValue(this.progressBar.getMaximum());

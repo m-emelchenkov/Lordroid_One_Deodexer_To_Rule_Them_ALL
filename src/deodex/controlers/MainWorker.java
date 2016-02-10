@@ -414,17 +414,23 @@ public class MainWorker implements Runnable, ThreadWatcher, Watchable {
 		}
 	}
 
+	private int getPercent(){
+		//   max ===> 100
+		//   value ===> ?
+		// ? = value*100/max;
+		return (this.progressBar.getValue()*100)/this.progressBar.getMaximum();
+		
+	}
+	
 	private synchronized void setProgress() {
 		if (SessionCfg.getSdk() > 20) {
 			progressBar.setValue(apk1.getProgressBar().getValue() + apk2.getProgressBar().getValue()
 					+ boot.progressBar.getValue() + jar.progressBar.getValue());
-			progressBar.setString(R.getString("overal.progress") + "(" + progressBar.getValue() + "/"
-					+ progressBar.getMaximum() + ")");
+			progressBar.setString(R.getString("overal.progress") + "(" + this.getPercent() + "%)");
 		} else {
 			progressBar.setValue(apk1l.getProgressBar().getValue() + apk2l.getProgressBar().getValue()
 					+ jar1l.getProgressBar().getValue() + jar2l.getProgressBar().getValue());
-			progressBar.setString(R.getString("overal.progress") + "(" + progressBar.getValue() + "/"
-					+ progressBar.getMaximum() + ")");
+			progressBar.setString(R.getString("overal.progress") + "(" + this.getPercent() + "%)");
 		}
 	}
 
