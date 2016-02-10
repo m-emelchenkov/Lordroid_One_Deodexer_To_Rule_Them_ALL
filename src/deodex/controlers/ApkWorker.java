@@ -162,7 +162,7 @@ public class ApkWorker implements Runnable {
 		if (this.doSign) {
 			// TODO sign !
 			try {
-				Deodexer.signApk(apk.getTempApk(), apk.getTempApkSigned());
+				this.signStatus =Deodexer.signApk(apk.getTempApk(), apk.getTempApkSigned());
 			} catch (IOException | InterruptedException e) {
 				FilesUtils.copyFile(apk.getTempApk(), apk.getTempApkSigned());
 			}
@@ -177,7 +177,7 @@ public class ApkWorker implements Runnable {
 		// phase 7
 		if (this.doZipalign) {
 			try {
-				Zip.zipAlignAPk(apk.getTempApkSigned(), apk.getTempApkZipalign());
+				this.zipAlignStatus =Zip.zipAlignAPk(apk.getTempApkSigned(), apk.getTempApkZipalign());
 			} catch (IOException | InterruptedException e) {
 				FilesUtils.copyFile(apk.getTempApkSigned(), apk.getTempApkZipalign());
 			}
