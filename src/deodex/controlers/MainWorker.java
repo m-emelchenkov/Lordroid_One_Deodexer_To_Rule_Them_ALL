@@ -91,20 +91,14 @@ public class MainWorker implements Runnable, ThreadWatcher, Watchable {
 		if (workingThreadCount == 0) {
 			logPan.saveToFile();
 			
-//			FilesUtils.deleteRecursively(new File(SessionCfg.getSystemFolder().getAbsolutePath() + File.separator
-//					+ S.SYSTEM_FRAMEWORK + File.separator + SessionCfg.getArch()));
 			FilesUtils.deleteFiles(FilesUtils.searchrecursively(new File(folder.getAbsolutePath()+File.separator+
 					S.SYSTEM_FRAMEWORK), S.SYSTEM_FRAMEWORK_BOOT));
 			FilesUtils.deleteFiles(FilesUtils.searchrecursively(new File(folder.getAbsolutePath()+File.separator+
 					S.SYSTEM_FRAMEWORK), S.SYSTEM_FRAMEWORK_BOOT_ART));
 			
-//			FilesUtils.deleteFiles(FilesUtils.searchrecursively(new File(folder.getAbsolutePath()+File.separator+
-//					S.SYSTEM_FRAMEWORK), S.ODEX_EXT));
-//			
-//			FilesUtils.deleteFiles(FilesUtils.searchrecursively(new File(folder.getAbsolutePath()+File.separator+
-//					S.SYSTEM_FRAMEWORK), S.COMP_ODEX_EXT));
-			
-			
+			FilesUtils.deleteUmptyFoldersInFolder(new File(folder.getAbsolutePath()+File.separator+
+					S.SYSTEM_FRAMEWORK));
+
 			FilesUtils.deleteRecursively(S.bootTmp.getParentFile().getParentFile());
 			// TODO remove this
 			Logger.logToStdIO("ALL JOBS THERMINATED ");
