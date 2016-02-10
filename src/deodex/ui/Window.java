@@ -70,6 +70,7 @@ public class Window extends JFrame implements ThreadWatcher {
 
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
+			deodexNow.setEnabled(false);
 			initwaiting();
 			SessionCfg.setSign(signCheck.isSelected());
 			SessionCfg.setZipalign(zipalignCheck.isSelected());
@@ -82,7 +83,6 @@ public class Window extends JFrame implements ThreadWatcher {
 					addThreadWatcher();
 					Thread t = new Thread(mainWorker);
 					t.start();
-					deodexNow.setEnabled(false);
 				}
 
 			}).start();

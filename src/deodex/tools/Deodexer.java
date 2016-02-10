@@ -38,6 +38,43 @@ public class Deodexer {
 		return dexFile.exists();
 	}
 
+	public static boolean deodexApkFailSafe(File odexFile, File dexFile) {
+		File smaliFolder = new File(dexFile.getParentFile().getAbsolutePath()+
+				File.separator+dexFile.getName().substring(0, dexFile.getName().lastIndexOf(".")));
+		smaliFolder.getParentFile().mkdirs();
+		// baksmali command
+		String[] cmd = {"java" ,"-jar" ,new File(S.BACKSMALI_JAR).getAbsolutePath(),"-x" ,"-c" ,"boot.oat" ,"-d",
+				S.bootTmp.getParentFile().getAbsolutePath(),odexFile.getAbsolutePath(),"-o",smaliFolder.getAbsolutePath()};
+		
+		// smalicommand
+		String[] cmd2 = {"java","-jar",new File(S.SMALI_JAR).getAbsolutePath(),"-a",""+SessionCfg.getSdk(),
+				"-o", dexFile.getAbsolutePath(),smaliFolder.getAbsolutePath()};
+		Process p;
+		
+		try {
+			p = Runtime.getRuntime().exec(cmd);
+			p.waitFor();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		if(!smaliFolder.exists()){
+			Logger.logToStdIO("Failed at baksmali "+odexFile.getName());
+			return false;
+		}
+		try {
+			p = Runtime.getRuntime().exec(cmd2);
+			p.waitFor();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}		
+		return dexFile.exists();
+	}
+
+	
 	public static boolean deoDexApkLegacy(File odexFile, File classesFile) {
 		classesFile.getParentFile().mkdirs();
 		File tempSmali = new File(odexFile.getParentFile().getAbsolutePath() + File.separator

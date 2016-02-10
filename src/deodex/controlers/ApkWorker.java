@@ -55,8 +55,11 @@ public class ApkWorker implements Runnable {
 		this.doZipalign = doZipalign;
 
 		progressBar = new JProgressBar();
-		progressBar.setMinimum(1);
-		progressBar.setMaximum(apkList.size());
+		progressBar.setMinimum(0);
+		if(apkList != null)
+			progressBar.setMaximum(apkList.size() <= 0 ? 2: apkList.size());
+		else
+			progressBar.setMaximum(1);
 		progressBar.setStringPainted(true);
 	}
 
@@ -72,93 +75,97 @@ public class ApkWorker implements Runnable {
 		ApkObj apk = new ApkObj(apkFolder);
 
 		boolean copyStatus = apk.copyNeededFilesToTempFolder(tmpFolder);
-		if (!copyStatus) {
+		if (!copyStatus) { // returns
 			logPan.addLog(R.getString(S.LOG_WARNING) + " [" + apk.getOrigApk().getName() + "]"
 					+ R.getString("log.copy.to.tmp.failed"));
 			return false;
-		} else {
-			boolean extraxtStatus = false;
-			try {
-				extraxtStatus = ZipTools.extractOdex(apk.getTempOdex());
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			if (!extraxtStatus) {
+		}
+
+		boolean extraxtStatus = false;
+		try {
+			extraxtStatus = ZipTools.extractOdex(apk.getTempOdex());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if (!extraxtStatus) {
+			logPan.addLog(R.getString(S.LOG_WARNING) + " [" + apk.getOrigApk().getName() + "]"
+					+ R.getString("log.extract.to.tmp.failed"));
+			FilesUtils.deleteRecursively(apk.getTempApk().getParentFile());
+			return false;
+		}
+
+		boolean dexStatus = Deodexer.deodexApk(apk.getTempOdex(), apk.getTempDex());
+		if (!dexStatus) {
+			dexStatus = Deodexer.deodexApkFailSafe(apk.getTempOdex(), apk.getTempDex());
+			if (!dexStatus) {
 				logPan.addLog(R.getString(S.LOG_WARNING) + " [" + apk.getOrigApk().getName() + "]"
-						+ R.getString("log.extract.to.tmp.failed"));
+						+ R.getString("log.deodex.failed"));
 				FilesUtils.deleteRecursively(apk.getTempApk().getParentFile());
 				return false;
-			} else {
-				boolean dexStatus = Deodexer.deodexApk(apk.getTempOdex(), apk.getTempDex());
-				if (!dexStatus) {
-					logPan.addLog(R.getString(S.LOG_WARNING) + " [" + apk.getOrigApk().getName() + "]"
-							+ R.getString("log.deodex.failed"));
-					FilesUtils.deleteRecursively(apk.getTempApk().getParentFile());
-					return false;
-				} else {
-					boolean rename = FilesUtils.copyFile(apk.getTempDex(), apk.getTempClasses1());
-					if (apk.getTempDex2().exists()) {
-						rename = rename && FilesUtils.copyFile(apk.getTempDex2(), apk.getTempClasses2());
-					}
-					if (!rename) {
-						logPan.addLog(R.getString(S.LOG_WARNING) + " [" + apk.getOrigApk().getName() + "]"
-								+ R.getString("log.classes.failed"));
-						FilesUtils.deleteRecursively(apk.getTempApk().getParentFile());
-						return false;
-
-					} else {
-						ArrayList<File> classesFiles = new ArrayList<File>();
-						classesFiles.add(apk.getTempClasses1());
-						if (apk.getTempClasses2().exists())
-							classesFiles.add(apk.getTempClasses2());
-						boolean addClassesToApkStatus = false;
-						try {
-							addClassesToApkStatus = Zip.addFilesToExistingZip(apk.getTempApk(), classesFiles);
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
-						if (!addClassesToApkStatus) {
-							logPan.addLog(R.getString(S.LOG_WARNING) + " [" + apk.getOrigApk().getName() + "]"
-									+ R.getString("log.add.classes.failed"));
-							// FilesUtils.deleteRecursively(apk.getTempApk().getParentFile());
-							return false;
-						} else {
-							if (this.doSign) {
-								// TODO sign !
-								try {
-									Logger.logToStdIO(Deodexer.signApk(apk.getTempApk(), apk.getTempApkSigned())+" sign status for "+apk.getOrigApk().getName());
-								} catch (IOException | InterruptedException e) {
-									FilesUtils.copyFile(apk.getTempApk(), apk.getTempApkSigned());
-								}
-							} else {
-								FilesUtils.copyFile(apk.getTempApk(), apk.getTempApkSigned());
-
-							}
-							if (this.doZipalign) {
-								try {
-									Zip.zipAlignAPk(apk.getTempApkSigned(), apk.getTempApkZipalign());
-								} catch (IOException | InterruptedException e) {
-									FilesUtils.copyFile(apk.getTempApkSigned(), apk.getTempApkZipalign());
-								}
-							} else {
-								FilesUtils.copyFile(apk.getTempApkSigned(), apk.getTempApkZipalign());
-							}
-						}
-					}
-				}
 			}
 		}
+
+		boolean rename = FilesUtils.copyFile(apk.getTempDex(), apk.getTempClasses1());
+		if (apk.getTempDex2().exists()) {
+			rename = rename && FilesUtils.copyFile(apk.getTempDex2(), apk.getTempClasses2());
+		}
+		if (!rename) {
+			logPan.addLog(R.getString(S.LOG_WARNING) + " [" + apk.getOrigApk().getName() + "]"
+					+ R.getString("log.classes.failed"));
+			FilesUtils.deleteRecursively(apk.getTempApk().getParentFile());
+			return false;
+
+		}
+
+		ArrayList<File> classesFiles = new ArrayList<File>();
+		classesFiles.add(apk.getTempClasses1());
+		if (apk.getTempClasses2().exists())
+			classesFiles.add(apk.getTempClasses2());
+		boolean addClassesToApkStatus = false;
+		try {
+			addClassesToApkStatus = Zip.addFilesToExistingZip(apk.getTempApk(), classesFiles);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		if (!addClassesToApkStatus) {
+			logPan.addLog(R.getString(S.LOG_WARNING) + " [" + apk.getOrigApk().getName() + "]"
+					+ R.getString("log.add.classes.failed"));
+			// FilesUtils.deleteRecursively(apk.getTempApk().getParentFile());
+			return false;
+		}
+
+		if (this.doSign) {
+			// TODO sign !
+			try {
+				Logger.logToStdIO(Deodexer.signApk(apk.getTempApk(), apk.getTempApkSigned()) + " sign status for "
+						+ apk.getOrigApk().getName());
+			} catch (IOException | InterruptedException e) {
+				FilesUtils.copyFile(apk.getTempApk(), apk.getTempApkSigned());
+			}
+		} else {
+			FilesUtils.copyFile(apk.getTempApk(), apk.getTempApkSigned());
+
+		}
+		if (this.doZipalign) {
+			try {
+				Zip.zipAlignAPk(apk.getTempApkSigned(), apk.getTempApkZipalign());
+			} catch (IOException | InterruptedException e) {
+				FilesUtils.copyFile(apk.getTempApkSigned(), apk.getTempApkZipalign());
+			}
+		} else {
+			FilesUtils.copyFile(apk.getTempApkSigned(), apk.getTempApkZipalign());
+		}
+
 		// the process is successful now copy and clean !
 		FilesUtils.copyFile(apk.getTempApkZipalign(), apk.getOrigApk());
 
 		// delete the arch folder clearlly we dont need it any more
-		// FIXME : clean all odexFiles in the folder 
+		// FIXME : clean all odexFiles in the folder
 		FilesUtils.deleteFiles(FilesUtils.searchrecursively(apk.getFolder(), S.ODEX_EXT));
 		FilesUtils.deleteFiles(FilesUtils.searchrecursively(apk.getFolder(), S.COMP_ODEX_EXT));
 		FilesUtils.deleteUmptyFoldersInFolder(apk.getFolder());
 
-		
 		FilesUtils.deleteRecursively(apk.getTempApkZipalign().getParentFile());
 
 		return true;
@@ -181,27 +188,25 @@ public class ApkWorker implements Runnable {
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
+		if (apkList != null && apkList.size() > 0) {
+			for (File apk : apkList) {
 
-		int i = 0;
-		for (File apk : apkList) {
-
-			boolean sucess = deodexApk(apk);
-			if (!sucess) {
-				logPan.addLog("[" + new ApkObj(apk).getOrigApk().getName() + "]" + R.getString(S.LOG_FAIL));
-			} else {
-				logPan.addLog("[" + new ApkObj(apk).getOrigApk().getName() + "]" + R.getString(S.LOG_SUCCESS));
+				boolean sucess = deodexApk(apk);
+				if (!sucess) {
+					logPan.addLog("[" + new ApkObj(apk).getOrigApk().getName() + "]" + R.getString(S.LOG_FAIL));
+				} else {
+					logPan.addLog("[" + new ApkObj(apk).getOrigApk().getName() + "]" + R.getString(S.LOG_SUCCESS));
+				}
+				progressBar.setValue(progressBar.getValue()+1);
+				progressBar.setString(R.getString("progress.apks") + " (" + progressBar.getValue() + "/"
+						+ progressBar.getMaximum() + ")");
+				threadWatcher.updateProgress();
 			}
-			progressBar.setValue(i++);
-			progressBar.setString(R.getString("progress.apks") + " (" + progressBar.getValue() + "/"
-					+ progressBar.getMaximum() + ")");
-			threadWatcher.updateProgress();
 		}
-
 		FilesUtils.deleteRecursively(tmpFolder);
 		progressBar.setValue(progressBar.getMaximum());
 		progressBar.setString(R.getString("progress.done"));
-		if (!this.threadWatcher.equals(null))
-			this.threadWatcher.done(this);
+		this.threadWatcher.done(this);
 	}
 
 	/**

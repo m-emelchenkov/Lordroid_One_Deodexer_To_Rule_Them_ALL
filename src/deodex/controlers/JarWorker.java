@@ -79,51 +79,55 @@ public class JarWorker implements Runnable, Watchable {
 				deodexStatus = Deodexer.deodexApk(jar.getTmpodex(), jar.getTmpdex());
 				if (!deodexStatus) {
 					// TODO : add LOGGIN for this
+					deodexStatus = Deodexer.deodexApkFailSafe(jar.getTmpodex(), jar.getTmpdex());
+					if (!deodexStatus)
+						return false;
+				}
+
+				boolean rename = false;
+				rename = FilesUtils.copyFile(jar.getTmpdex(), jar.getTmpClasses());
+				if (jar.getTmpdex2().exists()) {
+					rename = rename && FilesUtils.copyFile(jar.getTmpdex2(), jar.getTmpClasses2());
+				}
+				rename = jar.getTmpdex2().exists() ? jar.getTmpClasses().exists() && jar.getTmpClasses2().exists()
+						: jar.getTmpClasses().exists();
+				// if(rename) return true;
+				if (!rename) {
+					// TODO : add log to this
 					return false;
 				} else {
-					boolean rename = false;
-					rename = FilesUtils.copyFile(jar.getTmpdex(), jar.getTmpClasses());
-					if (jar.getTmpdex2().exists()) {
-						rename = rename && FilesUtils.copyFile(jar.getTmpdex2(), jar.getTmpClasses2());
+					ArrayList<File> list = new ArrayList<File>();
+					list.add(jar.getTmpClasses());
+					if (jar.getTmpClasses2().exists()) {
+						list.add(jar.getTmpClasses2());
 					}
-					rename = jar.getTmpdex2().exists() ? jar.getTmpClasses().exists() && jar.getTmpClasses2().exists()
-							: jar.getTmpClasses().exists();
-					// if(rename) return true;
-					if (!rename) {
-						// TODO : add log to this
+					boolean addstatus = false;
+					try {
+						addstatus = Zip.addFilesToExistingZip(jar.getTmpJar(), list);
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
+
+					if (!addstatus) {
+						// TODO add logging for this
 						return false;
 					} else {
-						ArrayList<File> list = new ArrayList<File>();
-						list.add(jar.getTmpClasses());
-						if (jar.getTmpClasses2().exists()) {
-							list.add(jar.getTmpClasses2());
-						}
-						boolean addstatus = false;
-						try {
-							addstatus = Zip.addFilesToExistingZip(jar.getTmpJar(), list);
-						} catch (IOException e1) {
-							e1.printStackTrace();
-						}
-
-						if (!addstatus) {
-							// TODO add logging for this
+						boolean putBack = false;
+						putBack = FilesUtils.copyFile(jar.getTmpJar(), jar.getOrigJar());
+						if (!putBack) {
+							// TODO : add LOGGING to this
 							return false;
-						} else {
-							boolean putBack = false;
-							putBack = FilesUtils.copyFile(jar.getTmpJar(), jar.getOrigJar());
-							if (!putBack) {
-								// TODO : add LOGGING to this
-								return false;
-							}
 						}
 					}
 				}
+
 			}
 		}
-		 FilesUtils.deleteRecursively(jar.getTmpFolder());
-		 FilesUtils.deleteRecursively(jar.getOdexFile());
-		 FilesUtils.deleteFiles(FilesUtils.searchrecursively(new File(SessionCfg.getSystemFolder()+
-				 File.separator+S.SYSTEM_FRAMEWORK), jar.getOdexFile().getName()));
+		FilesUtils.deleteRecursively(jar.getTmpFolder());
+		FilesUtils.deleteRecursively(jar.getOdexFile());
+		FilesUtils.deleteFiles(FilesUtils.searchrecursively(
+				new File(SessionCfg.getSystemFolder() + File.separator + S.SYSTEM_FRAMEWORK),
+				jar.getOdexFile().getName()));
 		return true;
 	}
 

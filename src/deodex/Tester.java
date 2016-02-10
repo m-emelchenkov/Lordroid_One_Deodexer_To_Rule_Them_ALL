@@ -23,6 +23,7 @@ import deodex.ui.Window;
 
 public class Tester {
 	public static void main(String args[]) {
+
 		if (Cfg.isFirstLaunch()) {
 			Cfg.setCurrentLang(S.ENGLISH);
 			R.initResources();

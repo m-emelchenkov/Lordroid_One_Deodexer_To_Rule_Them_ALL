@@ -21,6 +21,7 @@ import java.util.ArrayList;
 public class ArrayUtils {
 
 	public static ArrayList<File> deletedupricates(ArrayList<File> list ){
+
 		int[] index = getDuplicatesindex(list);
 		for (int x = 0; x < index.length; x++) {
 			list.remove(index[x] - x);

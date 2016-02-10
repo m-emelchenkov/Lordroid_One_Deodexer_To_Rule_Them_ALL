@@ -63,7 +63,6 @@ public class MainWorker implements Runnable, ThreadWatcher, Watchable {
 	ArrayList<Runnable> tasks = new ArrayList<Runnable>();
 
 	public MainWorker(File folder, LoggerPan logPane, int maxThreads) {
-		workingThreadCount = maxThreads;
 		maxThreading = maxThreads;
 		this.logPan = logPane;
 		this.folder = folder;
@@ -128,7 +127,7 @@ public class MainWorker implements Runnable, ThreadWatcher, Watchable {
 			return;
 		}
 
-
+		Logger.logToStdIO("Initialized modern pass the boot copy and deodex boot.oat");
 		File bootFiles = new File(S.bootTmpDex.getAbsolutePath());
 
 		// TODO init apklist here 		
@@ -137,7 +136,7 @@ public class MainWorker implements Runnable, ThreadWatcher, Watchable {
 		int half = worker1List.size() / 2;
 
 		worker2List = new ArrayList<File>();
-		for (int i = worker1List.size() - 1; i > half; i = worker1List.size() - 1) {
+		for (int i = worker1List.size() - 1; i >= half; i = worker1List.size() - 1) {
 			worker2List.add(worker1List.get(i));
 			worker1List.remove(i);
 		}
@@ -193,7 +192,8 @@ public class MainWorker implements Runnable, ThreadWatcher, Watchable {
 		if(new File(this.folder.getAbsolutePath()+File.separator+S.SYSTEM_APP).exists()){
 		list1 = FilesUtils.searchrecursively(new File(this.folder.getAbsolutePath()+File.separator
 				+S.SYSTEM_APP), S.ODEX_EXT);
-		list2 = FilesUtils.searchrecursively(folder, S.COMP_ODEX_EXT);
+		list2 = FilesUtils.searchrecursively(new File(this.folder.getAbsolutePath()+File.separator
+				+S.SYSTEM_APP), S.COMP_ODEX_EXT);
 		}
 
 		if(list1!=null && list1.size()>0){
@@ -228,8 +228,7 @@ public class MainWorker implements Runnable, ThreadWatcher, Watchable {
 			for (File f : list2)
 				global.add(f);
 		}
-
-		return global;		
+		return ArrayUtils.deletedupricates(global);	
 	}
 	
 	
@@ -286,6 +285,10 @@ public class MainWorker implements Runnable, ThreadWatcher, Watchable {
 				worker1List.remove(0);
 			}
 		}
+		worker1List = ArrayUtils.deletedupricates(worker1List);
+		worker2List = ArrayUtils.deletedupricates(worker2List);
+		worker3List = ArrayUtils.deletedupricates(worker3List);
+		worker4List = ArrayUtils.deletedupricates(worker4List);
 		// initialize workers
 		apk1l = new ApkWorkerLegacy(worker1List, logPan, S.worker1Folder, SessionCfg.sign, SessionCfg.zipalign);
 		apk2l = new ApkWorkerLegacy(worker2List, logPan, S.worker2Folder, SessionCfg.sign, SessionCfg.zipalign);
@@ -392,11 +395,29 @@ public class MainWorker implements Runnable, ThreadWatcher, Watchable {
 
 	@Override
 	public void run() {
+		System.out.println("list 1");
+		for(File f : this.worker1List){
+			System.out.println(f.getAbsolutePath());
+		}
+		System.out.println("list 2");
+		for(File f : this.worker2List){
+			System.out.println(f.getAbsolutePath());
+		}
+		System.out.println("list 3");
+		for(File f : this.worker3List){
+			System.out.println(f.getAbsolutePath());
+		}
+		System.out.println("list 4");
+		for(File f : this.worker4List){
+			System.out.println(f.getAbsolutePath());
+		}
 		this.threadWatcher.updateProgress();
 
-		for (int i = 0; i < this.maxThreading && tasks.size() > 0; i++) {
+		for (int i = 0; i < this.maxThreading ; i++) {
+			if(tasks.size() > 0){
 			new Thread(tasks.get(0)).start();
 			tasks.remove(0);
+			}
 		}
 	}
 
