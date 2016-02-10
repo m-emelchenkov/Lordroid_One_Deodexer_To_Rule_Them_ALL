@@ -139,17 +139,16 @@ public class FilesUtils {
 	public static String getRomArch(File systemFolder) {
 		File frameworkFolder = new File(systemFolder.getAbsolutePath() + File.separator + S.SYSTEM_FRAMEWORK);
 		File[] list = frameworkFolder.listFiles();
-		
-			
-				for (String str : S.ARCH) {
-					for (File f : list) {
-						if (f.isDirectory()) {
+
+		for (String str : S.ARCH) {
+			for (File f : list) {
+				if (f.isDirectory()) {
 					if (str.equals(f.getName())) {
 						return str;
 					}
-						}
-					}
-			
+				}
+			}
+
 		}
 		return "null";
 	}
@@ -240,58 +239,62 @@ public class FilesUtils {
 
 		return !in.exists();
 	}
-	
+
 	/**
 	 * 
 	 * @param folder
 	 * @param ext
 	 * @return ArrayfilesList
 	 */
-	public static ArrayList <File> searchrecursively(File folder ,  String ext){
+	public static ArrayList<File> searchrecursively(File folder, String ext) {
 		ArrayList<File> list = new ArrayList<File>();
 		File[] files = folder.listFiles();
-		for(File f : files){
-			if(f.isDirectory()){
-				for (File f1 : searchrecursively(f , ext)){
+		for (File f : files) {
+			if (f.isDirectory()) {
+				for (File f1 : searchrecursively(f, ext)) {
 					list.add(f1);
 				}
-			} else if(f.isFile() && f.getName().endsWith(ext)){
+			} else if (f.isFile() && f.getName().endsWith(ext)) {
 				list.add(f);
 			}
 		}
 		return list;
 	}
-	public static void deleteFiles(ArrayList<File> files){
-		if(files!=null && files.size()>0)
-		for (File f : files){
-			if(f.isFile())
-				f.delete();
-		}
-		
+
+	public static void deleteFiles(ArrayList<File> files) {
+		if (files != null && files.size() > 0)
+			for (File f : files) {
+				if (f.isFile())
+					f.delete();
+			}
+
 	}
-	public static void deleteUmptyFoldersInFolder(File folder){
-		if(folder.isFile()) return ;
-		if(folder.listFiles()==null || folder.listFiles().length<=0){
+
+	public static void deleteUmptyFoldersInFolder(File folder) {
+		if (folder.isFile())
+			return;
+		if (folder.listFiles() == null || folder.listFiles().length <= 0) {
 			folder.delete();
 		} else {
-			for(File f : folder.listFiles()){
-				if(f.isDirectory())
+			for (File f : folder.listFiles()) {
+				if (f.isDirectory())
 					deleteUmptyFoldersInFolder(f);
 			}
 		}
-		if(folder.listFiles()==null || folder.listFiles().length<=0){
+		if (folder.listFiles() == null || folder.listFiles().length <= 0) {
 			folder.delete();
 		}
 	}
-	public static ArrayList <File> searchExactFileNames(File folder ,  String ext){
+
+	public static ArrayList<File> searchExactFileNames(File folder, String ext) {
 		ArrayList<File> list = new ArrayList<File>();
 		File[] files = folder.listFiles();
-		for(File f : files){
-			if(f.isDirectory()){
-				for (File f1 : searchExactFileNames(f , ext)){
+		for (File f : files) {
+			if (f.isDirectory()) {
+				for (File f1 : searchExactFileNames(f, ext)) {
 					list.add(f1);
 				}
-			} else if(f.isFile() && f.getName().equals(ext)){
+			} else if (f.isFile() && f.getName().equals(ext)) {
 				list.add(f);
 			}
 		}

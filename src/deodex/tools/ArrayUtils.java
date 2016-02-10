@@ -20,7 +20,7 @@ import java.util.ArrayList;
 
 public class ArrayUtils {
 
-	public static ArrayList<File> deletedupricates(ArrayList<File> list ){
+	public static ArrayList<File> deletedupricates(ArrayList<File> list) {
 
 		int[] index = getDuplicatesindex(list);
 		for (int x = 0; x < index.length; x++) {
@@ -28,8 +28,7 @@ public class ArrayUtils {
 		}
 		return list;
 	}
-	
-	
+
 	public static int[] getDuplicatesindex(ArrayList<File> list) {
 		int index[] = new int[duplicateCount(list)];
 		for (int ii = 0, y = 0; ii < list.size() - 1; ii++) {
@@ -62,7 +61,4 @@ public class ArrayUtils {
 		return x;
 	}
 
-	
-	
-	
 }

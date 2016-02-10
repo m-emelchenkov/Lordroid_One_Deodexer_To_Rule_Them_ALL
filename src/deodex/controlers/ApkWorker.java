@@ -32,12 +32,6 @@ import deodex.tools.ZipTools;
 
 public class ApkWorker implements Runnable {
 
-	/**
-	 * constructor the argument is a list of the APk objectes to be deodexed
-	 * (lolipop and above)
-	 * 
-	 * @param apkFoldersList
-	 */
 	ArrayList<File> apkList;
 	LoggerPan logPan;
 	File tmpFolder;
@@ -46,6 +40,12 @@ public class ApkWorker implements Runnable {
 	public JProgressBar progressBar;
 	ThreadWatcher threadWatcher;
 
+	/**
+	 * constructor the argument is a list of the APk objectes to be deodexed
+	 * (lolipop and above)
+	 * 
+	 * @param apkFoldersList
+	 */
 	public ApkWorker(ArrayList<File> apkFoldersList, LoggerPan logPan, File tmpFolder, boolean doSign,
 			boolean doZipalign) {
 		apkList = apkFoldersList;
@@ -56,8 +56,8 @@ public class ApkWorker implements Runnable {
 
 		progressBar = new JProgressBar();
 		progressBar.setMinimum(0);
-		if(apkList != null)
-			progressBar.setMaximum(apkList.size() <= 0 ? 2: apkList.size()*8);
+		if (apkList != null)
+			progressBar.setMaximum(apkList.size() <= 0 ? 2 : apkList.size() * 8);
 		else
 			progressBar.setMaximum(1);
 		progressBar.setStringPainted(true);
@@ -73,7 +73,7 @@ public class ApkWorker implements Runnable {
 
 	private boolean deodexApk(File apkFolder) {
 		ApkObj apk = new ApkObj(apkFolder);
-		
+
 		// phase 01 copying to temp forlder
 		boolean copyStatus = apk.copyNeededFilesToTempFolder(tmpFolder);
 		if (!copyStatus) { // returns
@@ -81,11 +81,10 @@ public class ApkWorker implements Runnable {
 					+ R.getString("log.copy.to.tmp.failed"));
 			return false;
 		}
-		progressBar.setValue(progressBar.getValue()+1);
-		progressBar.setString(R.getString("progress.apks") + " (" + this.getPercent()+ "%)");
+		progressBar.setValue(progressBar.getValue() + 1);
+		progressBar.setString(R.getString("progress.apks") + " (" + this.getPercent() + "%)");
 		threadWatcher.updateProgress();
 
-		
 		// phase 02 extract xz if evailable
 		boolean extraxtStatus = false;
 		try {
@@ -100,15 +99,14 @@ public class ApkWorker implements Runnable {
 			FilesUtils.deleteRecursively(apk.getTempApk().getParentFile());
 			return false;
 		}
-		progressBar.setValue(progressBar.getValue()+1);
-		progressBar.setString(R.getString("progress.apks") + " (" + this.getPercent()+ "%)");
+		progressBar.setValue(progressBar.getValue() + 1);
+		progressBar.setString(R.getString("progress.apks") + " (" + this.getPercent() + "%)");
 		threadWatcher.updateProgress();
 
-		
 		// phase 03 deodexing (most of the processing time is spend here)
 		boolean dexStatus = Deodexer.deodexApk(apk.getTempOdex(), apk.getTempDex());
 		if (!dexStatus) {
-			Logger.logToStdIO(apk.getOrigApk().getName() +" Failed with method1 trying method 2");
+			Logger.logToStdIO(apk.getOrigApk().getName() + " Failed with method1 trying method 2");
 			dexStatus = Deodexer.deodexApkFailSafe(apk.getTempOdex(), apk.getTempDex());
 			if (!dexStatus) {
 				logPan.addLog(R.getString(S.LOG_WARNING) + " [" + apk.getOrigApk().getName() + "]"
@@ -117,12 +115,12 @@ public class ApkWorker implements Runnable {
 				return false;
 			}
 		}
-		progressBar.setValue(progressBar.getValue()+1);
-		progressBar.setString(R.getString("progress.apks") + " (" + this.getPercent()+ "%)");
+		progressBar.setValue(progressBar.getValue() + 1);
+		progressBar.setString(R.getString("progress.apks") + " (" + this.getPercent() + "%)");
 		threadWatcher.updateProgress();
 
-		
-		// phase 04 renamming (FIXME: why copy instead of rename? is it relly safer ?)
+		// phase 04 renamming (FIXME: why copy instead of rename? is it relly
+		// safer ?)
 		boolean rename = FilesUtils.copyFile(apk.getTempDex(), apk.getTempClasses1());
 		if (apk.getTempDex2().exists()) {
 			rename = rename && FilesUtils.copyFile(apk.getTempDex2(), apk.getTempClasses2());
@@ -134,11 +132,10 @@ public class ApkWorker implements Runnable {
 			return false;
 
 		}
-		progressBar.setValue(progressBar.getValue()+1);
-		progressBar.setString(R.getString("progress.apks") + " (" + this.getPercent()+ "%)");
+		progressBar.setValue(progressBar.getValue() + 1);
+		progressBar.setString(R.getString("progress.apks") + " (" + this.getPercent() + "%)");
 		threadWatcher.updateProgress();
 
-		
 		// phase 5
 		ArrayList<File> classesFiles = new ArrayList<File>();
 		classesFiles.add(apk.getTempClasses1());
@@ -156,11 +153,10 @@ public class ApkWorker implements Runnable {
 			// FilesUtils.deleteRecursively(apk.getTempApk().getParentFile());
 			return false;
 		}
-		progressBar.setValue(progressBar.getValue()+1);
-		progressBar.setString(R.getString("progress.apks") + " (" + this.getPercent()+ "%)");
+		progressBar.setValue(progressBar.getValue() + 1);
+		progressBar.setString(R.getString("progress.apks") + " (" + this.getPercent() + "%)");
 		threadWatcher.updateProgress();
 
-		
 		// phase 6
 		if (this.doSign) {
 			// TODO sign !
@@ -174,11 +170,10 @@ public class ApkWorker implements Runnable {
 			FilesUtils.copyFile(apk.getTempApk(), apk.getTempApkSigned());
 
 		}
-		progressBar.setValue(progressBar.getValue()+1);
-		progressBar.setString(R.getString("progress.apks") + " (" + this.getPercent()+ "%)");
+		progressBar.setValue(progressBar.getValue() + 1);
+		progressBar.setString(R.getString("progress.apks") + " (" + this.getPercent() + "%)");
 		threadWatcher.updateProgress();
 
-		
 		// phase 7
 		if (this.doZipalign) {
 			try {
@@ -189,16 +184,15 @@ public class ApkWorker implements Runnable {
 		} else {
 			FilesUtils.copyFile(apk.getTempApkSigned(), apk.getTempApkZipalign());
 		}
-		progressBar.setValue(progressBar.getValue()+1);
-		progressBar.setString(R.getString("progress.apks") + " (" + this.getPercent()+ "%)");
+		progressBar.setValue(progressBar.getValue() + 1);
+		progressBar.setString(R.getString("progress.apks") + " (" + this.getPercent() + "%)");
 		threadWatcher.updateProgress();
 
-		
 		// phase 08
 		// the process is successful now copy and clean !
 		boolean putBackStatus = FilesUtils.copyFile(apk.getTempApkZipalign(), apk.getOrigApk());
-		if(!putBackStatus){
-			Logger.logToStdIO("Failed to copy back "+apk.getPureName());
+		if (!putBackStatus) {
+			Logger.logToStdIO("Failed to copy back " + apk.getPureName());
 			return false;
 		}
 		// delete the arch folder clearlly we dont need it any more
@@ -226,13 +220,14 @@ public class ApkWorker implements Runnable {
 		return threadWatcher;
 	}
 
-	private int getPercent(){
-		//   max ===> 100
-		//   value ===> ?
+	private int getPercent() {
+		// max ===> 100
+		// value ===> ?
 		// ? = value*100/max;
-		return (this.progressBar.getValue()*100)/this.progressBar.getMaximum();
-		
+		return (this.progressBar.getValue() * 100) / this.progressBar.getMaximum();
+
 	}
+
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
@@ -245,14 +240,15 @@ public class ApkWorker implements Runnable {
 				} else {
 					logPan.addLog("[" + new ApkObj(apk).getOrigApk().getName() + "]" + R.getString(S.LOG_SUCCESS));
 				}
-				progressBar.setValue(progressBar.getValue()+1);
-				progressBar.setString(R.getString("progress.apks") + " (" + this.getPercent()+ ")");
-//				progressBar.setString(R.getString("progress.apks") + " (" + progressBar.getValue() + "/"
-//						+ progressBar.getMaximum() + ")");
+				progressBar.setValue(progressBar.getValue() + 1);
+				progressBar.setString(R.getString("progress.apks") + " (" + this.getPercent() + ")");
+				// progressBar.setString(R.getString("progress.apks") + " (" +
+				// progressBar.getValue() + "/"
+				// + progressBar.getMaximum() + ")");
 				threadWatcher.updateProgress();
 			}
 		}
-		
+
 		try {
 			Thread.sleep(2000);
 		} catch (InterruptedException e) {

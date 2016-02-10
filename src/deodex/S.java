@@ -30,7 +30,7 @@ public class S {
 	public static final String SYSTEM_FRAMEWORK = "framework";
 	public static final String SYSTEM_FRAMEWORK_BOOT = "boot.oat";
 	public static final String SYSTEM_FRAMEWORK_BOOT_ART = "boot.art";
-		public static final String SDK_LEVEL_PROP = "ro.build.version.sdk";
+	public static final String SDK_LEVEL_PROP = "ro.build.version.sdk";
 
 	public static final String DEX_EXT = ".dex";
 	public static final String DEX2_EXT = "-classes2.dex";

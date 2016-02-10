@@ -24,7 +24,8 @@ import deodex.SessionCfg;
 public class Deodexer {
 
 	public static boolean deodexApk(File odexFile, File dexFile) {
-		String cmd[] = { "java", "-jar", new File(S.OAT2DEX_JAR).getAbsolutePath(), odexFile.getAbsolutePath(), S.bootTmpDex.getAbsolutePath() };
+		String cmd[] = { "java", "-jar", new File(S.OAT2DEX_JAR).getAbsolutePath(), odexFile.getAbsolutePath(),
+				S.bootTmpDex.getAbsolutePath() };
 		try {
 			Process p = Runtime.getRuntime().exec(cmd);
 			p.waitFor();
@@ -39,18 +40,19 @@ public class Deodexer {
 	}
 
 	public static boolean deodexApkFailSafe(File odexFile, File dexFile) {
-		File smaliFolder = new File(dexFile.getParentFile().getAbsolutePath()+
-				File.separator+dexFile.getName().substring(0, dexFile.getName().lastIndexOf(".")));
+		File smaliFolder = new File(dexFile.getParentFile().getAbsolutePath() + File.separator
+				+ dexFile.getName().substring(0, dexFile.getName().lastIndexOf(".")));
 		smaliFolder.getParentFile().mkdirs();
 		// baksmali command
-		String[] cmd = {"java" ,"-jar" ,new File(S.BACKSMALI_JAR).getAbsolutePath(),"-x" ,"-c" ,"boot.oat" ,"-d",
-				S.bootTmp.getParentFile().getAbsolutePath(),odexFile.getAbsolutePath(),"-o",smaliFolder.getAbsolutePath()};
-		
+		String[] cmd = { "java", "-jar", new File(S.BACKSMALI_JAR).getAbsolutePath(), "-x", "-c", "boot.oat", "-d",
+				S.bootTmp.getParentFile().getAbsolutePath(), odexFile.getAbsolutePath(), "-o",
+				smaliFolder.getAbsolutePath() };
+
 		// smalicommand
-		String[] cmd2 = {"java","-jar",new File(S.SMALI_JAR).getAbsolutePath(),"-a",""+SessionCfg.getSdk(),
-				"-o", dexFile.getAbsolutePath(),smaliFolder.getAbsolutePath()};
+		String[] cmd2 = { "java", "-jar", new File(S.SMALI_JAR).getAbsolutePath(), "-a", "" + SessionCfg.getSdk(), "-o",
+				dexFile.getAbsolutePath(), smaliFolder.getAbsolutePath() };
 		Process p;
-		
+
 		try {
 			p = Runtime.getRuntime().exec(cmd);
 			p.waitFor();
@@ -59,8 +61,8 @@ public class Deodexer {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		if(!smaliFolder.exists()){
-			Logger.logToStdIO("Failed at baksmali "+odexFile.getName());
+		if (!smaliFolder.exists()) {
+			Logger.logToStdIO("Failed at baksmali " + odexFile.getName());
 			return false;
 		}
 		try {
@@ -70,18 +72,18 @@ public class Deodexer {
 			e.printStackTrace();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
-		}		
+		}
 		return dexFile.exists();
 	}
 
-	
 	public static boolean deoDexApkLegacy(File odexFile, File classesFile) {
 		classesFile.getParentFile().mkdirs();
 		File tempSmali = new File(odexFile.getParentFile().getAbsolutePath() + File.separator
 				+ odexFile.getName().substring(0, odexFile.getName().lastIndexOf(".odex")));
 		tempSmali.getParentFile().mkdirs();
-		String[] cmd = { "java", "-jar", new File(S.BACKSMALI_JAR).getAbsolutePath(), "-a", "" + SessionCfg.getSdk(), "-d",
-				S.bootTmpDex.getAbsolutePath(), "-x", odexFile.getAbsolutePath(), "-o", tempSmali.getAbsolutePath() };
+		String[] cmd = { "java", "-jar", new File(S.BACKSMALI_JAR).getAbsolutePath(), "-a", "" + SessionCfg.getSdk(),
+				"-d", S.bootTmpDex.getAbsolutePath(), "-x", odexFile.getAbsolutePath(), "-o",
+				tempSmali.getAbsolutePath() };
 		String[] cmd2 = { "java", "-jar", new File(S.SMALI_JAR).getAbsolutePath(), "-a", "" + SessionCfg.getSdk(), "-o",
 				classesFile.getAbsolutePath(), tempSmali.getAbsolutePath() };
 		// TODO search further info (can apks here have 2 classes.dex ? if so

@@ -45,7 +45,7 @@ public class JarWorker implements Runnable, Watchable {
 		this.tmpFolder = tmpFolder;
 		this.progressBar = new JProgressBar();
 		progressBar.setMinimum(0);
-		progressBar.setMaximum(odexList.size()*6);
+		progressBar.setMaximum(odexList.size() * 6);
 		progressBar.setStringPainted(true);
 	}
 
@@ -64,11 +64,10 @@ public class JarWorker implements Runnable, Watchable {
 			// TODO add loggin for this
 			return false;
 		}
-		this.progressBar.setValue(this.progressBar.getValue()+1);
-		progressBar.setString(
-				R.getString("progress.jar") + " " + this.getPercent() + "%");
+		this.progressBar.setValue(this.progressBar.getValue() + 1);
+		progressBar.setString(R.getString("progress.jar") + " " + this.getPercent() + "%");
 		threadWatcher.updateProgress();
-		
+
 		// phase 02
 		boolean extractStatus = false;
 		try {
@@ -82,11 +81,10 @@ public class JarWorker implements Runnable, Watchable {
 			// TODO add logging for this
 			return false;
 		}
-		this.progressBar.setValue(this.progressBar.getValue()+1);
-		progressBar.setString(
-				R.getString("progress.jar") + " " + this.getPercent() + "%");
+		this.progressBar.setValue(this.progressBar.getValue() + 1);
+		progressBar.setString(R.getString("progress.jar") + " " + this.getPercent() + "%");
 		threadWatcher.updateProgress();
-		
+
 		// phase 3
 		boolean deodexStatus = false;
 		deodexStatus = Deodexer.deodexApk(jar.getTmpodex(), jar.getTmpdex());
@@ -96,11 +94,10 @@ public class JarWorker implements Runnable, Watchable {
 			if (!deodexStatus)
 				return false;
 		}
-		this.progressBar.setValue(this.progressBar.getValue()+1);
-		progressBar.setString(
-				R.getString("progress.jar") + " " + this.getPercent() + "%");
+		this.progressBar.setValue(this.progressBar.getValue() + 1);
+		progressBar.setString(R.getString("progress.jar") + " " + this.getPercent() + "%");
 		threadWatcher.updateProgress();
-		
+
 		// phase 4
 		boolean rename = false;
 		rename = FilesUtils.copyFile(jar.getTmpdex(), jar.getTmpClasses());
@@ -114,11 +111,10 @@ public class JarWorker implements Runnable, Watchable {
 			// TODO : add log to this
 			return false;
 		}
-		this.progressBar.setValue(this.progressBar.getValue()+1);
-		progressBar.setString(
-				R.getString("progress.jar") + " " + this.getPercent() + "%");
+		this.progressBar.setValue(this.progressBar.getValue() + 1);
+		progressBar.setString(R.getString("progress.jar") + " " + this.getPercent() + "%");
 		threadWatcher.updateProgress();
-		
+
 		// phase 5
 		ArrayList<File> list = new ArrayList<File>();
 		list.add(jar.getTmpClasses());
@@ -135,11 +131,10 @@ public class JarWorker implements Runnable, Watchable {
 			// TODO add logging for this
 			return false;
 		}
-		this.progressBar.setValue(this.progressBar.getValue()+1);
-		progressBar.setString(
-				R.getString("progress.jar") + " " + this.getPercent() + "%");
+		this.progressBar.setValue(this.progressBar.getValue() + 1);
+		progressBar.setString(R.getString("progress.jar") + " " + this.getPercent() + "%");
 		threadWatcher.updateProgress();
-		
+
 		// phase 6
 		boolean putBack = false;
 		putBack = FilesUtils.copyFile(jar.getTmpJar(), jar.getOrigJar());
@@ -162,13 +157,15 @@ public class JarWorker implements Runnable, Watchable {
 	public JProgressBar getProgressBar() {
 		return progressBar;
 	}
-	private int getPercent(){
-		//   max ===> 100
-		//   value ===> ?
+
+	private int getPercent() {
+		// max ===> 100
+		// value ===> ?
 		// ? = value*100/max;
-		return (this.progressBar.getValue()*100)/this.progressBar.getMaximum();
-		
+		return (this.progressBar.getValue() * 100) / this.progressBar.getMaximum();
+
 	}
+
 	@Override
 	public void run() {
 		for (File jar : odexFiles) {
@@ -179,9 +176,8 @@ public class JarWorker implements Runnable, Watchable {
 			} else {
 				logPan.addLog("[" + jar.getName().substring(0, jar.getName().lastIndexOf(".")) + ".jar]" + " [FAILED]");
 			}
-			this.progressBar.setValue(this.progressBar.getValue()+1);
-			progressBar.setString(
-					R.getString("progress.jar") + " " + this.getPercent() + "%");
+			this.progressBar.setValue(this.progressBar.getValue() + 1);
+			progressBar.setString(R.getString("progress.jar") + " " + this.getPercent() + "%");
 			threadWatcher.updateProgress();
 		}
 		try {

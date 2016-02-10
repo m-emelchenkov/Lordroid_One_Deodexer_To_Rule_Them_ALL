@@ -98,6 +98,7 @@ public class FileDrop {
 		} // end getFiles
 
 	} // end inner class Event
+
 	/**
 	 * Implement this inner interface to listen for when files are dropped. For
 	 * example your class declaration may begin like this: <code><pre>

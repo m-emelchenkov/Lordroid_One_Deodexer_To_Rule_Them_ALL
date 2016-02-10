@@ -48,6 +48,7 @@ public class LangFrame extends JFrame {
 		}
 
 	}
+
 	class NextListener implements ActionListener {
 
 		@Override
@@ -61,6 +62,7 @@ public class LangFrame extends JFrame {
 		}
 
 	}
+
 	/**
 	 * 
 	 */

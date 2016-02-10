@@ -66,6 +66,7 @@ public class Window extends JFrame implements ThreadWatcher {
 		}
 
 	}
+
 	class DeodexNowAction implements ActionListener {
 
 		@Override
@@ -78,7 +79,8 @@ public class Window extends JFrame implements ThreadWatcher {
 
 				@Override
 				public void run() {
-					// TODO the Thread max number will be calculated like this cpu count/2
+					// TODO the Thread max number will be calculated like this
+					// cpu count/2
 					mainWorker = new MainWorker(SessionCfg.getSystemFolder(), logger, 2);
 					addThreadWatcher();
 					Thread t = new Thread(mainWorker);
@@ -90,6 +92,7 @@ public class Window extends JFrame implements ThreadWatcher {
 		}
 
 	}
+
 	public static final int W_WIDTH = 802;
 
 	public static final int W_HEIGHT = 597;

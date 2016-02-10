@@ -29,7 +29,7 @@ public class ApkObj implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private File origApk;
-//	private File archFolder;
+	// private File archFolder;
 	private File odexFile;
 	private File tmpWorkingFolder;
 	private File folder;
@@ -43,31 +43,31 @@ public class ApkObj implements Serializable {
 	private File tempClasses1;
 	private File tempClasses2;
 	private String pureName;
-	
+
 	/**
 	 * 
 	 * @param folder
 	 * @param arch
 	 */
 	public ApkObj(File odexFile) {
-			this.odexFile = odexFile;
-			if(odexFile.getName().endsWith(S.COMP_ODEX_EXT)){
-				setPureName(odexFile.getName().substring(0, odexFile.getName().lastIndexOf(S.COMP_ODEX_EXT)));
-			} else {
-				setPureName(odexFile.getName().substring(0, odexFile.getName().lastIndexOf(S.ODEX_EXT)));
+		this.odexFile = odexFile;
+		if (odexFile.getName().endsWith(S.COMP_ODEX_EXT)) {
+			setPureName(odexFile.getName().substring(0, odexFile.getName().lastIndexOf(S.COMP_ODEX_EXT)));
+		} else {
+			setPureName(odexFile.getName().substring(0, odexFile.getName().lastIndexOf(S.ODEX_EXT)));
+		}
+		// this.folder = new File(odexFile.getAbsolutePath().substring(0,
+		// odexFile.getAbsolutePath().lastIndexOf(File.separator+this.pureName+File.separator)));
+		File f = odexFile;
+		while (true) {
+			f = f.getParentFile();
+			if (f.isDirectory() && f.getName().equals(this.pureName)) {
+				this.folder = f;
+				break;
 			}
-			//this.folder = new File(odexFile.getAbsolutePath().substring(0,
-			//		odexFile.getAbsolutePath().lastIndexOf(File.separator+this.pureName+File.separator)));
-			File f = odexFile;
-			while(true){
-				f = f.getParentFile();
-				if(f.isDirectory() && f.getName().equals(this.pureName)){
-					this.folder = f;
-					break;
-				}
-			}
-			this.origApk = new File(folder.getAbsolutePath()+File.separator+this.pureName+S.APK_EXT);
-			
+		}
+		this.origApk = new File(folder.getAbsolutePath() + File.separator + this.pureName + S.APK_EXT);
+
 	}
 
 	/**
@@ -94,7 +94,6 @@ public class ApkObj implements Serializable {
 		FilesUtils.copyFile(odexFile, tempOdex);
 		return tempApk.exists() && tempOdex.exists();
 	}
-
 
 	public File getFolder() {
 		return folder;
@@ -178,7 +177,6 @@ public class ApkObj implements Serializable {
 		return tmpWorkingFolder;
 	}
 
-
 	/**
 	 * 
 	 * @param odexFile
@@ -211,7 +209,8 @@ public class ApkObj implements Serializable {
 	}
 
 	/**
-	 * @param pureName the pureName to set
+	 * @param pureName
+	 *            the pureName to set
 	 */
 	public void setPureName(String pureName) {
 		this.pureName = pureName;
