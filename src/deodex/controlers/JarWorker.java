@@ -125,7 +125,7 @@ public class JarWorker implements Runnable, Watchable {
 		}
 		FilesUtils.deleteRecursively(jar.getTmpFolder());
 		FilesUtils.deleteRecursively(jar.getOdexFile());
-		FilesUtils.deleteFiles(FilesUtils.searchrecursively(
+		FilesUtils.deleteFiles(FilesUtils.searchExactFileNames(
 				new File(SessionCfg.getSystemFolder() + File.separator + S.SYSTEM_FRAMEWORK),
 				jar.getOdexFile().getName()));
 		return true;

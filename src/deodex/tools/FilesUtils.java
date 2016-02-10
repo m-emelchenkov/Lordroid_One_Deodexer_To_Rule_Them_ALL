@@ -283,5 +283,18 @@ public class FilesUtils {
 			folder.delete();
 		}
 	}
-	
+	public static ArrayList <File> searchExactFileNames(File folder ,  String ext){
+		ArrayList<File> list = new ArrayList<File>();
+		File[] files = folder.listFiles();
+		for(File f : files){
+			if(f.isDirectory()){
+				for (File f1 : searchExactFileNames(f , ext)){
+					list.add(f1);
+				}
+			} else if(f.isFile() && f.getName().equals(ext)){
+				list.add(f);
+			}
+		}
+		return list;
+	}
 }
