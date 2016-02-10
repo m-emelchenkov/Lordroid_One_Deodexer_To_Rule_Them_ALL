@@ -56,13 +56,13 @@ public class JarWorkerLegacy implements Watchable, Runnable {
 	private boolean deodexJar(JarLegacy jar) {
 		boolean copyStatus = jar.copyNeededFiles(tempFolder);
 		if (!copyStatus) {
-			Logger.logToStdIO("[" + jar.origJar + "]" + "Failed to coppy neededFiles");
+			this.logPan.addLog(R.getString(S.LOG_ERROR)+"["+jar.getOrigJar()+"]"+R.getString("log.copy.to.tmp.failed"));
 			return false;
 		}
 		// deodexing
 		boolean deodexStatus = Deodexer.deoDexApkLegacy(jar.tempOdex, jar.classes);
 		if (!deodexStatus) {
-			Logger.logToStdIO("[" + jar.origJar + "]" + "Failed to deodex ");
+			this.logPan.addLog(R.getString(S.LOG_ERROR)+"["+jar.getOrigJar()+"]"+R.getString("log.deodex.failed"));
 			return false;
 		}
 		// putback
@@ -76,7 +76,7 @@ public class JarWorkerLegacy implements Watchable, Runnable {
 			e.printStackTrace();
 		}
 		if (!putBack) {
-			Logger.logToStdIO("[" + jar.origJar + "]" + "Failed to push classes.dex ");
+			this.logPan.addLog(R.getString(S.LOG_ERROR)+"["+jar.getOrigJar()+"]"+R.getString("log.add.classes.failed"));
 			return false;
 		}
 
@@ -84,7 +84,7 @@ public class JarWorkerLegacy implements Watchable, Runnable {
 		boolean pushBack = false;
 		pushBack = FilesUtils.copyFile(jar.tempJar, jar.origJar);
 		if (!pushBack) {
-			Logger.logToStdIO("[" + jar.origJar + "]" + "Failed to push apk back ");
+			this.logPan.addLog(R.getString(S.LOG_ERROR)+"["+jar.getOrigJar()+"]"+R.getString("log.putback.apk.failed"));
 			return false;
 		}
 

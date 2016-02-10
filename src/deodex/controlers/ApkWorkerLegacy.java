@@ -26,7 +26,6 @@ import deodex.S;
 import deodex.obj.ApkLegacy;
 import deodex.tools.Deodexer;
 import deodex.tools.FilesUtils;
-import deodex.tools.Logger;
 import deodex.tools.Zip;
 
 public class ApkWorkerLegacy implements Watchable, Runnable {
@@ -38,7 +37,10 @@ public class ApkWorkerLegacy implements Watchable, Runnable {
 	boolean doZipalign;
 	ThreadWatcher threadWatcher;
 	File tempFolder;
-
+	private boolean signStatus = false;
+	private boolean zipAlignStatus = false;
+	
+	
 	public ApkWorkerLegacy(ArrayList<File> apkList, LoggerPan logPan, File tempFolder, boolean doSign,
 			boolean doZipalign) {
 		this.apkList = apkList;
@@ -53,7 +55,6 @@ public class ApkWorkerLegacy implements Watchable, Runnable {
 
 	@Override
 	public void addThreadWatcher(ThreadWatcher watcher) {
-		// TODO Auto-generated method stub
 		this.threadWatcher = watcher;
 	}
 
@@ -65,6 +66,7 @@ public class ApkWorkerLegacy implements Watchable, Runnable {
 			// TODO add loggin for this
 			// Logger.logToStdIO("[" + apk.origApk.getName() + "]
 			// failedTocopy");
+			this.logPan.addLog(R.getString(S.LOG_ERROR)+"["+apk.origApk.getName()+"]"+R.getString("log.copy.to.tmp.failed"));
 			return false;
 		} else {
 			// we deodex now !
@@ -77,7 +79,7 @@ public class ApkWorkerLegacy implements Watchable, Runnable {
 				// deodex aborting");
 				// Logger.logToStdIO(apk.tempOdex.getAbsolutePath());
 				// Logger.logToStdIO(apk.classes.getAbsolutePath());
-
+				this.logPan.addLog(R.getString(S.LOG_ERROR)+"["+apk.origApk.getName()+"]"+R.getString("log.deodex.failed"));
 				return false;
 			} else {
 				ArrayList<File> classes = new ArrayList<File>();
@@ -90,11 +92,11 @@ public class ApkWorkerLegacy implements Watchable, Runnable {
 					e.printStackTrace();
 				}
 				if (!putBack) {
-					Logger.logToStdIO(apk.origApk.getName() + " failed to push classes.dex back to apk ");
+					this.logPan.addLog(R.getString(S.LOG_ERROR)+"["+apk.origApk.getName()+"]"+R.getString("log.add.classes.failed"));
 				} else {
 					if (this.doSign) {
 						try {
-							Deodexer.signApk(apk.tempApk, apk.tempSigned);
+							signStatus = Deodexer.signApk(apk.tempApk, apk.tempSigned);
 						} catch (IOException | InterruptedException e) {
 							e.printStackTrace();
 						}
@@ -103,7 +105,7 @@ public class ApkWorkerLegacy implements Watchable, Runnable {
 					}
 					if (this.doZipalign) {
 						try {
-							Zip.zipAlignAPk(apk.tempSigned, apk.tempZipaligned);
+							 this.zipAlignStatus = Zip.zipAlignAPk(apk.tempSigned, apk.tempZipaligned);
 						} catch (IOException | InterruptedException e) {
 							e.printStackTrace();
 						}
@@ -121,8 +123,10 @@ public class ApkWorkerLegacy implements Watchable, Runnable {
 		boolean pushBack = FilesUtils.copyFile(apk.tempZipaligned, apk.origApk);
 		if (pushBack)
 			FilesUtils.deleteRecursively(apk.origOdex);
-		else
+		else{
+			this.logPan.addLog(R.getString(S.LOG_ERROR)+"["+apk.origApk.getName()+"]"+R.getString("log.putback.apk.failed"));
 			return false;
+		}
 
 		// clean temp dir we don't wanna
 		FilesUtils.deleteRecursively(apk.tempApk);
@@ -149,9 +153,11 @@ public class ApkWorkerLegacy implements Watchable, Runnable {
 				ApkLegacy apk = new ApkLegacy(f);
 				boolean success = this.deodexApk(apk);
 				if (success) {
-					logPan.addLog("[" + apk.origApk.getName() + "]" + R.getString(S.LOG_SUCCESS));
+					logPan.addLog(R.getString(S.LOG_INFO)+"[" + apk.origApk.getName() + "]" + R.getString(S.LOG_SUCCESS)+
+							(this.doSign? (this.signStatus? R.getString("log.resign.ok"):R.getString("log.resign.fail") ) : "")+
+							(this.doZipalign? (this.zipAlignStatus?R.getString("log.zipalign.ok") : R.getString("log.zipalign.fail")):""));
 				} else {
-					logPan.addLog("[" + apk.origApk.getName() + "]" + R.getString(S.LOG_FAIL));
+					logPan.addLog(R.getString(S.LOG_ERROR)+"[" + apk.origApk.getName() + "]" + R.getString(S.LOG_FAIL));
 				}
 				progressBar.setValue(progressBar.getValue() + 1);
 				progressBar.setString(R.getString("progress.apks") + " (" + progressBar.getValue() + "/"

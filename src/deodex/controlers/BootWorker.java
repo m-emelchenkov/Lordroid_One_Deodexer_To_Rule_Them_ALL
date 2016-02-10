@@ -62,37 +62,40 @@ public class BootWorker implements Runnable, Watchable {
 		boolean copyStatus = false;
 		copyStatus = FilesUtils.copyFile(origJar, tmpJar);
 		if (!copyStatus) {
-			// TODO add LOGGING for this
+			this.log.addLog(R.getString(S.LOG_ERROR)+"["+absoluteName+".jar]"+R.getString("log.copy.to.tmp.failed"));
 			return false;
-		} else {
-			copyStatus = FilesUtils.copyFile(file, tmpClasses);
-			if (absoluteName.equals("framework")) {
-				copyStatus = FilesUtils.copyFile(
-						new File(file.getParentFile().getAbsolutePath() + File.separator + absoluteName + S.DEX2_EXT),
-						tmpClasses2);
-			}
-			if (!copyStatus) {
-				return false;
-			} else {
-				boolean addStatus = false;
-				ArrayList<File> list = new ArrayList<File>();
-				list.add(tmpClasses);
-				if (absoluteName.equals("framework")) {
-					list.add(tmpClasses2);
-				}
-				try {
-					addStatus = Zip.addFilesToExistingZip(tmpJar, list);
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-
-				if (!addStatus) {
-					return false;
-				} else {
-					copyStatus = FilesUtils.copyFile(tmpJar, origJar);
-				}
-			}
 		}
+		
+		
+		copyStatus = FilesUtils.copyFile(file, tmpClasses);
+		if (absoluteName.equals("framework")) {
+			copyStatus = FilesUtils.copyFile(
+					new File(file.getParentFile().getAbsolutePath() + File.separator + absoluteName + S.DEX2_EXT),
+					tmpClasses2);
+		}
+		if (!copyStatus) {
+			this.log.addLog(R.getString(S.LOG_ERROR)+"["+absoluteName+".jar]"+R.getString("log.classes.failed"));
+			return false;
+		}
+
+		boolean addStatus = false;
+		ArrayList<File> list = new ArrayList<File>();
+		list.add(tmpClasses);
+		if (absoluteName.equals("framework")) {
+			list.add(tmpClasses2);
+		}
+		try {
+			addStatus = Zip.addFilesToExistingZip(tmpJar, list);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		if (!addStatus) {
+			this.log.addLog(R.getString(S.LOG_ERROR)+"["+absoluteName+".jar]"+R.getString("log.add.classes.failed"));
+			return false;
+		} 
+		copyStatus = FilesUtils.copyFile(tmpJar, origJar);
+		
 
 		return copyStatus;
 

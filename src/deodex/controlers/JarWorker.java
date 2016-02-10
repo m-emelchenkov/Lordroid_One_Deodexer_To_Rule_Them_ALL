@@ -62,6 +62,7 @@ public class JarWorker implements Runnable, Watchable {
 		boolean copyStatus = jar.copyNeedFiles(tmpFolder);
 		if (!copyStatus) {
 			// TODO add loggin for this
+			this.logPan.addLog(R.getString(S.LOG_ERROR)+"["+jar.getOrigJar()+"]"+R.getString("log.copy.to.tmp.failed"));
 			return false;
 		}
 		this.progressBar.setValue(this.progressBar.getValue() + 1);
@@ -73,12 +74,12 @@ public class JarWorker implements Runnable, Watchable {
 		try {
 			extractStatus = ZipTools.extractOdex(jar.getTmpodex());
 		} catch (IOException e) {
-			// TODO Auto-generated catch block XXX : add logging for this
+			this.logPan.addLog(R.getString(S.LOG_ERROR)+"["+jar.getOrigJar()+"]"+R.getString("log.extract.to.tmp.failed"));
 			e.printStackTrace();
 			return false;
 		}
 		if (!extractStatus) {
-			// TODO add logging for this
+			this.logPan.addLog(R.getString(S.LOG_ERROR)+"["+jar.getOrigJar()+"]"+R.getString("log.extract.to.tmp.failed"));
 			return false;
 		}
 		this.progressBar.setValue(this.progressBar.getValue() + 1);
@@ -89,10 +90,11 @@ public class JarWorker implements Runnable, Watchable {
 		boolean deodexStatus = false;
 		deodexStatus = Deodexer.deodexApk(jar.getTmpodex(), jar.getTmpdex());
 		if (!deodexStatus) {
-			// TODO : add LOGGIN for this
 			deodexStatus = Deodexer.deodexApkFailSafe(jar.getTmpodex(), jar.getTmpdex());
-			if (!deodexStatus)
+			if (!deodexStatus){
+				this.logPan.addLog(R.getString(S.LOG_ERROR)+"["+jar.getOrigJar()+"]"+R.getString("log.deodex.failed"));
 				return false;
+			}
 		}
 		this.progressBar.setValue(this.progressBar.getValue() + 1);
 		progressBar.setString(R.getString("progress.jar") + " " + this.getPercent() + "%");
@@ -108,7 +110,7 @@ public class JarWorker implements Runnable, Watchable {
 				: jar.getTmpClasses().exists();
 		// if(rename) return true;
 		if (!rename) {
-			// TODO : add log to this
+			this.logPan.addLog(R.getString(S.LOG_ERROR)+"["+jar.getOrigJar()+"]"+R.getString("log.classes.failed"));
 			return false;
 		}
 		this.progressBar.setValue(this.progressBar.getValue() + 1);
@@ -128,7 +130,7 @@ public class JarWorker implements Runnable, Watchable {
 			e1.printStackTrace();
 		}
 		if (!addstatus) {
-			// TODO add logging for this
+			this.logPan.addLog(R.getString(S.LOG_ERROR)+"["+jar.getOrigJar()+"]"+R.getString("log.add.classes.failed"));
 			return false;
 		}
 		this.progressBar.setValue(this.progressBar.getValue() + 1);
@@ -139,7 +141,7 @@ public class JarWorker implements Runnable, Watchable {
 		boolean putBack = false;
 		putBack = FilesUtils.copyFile(jar.getTmpJar(), jar.getOrigJar());
 		if (!putBack) {
-			// TODO : add LOGGING to this
+			this.logPan.addLog(R.getString(S.LOG_ERROR)+"["+jar.getOrigJar()+"]"+R.getString("log.putback.apk.failed"));
 			return false;
 		}
 

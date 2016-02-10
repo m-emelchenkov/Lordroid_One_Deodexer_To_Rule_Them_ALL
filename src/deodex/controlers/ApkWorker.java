@@ -39,7 +39,8 @@ public class ApkWorker implements Runnable {
 	boolean doZipalign;
 	public JProgressBar progressBar;
 	ThreadWatcher threadWatcher;
-
+	private boolean signStatus = false;
+	private boolean zipAlignStatus = false;
 	/**
 	 * constructor the argument is a list of the APk objectes to be deodexed
 	 * (lolipop and above)
@@ -161,8 +162,7 @@ public class ApkWorker implements Runnable {
 		if (this.doSign) {
 			// TODO sign !
 			try {
-				Logger.logToStdIO(Deodexer.signApk(apk.getTempApk(), apk.getTempApkSigned()) + " sign status for "
-						+ apk.getOrigApk().getName());
+				Deodexer.signApk(apk.getTempApk(), apk.getTempApkSigned());
 			} catch (IOException | InterruptedException e) {
 				FilesUtils.copyFile(apk.getTempApk(), apk.getTempApkSigned());
 			}
@@ -236,9 +236,11 @@ public class ApkWorker implements Runnable {
 
 				boolean sucess = deodexApk(apk);
 				if (!sucess) {
-					logPan.addLog("[" + new ApkObj(apk).getOrigApk().getName() + "]" + R.getString(S.LOG_FAIL));
+					logPan.addLog(R.getString(S.LOG_ERROR)+"[" + new ApkObj(apk).getOrigApk().getName() + "]" + R.getString(S.LOG_FAIL));
 				} else {
-					logPan.addLog("[" + new ApkObj(apk).getOrigApk().getName() + "]" + R.getString(S.LOG_SUCCESS));
+					logPan.addLog(R.getString(S.LOG_INFO)+"[" + new ApkObj(apk).getOrigApk().getName() + "]" + R.getString(S.LOG_SUCCESS)+
+							(this.doSign? (this.signStatus? R.getString("log.resign.ok"):R.getString("log.resign.fail") ) : "")+
+							(this.doZipalign? (this.zipAlignStatus?R.getString("log.zipalign.ok") : R.getString("log.zipalign.fail")):""));
 				}
 				progressBar.setValue(progressBar.getValue() + 1);
 				progressBar.setString(R.getString("progress.apks") + " (" + this.getPercent() + ")");

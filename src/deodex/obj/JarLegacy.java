@@ -50,4 +50,46 @@ public class JarLegacy {
 		return tempJar.exists() && tempOdex.exists();
 	}
 
+	/**
+	 * @return the origJar
+	 */
+	public File getOrigJar() {
+		return origJar;
+	}
+
+	/**
+	 * @return the tempJar
+	 */
+	public File getTempJar() {
+		return tempJar;
+	}
+
+	/**
+	 * @return the smaliFolder
+	 */
+	public File getSmaliFolder() {
+		return smaliFolder;
+	}
+
+	/**
+	 * @return the classes
+	 */
+	public File getClasses() {
+		return classes;
+	}
+
+	/**
+	 * @return the tempOdex
+	 */
+	public File getTempOdex() {
+		return tempOdex;
+	}
+
+	/**
+	 * @return the origOdex
+	 */
+	public File getOrigOdex() {
+		return origOdex;
+	}
+
 }
