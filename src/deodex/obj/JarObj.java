@@ -20,7 +20,6 @@ import java.io.File;
 import deodex.S;
 import deodex.SessionCfg;
 import deodex.tools.FilesUtils;
-import deodex.tools.Logger;
 
 public class JarObj {
 
@@ -46,8 +45,6 @@ public class JarObj {
 
 		this.origJar = new File(SessionCfg.getSystemFolder().getAbsolutePath() + File.separator + S.SYSTEM_FRAMEWORK
 				+ File.separator + absoluteName + ".jar");
-		// this .tmpFolder = new File(S.)
-		Logger.logToStdIO(origJar.getAbsolutePath());
 	}
 
 	public boolean copyNeedFiles(File tmpFolder) {

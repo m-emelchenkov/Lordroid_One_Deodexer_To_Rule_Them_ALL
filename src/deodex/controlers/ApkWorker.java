@@ -203,6 +203,13 @@ public class ApkWorker implements Runnable {
 				threadWatcher.updateProgress();
 			}
 		}
+		
+		try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		FilesUtils.deleteRecursively(tmpFolder);
 		progressBar.setValue(progressBar.getMaximum());
 		progressBar.setString(R.getString("progress.done"));

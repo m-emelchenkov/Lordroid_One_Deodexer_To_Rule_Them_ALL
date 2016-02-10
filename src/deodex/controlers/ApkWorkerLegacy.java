@@ -63,18 +63,18 @@ public class ApkWorkerLegacy implements Watchable, Runnable {
 
 		if (!copyStatus) {
 			// TODO add loggin for this
-			Logger.logToStdIO("[" + apk.origApk.getName() + "]  failedTocopy");
+			//Logger.logToStdIO("[" + apk.origApk.getName() + "]  failedTocopy");
 			return false;
 		} else {
 			// we deodex now !
 			boolean deodexStatus = false;
 			deodexStatus = Deodexer.deoDexApkLegacy(apk.tempOdex, apk.classes);
-			Logger.logToStdIO(apk.tempOdex.getAbsolutePath());
-			Logger.logToStdIO(apk.classes.getAbsolutePath());
+			//Logger.logToStdIO(apk.tempOdex.getAbsolutePath());
+			//Logger.logToStdIO(apk.classes.getAbsolutePath());
 			if (!deodexStatus) {
-				Logger.logToStdIO("[" + apk.origApk.getName() + "] failed to deodex aborting");
-				Logger.logToStdIO(apk.tempOdex.getAbsolutePath());
-				Logger.logToStdIO(apk.classes.getAbsolutePath());
+				//Logger.logToStdIO("[" + apk.origApk.getName() + "] failed to deodex aborting");
+				//Logger.logToStdIO(apk.tempOdex.getAbsolutePath());
+				//Logger.logToStdIO(apk.classes.getAbsolutePath());
 
 				return false;
 			} else {
@@ -156,6 +156,12 @@ public class ApkWorkerLegacy implements Watchable, Runnable {
 						+ progressBar.getMaximum() + ")");
 				this.threadWatcher.updateProgress();
 			}
+		}
+		try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		progressBar.setValue(progressBar.getMaximum());
 		progressBar.setString(R.getString("progress.done"));

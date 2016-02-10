@@ -121,7 +121,6 @@ public class MainWorker implements Runnable, ThreadWatcher, Watchable {
 			return;
 		}
 
-		Logger.logToStdIO("Initialized modern pass the boot copy and deodex boot.oat");
 		File bootFiles = new File(S.bootTmpDex.getAbsolutePath());
 
 		// TODO init apklist here 		

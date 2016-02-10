@@ -78,8 +78,8 @@ public class Window extends JFrame implements ThreadWatcher {
 
 				@Override
 				public void run() {
-					// TODO Auto-generated method stub
-					mainWorker = new MainWorker(SessionCfg.getSystemFolder(), logger, 4);
+					// TODO the Thread max number will be calculated like this cpu count/2
+					mainWorker = new MainWorker(SessionCfg.getSystemFolder(), logger, 2);
 					addThreadWatcher();
 					Thread t = new Thread(mainWorker);
 					t.start();

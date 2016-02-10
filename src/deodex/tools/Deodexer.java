@@ -84,12 +84,6 @@ public class Deodexer {
 				S.bootTmpDex.getAbsolutePath(), "-x", odexFile.getAbsolutePath(), "-o", tempSmali.getAbsolutePath() };
 		String[] cmd2 = { "java", "-jar", new File(S.SMALI_JAR).getAbsolutePath(), "-a", "" + SessionCfg.getSdk(), "-o",
 				classesFile.getAbsolutePath(), tempSmali.getAbsolutePath() };
-
-		for (String str : cmd2) {
-			System.out.print(str + " ");
-		}
-		System.out.println();
-
 		// TODO search further info (can apks here have 2 classes.dex ? if so
 		// what should we do here ?) XXX: there is none that I know about !
 		Process p;
@@ -100,7 +94,6 @@ public class Deodexer {
 			if (!tempSmali.exists()) {
 				return false;
 			}
-			System.out.println("baksmali worked !");
 			p = Runtime.getRuntime().exec(cmd2);
 			p.waitFor();
 			if (!classesFile.exists()) {
