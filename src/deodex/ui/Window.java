@@ -366,7 +366,7 @@ public class Window extends JFrame implements ThreadWatcher {
 		JLabel progLAb = new JLabel(icon);
 		// Play animation
 		progress.setIndeterminate(true);
-		progLAb.setBounds(0, 95, 798, this.getHeight());
+		progLAb.setBounds(2, 95, 798, this.getHeight()-2);
 
 		rootPane.add(progLAb);
 		// rootPane.add(logger);

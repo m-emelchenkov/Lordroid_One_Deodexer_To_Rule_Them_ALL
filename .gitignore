@@ -1,4 +1,7 @@
 bin
+releases
 lordroid-ODTRTA.jar
 *.class
 *.log
+cfg/app_config.rsx
+cfg
