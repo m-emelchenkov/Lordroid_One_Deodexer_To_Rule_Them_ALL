@@ -26,7 +26,6 @@ import deodex.S;
 import deodex.obj.JarLegacy;
 import deodex.tools.Deodexer;
 import deodex.tools.FilesUtils;
-import deodex.tools.Logger;
 import deodex.tools.Zip;
 
 public class JarWorkerLegacy implements Watchable, Runnable {
