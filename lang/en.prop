@@ -80,3 +80,7 @@ log.resign.ok=[signed]
 log.resign.fail=[sign failed!]
 log.zipalign.ok=[zipaligned]
 log.zipalign.fail=[zipalign fail]
+alert.deodexNow=Deodexing is a verry ressource consumming process
+alert.deodexNow1=this process can take up to an hour in some cases
+alert.deodexNow.areyousure=are you sure you wanna proceed ?
+alert.deodex.now.title=Confirm your action

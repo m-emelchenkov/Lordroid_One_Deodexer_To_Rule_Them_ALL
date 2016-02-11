@@ -71,9 +71,9 @@ public class Window extends JFrame implements ThreadWatcher {
 
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
-			int yes =JOptionPane.showConfirmDialog(rootPanel, "Deodexing is a verry ressource consumming prosses"+
-		" this process can take up to an hour in some cases \n are you sure you wanna proceed ? ",
-					"Confirm your action", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+			int yes =JOptionPane.showConfirmDialog(rootPanel, R.getString("alert.deodexNow")+"\n"+
+		R.getString("alert.deodexNow1")+"\n  "+R.getString("alert.deodexNow.areyousure"),
+					R.getString("alert.deodex.now.title"), JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
 			if(yes == 0){
 			deodexNow.setEnabled(false);
 			initwaiting();
