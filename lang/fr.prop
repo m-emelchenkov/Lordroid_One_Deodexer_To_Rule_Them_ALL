@@ -19,7 +19,7 @@
 file.launguage=Français
 #
 #
-app.name=LUBD || par lord-ralf-adolf
+app.name=Lordroid ODTRTA v0.5 || par lord-ralf-adolf
 #
 # first window first launch !
 app.welcome=Bienvenue dans LUBD!
@@ -28,7 +28,64 @@ app.langBoxLab=Choisir une langue :
 app.buttonNext=Suivant >>
 #
 # path to system choose 
-
-
-
- 
+browse.Field= Glisser / deposer ici ou cliquer su "parcourir"
+browseBtn=parcourir
+optionalPan=Optionel (ça marchera pas sur certain système d'exploitation)
+zipalignCheck=zipalign
+zipalignCheck.ToolTip=zipalign APK's après deodexage 
+signCheck=re-Sign APK's
+signCheck.ToolTip=resigner les apk après le deodexage (peut etre necesaire sur quelque rom)
+deodexNow=Deodexer Mtn !
+log.warning=[AVERTISEMENT] 
+log.error=[ ERREUR ] 
+log.info=[ INFORMATION  ] 
+log.success=[REUSSI] 
+log.fail=[ECHEC] 
+log.no.build.prop=pas de build.prop dans le dossier choisi !
+log.could.not.read.sdk_level=on n'a pas pu lire la version de l'sdk depuis build.prop 
+log.app.found=/system/app trouver ...  [OK]
+log.app.not.found=/system/app Non trouver ! [IGNORE]  
+######## end here
+log.not.a.system.folder=no [app] [priv-app] [framework] folders found ! are you sure you chose the right folder ?
+log.privapp.found=/system/priv-app folder found ... [OK] 
+log.privapp.not.found=/system/priv-app folder NOT found !  
+log.framework.found=/system/framework folder found ... [OK]
+log.framwork.not.found=/system/framework folder NOT found ! 
+log.framwork.not.found.error=/system/framework folder NOT found ! can't deodex without it ! skd > 20 !
+log.no.arch.detected=Could not determine your arch ! May be your arch is not supported sorry 
+log.no.boot.oat=Could not find boot.oat ! can't deodex without it ! skd > 20 !
+log.ok=[OK]
+log.rom.arch=Rom arch detected ===>  
+log.build.prop.found=/system/build.prop found ... [OK]
+log.copy.to.tmp.failed=[Couldn't copy to working folder can't deodex !][SKIPED]
+log.extract.to.tmp.failed=[Couldn't extract compressed odex file! can't deodex !][SKIPED]
+log.deodex.failed=[Couldn't deodex odex file! can't deodex this !][SKIPED]
+log.classes.failed=[Couldn't create classes.dex][APK SKIPED]
+log.add.classes.failed=[Couldn't add classes.dex to file][SKIPED]
+log.already.deodex= Already deodexed ! [SUCCESS]
+log.putback.apk.failed=[Failed to copy file back to it's original folder][SKIPED]
+window.exitbtn=Exit
+window.restartbtn=Back to Rom selection
+mainworker.finallog=log file saved to /logs/yyyy-MM-dd|hh:mm:ss.log
+mainWorker.alljobsDone=ALL JOBS THERMINATED !
+progress.done=Done
+progress.bootFiles=Deodexing boot Files
+progress.apks=Deodexing Apks
+progress.jar=Deodexing Jars
+overal.progress=Overal progress 
+dialog.sure.exit=Are you sure ?
+dialog.sure.exit.message=Please confirm you action are you sure you wanna exit ?
+box.jobs=Max Jobs
+log.resign.ok=[signed]
+log.resign.fail=[sign failed!]
+log.zipalign.ok=[zipaligned]
+log.zipalign.fail=[zipalign fail]
+alert.deodexNow=Deodexing is a verry ressource consumming process
+alert.deodexNow1=this process can take up to an hour in some cases
+alert.deodexNow.areyousure=are you sure you wanna proceed ?
+alert.deodex.now.title=Confirm your action
+log.detected.sdk= Detected Sdk level : 
+log.detected.arch= Detected ARCH : 
+log.chosen.folder= chosen system folder : 
+log.there.is=There is 
+log.to.be.deodexed=to be deodexed
