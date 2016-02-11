@@ -193,7 +193,7 @@ public class FilesUtils {
 				log.addLog(R.getString(S.LOG_WARNING) + R.getString("log.privapp.not.found"));
 			}
 
-		if (isapp) {
+		if (isframwork) {
 
 			log.addLog(R.getString(S.LOG_INFO) + R.getString("log.framework.found"));
 		} else {
@@ -218,15 +218,29 @@ public class FilesUtils {
 
 		// Session Settings set them
 		SessionCfg.setSdk(sdkLevel);
-		log.addLog(R.getString(S.LOG_INFO) + " Detected Sdk level : " + sdkLevel);
+		log.addLog(R.getString(S.LOG_INFO) + R.getString("log.detected.sdk") + sdkLevel);
 		SessionCfg.setArch(arch);
-		log.addLog(R.getString(S.LOG_INFO) + " Detected ARCH : " + arch);
+		log.addLog(R.getString(S.LOG_INFO) + R.getString("log.detected.arch") + arch);
 		SessionCfg.setSystemFolder(systemFolder);
-		log.addLog(R.getString(S.LOG_INFO) + " chosen systemFolder :" + systemFolder);
-
+		log.addLog(R.getString(S.LOG_INFO) + R.getString("log.chosen.folder") + systemFolder);
+		int apkCount = getOdexCount(new File(systemFolder.getAbsolutePath() + File.separator + S.SYSTEM_APP)) + 
+				getOdexCount(new File(systemFolder.getAbsolutePath() + File.separator + S.SYSTEM_PRIV_APP));
+		int jarCounts = getOdexCount(new File(systemFolder.getAbsolutePath() + File.separator + S.SYSTEM_FRAMEWORK));
+		log.addLog(R.getString(S.LOG_INFO) +R.getString("log.there.is")+apkCount+" apks "+R.getString("log.to.be.deodexed") );
+		log.addLog(R.getString(S.LOG_INFO) +R.getString("log.there.is")+jarCounts+" jars "+R.getString("log.to.be.deodexed") );
+		
+		
 		return true;
 	}
-
+	
+	public static int getOdexCount(File folder){
+		int x =0;
+		if(folder.exists()){
+			x = ArrayUtils.deletedupricates(FilesUtils.searchrecursively(folder, S.ODEX_EXT)).size();
+		}
+		return x;
+	}
+	
 	// be very very carefull when using this ! it will delete folder and all
 	// it's subfolder's and files !
 
