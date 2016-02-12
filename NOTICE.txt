@@ -9,6 +9,12 @@ The Apache Software Foundation (http://www.apache.org/).
             Apache License
          Version 2.0, January 2004
      http://www.apache.org/licenses/
+     find a copy of the licence under libs
+# for xz for java library 1.5 
+This Java implementation of XZ has been put into the public domain, thus you can do whatever you want with it. All the files in the package have been written by Lasse Collin, but some files are heavily based on public domain code written by Igor Pavlov.
 
+
+
+# all trade marks included in this project are copyrights to there their respective owners they are not part of this project
 # ====================      END NOTICE ===========================
  
