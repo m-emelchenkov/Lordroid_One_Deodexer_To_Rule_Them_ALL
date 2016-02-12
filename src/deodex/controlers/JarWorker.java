@@ -170,6 +170,7 @@ public class JarWorker implements Runnable, Watchable {
 
 	@Override
 	public void run() {
+		if(this.odexFiles!=null && this.odexFiles.size()>0){
 		for (File jar : odexFiles) {
 			boolean success = deodexJar(jar);
 			if (success) {
@@ -182,6 +183,8 @@ public class JarWorker implements Runnable, Watchable {
 			progressBar.setString(R.getString("progress.jar") + " " + this.getPercent() + "%");
 			threadWatcher.updateProgress();
 		}
+		}
+		
 		try {
 			Thread.sleep(2000);
 		} catch (InterruptedException e) {
@@ -190,6 +193,7 @@ public class JarWorker implements Runnable, Watchable {
 		FilesUtils.deleteRecursively(tmpFolder);
 		this.progressBar.setValue(this.progressBar.getMaximum());
 		progressBar.setString(R.getString("progress.done"));
+		this.threadWatcher.updateProgress();
 		this.threadWatcher.done(this);
 	}
 }

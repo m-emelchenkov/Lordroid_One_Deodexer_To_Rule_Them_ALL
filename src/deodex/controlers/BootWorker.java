@@ -120,6 +120,7 @@ public class BootWorker implements Runnable, Watchable {
 		FilesUtils.deleteRecursively(tmpFolder);
 		progressBar.setValue(progressBar.getMaximum());
 		progressBar.setString(R.getString("progress.done"));
+		this.threadWatcher.updateProgress();
 		this.threadWatcher.done(this);
 	}
 

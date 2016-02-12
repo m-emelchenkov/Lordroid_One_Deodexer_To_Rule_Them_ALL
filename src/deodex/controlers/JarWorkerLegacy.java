@@ -42,7 +42,11 @@ public class JarWorkerLegacy implements Watchable, Runnable {
 		this.tempFolder = tempFolder;
 
 		progressBar.setMinimum(0);
+		if(jarList!= null &&  !jarList.isEmpty()){
 		progressBar.setMaximum(jarList.size());
+		} else {
+			progressBar.setMaximum(1);
+		}
 		progressBar.setStringPainted(true);
 
 	}
@@ -105,6 +109,7 @@ public class JarWorkerLegacy implements Watchable, Runnable {
 	public void run() {
 		// TODO Auto-generated method stub
 		boolean success = false;
+		if(this.jarList != null && !this.jarList.isEmpty()){
 		for (File f : this.jarList) {
 			JarLegacy jar = new JarLegacy(f);
 			success = this.deodexJar(jar);
@@ -117,6 +122,18 @@ public class JarWorkerLegacy implements Watchable, Runnable {
 			progressBar.setString(
 					R.getString("progress.jar") + "(" + progressBar.getValue() + "/" + progressBar.getMaximum() + ")");
 			threadWatcher.updateProgress();
+		}
+		}
+		try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			FilesUtils.deleteRecursively(tempFolder);
+			progressBar.setValue(progressBar.getMaximum());
+			progressBar.setString(R.getString("progress.done"));
+			threadWatcher.updateProgress();
+			threadWatcher.done(this);
 		}
 		FilesUtils.deleteRecursively(tempFolder);
 		progressBar.setValue(progressBar.getMaximum());

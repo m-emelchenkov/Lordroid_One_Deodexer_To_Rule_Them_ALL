@@ -165,23 +165,24 @@ public class ApkWorkerLegacy implements Watchable, Runnable {
 				this.threadWatcher.updateProgress();
 			}
 		}
+		
 		try {
 			Thread.sleep(2000);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			// lets make sure the whatcher is always updated even when an Exception is thrown
-			progressBar.setValue(progressBar.getMaximum());
-			progressBar.setString(R.getString("progress.done"));
-			this.threadWatcher.updateProgress();
-			threadWatcher.done(this);
+			finalMove();
 		}
+			finalMove();
+	}
+
+	private void finalMove(){
 		progressBar.setValue(progressBar.getMaximum());
 		progressBar.setString(R.getString("progress.done"));
 		this.threadWatcher.updateProgress();
 		threadWatcher.done(this);
 	}
-
 	/**
 	 * @param progressBar
 	 *            the progressBar to set

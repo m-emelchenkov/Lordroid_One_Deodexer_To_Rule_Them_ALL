@@ -196,7 +196,7 @@ public class ApkWorker implements Runnable {
 			return false;
 		}
 		// delete the arch folder clearlly we dont need it any more
-		// FIXME : clean all odexFiles in the folder
+		
 		FilesUtils.deleteFiles(FilesUtils.searchrecursively(apk.getFolder(), S.ODEX_EXT));
 		FilesUtils.deleteFiles(FilesUtils.searchrecursively(apk.getFolder(), S.COMP_ODEX_EXT));
 		FilesUtils.deleteUmptyFoldersInFolder(apk.getFolder());
@@ -244,9 +244,7 @@ public class ApkWorker implements Runnable {
 				}
 				progressBar.setValue(progressBar.getValue() + 1);
 				progressBar.setString(R.getString("progress.apks") + " (" + this.getPercent() + ")");
-				// progressBar.setString(R.getString("progress.apks") + " (" +
-				// progressBar.getValue() + "/"
-				// + progressBar.getMaximum() + ")");
+
 				threadWatcher.updateProgress();
 			}
 		}
@@ -256,13 +254,18 @@ public class ApkWorker implements Runnable {
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			finalMove();
 		}
+		finalMove();
+	}
+
+	private void finalMove(){
 		FilesUtils.deleteRecursively(tmpFolder);
 		progressBar.setValue(progressBar.getMaximum());
 		progressBar.setString(R.getString("progress.done"));
+		this.threadWatcher.updateProgress();
 		this.threadWatcher.done(this);
 	}
-
 	/**
 	 * @param progressBar
 	 *            the progressBar to set
