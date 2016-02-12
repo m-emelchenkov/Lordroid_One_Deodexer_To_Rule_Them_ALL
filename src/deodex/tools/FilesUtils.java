@@ -186,13 +186,14 @@ public class FilesUtils {
 			log.addLog(R.getString(S.LOG_WARNING) + R.getString(S.LOG_SYSTEM_APP_NOT_FOUND));
 		}
 		// is there privz app
-		if (sdkLevel > 18)
+		if (sdkLevel > 18){
 			if (isprivApp) {
 				log.addLog(R.getString(S.LOG_INFO) + R.getString("log.privapp.found"));
 			} else {
 				log.addLog(R.getString(S.LOG_WARNING) + R.getString("log.privapp.not.found"));
 			}
-
+		}
+		
 		if (isframwork) {
 
 			log.addLog(R.getString(S.LOG_INFO) + R.getString("log.framework.found"));
@@ -209,10 +210,16 @@ public class FilesUtils {
 		}
 		// is boot .oat there ?
 		if (sdkLevel > 20) {
-			if (!new File(systemFolder.getAbsolutePath() + File.separator + S.SYSTEM_FRAMEWORK + File.separator + arch
-					+ File.separator + S.SYSTEM_FRAMEWORK_BOOT).exists()) {
+//			if (!new File(systemFolder.getAbsolutePath() + File.separator + S.SYSTEM_FRAMEWORK + File.separator + arch
+//					+ File.separator + S.SYSTEM_FRAMEWORK_BOOT).exists()) {
+//				log.addLog(R.getString(S.LOG_ERROR) + R.getString("log.no.boot.oat"));
+//				return false;
+//			}
+			ArrayList <File>bootOat = FilesUtils.searchExactFileNames(new File(systemFolder.getAbsolutePath() + File.separator + S.SYSTEM_FRAMEWORK), "boot.oat");
+			if(bootOat != null && bootOat.size() > 0){
+				
+			} else {
 				log.addLog(R.getString(S.LOG_ERROR) + R.getString("log.no.boot.oat"));
-				return false;
 			}
 		}
 
@@ -220,7 +227,9 @@ public class FilesUtils {
 		SessionCfg.setSdk(sdkLevel);
 		log.addLog(R.getString(S.LOG_INFO) + R.getString("log.detected.sdk") + sdkLevel);
 		SessionCfg.setArch(arch);
+		if(sdkLevel > 20)
 		log.addLog(R.getString(S.LOG_INFO) + R.getString("log.detected.arch") + arch);
+		
 		SessionCfg.setSystemFolder(systemFolder);
 		log.addLog(R.getString(S.LOG_INFO) + R.getString("log.chosen.folder") + systemFolder);
 		int apkCount = getOdexCount(new File(systemFolder.getAbsolutePath() + File.separator + S.SYSTEM_APP)) + 
