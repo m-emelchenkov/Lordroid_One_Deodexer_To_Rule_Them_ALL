@@ -390,22 +390,7 @@ public class MainWorker implements Runnable, ThreadWatcher, Watchable {
 
 	@Override
 	public void run() {
-		System.out.println("list 1");
-		for (File f : this.worker1List) {
-			System.out.println(f.getAbsolutePath());
-		}
-		System.out.println("list 2");
-		for (File f : this.worker2List) {
-			System.out.println(f.getAbsolutePath());
-		}
-		System.out.println("list 3");
-		for (File f : this.worker3List) {
-			System.out.println(f.getAbsolutePath());
-		}
-		System.out.println("list 4");
-		for (File f : this.worker4List) {
-			System.out.println(f.getAbsolutePath());
-		}
+
 		this.threadWatcher.updateProgress();
 
 		for (int i = 0; i < this.maxThreading; i++) {
