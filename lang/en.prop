@@ -52,7 +52,7 @@ log.privapp.not.found=/system/priv-app folder NOT found !
 log.framework.found=/system/framework folder found ... [OK]
 log.framwork.not.found=/system/framework folder NOT found ! 
 log.framwork.not.found.error=/system/framework folder NOT found ! can't deodex without it ! skd > 20 !
-log.no.arch.detected=Could not determine your arch ! May be your arch is not supported sorry 
+log.no.arch.detected=Could not determine your arch ! arch not supported or Rom already deodexed  
 log.no.boot.oat=Could not find boot.oat ! can't deodex without it ! skd > 20 !
 log.ok=[OK]
 log.rom.arch=Rom arch detected ===>  
