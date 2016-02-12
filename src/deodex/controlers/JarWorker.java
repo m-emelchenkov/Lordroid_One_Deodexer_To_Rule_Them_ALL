@@ -174,10 +174,10 @@ public class JarWorker implements Runnable, Watchable {
 		for (File jar : odexFiles) {
 			boolean success = deodexJar(jar);
 			if (success) {
-				logPan.addLog(
+				logPan.addLog(R.getString(S.LOG_INFO)+
 						"[" + jar.getName().substring(0, jar.getName().lastIndexOf(".")) + ".jar]" + " [SUCCESS]");
 			} else {
-				logPan.addLog("[" + jar.getName().substring(0, jar.getName().lastIndexOf(".")) + ".jar]" + " [FAILED]");
+				logPan.addLog(R.getString(S.LOG_INFO)+"[" + jar.getName().substring(0, jar.getName().lastIndexOf(".")) + ".jar]" + " [FAILED]");
 			}
 			this.progressBar.setValue(this.progressBar.getValue() + 1);
 			progressBar.setString(R.getString("progress.jar") + " " + this.getPercent() + "%");
