@@ -89,3 +89,4 @@ log.detected.arch= Detected ARCH :
 log.chosen.folder= chosen system folder : 
 log.there.is=There is 
 log.to.be.deodexed=to be deodexed
+no.odexFiles.wereFound=No odex files were found can't deodex or is the rom already deodexed ?

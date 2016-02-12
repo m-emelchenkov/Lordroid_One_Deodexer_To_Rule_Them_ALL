@@ -208,6 +208,7 @@ public class FilesUtils {
 			log.addLog(R.getString(S.LOG_ERROR) + R.getString("log.no.arch.detected"));
 			return false;
 		}
+		
 		// is boot .oat there ?
 		if (sdkLevel > 20) {
 //			if (!new File(systemFolder.getAbsolutePath() + File.separator + S.SYSTEM_FRAMEWORK + File.separator + arch
@@ -216,11 +217,10 @@ public class FilesUtils {
 //				return false;
 //			}
 			ArrayList <File>bootOat = FilesUtils.searchExactFileNames(new File(systemFolder.getAbsolutePath() + File.separator + S.SYSTEM_FRAMEWORK), "boot.oat");
-			if(bootOat != null && bootOat.size() > 0){
-				
-			} else {
+			if(bootOat == null || bootOat.size() <= 0){
 				log.addLog(R.getString(S.LOG_ERROR) + R.getString("log.no.boot.oat"));
-			}
+
+			} 
 		}
 
 		// Session Settings set them
@@ -235,6 +235,9 @@ public class FilesUtils {
 		int apkCount = getOdexCount(new File(systemFolder.getAbsolutePath() + File.separator + S.SYSTEM_APP)) + 
 				getOdexCount(new File(systemFolder.getAbsolutePath() + File.separator + S.SYSTEM_PRIV_APP));
 		int jarCounts = getOdexCount(new File(systemFolder.getAbsolutePath() + File.separator + S.SYSTEM_FRAMEWORK));
+		if(jarCounts == 0){
+			log.addLog(R.getString(S.LOG_INFO) +R.getString("no.odexFiles.wereFound"));
+		}
 		log.addLog(R.getString(S.LOG_INFO) +R.getString("log.there.is")+apkCount+" apks "+R.getString("log.to.be.deodexed") );
 		log.addLog(R.getString(S.LOG_INFO) +R.getString("log.there.is")+jarCounts+" jars "+R.getString("log.to.be.deodexed") );
 		
