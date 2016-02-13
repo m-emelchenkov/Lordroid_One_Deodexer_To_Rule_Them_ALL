@@ -32,8 +32,10 @@ import javax.imageio.ImageIO;
 import deodex.tools.StringUtils;
 
 public class R {
-	public static final Font TITLE_FONT = new Font("Arial", Font.BOLD, 40);
-	public static final Font NORMAL_FONT = new Font("Arial", Font.BOLD, 16);
+	public static final Font TITLE_FONT = new Font("Courier 10 Pitch", Font.BOLD, 40);
+	public static final Font NORMAL_FONT = new Font("Courier 10 Pitch", Font.BOLD, 16);
+	public static final Font SMALL_FONT = new Font("Arial", Font.BOLD, 12);
+
 	public static final Font COURIER_NORMAL = new Font("Courier 10 Pitch", Font.PLAIN, 18);
 	public static final Font COURIER_LOGGER = new Font("Courier 10 Pitch", Font.PLAIN, 22);
 

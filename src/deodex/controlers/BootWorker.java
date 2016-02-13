@@ -107,9 +107,9 @@ public class BootWorker implements Runnable, Watchable {
 		for (File file : bootFiles) {
 			boolean success = deoDexBootFile(file);
 			if (success) {
-				log.addLog("[" + file.getName().substring(0, file.getName().lastIndexOf(".")) + ".jar]" + " [SUCCESS]");
+				log.addLog(R.getString(S.LOG_INFO)+"[" + file.getName().substring(0, file.getName().lastIndexOf(".")) + ".jar]" + " [SUCCESS]");
 			} else {
-				log.addLog("[" + file.getName().substring(0, file.getName().lastIndexOf(".")) + ".jar]" + " [FAILED ]");
+				log.addLog(R.getString(S.LOG_INFO)+"[" + file.getName().substring(0, file.getName().lastIndexOf(".")) + ".jar]" + " [FAILED ]");
 
 			}
 			progressBar.setValue(progressBar.getValue() + 1);

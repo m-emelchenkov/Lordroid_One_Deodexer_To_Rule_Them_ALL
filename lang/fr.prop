@@ -24,14 +24,14 @@ app.name=Lordroid One Dedodexer To Rule Them All v0.6_beta2
 #
 # first window first launch !
 app.welcome=Bienvenue dans LUBD!
-app.welcome.message=C'est la première fois que vous lancer cette application <> Veillez choisir Votre langue :
+app.welcome.message=C'est la première fois que vous lancer cette application :
 app.langBoxLab=Choisir une langue : 
 app.buttonNext=Suivant >>
 #
 # path to system choose 
-browse.Field= Glisser / deposer ici ou cliquer su "parcourir"
-browseBtn=parcourir
-optionalPan=Optionel (ça marchera pas sur certain système d'exploitation)
+browse.Field= Glisser / deposer ici ou cliquer sur "Dossier"
+browseBtn=Dossier
+optionalPan=Optionel (ça marchera pas sur certain OS)
 zipalignCheck=zipalign
 zipalignCheck.ToolTip=zipalign APK's après deodexage 
 signCheck=re-Sign APK's
@@ -39,7 +39,7 @@ signCheck.ToolTip=resigner les apk après le deodexage (peut etre necesaire sur 
 deodexNow=Deodexer Mtn !
 log.warning=[AVERTISEMENT] 
 log.error=[ ERREUR ] 
-log.info=[ INFORMATION  ] 
+log.info=[INFORMATION] 
 log.success=[REUSSI] 
 log.fail=[ECHEC] 
 log.no.build.prop=pas de build.prop dans le dossier choisi !
@@ -91,3 +91,9 @@ log.chosen.folder= Dossier System  choisi :
 log.there.is=il y a 
 log.to.be.deodexed= à deodexer 
 no.odexFiles.wereFound=Pas de fichier odex trouver! la rom est déja deodexer?
+dont.show.this.again=Don't show this again
+alert.thread.line1=We can use multiple threads to deodex all apks and jars 
+alert.thread.line2=this may reduce the processing time at the expense of resources
+alert.thread.line3=NOTE : if you don't know what this is or what are your hardware
+alert.thread.line4=       capabilities leave this value to default which is '2' 
+alert.thread.box.dont.ask.again=Make this the default value and don't ask again

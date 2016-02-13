@@ -26,7 +26,6 @@ import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -54,7 +53,7 @@ public class Window extends JFrame implements ThreadWatcher {
 			f.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 			int i = f.showOpenDialog(rootPane);
 			if (i == 0) {
-				// logger.clearAllLogs();
+				logger.clearAllLogs();
 				valide = FilesUtils.isAValideSystemDir(f.getSelectedFile(), logger);
 			}
 			if (valide) {
@@ -71,10 +70,11 @@ public class Window extends JFrame implements ThreadWatcher {
 
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
-			int yes =JOptionPane.showConfirmDialog(rootPanel, R.getString("alert.deodexNow")+"\n"+
-		R.getString("alert.deodexNow1")+"\n  "+R.getString("alert.deodexNow.areyousure"),
-					R.getString("alert.deodex.now.title"), JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
-			if(yes == 0){
+			boolean yes =Alerts.showDeodexNowAlert(rootPanel);
+			if(yes){
+				//TODO ShowThradAlert
+				maxJobs = Alerts.showThreadDialog();
+				
 			deodexNow.setEnabled(false);
 			initwaiting();
 			SessionCfg.setSign(signCheck.isSelected());
@@ -85,7 +85,7 @@ public class Window extends JFrame implements ThreadWatcher {
 				public void run() {
 					// TODO the Thread max number will be calculated like this
 					// cpu count/2
-					mainWorker = new MainWorker(SessionCfg.getSystemFolder(), logger, 2);
+					mainWorker = new MainWorker(SessionCfg.getSystemFolder(), logger, maxJobs);
 					addThreadWatcher();
 					Thread t = new Thread(mainWorker);
 					t.start();
@@ -114,7 +114,7 @@ public class Window extends JFrame implements ThreadWatcher {
 	boolean zipalign = true;
 
 	File systemFolder;
-
+	int maxJobs;
 	MainWorker mainWorker;
 	JPanel rootPanel = new JPanel() {
 		/**
@@ -146,9 +146,7 @@ public class Window extends JFrame implements ThreadWatcher {
 	JButton restart = new JButton(R.getString("window.restartbtn"));
 	ImageIcon icon;
 
-	JComboBox<Integer> jobs = new JComboBox<Integer>();
 
-	Integer[] ints = { 1, 2, 3, 4 };
 
 	public Window() {
 		this.setResizable(false);
@@ -165,9 +163,6 @@ public class Window extends JFrame implements ThreadWatcher {
 		icon = new ImageIcon(Window.this.getClass().getResource("/loading.gif"));
 		browseBtn.addActionListener(new BrowseAction());
 		this.deodexNow.addActionListener(new DeodexNowAction());
-
-		for (Integer i : ints)
-			jobs.addItem(i);
 
 		initBrowseView();
 	}
@@ -206,7 +201,6 @@ public class Window extends JFrame implements ThreadWatcher {
 		optionalPan.setBackground(new Color(206, 194, 229));
 		zipalignCheck.setBackground(new Color(206, 194, 229));
 		boxsLabel.setBackground(new Color(206, 194, 229));
-		jobs.setBackground(new Color(206, 194, 229));
 		signCheck.setBackground(new Color(206, 194, 229));
 		deodexNow.setBackground(new Color(89, 195, 216));
 		logger.setBackground(Color.WHITE);
@@ -216,7 +210,6 @@ public class Window extends JFrame implements ThreadWatcher {
 		browseBtn.setEnabled(true);
 		browseField.setEnabled(true);
 		zipalignCheck.setSelected(true);
-		jobs.setSelectedIndex(0);
 		signCheck.setSelected(false);
 		deodexNow.setEnabled(false);
 		browseField.setEnabled(false);
@@ -224,18 +217,11 @@ public class Window extends JFrame implements ThreadWatcher {
 		// Components bounds
 		logo.setBounds(0, 0, 802, 100);
 		browseField.setBounds(10, 110, 650, 40);
-		browseBtn.setBounds(660, 110, 100, 40);
+		browseBtn.setBounds(660, 110, 130, 40);
 		optionalPan.setBounds(10, 150, 440, 100);
-		// zipalignCheck.setBounds(15, 170, 430, 35);
-		// signCheck.setBounds(15, 207, 430, 35);
 		zipalignCheck.setBounds(5, 20, 115, 35);
-		// boxsLabel.setBounds(125, 20, 50, 35);
-		// jobs.setBounds(180, 20, 50, 35);
 		signCheck.setBounds(5, 57, 168, 35);
-		deodexNow.setBounds(500, 170, 260, 60);
-		// deodexNow.setBounds(610, 170, 150, 60);
-		// boxsLabel.setBounds(470, 185, 100, 30);
-		// jobs.setBounds(570, 185, 34, 30);
+		deodexNow.setBounds(500, 170, 290, 60);
 		logger.setBounds(1, 270, 798, 300);
 
 		// borders
@@ -244,8 +230,9 @@ public class Window extends JFrame implements ThreadWatcher {
 				BorderFactory.createLineBorder(new Color(89, 195, 216), 2), R.getString("optionalPan")));
 
 		// toolTips
-		// zipalignCheck.setToolTipText(R.getString("zipalignCheck.ToolTip"));
-		// signCheck.setToolTipText(R.getString("signCheck.ToolTip"));
+		//zipalignCheck.setToolTipText(R.getString("zipalignCheck.ToolTip"));
+		//signCheck.setToolTipText(R.getString("signCheck.ToolTip"));
+
 		// other propreties
 		optionalPan.setOpaque(false);
 		optionalPan.setLayout(null);
