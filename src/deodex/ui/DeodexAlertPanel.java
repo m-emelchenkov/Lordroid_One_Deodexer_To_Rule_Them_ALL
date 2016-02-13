@@ -23,7 +23,7 @@ import javax.swing.JPanel;
 
 import deodex.R;
 
-public class DeodexAlertPanel extends JPanel{
+public class DeodexAlertPanel extends JPanel {
 
 	/**
 	 * 
@@ -34,7 +34,8 @@ public class DeodexAlertPanel extends JPanel{
 	JLabel textLab2 = new JLabel(R.getString("alert.deodexNow.areyousure"));
 	public JCheckBox box = new JCheckBox(R.getString("dont.show.this.again"));
 	Font font = R.SMALL_FONT;
-	public DeodexAlertPanel(){
+
+	public DeodexAlertPanel() {
 		super();
 		this.setLayout(null);
 		super.setSize(310, 500);
@@ -51,8 +52,7 @@ public class DeodexAlertPanel extends JPanel{
 		this.add(textLab1);
 		this.add(textLab2);
 		this.add(box);
-		
-		
+
 	}
 
 }

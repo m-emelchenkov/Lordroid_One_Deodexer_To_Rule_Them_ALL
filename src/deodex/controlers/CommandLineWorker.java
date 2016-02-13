@@ -15,7 +15,7 @@
  */
 package deodex.controlers;
 
-public class CommandLineWorker implements ThreadWatcher{
+public class CommandLineWorker implements ThreadWatcher {
 	@Override
 	public void done(Runnable r) {
 		// TODO Auto-generated method stub
@@ -25,7 +25,7 @@ public class CommandLineWorker implements ThreadWatcher{
 	@Override
 	public void updateProgress() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

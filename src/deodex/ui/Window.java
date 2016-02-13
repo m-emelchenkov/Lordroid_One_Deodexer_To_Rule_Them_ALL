@@ -70,30 +70,31 @@ public class Window extends JFrame implements ThreadWatcher {
 
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
-			boolean yes =Alerts.showDeodexNowAlert(rootPanel);
-			if(yes){
-				//TODO ShowThradAlert
+			boolean yes = Alerts.showDeodexNowAlert(rootPanel);
+			if (yes) {
+				// TODO ShowThradAlert
 				maxJobs = Alerts.showThreadDialog();
-				
-			deodexNow.setEnabled(false);
-			initwaiting();
-			SessionCfg.setSign(signCheck.isSelected());
-			SessionCfg.setZipalign(zipalignCheck.isSelected());
-			new Thread(new Runnable() {
 
-				@Override
-				public void run() {
-					// TODO the Thread max number will be calculated like this
-					// cpu count/2
-					mainWorker = new MainWorker(SessionCfg.getSystemFolder(), logger, maxJobs);
-					addThreadWatcher();
-					Thread t = new Thread(mainWorker);
-					t.start();
-				}
+				deodexNow.setEnabled(false);
+				initwaiting();
+				SessionCfg.setSign(signCheck.isSelected());
+				SessionCfg.setZipalign(zipalignCheck.isSelected());
+				new Thread(new Runnable() {
 
-			}).start();
+					@Override
+					public void run() {
+						// TODO the Thread max number will be calculated like
+						// this
+						// cpu count/2
+						mainWorker = new MainWorker(SessionCfg.getSystemFolder(), logger, maxJobs);
+						addThreadWatcher();
+						Thread t = new Thread(mainWorker);
+						t.start();
+					}
 
-		}
+				}).start();
+
+			}
 		}
 
 	}
@@ -145,8 +146,6 @@ public class Window extends JFrame implements ThreadWatcher {
 	JButton quitbtn = new JButton(R.getString("window.exitbtn"));
 	JButton restart = new JButton(R.getString("window.restartbtn"));
 	ImageIcon icon;
-
-
 
 	public Window() {
 		this.setResizable(false);
@@ -230,8 +229,8 @@ public class Window extends JFrame implements ThreadWatcher {
 				BorderFactory.createLineBorder(new Color(89, 195, 216), 2), R.getString("optionalPan")));
 
 		// toolTips
-		//zipalignCheck.setToolTipText(R.getString("zipalignCheck.ToolTip"));
-		//signCheck.setToolTipText(R.getString("signCheck.ToolTip"));
+		// zipalignCheck.setToolTipText(R.getString("zipalignCheck.ToolTip"));
+		// signCheck.setToolTipText(R.getString("signCheck.ToolTip"));
 
 		// other propreties
 		optionalPan.setOpaque(false);
@@ -358,7 +357,7 @@ public class Window extends JFrame implements ThreadWatcher {
 		JLabel progLAb = new JLabel(icon);
 		// Play animation
 		progress.setIndeterminate(true);
-		progLAb.setBounds(2, 95, 798, this.getHeight()-2);
+		progLAb.setBounds(2, 95, 798, this.getHeight() - 2);
 
 		rootPane.add(progLAb);
 		// rootPane.add(logger);

@@ -62,7 +62,8 @@ public class JarWorker implements Runnable, Watchable {
 		boolean copyStatus = jar.copyNeedFiles(tmpFolder);
 		if (!copyStatus) {
 			// TODO add loggin for this
-			this.logPan.addLog(R.getString(S.LOG_ERROR)+"["+jar.getOrigJar()+"]"+R.getString("log.copy.to.tmp.failed"));
+			this.logPan.addLog(
+					R.getString(S.LOG_ERROR) + "[" + jar.getOrigJar() + "]" + R.getString("log.copy.to.tmp.failed"));
 			return false;
 		}
 		this.progressBar.setValue(this.progressBar.getValue() + 1);
@@ -74,12 +75,14 @@ public class JarWorker implements Runnable, Watchable {
 		try {
 			extractStatus = ZipTools.extractOdex(jar.getTmpodex());
 		} catch (IOException e) {
-			this.logPan.addLog(R.getString(S.LOG_ERROR)+"["+jar.getOrigJar()+"]"+R.getString("log.extract.to.tmp.failed"));
+			this.logPan.addLog(
+					R.getString(S.LOG_ERROR) + "[" + jar.getOrigJar() + "]" + R.getString("log.extract.to.tmp.failed"));
 			e.printStackTrace();
 			return false;
 		}
 		if (!extractStatus) {
-			this.logPan.addLog(R.getString(S.LOG_ERROR)+"["+jar.getOrigJar()+"]"+R.getString("log.extract.to.tmp.failed"));
+			this.logPan.addLog(
+					R.getString(S.LOG_ERROR) + "[" + jar.getOrigJar() + "]" + R.getString("log.extract.to.tmp.failed"));
 			return false;
 		}
 		this.progressBar.setValue(this.progressBar.getValue() + 1);
@@ -91,8 +94,9 @@ public class JarWorker implements Runnable, Watchable {
 		deodexStatus = Deodexer.deodexApk(jar.getTmpodex(), jar.getTmpdex());
 		if (!deodexStatus) {
 			deodexStatus = Deodexer.deodexApkFailSafe(jar.getTmpodex(), jar.getTmpdex());
-			if (!deodexStatus){
-				this.logPan.addLog(R.getString(S.LOG_ERROR)+"["+jar.getOrigJar()+"]"+R.getString("log.deodex.failed"));
+			if (!deodexStatus) {
+				this.logPan.addLog(
+						R.getString(S.LOG_ERROR) + "[" + jar.getOrigJar() + "]" + R.getString("log.deodex.failed"));
 				return false;
 			}
 		}
@@ -110,7 +114,8 @@ public class JarWorker implements Runnable, Watchable {
 				: jar.getTmpClasses().exists();
 		// if(rename) return true;
 		if (!rename) {
-			this.logPan.addLog(R.getString(S.LOG_ERROR)+"["+jar.getOrigJar()+"]"+R.getString("log.classes.failed"));
+			this.logPan.addLog(
+					R.getString(S.LOG_ERROR) + "[" + jar.getOrigJar() + "]" + R.getString("log.classes.failed"));
 			return false;
 		}
 		this.progressBar.setValue(this.progressBar.getValue() + 1);
@@ -130,7 +135,8 @@ public class JarWorker implements Runnable, Watchable {
 			e1.printStackTrace();
 		}
 		if (!addstatus) {
-			this.logPan.addLog(R.getString(S.LOG_ERROR)+"["+jar.getOrigJar()+"]"+R.getString("log.add.classes.failed"));
+			this.logPan.addLog(
+					R.getString(S.LOG_ERROR) + "[" + jar.getOrigJar() + "]" + R.getString("log.add.classes.failed"));
 			return false;
 		}
 		this.progressBar.setValue(this.progressBar.getValue() + 1);
@@ -141,7 +147,8 @@ public class JarWorker implements Runnable, Watchable {
 		boolean putBack = false;
 		putBack = FilesUtils.copyFile(jar.getTmpJar(), jar.getOrigJar());
 		if (!putBack) {
-			this.logPan.addLog(R.getString(S.LOG_ERROR)+"["+jar.getOrigJar()+"]"+R.getString("log.putback.apk.failed"));
+			this.logPan.addLog(
+					R.getString(S.LOG_ERROR) + "[" + jar.getOrigJar() + "]" + R.getString("log.putback.apk.failed"));
 			return false;
 		}
 
@@ -170,21 +177,22 @@ public class JarWorker implements Runnable, Watchable {
 
 	@Override
 	public void run() {
-		if(this.odexFiles!=null && this.odexFiles.size()>0){
-		for (File jar : odexFiles) {
-			boolean success = deodexJar(jar);
-			if (success) {
-				logPan.addLog(R.getString(S.LOG_INFO)+
-						"[" + jar.getName().substring(0, jar.getName().lastIndexOf(".")) + ".jar]" + " [SUCCESS]");
-			} else {
-				logPan.addLog(R.getString(S.LOG_INFO)+"[" + jar.getName().substring(0, jar.getName().lastIndexOf(".")) + ".jar]" + " [FAILED]");
+		if (this.odexFiles != null && this.odexFiles.size() > 0) {
+			for (File jar : odexFiles) {
+				boolean success = deodexJar(jar);
+				if (success) {
+					logPan.addLog(R.getString(S.LOG_INFO) + "["
+							+ jar.getName().substring(0, jar.getName().lastIndexOf(".")) + ".jar]" + " [SUCCESS]");
+				} else {
+					logPan.addLog(R.getString(S.LOG_INFO) + "["
+							+ jar.getName().substring(0, jar.getName().lastIndexOf(".")) + ".jar]" + " [FAILED]");
+				}
+				this.progressBar.setValue(this.progressBar.getValue() + 1);
+				progressBar.setString(R.getString("progress.jar") + " " + this.getPercent() + "%");
+				threadWatcher.updateProgress();
 			}
-			this.progressBar.setValue(this.progressBar.getValue() + 1);
-			progressBar.setString(R.getString("progress.jar") + " " + this.getPercent() + "%");
-			threadWatcher.updateProgress();
 		}
-		}
-		
+
 		try {
 			Thread.sleep(2000);
 		} catch (InterruptedException e) {

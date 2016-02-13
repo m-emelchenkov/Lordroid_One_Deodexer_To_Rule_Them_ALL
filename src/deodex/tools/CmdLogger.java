@@ -24,7 +24,7 @@ import deodex.controlers.LoggerPan;
 
 public class CmdLogger implements LoggerPan {
 	ArrayList<String> logs = new ArrayList<String>();
-	
+
 	@Override
 	public synchronized void addLog(String str) {
 		// TODO Auto-generated method stub
@@ -32,8 +32,8 @@ public class CmdLogger implements LoggerPan {
 		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss"); // dd/MMM/yyyy
 		Date resultdate = new Date(yourmilliseconds);
 		String str2 = sdf.format(resultdate);
-		logs.add("["+str2+"]"+str);
-		System.out.println("["+str2+"]"+str);
+		logs.add("[" + str2 + "]" + str);
+		System.out.println("[" + str2 + "]" + str);
 	}
 
 	@Override
@@ -45,7 +45,7 @@ public class CmdLogger implements LoggerPan {
 		String str = PathUtils.getExcutionPath() + File.separator + "logs" + File.separator + sdf.format(resultdate)
 				+ ".log";
 		File logFile = new File(str);
-		this.addLog("Log file saved to "+logFile.getAbsolutePath());
+		this.addLog("Log file saved to " + logFile.getAbsolutePath());
 		PropReader.ArrayToProp(logs, logFile);
 	}
 

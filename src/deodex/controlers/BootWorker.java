@@ -62,11 +62,11 @@ public class BootWorker implements Runnable, Watchable {
 		boolean copyStatus = false;
 		copyStatus = FilesUtils.copyFile(origJar, tmpJar);
 		if (!copyStatus) {
-			this.log.addLog(R.getString(S.LOG_ERROR)+"["+absoluteName+".jar]"+R.getString("log.copy.to.tmp.failed"));
+			this.log.addLog(
+					R.getString(S.LOG_ERROR) + "[" + absoluteName + ".jar]" + R.getString("log.copy.to.tmp.failed"));
 			return false;
 		}
-		
-		
+
 		copyStatus = FilesUtils.copyFile(file, tmpClasses);
 		if (absoluteName.equals("framework")) {
 			copyStatus = FilesUtils.copyFile(
@@ -74,7 +74,8 @@ public class BootWorker implements Runnable, Watchable {
 					tmpClasses2);
 		}
 		if (!copyStatus) {
-			this.log.addLog(R.getString(S.LOG_ERROR)+"["+absoluteName+".jar]"+R.getString("log.classes.failed"));
+			this.log.addLog(
+					R.getString(S.LOG_ERROR) + "[" + absoluteName + ".jar]" + R.getString("log.classes.failed"));
 			return false;
 		}
 
@@ -91,11 +92,11 @@ public class BootWorker implements Runnable, Watchable {
 		}
 
 		if (!addStatus) {
-			this.log.addLog(R.getString(S.LOG_ERROR)+"["+absoluteName+".jar]"+R.getString("log.add.classes.failed"));
+			this.log.addLog(
+					R.getString(S.LOG_ERROR) + "[" + absoluteName + ".jar]" + R.getString("log.add.classes.failed"));
 			return false;
-		} 
+		}
 		copyStatus = FilesUtils.copyFile(tmpJar, origJar);
-		
 
 		return copyStatus;
 
@@ -107,9 +108,11 @@ public class BootWorker implements Runnable, Watchable {
 		for (File file : bootFiles) {
 			boolean success = deoDexBootFile(file);
 			if (success) {
-				log.addLog(R.getString(S.LOG_INFO)+"[" + file.getName().substring(0, file.getName().lastIndexOf(".")) + ".jar]" + " [SUCCESS]");
+				log.addLog(R.getString(S.LOG_INFO) + "[" + file.getName().substring(0, file.getName().lastIndexOf("."))
+						+ ".jar]" + " [SUCCESS]");
 			} else {
-				log.addLog(R.getString(S.LOG_INFO)+"[" + file.getName().substring(0, file.getName().lastIndexOf(".")) + ".jar]" + " [FAILED ]");
+				log.addLog(R.getString(S.LOG_INFO) + "[" + file.getName().substring(0, file.getName().lastIndexOf("."))
+						+ ".jar]" + " [FAILED ]");
 
 			}
 			progressBar.setValue(progressBar.getValue() + 1);

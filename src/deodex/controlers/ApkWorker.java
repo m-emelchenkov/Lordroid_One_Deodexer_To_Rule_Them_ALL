@@ -41,6 +41,7 @@ public class ApkWorker implements Runnable {
 	ThreadWatcher threadWatcher;
 	private boolean signStatus = false;
 	private boolean zipAlignStatus = false;
+
 	/**
 	 * constructor the argument is a list of the APk objectes to be deodexed
 	 * (lolipop and above)
@@ -162,7 +163,7 @@ public class ApkWorker implements Runnable {
 		if (this.doSign) {
 			// TODO sign !
 			try {
-				this.signStatus =Deodexer.signApk(apk.getTempApk(), apk.getTempApkSigned());
+				this.signStatus = Deodexer.signApk(apk.getTempApk(), apk.getTempApkSigned());
 			} catch (IOException | InterruptedException e) {
 				FilesUtils.copyFile(apk.getTempApk(), apk.getTempApkSigned());
 			}
@@ -177,7 +178,7 @@ public class ApkWorker implements Runnable {
 		// phase 7
 		if (this.doZipalign) {
 			try {
-				this.zipAlignStatus =Zip.zipAlignAPk(apk.getTempApkSigned(), apk.getTempApkZipalign());
+				this.zipAlignStatus = Zip.zipAlignAPk(apk.getTempApkSigned(), apk.getTempApkZipalign());
 			} catch (IOException | InterruptedException e) {
 				FilesUtils.copyFile(apk.getTempApkSigned(), apk.getTempApkZipalign());
 			}
@@ -196,7 +197,7 @@ public class ApkWorker implements Runnable {
 			return false;
 		}
 		// delete the arch folder clearlly we dont need it any more
-		
+
 		FilesUtils.deleteFiles(FilesUtils.searchrecursively(apk.getFolder(), S.ODEX_EXT));
 		FilesUtils.deleteFiles(FilesUtils.searchrecursively(apk.getFolder(), S.COMP_ODEX_EXT));
 		FilesUtils.deleteUmptyFoldersInFolder(apk.getFolder());
@@ -236,11 +237,16 @@ public class ApkWorker implements Runnable {
 
 				boolean sucess = deodexApk(apk);
 				if (!sucess) {
-					logPan.addLog(R.getString(S.LOG_ERROR)+"[" + new ApkObj(apk).getOrigApk().getName() + "]" + R.getString(S.LOG_FAIL));
+					logPan.addLog(R.getString(S.LOG_ERROR) + "[" + new ApkObj(apk).getOrigApk().getName() + "]"
+							+ R.getString(S.LOG_FAIL));
 				} else {
-					logPan.addLog(R.getString(S.LOG_INFO)+"[" + new ApkObj(apk).getOrigApk().getName() + "]" + R.getString(S.LOG_SUCCESS)+
-							(this.doSign? (this.signStatus? R.getString("log.resign.ok"):R.getString("log.resign.fail") ) : "")+
-							(this.doZipalign? (this.zipAlignStatus?R.getString("log.zipalign.ok") : R.getString("log.zipalign.fail")):""));
+					logPan.addLog(
+							R.getString(S.LOG_INFO) + "[" + new ApkObj(apk).getOrigApk().getName() + "]"
+									+ R.getString(S.LOG_SUCCESS)
+									+ (this.doSign ? (this.signStatus ? R.getString("log.resign.ok")
+											: R.getString("log.resign.fail")) : "")
+									+ (this.doZipalign ? (this.zipAlignStatus ? R.getString("log.zipalign.ok")
+											: R.getString("log.zipalign.fail")) : ""));
 				}
 				progressBar.setValue(progressBar.getValue() + 1);
 				progressBar.setString(R.getString("progress.apks") + " (" + this.getPercent() + ")");
@@ -259,13 +265,14 @@ public class ApkWorker implements Runnable {
 		finalMove();
 	}
 
-	private void finalMove(){
+	private void finalMove() {
 		FilesUtils.deleteRecursively(tmpFolder);
 		progressBar.setValue(progressBar.getMaximum());
 		progressBar.setString(R.getString("progress.done"));
 		this.threadWatcher.updateProgress();
 		this.threadWatcher.done(this);
 	}
+
 	/**
 	 * @param progressBar
 	 *            the progressBar to set

@@ -128,7 +128,7 @@ public class PropReader {
 					new InputStreamReader(new BufferedInputStream(dis), Charset.forName("UTF-8").newDecoder()));
 			String line;
 			while ((line = br.readLine()) != null) {
-					lines.add(line);
+				lines.add(line);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -140,9 +140,7 @@ public class PropReader {
 		}
 		return lines.size();
 	}
-	
-	
-	
+
 	public static void writeProp(String prop, String value, File propFile) {
 		ArrayList<String> lines;
 

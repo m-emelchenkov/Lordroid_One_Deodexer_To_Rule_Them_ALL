@@ -39,8 +39,7 @@ public class ApkWorkerLegacy implements Watchable, Runnable {
 	File tempFolder;
 	private boolean signStatus = false;
 	private boolean zipAlignStatus = false;
-	
-	
+
 	public ApkWorkerLegacy(ArrayList<File> apkList, LoggerPan logPan, File tempFolder, boolean doSign,
 			boolean doZipalign) {
 		this.apkList = apkList;
@@ -66,7 +65,8 @@ public class ApkWorkerLegacy implements Watchable, Runnable {
 			// TODO add loggin for this
 			// Logger.logToStdIO("[" + apk.origApk.getName() + "]
 			// failedTocopy");
-			this.logPan.addLog(R.getString(S.LOG_ERROR)+"["+apk.origApk.getName()+"]"+R.getString("log.copy.to.tmp.failed"));
+			this.logPan.addLog(R.getString(S.LOG_ERROR) + "[" + apk.origApk.getName() + "]"
+					+ R.getString("log.copy.to.tmp.failed"));
 			return false;
 		} else {
 			// we deodex now !
@@ -79,7 +79,8 @@ public class ApkWorkerLegacy implements Watchable, Runnable {
 				// deodex aborting");
 				// Logger.logToStdIO(apk.tempOdex.getAbsolutePath());
 				// Logger.logToStdIO(apk.classes.getAbsolutePath());
-				this.logPan.addLog(R.getString(S.LOG_ERROR)+"["+apk.origApk.getName()+"]"+R.getString("log.deodex.failed"));
+				this.logPan.addLog(R.getString(S.LOG_ERROR) + "[" + apk.origApk.getName() + "]"
+						+ R.getString("log.deodex.failed"));
 				return false;
 			} else {
 				ArrayList<File> classes = new ArrayList<File>();
@@ -92,7 +93,8 @@ public class ApkWorkerLegacy implements Watchable, Runnable {
 					e.printStackTrace();
 				}
 				if (!putBack) {
-					this.logPan.addLog(R.getString(S.LOG_ERROR)+"["+apk.origApk.getName()+"]"+R.getString("log.add.classes.failed"));
+					this.logPan.addLog(R.getString(S.LOG_ERROR) + "[" + apk.origApk.getName() + "]"
+							+ R.getString("log.add.classes.failed"));
 				} else {
 					if (this.doSign) {
 						try {
@@ -105,7 +107,7 @@ public class ApkWorkerLegacy implements Watchable, Runnable {
 					}
 					if (this.doZipalign) {
 						try {
-							 this.zipAlignStatus = Zip.zipAlignAPk(apk.tempSigned, apk.tempZipaligned);
+							this.zipAlignStatus = Zip.zipAlignAPk(apk.tempSigned, apk.tempZipaligned);
 						} catch (IOException | InterruptedException e) {
 							e.printStackTrace();
 						}
@@ -123,8 +125,9 @@ public class ApkWorkerLegacy implements Watchable, Runnable {
 		boolean pushBack = FilesUtils.copyFile(apk.tempZipaligned, apk.origApk);
 		if (pushBack)
 			FilesUtils.deleteRecursively(apk.origOdex);
-		else{
-			this.logPan.addLog(R.getString(S.LOG_ERROR)+"["+apk.origApk.getName()+"]"+R.getString("log.putback.apk.failed"));
+		else {
+			this.logPan.addLog(R.getString(S.LOG_ERROR) + "[" + apk.origApk.getName() + "]"
+					+ R.getString("log.putback.apk.failed"));
 			return false;
 		}
 
@@ -153,11 +156,15 @@ public class ApkWorkerLegacy implements Watchable, Runnable {
 				ApkLegacy apk = new ApkLegacy(f);
 				boolean success = this.deodexApk(apk);
 				if (success) {
-					logPan.addLog(R.getString(S.LOG_INFO)+"[" + apk.origApk.getName() + "]" + R.getString(S.LOG_SUCCESS)+
-							(this.doSign? (this.signStatus? R.getString("log.resign.ok"):R.getString("log.resign.fail") ) : "")+
-							(this.doZipalign? (this.zipAlignStatus?R.getString("log.zipalign.ok") : R.getString("log.zipalign.fail")):""));
+					logPan.addLog(
+							R.getString(S.LOG_INFO) + "[" + apk.origApk.getName() + "]" + R.getString(S.LOG_SUCCESS)
+									+ (this.doSign ? (this.signStatus ? R.getString("log.resign.ok")
+											: R.getString("log.resign.fail")) : "")
+									+ (this.doZipalign ? (this.zipAlignStatus ? R.getString("log.zipalign.ok")
+											: R.getString("log.zipalign.fail")) : ""));
 				} else {
-					logPan.addLog(R.getString(S.LOG_ERROR)+"[" + apk.origApk.getName() + "]" + R.getString(S.LOG_FAIL));
+					logPan.addLog(
+							R.getString(S.LOG_ERROR) + "[" + apk.origApk.getName() + "]" + R.getString(S.LOG_FAIL));
 				}
 				progressBar.setValue(progressBar.getValue() + 1);
 				progressBar.setString(R.getString("progress.apks") + " (" + progressBar.getValue() + "/"
@@ -165,24 +172,26 @@ public class ApkWorkerLegacy implements Watchable, Runnable {
 				this.threadWatcher.updateProgress();
 			}
 		}
-		
+
 		try {
 			Thread.sleep(2000);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			// lets make sure the whatcher is always updated even when an Exception is thrown
+			// lets make sure the whatcher is always updated even when an
+			// Exception is thrown
 			finalMove();
 		}
-			finalMove();
+		finalMove();
 	}
 
-	private void finalMove(){
+	private void finalMove() {
 		progressBar.setValue(progressBar.getMaximum());
 		progressBar.setString(R.getString("progress.done"));
 		this.threadWatcher.updateProgress();
 		threadWatcher.done(this);
 	}
+
 	/**
 	 * @param progressBar
 	 *            the progressBar to set

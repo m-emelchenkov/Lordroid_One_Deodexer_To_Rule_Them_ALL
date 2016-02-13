@@ -186,14 +186,14 @@ public class FilesUtils {
 			log.addLog(R.getString(S.LOG_WARNING) + R.getString(S.LOG_SYSTEM_APP_NOT_FOUND));
 		}
 		// is there privz app
-		if (sdkLevel > 18){
+		if (sdkLevel > 18) {
 			if (isprivApp) {
 				log.addLog(R.getString(S.LOG_INFO) + R.getString("log.privapp.found"));
 			} else {
 				log.addLog(R.getString(S.LOG_WARNING) + R.getString("log.privapp.not.found"));
 			}
 		}
-		
+
 		if (isframwork) {
 
 			log.addLog(R.getString(S.LOG_INFO) + R.getString("log.framework.found"));
@@ -208,51 +208,55 @@ public class FilesUtils {
 			log.addLog(R.getString(S.LOG_ERROR) + R.getString("log.no.arch.detected"));
 			return false;
 		}
-		
+
 		// is boot .oat there ?
 		if (sdkLevel > 20) {
-//			if (!new File(systemFolder.getAbsolutePath() + File.separator + S.SYSTEM_FRAMEWORK + File.separator + arch
-//					+ File.separator + S.SYSTEM_FRAMEWORK_BOOT).exists()) {
-//				log.addLog(R.getString(S.LOG_ERROR) + R.getString("log.no.boot.oat"));
-//				return false;
-//			}
-			ArrayList <File>bootOat = FilesUtils.searchExactFileNames(new File(systemFolder.getAbsolutePath() + File.separator + S.SYSTEM_FRAMEWORK), "boot.oat");
-			if(bootOat == null || bootOat.size() <= 0){
+			// if (!new File(systemFolder.getAbsolutePath() + File.separator +
+			// S.SYSTEM_FRAMEWORK + File.separator + arch
+			// + File.separator + S.SYSTEM_FRAMEWORK_BOOT).exists()) {
+			// log.addLog(R.getString(S.LOG_ERROR) +
+			// R.getString("log.no.boot.oat"));
+			// return false;
+			// }
+			ArrayList<File> bootOat = FilesUtils.searchExactFileNames(
+					new File(systemFolder.getAbsolutePath() + File.separator + S.SYSTEM_FRAMEWORK), "boot.oat");
+			if (bootOat == null || bootOat.size() <= 0) {
 				log.addLog(R.getString(S.LOG_ERROR) + R.getString("log.no.boot.oat"));
 
-			} 
+			}
 		}
 
 		// Session Settings set them
 		SessionCfg.setSdk(sdkLevel);
 		log.addLog(R.getString(S.LOG_INFO) + R.getString("log.detected.sdk") + sdkLevel);
 		SessionCfg.setArch(arch);
-		if(sdkLevel > 20)
-		log.addLog(R.getString(S.LOG_INFO) + R.getString("log.detected.arch") + arch);
-		
+		if (sdkLevel > 20)
+			log.addLog(R.getString(S.LOG_INFO) + R.getString("log.detected.arch") + arch);
+
 		SessionCfg.setSystemFolder(systemFolder);
 		log.addLog(R.getString(S.LOG_INFO) + R.getString("log.chosen.folder") + systemFolder);
-		int apkCount = getOdexCount(new File(systemFolder.getAbsolutePath() + File.separator + S.SYSTEM_APP)) + 
-				getOdexCount(new File(systemFolder.getAbsolutePath() + File.separator + S.SYSTEM_PRIV_APP));
+		int apkCount = getOdexCount(new File(systemFolder.getAbsolutePath() + File.separator + S.SYSTEM_APP))
+				+ getOdexCount(new File(systemFolder.getAbsolutePath() + File.separator + S.SYSTEM_PRIV_APP));
 		int jarCounts = getOdexCount(new File(systemFolder.getAbsolutePath() + File.separator + S.SYSTEM_FRAMEWORK));
-		if(jarCounts == 0){
-			log.addLog(R.getString(S.LOG_INFO) +R.getString("no.odexFiles.wereFound"));
+		if (jarCounts == 0) {
+			log.addLog(R.getString(S.LOG_INFO) + R.getString("no.odexFiles.wereFound"));
 		}
-		log.addLog(R.getString(S.LOG_INFO) +R.getString("log.there.is")+apkCount+" apks "+R.getString("log.to.be.deodexed") );
-		log.addLog(R.getString(S.LOG_INFO) +R.getString("log.there.is")+jarCounts+" jars "+R.getString("log.to.be.deodexed") );
-		
-		
+		log.addLog(R.getString(S.LOG_INFO) + R.getString("log.there.is") + apkCount + " apks "
+				+ R.getString("log.to.be.deodexed"));
+		log.addLog(R.getString(S.LOG_INFO) + R.getString("log.there.is") + jarCounts + " jars "
+				+ R.getString("log.to.be.deodexed"));
+
 		return true;
 	}
-	
-	public static int getOdexCount(File folder){
-		int x =0;
-		if(folder.exists()){
+
+	public static int getOdexCount(File folder) {
+		int x = 0;
+		if (folder.exists()) {
 			x = ArrayUtils.deletedupricates(FilesUtils.searchrecursively(folder, S.ODEX_EXT)).size();
 		}
 		return x;
 	}
-	
+
 	// be very very carefull when using this ! it will delete folder and all
 	// it's subfolder's and files !
 

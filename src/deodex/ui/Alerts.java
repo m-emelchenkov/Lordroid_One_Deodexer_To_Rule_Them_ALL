@@ -47,27 +47,25 @@ public class Alerts {
 		return i == 0;
 	}
 
-	
-	public static int showThreadDialog(){
-		if(Cfg.doShowThreadAlert()){
+	public static int showThreadDialog() {
+		if (Cfg.doShowThreadAlert()) {
 			ThreadAlertPanel alertPane = new ThreadAlertPanel();
 			JOptionPane pane = new JOptionPane(alertPane, JOptionPane.PLAIN_MESSAGE);
 			JDialog dialog = pane.createDialog(null, R.getString("box.jobs"));
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setSize(500,250);
+			dialog.setSize(500, 250);
 			dialog.setVisible(true);
 			int status = 8;
 			try {
-				status = (int)pane.getValue();
-			} catch (Exception e){
-				
+				status = (int) pane.getValue();
+			} catch (Exception e) {
+
 			}
-			if(status == 0){
+			if (status == 0) {
 				Cfg.setShowThreadAlert(!alertPane.box.isSelected());
-				Cfg.setMaxJobs((int)alertPane.count.getSelectedItem());
+				Cfg.setMaxJobs((int) alertPane.count.getSelectedItem());
 			}
 		}
-			
 
 		return Cfg.getMaxJobs();
 	}
