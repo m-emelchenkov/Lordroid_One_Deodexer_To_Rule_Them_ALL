@@ -17,8 +17,6 @@ package deodex;
 
 import java.io.File;
 
-import deodex.tools.Logger;
-
 public class SessionCfg {
 
 	private static String arch;
@@ -71,7 +69,6 @@ public class SessionCfg {
 	 * @return the zipalign
 	 */
 	public static boolean isZipalign() {
-		Logger.logToStdIO("sent  zipAlign = " + zipalign);
 		return zipalign;
 	}
 
@@ -113,8 +110,8 @@ public class SessionCfg {
 	 */
 	public static void setSystemFolder(File systemFolder) {
 		SessionCfg.systemFolder = systemFolder;
-		setBootOatFile(new File(systemFolder.getAbsolutePath() + File.separator + S.SYSTEM_FRAMEWORK + File.separator
-				+ arch + File.separator + S.SYSTEM_FRAMEWORK_BOOT));
+//		setBootOatFile(new File(systemFolder.getAbsolutePath() + File.separator + S.SYSTEM_FRAMEWORK + File.separator
+//				+ arch + File.separator + S.SYSTEM_FRAMEWORK_BOOT));
 	}
 
 	/**
@@ -122,8 +119,6 @@ public class SessionCfg {
 	 *            the zipalign to set
 	 */
 	public static void setZipalign(boolean zipalignp) {
-		Logger.logToStdIO("received  zipAlign = " + zipalignp);
-
 		zipalign = zipalignp;
 	}
 

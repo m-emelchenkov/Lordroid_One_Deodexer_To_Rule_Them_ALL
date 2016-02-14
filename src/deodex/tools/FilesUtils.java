@@ -223,6 +223,8 @@ public class FilesUtils {
 			if (bootOat == null || bootOat.size() <= 0) {
 				log.addLog(R.getString(S.LOG_ERROR) + R.getString("log.no.boot.oat"));
 
+			} else {
+				SessionCfg.setBootOatFile(bootOat.get(0));
 			}
 		}
 
