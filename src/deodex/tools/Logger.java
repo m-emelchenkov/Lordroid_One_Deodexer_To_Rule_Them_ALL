@@ -16,7 +16,7 @@
 package deodex.tools;
 
 public class Logger {
-	private static final boolean LOG = true;
+	private static final boolean LOG = false;
 	public static final String INFO = "[INFO]";
 	public static final String WARNNING = "[WARNNING]";
 	public static final String ERROR = "[ERROR]";
