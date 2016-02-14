@@ -15,6 +15,7 @@
  */
 package deodex.tools;
 
+import java.awt.Component;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -23,6 +24,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
+
+import javax.swing.JOptionPane;
 
 import deodex.R;
 import deodex.S;
@@ -206,6 +209,22 @@ public class FilesUtils {
 		// can we detetect arch ?
 		if (arch.equals("null") && sdkLevel > 20) {
 			log.addLog(R.getString(S.LOG_ERROR) + R.getString("log.no.arch.detected"));
+			int odexCount = getOdexCount(systemFolder);
+			int bootcount = FilesUtils.searchExactFileNames(new File(systemFolder.getAbsolutePath() + File.separator + S.SYSTEM_FRAMEWORK), "boot.oat").size();
+			// To do externalize those
+			try {
+			if(odexCount == 0 )
+			JOptionPane.showMessageDialog((Component) log, 
+					"<HTML><p>No arch was detected and no odex files were found in the system folder!</p><p>This usally means that the rom is already deodexed</p></HTML>", "Rom is already deodexed!", JOptionPane.ERROR_MESSAGE);
+			else if (bootcount == 0)
+				JOptionPane.showMessageDialog((Component) log, 
+						"<HTML><p>No arch was detected and no boot.oat file was found in the system folder </p><p>boot.oat is critical to the depdex process can't do it without it</p></HTML>", "No arch detected", JOptionPane.ERROR_MESSAGE);
+			else 
+				JOptionPane.showMessageDialog((Component) log, 
+						"<HTML><p>No arch was detected this usally means that the rom is already deodexed or partially deodexed </p></HTML>", "No arch detected", JOptionPane.ERROR_MESSAGE);
+			} catch (Exception e){
+				
+			}
 			return false;
 		}
 
