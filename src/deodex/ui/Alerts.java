@@ -29,7 +29,7 @@ public class Alerts {
 		if (Cfg.doShowDeodexAlert()) {
 			DeodexAlertPanel alertPane = new DeodexAlertPanel();
 			JOptionPane pane = new JOptionPane(alertPane, JOptionPane.PLAIN_MESSAGE, JOptionPane.YES_NO_OPTION, null);
-			JDialog dialog = pane.createDialog(comp, "INFO");
+			JDialog dialog = pane.createDialog(comp, R.getString("alert.deodex.now.title"));
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setSize(450, 180);
 			dialog.setVisible(true);
@@ -47,7 +47,7 @@ public class Alerts {
 		return i == 0;
 	}
 
-	public static int showThreadDialog() {
+	public static int showThreadDialog(JComponent comp) {
 		if (Cfg.doShowThreadAlert()) {
 			ThreadAlertPanel alertPane = new ThreadAlertPanel();
 			JOptionPane pane = new JOptionPane(alertPane, JOptionPane.PLAIN_MESSAGE);

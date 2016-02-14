@@ -73,7 +73,7 @@ public class Window extends JFrame implements ThreadWatcher {
 			boolean yes = Alerts.showDeodexNowAlert(rootPanel);
 			if (yes) {
 				// TODO ShowThradAlert
-				maxJobs = Alerts.showThreadDialog();
+				maxJobs = Alerts.showThreadDialog(rootPanel);
 
 				deodexNow.setEnabled(false);
 				initwaiting();
