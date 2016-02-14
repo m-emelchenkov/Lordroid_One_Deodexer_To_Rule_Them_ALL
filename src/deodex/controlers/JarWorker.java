@@ -106,9 +106,9 @@ public class JarWorker implements Runnable, Watchable {
 
 		// phase 4
 		boolean rename = false;
-		rename = FilesUtils.copyFile(jar.getTmpdex(), jar.getTmpClasses());
+		rename = jar.getTmpdex().renameTo(jar.getTmpClasses());
 		if (jar.getTmpdex2().exists()) {
-			rename = rename && FilesUtils.copyFile(jar.getTmpdex2(), jar.getTmpClasses2());
+			rename = rename && jar.getTmpdex2().renameTo(jar.getTmpClasses2());
 		}
 		rename = jar.getTmpdex2().exists() ? jar.getTmpClasses().exists() && jar.getTmpClasses2().exists()
 				: jar.getTmpClasses().exists();

@@ -99,20 +99,26 @@ public class ApkWorkerLegacy implements Watchable, Runnable {
 					if (this.doSign) {
 						try {
 							signStatus = Deodexer.signApk(apk.tempApk, apk.tempSigned);
+							if(!signStatus)
+								apk.tempApk.renameTo(apk.tempSigned);
 						} catch (IOException | InterruptedException e) {
 							e.printStackTrace();
+							apk.tempApk.renameTo(apk.tempSigned);
 						}
 					} else {
-						FilesUtils.copyFileRecurcively(apk.tempApk, apk.tempSigned);
+						apk.tempApk.renameTo(apk.tempSigned);
 					}
 					if (this.doZipalign) {
 						try {
 							this.zipAlignStatus = Zip.zipAlignAPk(apk.tempSigned, apk.tempZipaligned);
+							if(!this.zipAlignStatus)
+								apk.tempSigned.renameTo(apk.tempZipaligned);
 						} catch (IOException | InterruptedException e) {
 							e.printStackTrace();
+							apk.tempSigned.renameTo(apk.tempZipaligned);
 						}
 					} else {
-						FilesUtils.copyFile(apk.tempSigned, apk.tempZipaligned);
+						apk.tempSigned.renameTo(apk.tempZipaligned);
 					}
 
 				}

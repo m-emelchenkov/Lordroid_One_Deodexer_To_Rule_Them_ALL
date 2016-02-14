@@ -123,9 +123,9 @@ public class ApkWorker implements Runnable {
 
 		// phase 04 renamming (FIXME: why copy instead of rename? is it relly
 		// safer ?)
-		boolean rename = FilesUtils.copyFile(apk.getTempDex(), apk.getTempClasses1());
+		boolean rename = apk.getTempDex().renameTo(apk.getTempClasses1());// FilesUtils.copyFile(apk.getTempDex(), apk.getTempClasses1());
 		if (apk.getTempDex2().exists()) {
-			rename = rename && FilesUtils.copyFile(apk.getTempDex2(), apk.getTempClasses2());
+			rename = rename &&  apk.getTempDex2().renameTo(apk.getTempClasses2());  //FilesUtils.copyFile(apk.getTempDex2(), apk.getTempClasses2());
 		}
 		if (!rename) {
 			logPan.addLog(R.getString(S.LOG_WARNING) + " [" + apk.getOrigApk().getName() + "]"
@@ -164,11 +164,14 @@ public class ApkWorker implements Runnable {
 			// TODO sign !
 			try {
 				this.signStatus = Deodexer.signApk(apk.getTempApk(), apk.getTempApkSigned());
+				if(!this.signStatus)
+					apk.getTempApk().renameTo(apk.getTempApkSigned());
 			} catch (IOException | InterruptedException e) {
-				FilesUtils.copyFile(apk.getTempApk(), apk.getTempApkSigned());
+				apk.getTempApk().renameTo(apk.getTempApkSigned());
 			}
 		} else {
-			FilesUtils.copyFile(apk.getTempApk(), apk.getTempApkSigned());
+			//FilesUtils.copyFile(apk.getTempApk(), apk.getTempApkSigned());
+			apk.getTempApk().renameTo(apk.getTempApkSigned());
 
 		}
 		progressBar.setValue(progressBar.getValue() + 1);
@@ -179,11 +182,13 @@ public class ApkWorker implements Runnable {
 		if (this.doZipalign) {
 			try {
 				this.zipAlignStatus = Zip.zipAlignAPk(apk.getTempApkSigned(), apk.getTempApkZipalign());
+				if(!this.zipAlignStatus)
+					apk.getTempApkSigned().renameTo(apk.getTempApkZipalign());
 			} catch (IOException | InterruptedException e) {
-				FilesUtils.copyFile(apk.getTempApkSigned(), apk.getTempApkZipalign());
+				apk.getTempApkSigned().renameTo(apk.getTempApkZipalign());
 			}
 		} else {
-			FilesUtils.copyFile(apk.getTempApkSigned(), apk.getTempApkZipalign());
+			apk.getTempApkSigned().renameTo(apk.getTempApkZipalign());
 		}
 		progressBar.setValue(progressBar.getValue() + 1);
 		progressBar.setString(R.getString("progress.apks") + " (" + this.getPercent() + "%)");
