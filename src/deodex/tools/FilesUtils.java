@@ -34,6 +34,32 @@ import deodex.controlers.LoggerPan;
 
 public class FilesUtils {
 
+	private static ArrayList<File> listAllFiles(File folder){
+		ArrayList<File> list = new ArrayList<File>();
+		if(!folder.exists() ||folder.listFiles() == null ||folder.listFiles().length <= 0){
+			return list;
+		}
+		File[] listf = folder.listFiles();
+		for (File f : listf){
+			if(f.isFile()){
+				list.add(f);
+			} else {
+				if(listAllFiles(f) != null)
+				for (File f1 : listAllFiles(f)){
+					list.add(f1);
+				}
+			}
+		}
+		return list;
+	}
+	public static void LogFilesListToFile(File folder){
+		String str = "System folder Files list :\n";
+		for(File f : listAllFiles(folder)){
+			str = str+(f.getAbsolutePath().substring(folder.getAbsolutePath().length()+1))+"\n";
+		}
+		Logger.writLog(str);
+	}
+	
 	public static boolean copyFile(File input, File dest) {
 		// making sure the path is there and writable !
 		dest.getParentFile().mkdirs();
@@ -278,6 +304,7 @@ public class FilesUtils {
 		int x = 0;
 		if (folder.exists()) {
 			x = ArrayUtils.deletedupricates(FilesUtils.searchrecursively(folder, S.ODEX_EXT)).size();
+			x = x + ArrayUtils.deletedupricates(FilesUtils.searchrecursively(folder, S.COMP_ODEX_EXT)).size();
 		}
 		return x;
 	}
