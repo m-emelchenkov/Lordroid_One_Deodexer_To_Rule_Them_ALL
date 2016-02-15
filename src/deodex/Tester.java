@@ -61,6 +61,7 @@ public class Tester {
 			R.initResources();
 			printHelp();
 		}else {
+			Logger.logToStd = false;
 			int lengh = args.length;
 			// the user used one argument and it's not '-h' so we assume he
 			// selected a folder

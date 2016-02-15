@@ -31,6 +31,8 @@ public class Logger {
 	public static final File LOG_FILE =  new File(getlogFileName());
 	private static int init = 0;
 	
+	public static boolean logToStd = true;
+	
 	public static void logToStdIO(String str) {
 		long yourmilliseconds = System.currentTimeMillis();
 		SimpleDateFormat sdf = new SimpleDateFormat("[HH:mm:ss]"); // dd/MMM/yyyy
@@ -55,6 +57,7 @@ public class Logger {
 		long yourmilliseconds = System.currentTimeMillis();
 		SimpleDateFormat sdf = new SimpleDateFormat("[HH:mm:ss]"); // dd/MMM/yyyy
 		Date resultdate = new Date(yourmilliseconds);
+		if(logToStd)
 		System.out.println(sdf.format(resultdate)+str);
 		BufferedWriter out; 
 		try {
