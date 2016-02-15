@@ -48,7 +48,7 @@ public class JarWorkerLegacy implements Watchable, Runnable {
 			progressBar.setMaximum(1);
 		}
 		progressBar.setStringPainted(true);
-
+		tempFolder.mkdirs();
 	}
 
 	@Override

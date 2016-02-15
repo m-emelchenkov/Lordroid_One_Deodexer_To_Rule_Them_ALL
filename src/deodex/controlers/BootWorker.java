@@ -37,6 +37,7 @@ public class BootWorker implements Runnable, Watchable {
 	public BootWorker(ArrayList<File> bootList, File tmpFolder, LoggerPan log) {
 		bootFiles = bootList;
 		this.tmpFolder = tmpFolder;
+		tmpFolder.mkdirs();
 		this.log = log;
 		progressBar = new JProgressBar();
 		progressBar.setMinimum(0);

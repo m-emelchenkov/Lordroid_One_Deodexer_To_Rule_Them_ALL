@@ -118,7 +118,11 @@ public class MainWorker implements Runnable, ThreadWatcher, Watchable {
 		// may be searching for it recursively in all framework folder is better
 		// ?
 		// yes more code but it will be more compatible
+		try {
 		isinitialized = FilesUtils.copyFile(SessionCfg.getBootOatFile(), S.bootTmp);
+		} catch (Exception e){
+			
+		}
 		isinitialized = isinitialized && Deodexer.oat2dexBoot(S.bootTmp);
 		if (!isinitialized) {
 			return;

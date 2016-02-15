@@ -63,6 +63,7 @@ public class ApkWorker implements Runnable {
 		else
 			progressBar.setMaximum(1);
 		progressBar.setStringPainted(true);
+		this.tmpFolder.mkdirs();
 	}
 
 	/**

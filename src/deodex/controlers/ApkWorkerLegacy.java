@@ -47,6 +47,7 @@ public class ApkWorkerLegacy implements Watchable, Runnable {
 		this.doSign = doSign;
 		this.doZipalign = doZipalign;
 		this.tempFolder = tempFolder;
+		this.tempFolder.mkdirs();
 		progressBar.setMinimum(0);
 		progressBar.setMaximum(this.apkList.size() > 0 ? this.apkList.size() : 1);
 		progressBar.setStringPainted(true);

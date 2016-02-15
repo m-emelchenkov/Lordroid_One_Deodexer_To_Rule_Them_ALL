@@ -47,6 +47,7 @@ public class JarWorker implements Runnable, Watchable {
 		progressBar.setMinimum(0);
 		progressBar.setMaximum(odexList.size() * 6);
 		progressBar.setStringPainted(true);
+		tmpFolder.mkdirs();
 	}
 
 	@Override
