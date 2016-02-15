@@ -134,15 +134,14 @@ public class MainWorker implements Runnable, ThreadWatcher, Watchable {
 		worker1List = this.getapkOdexFiles();
 
 		int half = worker1List.size() / 2;
-
 		worker2List = new ArrayList<File>();
 		for (int i = worker1List.size() - 1; i >= half; i = worker1List.size() - 1) {
 			worker2List.add(worker1List.get(i));
 			worker1List.remove(i);
 		}
 
-		apk1 = new ApkWorker(worker1List, logPan, S.worker1Folder, SessionCfg.isSign(), SessionCfg.isZipalign());
-		apk2 = new ApkWorker(worker2List, logPan, S.worker2Folder, SessionCfg.isSign(), SessionCfg.isZipalign());
+
+
 
 		/// framework
 		this.worker3List = FilesUtils.searchrecursively(
@@ -158,7 +157,29 @@ public class MainWorker implements Runnable, ThreadWatcher, Watchable {
 				this.worker3List.add(f);
 			}
 		}
-
+		
+		// some roms have apks under framwork like LG roms 
+		ArrayList<File> temapkinfram = new ArrayList<File>();
+		for(File f : this.worker3List){
+			ArrayList<File> apksInFram = ArrayUtils.deletedupricates(FilesUtils.searchExactFileNames(
+					new File(folder.getAbsolutePath() + File.separator + S.SYSTEM_FRAMEWORK),
+					(f.getName().endsWith(".odex")? f.getName().substring(0, f.getName().lastIndexOf(".")): f.getName().substring(0, f.getName().lastIndexOf(".odex.xz")))+".apk"));
+			Logger.writLog("Searching for "+
+					(f.getName().endsWith(".odex")? f.getName().substring(0, f.getName().lastIndexOf(".")): f.getName().substring(0, f.getName().lastIndexOf(".odex.xz")))+".apk");
+			if(!apksInFram.isEmpty()){
+				temapkinfram.add(f);
+				Logger.writLog("fount moving it to apk worker's list ");
+			} else {
+				Logger.writLog("not found skip ...");
+			}
+		}
+		for (File f : temapkinfram){
+			this.worker1List.add(f);
+			this.worker3List.remove(f);
+		}
+		
+		apk1 = new ApkWorker(worker1List, logPan, S.worker1Folder, SessionCfg.isSign(), SessionCfg.isZipalign());
+		apk2 = new ApkWorker(worker2List, logPan, S.worker2Folder, SessionCfg.isSign(), SessionCfg.isZipalign());
 		jar = new JarWorker(worker3List, logPan, S.worker3Folder);
 
 		// bootFile
@@ -172,6 +193,25 @@ public class MainWorker implements Runnable, ThreadWatcher, Watchable {
 			}
 		}
 		boot = new BootWorker(worker4List, S.worker4Folder, this.logPan);
+		
+		Logger.writLog("APK list 1");
+		for (File f : this.worker1List){
+			Logger.writLog(f.getAbsolutePath());
+		}
+		Logger.writLog("APK list 2");
+		for (File f : this.worker2List){
+			Logger.writLog(f.getAbsolutePath());
+		}
+		Logger.writLog("Jar list 3");
+		for (File f : this.worker3List){
+			Logger.writLog(f.getAbsolutePath());
+		}
+		Logger.writLog("boot list 1");
+		for (File f : this.worker4List){
+			Logger.writLog(f.getAbsolutePath());
+		}
+		
+		
 		apk1.addThreadWatcher(this);
 		apk2.addThreadWatcher(this);
 		boot.addThreadWatcher(this);
