@@ -15,16 +15,59 @@
  */
 package deodex.tools;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class Logger {
 	private static final boolean LOG = false;
 	public static final String INFO = "[INFO]";
 	public static final String WARNNING = "[WARNNING]";
 	public static final String ERROR = "[ERROR]";
 	public static final String FATAL = "[FATAL]";
-
+	public static final File LOG_FILE =  new File(getlogFileName());
+	private static int init = 0;
+	
 	public static void logToStdIO(String str) {
+		long yourmilliseconds = System.currentTimeMillis();
+		SimpleDateFormat sdf = new SimpleDateFormat("[HH:mm:ss]"); // dd/MMM/yyyy
+		Date resultdate = new Date(yourmilliseconds);
 		if (LOG)
-			System.out.println(str);
+			System.out.println(sdf.format(resultdate)+str);
 	}
 
+	public static String getlogFileName(){
+		if(init == 0){
+		long yourmilliseconds = System.currentTimeMillis();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd_HH.mm.ss"); // dd/MMM/yyyy
+		Date resultdate = new Date(yourmilliseconds);
+		init++;
+		return  PathUtils.getExcutionPath() + File.separator + "logs" + File.separator + sdf.format(resultdate)
+				+ "_full.log";
+	}
+		return LOG_FILE.getAbsolutePath();
+	}
+	
+	public static synchronized void writLog(String str){
+		long yourmilliseconds = System.currentTimeMillis();
+		SimpleDateFormat sdf = new SimpleDateFormat("[HH:mm:ss]"); // dd/MMM/yyyy
+		Date resultdate = new Date(yourmilliseconds);
+		System.out.println(sdf.format(resultdate)+str);
+		BufferedWriter out; 
+		try {
+		out= new BufferedWriter(new FileWriter(LOG_FILE.getAbsolutePath(), true));
+		out.write(sdf.format(resultdate)+str);
+		out.newLine();
+		out.flush();
+		out.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		
+	}
 }
