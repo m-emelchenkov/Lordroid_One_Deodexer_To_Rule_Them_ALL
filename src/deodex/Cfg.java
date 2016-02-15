@@ -19,7 +19,6 @@ package deodex;
 import java.io.File;
 import java.util.ArrayList;
 
-import deodex.tools.Logger;
 import deodex.tools.Os;
 import deodex.tools.PathUtils;
 import deodex.tools.PropReader;
