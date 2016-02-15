@@ -157,13 +157,15 @@ public class FilesUtils {
 	}
 
 	public static boolean isAValideSystemDir(File systemFolder, LoggerPan log) {
-		// File files[] = systemFolder.listFiles();
 
+		// first we check if the build.prop exists if not we can't determine sdk we abort !
 		if (!new File(systemFolder.getAbsolutePath() + File.separator + S.SYSTEM_BUILD_PROP).exists()) {
 			log.addLog(R.getString(S.LOG_ERROR) + R.getString(S.LOG_NO_BUILD_PROP));
 			return false;
 		}
+		
 		int sdkLevel;
+		
 		try {
 			sdkLevel = Integer.parseInt(PropReader.getProp(S.SDK_LEVEL_PROP,
 					new File(systemFolder.getAbsolutePath() + File.separator + S.SYSTEM_BUILD_PROP)));
@@ -171,7 +173,8 @@ public class FilesUtils {
 			// File(systemFolder.getAbsolutePath()+File.separator+S.SYSTEM_BUILD_PROP));
 			// Logger.logToStdIO("[WHAT ?] "+str);
 		} catch (Exception e) {
-			e.printStackTrace();
+			for( StackTraceElement element :e.getStackTrace())
+			Logger.writLog(element.toString());
 			log.addLog(R.getString(S.LOG_ERROR) + R.getString(S.CANT_READ_SDK_LEVEL));
 			return false;
 		}
@@ -188,7 +191,7 @@ public class FilesUtils {
 		} else {
 			log.addLog(R.getString(S.LOG_WARNING) + R.getString(S.LOG_SYSTEM_APP_NOT_FOUND));
 		}
-		// is there privz app
+		// is there privz app api > 18 only 
 		if (sdkLevel > 18) {
 			if (isprivApp) {
 				log.addLog(R.getString(S.LOG_INFO) + R.getString("log.privapp.found"));
@@ -213,19 +216,19 @@ public class FilesUtils {
 			int bootcount = FilesUtils.searchExactFileNames(new File(systemFolder.getAbsolutePath() + File.separator + S.SYSTEM_FRAMEWORK), "boot.oat").size();
 			// To do externalize those
 			try {
-			if(odexCount == 0 )
+			if(odexCount <= 0 ){
 			JOptionPane.showMessageDialog((Component) log, 
 					"<HTML><p>No arch was detected and no odex files were found in the system folder!</p><p>This usally means that the rom is already deodexed</p></HTML>", "Rom is already deodexed!", JOptionPane.ERROR_MESSAGE);
-			else if (bootcount == 0)
+			return false;
+			}	else if (bootcount <= 0){
 				JOptionPane.showMessageDialog((Component) log, 
 						"<HTML><p>No arch was detected and no boot.oat file was found in the system folder </p><p>boot.oat is critical to the depdex process can't do it without it</p></HTML>", "No arch detected", JOptionPane.ERROR_MESSAGE);
-			else 
-				JOptionPane.showMessageDialog((Component) log, 
-						"<HTML><p>No arch was detected this usally means that the rom is already deodexed or partially deodexed </p></HTML>", "No arch detected", JOptionPane.ERROR_MESSAGE);
+			return false;
+			}
 			} catch (Exception e){
 				
 			}
-			return false;
+			
 		}
 
 		// is boot .oat there ?
@@ -241,7 +244,7 @@ public class FilesUtils {
 					new File(systemFolder.getAbsolutePath() + File.separator + S.SYSTEM_FRAMEWORK), "boot.oat");
 			if (bootOat == null || bootOat.size() <= 0) {
 				log.addLog(R.getString(S.LOG_ERROR) + R.getString("log.no.boot.oat"));
-
+				return false;
 			} else {
 				SessionCfg.setBootOatFile(bootOat.get(0));
 			}
@@ -259,8 +262,9 @@ public class FilesUtils {
 		int apkCount = getOdexCount(new File(systemFolder.getAbsolutePath() + File.separator + S.SYSTEM_APP))
 				+ getOdexCount(new File(systemFolder.getAbsolutePath() + File.separator + S.SYSTEM_PRIV_APP));
 		int jarCounts = getOdexCount(new File(systemFolder.getAbsolutePath() + File.separator + S.SYSTEM_FRAMEWORK));
-		if (jarCounts == 0) {
+		if (jarCounts+apkCount <= 0) {
 			log.addLog(R.getString(S.LOG_INFO) + R.getString("no.odexFiles.wereFound"));
+			return false;
 		}
 		log.addLog(R.getString(S.LOG_INFO) + R.getString("log.there.is") + apkCount + " apks "
 				+ R.getString("log.to.be.deodexed"));
