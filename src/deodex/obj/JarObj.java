@@ -26,6 +26,7 @@ public class JarObj {
 	File origJar;
 	File odexFile;
 	File tmpFolder;
+	File tmpCompodex;
 	File tmpodex;
 	File tmpdex;
 	File tmpdex2;
@@ -40,7 +41,7 @@ public class JarObj {
 		if (odexFile.getName().endsWith(".odex")) {
 			absoluteName = odexFile.getName().substring(0, odexFile.getName().lastIndexOf("."));
 		} else if (odexFile.getName().endsWith(".odex.xz")) {
-			absoluteName = odexFile.getName().substring(0, -9);
+			absoluteName = odexFile.getName().substring(0, odexFile.getName().lastIndexOf(".odex.xz"));
 		}
 
 		this.origJar = new File(SessionCfg.getSystemFolder().getAbsolutePath() + File.separator + S.SYSTEM_FRAMEWORK
@@ -52,18 +53,33 @@ public class JarObj {
 		tmpFolder.mkdirs();
 		if (!tmpFolder.exists())
 			return false;
-		tmpodex = new File(this.tmpFolder.getAbsolutePath() + File.separator + odexFile.getName());
+		tmpCompodex = new File(this.tmpFolder.getAbsolutePath() + File.separator + this.odexFile.getName());
+		tmpodex = new File(this.tmpFolder.getAbsolutePath() + File.separator + this.absoluteName + ".odex");
 		tmpJar = new File(this.tmpFolder.getAbsolutePath() + File.separator + this.origJar.getName());
 		tmpdex = new File(this.tmpFolder.getAbsolutePath() + File.separator + this.absoluteName + S.DEX_EXT);
 		tmpdex2 = new File(this.tmpFolder.getAbsolutePath() + File.separator + this.absoluteName + S.DEX2_EXT);
 		tmpClasses = new File(this.tmpFolder.getAbsolutePath() + File.separator + S.CLASSES);
 		tmpClasses2 = new File(this.tmpFolder.getAbsolutePath() + File.separator + S.CLASSES_2);
 
-		boolean copyStatus = FilesUtils.copyFile(odexFile, tmpodex);
+		boolean copyStatus = FilesUtils.copyFile(odexFile, tmpCompodex);
 		boolean copyStatus2 = FilesUtils.copyFile(origJar, tmpJar);
 
 		return copyStatus && copyStatus2;
 
+	}
+
+	/**
+	 * @return the tmpCompodex
+	 */
+	public File getTmpCompodex() {
+		return tmpCompodex;
+	}
+
+	/**
+	 * @param tmpCompodex the tmpCompodex to set
+	 */
+	public void setTmpCompodex(File tmpCompodex) {
+		this.tmpCompodex = tmpCompodex;
 	}
 
 	/**

@@ -76,14 +76,17 @@ public class ApkWorker implements Runnable {
 
 	private boolean deodexApk(File apkFolder) {
 		ApkObj apk = new ApkObj(apkFolder);
-
+		Logger.writLog("Processing "+apk.getOrigApk().getName() +" ...");
 		// phase 01 copying to temp forlder
+		Logger.writLog(apk.getOrigApk().getName()+"Copying needed Files to working folder ...");
 		boolean copyStatus = apk.copyNeededFilesToTempFolder(tmpFolder);
 		if (!copyStatus) { // returns
 			logPan.addLog(R.getString(S.LOG_WARNING) + " [" + apk.getOrigApk().getName() + "]"
 					+ R.getString("log.copy.to.tmp.failed"));
+			Logger.writLog(apk.getOrigApk().getName()+" Failed to copy needed files ");
 			return false;
 		}
+		Logger.writLog(apk.getOrigApk().getName()+" copy files to temp folder successfull ! ");
 		progressBar.setValue(progressBar.getValue() + 1);
 		progressBar.setString(R.getString("progress.apks") + " (" + this.getPercent() + "%)");
 		threadWatcher.updateProgress();
@@ -91,7 +94,7 @@ public class ApkWorker implements Runnable {
 		// phase 02 extract xz if evailable
 		boolean extraxtStatus = false;
 		try {
-			extraxtStatus = ZipTools.extractOdex(apk.getTempOdex());
+			extraxtStatus = ZipTools.extractOdex(apk.getTempCompOdex());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

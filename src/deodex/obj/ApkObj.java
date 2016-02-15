@@ -20,6 +20,7 @@ import java.io.Serializable;
 
 import deodex.S;
 import deodex.tools.FilesUtils;
+import deodex.tools.Logger;
 
 public class ApkObj implements Serializable {
 
@@ -37,6 +38,21 @@ public class ApkObj implements Serializable {
 	private File tempApk;
 	private File tempApkZipalign;
 	private File tempApkSigned;
+	private File tempCompOdex;
+	/**
+	 * @return the tempCompOdex
+	 */
+	public File getTempCompOdex() {
+		return tempCompOdex;
+	}
+
+	/**
+	 * @param tempCompOdex the tempCompOdex to set
+	 */
+	public void setTempCompOdex(File tempCompOdex) {
+		this.tempCompOdex = tempCompOdex;
+	}
+
 	private File tempOdex;
 	private File tempDex;
 	private File tempDex2;
@@ -85,14 +101,17 @@ public class ApkObj implements Serializable {
 				tmpWorkingFolder.getAbsolutePath() + File.separator + folder.getName() + "_zipaligned" + S.APK_EXT);
 		tempApkSigned = new File(
 				tmpWorkingFolder.getAbsolutePath() + File.separator + folder.getName() + "_signed" + S.APK_EXT);
-		tempOdex = new File(tmpWorkingFolder.getAbsolutePath() + File.separator + this.odexFile.getName());
+		tempCompOdex = new File(tmpWorkingFolder.getAbsolutePath() + File.separator + this.odexFile.getName());
+		tempOdex = new File(tmpWorkingFolder.getAbsolutePath() + File.separator + this.pureName+S.ODEX_EXT);
 		tempDex = new File(tmpWorkingFolder.getAbsolutePath() + File.separator + folder.getName() + S.DEX_EXT);
 		tempDex2 = new File(tmpWorkingFolder.getAbsolutePath() + File.separator + folder.getName() + S.DEX2_EXT);
 		setTempClasses1(new File(tmpWorkingFolder.getAbsolutePath() + File.separator + S.CLASSES));
 		setTempClasses2(new File(tmpWorkingFolder.getAbsolutePath() + File.separator + S.CLASSES_2));
+		Logger.writLog(this.origApk.getName()+"copying "+this.origApk.getAbsolutePath() +" to "+tempApk.getAbsolutePath());
 		FilesUtils.copyFile(this.origApk, tempApk);
-		FilesUtils.copyFile(odexFile, tempOdex);
-		return tempApk.exists() && tempOdex.exists();
+		Logger.writLog("copying "+odexFile.getAbsolutePath()+" to "+tempCompOdex.getAbsolutePath());
+		FilesUtils.copyFile(odexFile, tempCompOdex);
+		return tempApk.exists() && tempCompOdex.exists();
 	}
 
 	public File getFolder() {

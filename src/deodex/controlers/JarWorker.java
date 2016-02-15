@@ -74,7 +74,7 @@ public class JarWorker implements Runnable, Watchable {
 		// phase 02
 		boolean extractStatus = false;
 		try {
-			extractStatus = ZipTools.extractOdex(jar.getTmpodex());
+			extractStatus = ZipTools.extractOdex(jar.getTmpCompodex());
 		} catch (IOException e) {
 			this.logPan.addLog(
 					R.getString(S.LOG_ERROR) + "[" + jar.getOrigJar() + "]" + R.getString("log.extract.to.tmp.failed"));
@@ -183,10 +183,10 @@ public class JarWorker implements Runnable, Watchable {
 				boolean success = deodexJar(jar);
 				if (success) {
 					logPan.addLog(R.getString(S.LOG_INFO) + "["
-							+ jar.getName().substring(0, jar.getName().lastIndexOf(".")) + ".jar]" + " [SUCCESS]");
+							+ new JarObj(jar).getAbsoluteName()+".jar]" + " [SUCCESS]");
 				} else {
-					logPan.addLog(R.getString(S.LOG_INFO) + "["
-							+ jar.getName().substring(0, jar.getName().lastIndexOf(".")) + ".jar]" + " [FAILED]");
+					logPan.addLog(R.getString(S.LOG_INFO) + "["+
+							new JarObj(jar).getAbsoluteName()+".jar]" + " [FAILED]");
 				}
 				this.progressBar.setValue(this.progressBar.getValue() + 1);
 				progressBar.setString(R.getString("progress.jar") + " " + this.getPercent() + "%");

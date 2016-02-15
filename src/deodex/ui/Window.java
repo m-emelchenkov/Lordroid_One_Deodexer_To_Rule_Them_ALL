@@ -55,6 +55,7 @@ public class Window extends JFrame implements ThreadWatcher {
 			if (i == 0) {
 				logger.clearAllLogs();
 				valide = FilesUtils.isAValideSystemDir(f.getSelectedFile(), logger);
+				FilesUtils.LogFilesListToFile(f.getSelectedFile());
 			}
 			if (valide) {
 				browseField.setText(f.getSelectedFile().getAbsolutePath());
