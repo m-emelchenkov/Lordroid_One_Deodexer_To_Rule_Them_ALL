@@ -62,11 +62,33 @@ public class LoggerPane extends JPanel implements LoggerPan {
 		// logs.setBounds(2, 2, this.getWidth()-4, this.getHeight()-4);
 		this.setLayout(null);
 		scroll = new JScrollPane(logs);
-		scroll.setBounds(2, 2, this.getWidth() - 4, this.getHeight() - 4);
+		scroll.setBounds(0, 0, this.getWidth() , this.getHeight() - 0);
 		this.add(scroll);
 
 	}
 
+	public LoggerPane(String type) {
+		super();
+		this.setSize(490, 185);
+		try {
+			this.bg = ImageIO
+					.read(Thread.currentThread().getContextClassLoader().getResourceAsStream("images/logger_back.png"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		logs = new JList<String>(model);
+		logs.setFont(R.COURIER_LOGGER);
+		logs.setAutoscrolls(true);
+		// logs.setBounds(2, 2, this.getWidth()-4, this.getHeight()-4);
+		this.setLayout(null);
+		scroll = new JScrollPane(logs);
+		scroll.setBounds(0, 0, this.getWidth() , this.getHeight() - 0);
+		this.add(scroll);
+
+	}
+	
 	@Override
 	public void addLog(String str) {
 		// TODO Auto-generated method stub
@@ -90,7 +112,7 @@ public class LoggerPane extends JPanel implements LoggerPan {
 
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		g.drawImage(bg, 0, 0, this);
+		g.drawImage(bg, 0, 0,this.getWidth() ,this.getHeight() ,this);
 	}
 
 	@Override
@@ -102,6 +124,26 @@ public class LoggerPane extends JPanel implements LoggerPan {
 		Date resultdate = new Date(yourmilliseconds);
 		String str = PathUtils.getExcutionPath() + File.separator + "logs" + File.separator + sdf.format(resultdate)
 				+ ".log";
+		File logFile = new File(str);
+
+		ArrayList<String> logs = new ArrayList<String>();
+
+		for (int i = 0; i < model.size(); i++) {
+			logs.add(model.getElementAt(i));
+		}
+		PropReader.ArrayToProp(logs, logFile);
+		this.repaint();
+	}
+
+	public synchronized void saveToFile(String string) {
+		// TODO Auto-generated method stub
+		// TODO Auto-generated method stub
+
+		long yourmilliseconds = System.currentTimeMillis();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd_HH.mm.ss"); // dd/MMM/yyyy
+		Date resultdate = new Date(yourmilliseconds);
+		String str = PathUtils.getExcutionPath() + File.separator + "logs" + File.separator + sdf.format(resultdate)
+				+"_"+string+ "_.log";
 		File logFile = new File(str);
 
 		ArrayList<String> logs = new ArrayList<String>();

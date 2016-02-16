@@ -15,6 +15,7 @@
  */
 package deodex;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;
 import java.io.BufferedInputStream;
@@ -42,6 +43,11 @@ public class R {
 	// public static final LogoPane LOGO_PANE =
 	public static final String LOG_HEADER = "[R]";
 
+	public static final Color BUTTONS_BACK_COLOR = new Color(89, 195, 216);
+	public static final Color FIELDS_BACK_COLOR = new Color(220, 237, 193);
+	public static final Color PANELS_BACK_COLOR = new Color(206, 194, 229);
+	
+	
 	private static ArrayList<String> strings = new ArrayList<String>();
 	public static Image borderRight;
 	public static Image borderLeft;

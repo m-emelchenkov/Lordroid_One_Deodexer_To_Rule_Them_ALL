@@ -97,3 +97,6 @@ alert.thread.line2=this may reduce the processing time at the expense of resourc
 alert.thread.line3=NOTE : if you don't know what this is or what are your hardware
 alert.thread.line4=       capabilities leave this value to default which is '2' 
 alert.thread.box.dont.ask.again=Make this the default value and don't ask again
+zipalign.now.btn=Zipaligner Mtn.
+log.no.apk.to.zipalign=No apks in the selected folder ae you sure you selected the right folder ?
+apk.to.be.zipaligned.log= apks to be zipaligned ...
