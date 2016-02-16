@@ -15,6 +15,7 @@
  */
 package deodex.ui;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Toolkit;
@@ -29,6 +30,9 @@ import javax.swing.JCheckBox;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
@@ -44,6 +48,27 @@ import deodex.tools.FilesUtils;
 
 public class Window extends JFrame implements ThreadWatcher {
 
+	class MenuItemsListener implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+			// TODO Auto-generated method stub
+			Object source = arg0.getSource();
+			if(source.equals(batchZipalignSignMenuItem)){
+				new ZipalignWindow(logo);
+			} else if(source.equals(exitMenuItem)){
+				int i = JOptionPane.showConfirmDialog(rootPanel, R.getString("dialog.sure.exit.message"),
+						R.getString("dialog.sure.exit"), JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
+				if(i == 0){
+					System.exit(0);
+				}
+			}
+			
+		}
+		
+	}
+	
+	
 	class BrowseAction implements ActionListener {
 
 		@Override
@@ -129,9 +154,8 @@ public class Window extends JFrame implements ThreadWatcher {
 			super.paintComponent(g);
 			g.setColor(new Color(206, 194, 229));
 			g.fillRect(0, 0, this.getWidth(), this.getHeight());
-			g.drawImage(R.borderLeft, 6, 90, this);
-			g.drawImage(R.borderRight, 802 - 2, 90, this);
-
+			g.drawImage(R.borderLeft, 0, 90, this);
+			g.drawImage(R.borderRight, 802 - 1, 90, this);
 		}
 	};
 	// fields BrowseView
@@ -148,6 +172,22 @@ public class Window extends JFrame implements ThreadWatcher {
 	JButton restart = new JButton(R.getString("window.restartbtn"));
 	ImageIcon icon;
 
+	// JMuneBar & MenuItems
+	JMenuBar menuBar = new JMenuBar();
+	
+	// File Menu
+	JMenu fichierMenu = new JMenu(R.getString("file"));
+	JMenuItem exitMenuItem = new JMenuItem(R.getString("exit"));
+	
+	// Tools Menu
+	JMenu toolsMenu = new JMenu(R.getString("tools"));
+	JMenuItem batchZipalignSignMenuItem = new JMenuItem(R.getString("batch.zipalign.sign.menu.items")); 
+	
+	// About 
+	JMenu aboutMenu = new JMenu(R.getString("about.menu"));
+	JMenuItem aboutThisMenu = new JMenuItem(R.getString("About.this.program"));
+	
+	
 	public Window() {
 		this.setResizable(false);
 		this.setIconImage(R.icon);
@@ -156,17 +196,42 @@ public class Window extends JFrame implements ThreadWatcher {
 		this.setLocation((Toolkit.getDefaultToolkit().getScreenSize().width - W_WIDTH) / 2,
 				((Toolkit.getDefaultToolkit().getScreenSize().height - W_HEIGHT) / 2));
 		this.setSize(W_WIDTH, W_HEIGHT);
-		this.setVisible(true);
+		this.setJMenuBar(menuBar);
 		rootPanel.setSize(W_WIDTH, W_HEIGHT);
-		// this.setContentPane(rootPanel);
-		this.add(rootPanel);
+		//this.setContentPane(rootPanel);
+		this.add(rootPanel,BorderLayout.CENTER);
 		icon = new ImageIcon(Window.this.getClass().getResource("/loading.gif"));
 		browseBtn.addActionListener(new BrowseAction());
 		this.deodexNow.addActionListener(new DeodexNowAction());
-
+		initMenuBar();
 		initBrowseView();
 	}
 
+	private void initMenuBar(){
+		
+		menuBar.setVisible(true);
+		// attach menus to the bar
+		menuBar.add(fichierMenu);
+		menuBar.add(toolsMenu);
+		menuBar.add(aboutMenu);
+		
+		// attach items to File menu
+		this.fichierMenu.add(exitMenuItem);
+		
+		// attach tools Items
+		this.toolsMenu.add(this.batchZipalignSignMenuItem);
+		
+		// attach about Items
+		this.aboutMenu.add(this.aboutThisMenu);
+		
+		
+		/// les Action 
+		
+		this.setVisible(true);
+		batchZipalignSignMenuItem.addActionListener(new MenuItemsListener());
+		exitMenuItem.addActionListener(new MenuItemsListener());
+	}
+	
 	public void addThreadWatcher() {
 		mainWorker.addThreadWatcher(this);
 	}
@@ -182,10 +247,10 @@ public class Window extends JFrame implements ThreadWatcher {
 
 	private void initBrowseView() {
 		JLabel boxsLabel = new JLabel(R.getString("box.jobs"));
-		rootPane.removeAll();
-		rootPane.setLayout(null);
-		rootPane.setBackground(new Color(206, 194, 229));
-		rootPane.setOpaque(true);
+		rootPanel.removeAll();
+		rootPanel.setLayout(null);
+		rootPanel.setBackground(new Color(206, 194, 229));
+		rootPanel.setOpaque(true);
 
 		// fonts
 		browseField.setFont(R.COURIER_NORMAL);
@@ -208,11 +273,11 @@ public class Window extends JFrame implements ThreadWatcher {
 
 		// default actions
 		browseBtn.setEnabled(true);
-		browseField.setEnabled(true);
+		browseField.setEditable(false);
 		zipalignCheck.setSelected(true);
 		signCheck.setSelected(false);
 		deodexNow.setEnabled(false);
-		browseField.setEnabled(false);
+		browseField.setEnabled(true);
 
 		// Components bounds
 		logo.setBounds(0, 0, 802, 100);
@@ -230,8 +295,8 @@ public class Window extends JFrame implements ThreadWatcher {
 				BorderFactory.createLineBorder(new Color(89, 195, 216), 2), R.getString("optionalPan")));
 
 		// toolTips
-		// zipalignCheck.setToolTipText(R.getString("zipalignCheck.ToolTip"));
-		// signCheck.setToolTipText(R.getString("signCheck.ToolTip"));
+		 zipalignCheck.setToolTipText(R.getString("zipalignCheck.ToolTip"));
+		 signCheck.setToolTipText(R.getString("signCheck.ToolTip"));
 
 		// other propreties
 		optionalPan.setOpaque(false);
@@ -243,18 +308,18 @@ public class Window extends JFrame implements ThreadWatcher {
 		// is there an other way to do this ?
 		focusStealer.setBounds(-50, -50, 1, 1);
 
-		rootPane.add(optionalPan);
-		rootPane.add(logger);
-		rootPane.add(focusStealer);
-		rootPane.add(deodexNow);
+		rootPanel.add(optionalPan);
+		rootPanel.add(logger);
+		rootPanel.add(focusStealer);
+		rootPanel.add(deodexNow);
 		optionalPan.add(this.signCheck);
 		optionalPan.add(this.zipalignCheck);
 		// rootPane.add(jobs);
 		// rootPane.add(boxsLabel);
-		rootPane.add(logo);
-		rootPane.add(browseField);
-		rootPane.add(browseBtn);
-		rootPane.revalidate();
+		rootPanel.add(logo);
+		rootPanel.add(browseField);
+		rootPanel.add(browseBtn);
+		rootPanel.revalidate();
 		this.repaint();
 
 		@SuppressWarnings("unused")
@@ -279,10 +344,10 @@ public class Window extends JFrame implements ThreadWatcher {
 	}
 
 	public void initProgress() {
-		rootPane.removeAll();
-		rootPane.setLayout(null);
-		rootPane.setBackground(new Color(206, 194, 229));
-		rootPane.setOpaque(true);
+		rootPanel.removeAll();
+		rootPanel.setLayout(null);
+		rootPanel.setBackground(new Color(206, 194, 229));
+		rootPanel.setOpaque(true);
 
 		quitbtn = new JButton(R.getString("window.exitbtn"));
 		restart = new JButton(R.getString("window.restartbtn"));
@@ -308,7 +373,7 @@ public class Window extends JFrame implements ThreadWatcher {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				int i = JOptionPane.showConfirmDialog(rootPane, R.getString("dialog.sure.exit.message"),
+				int i = JOptionPane.showConfirmDialog(rootPanel, R.getString("dialog.sure.exit.message"),
 						R.getString("dialog.sure.exit"), JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
 
 				if (i == 0) {
@@ -329,21 +394,21 @@ public class Window extends JFrame implements ThreadWatcher {
 
 		});
 		//
-		rootPane.add(logo);
-		rootPane.add(logger);
-		rootPane.add(mainWorker.mainPannel);
-		rootPane.add(quitbtn);
-		rootPane.add(restart);
+		rootPanel.add(logo);
+		rootPanel.add(logger);
+		rootPanel.add(mainWorker.mainPannel);
+		rootPanel.add(quitbtn);
+		rootPanel.add(restart);
 
-		rootPane.revalidate();
+		rootPanel.revalidate();
 		this.repaint();
 	}
 
 	private void initwaiting() {
-		rootPane.removeAll();
-		rootPane.setLayout(null);
-		rootPane.setBackground(new Color(206, 194, 229));
-		rootPane.setOpaque(true);
+		rootPanel.removeAll();
+		rootPanel.setLayout(null);
+		rootPanel.setBackground(new Color(206, 194, 229));
+		rootPanel.setOpaque(true);
 
 		JLabel waiting = new JLabel("Preparing working environnement this may take a minute...");
 		waiting.setFont(R.COURIER_NORMAL);
@@ -360,11 +425,11 @@ public class Window extends JFrame implements ThreadWatcher {
 		progress.setIndeterminate(true);
 		progLAb.setBounds(2, 95, 798, this.getHeight() - 2);
 
-		rootPane.add(progLAb);
+		rootPanel.add(progLAb);
 		// rootPane.add(logger);
-		rootPane.add(logo);
-		rootPane.add(waiting);
-		rootPane.revalidate();
+		rootPanel.add(logo);
+		rootPanel.add(waiting);
+		rootPanel.revalidate();
 		this.repaint();
 	}
 

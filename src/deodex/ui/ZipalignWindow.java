@@ -17,6 +17,7 @@ package deodex.ui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -124,7 +125,8 @@ public class ZipalignWindow extends JFrame implements ThreadWatcher{
 	/**
 	 * 
 	 */
-	public ZipalignWindow() {
+	public ZipalignWindow(Component c) {
+		this.setLocationRelativeTo(c);
 		this.setSize(500, 300);
 		this.setResizable(false);
 		this.setTitle("ODTRTA >> Batch Zipalign/Sign ");
@@ -232,7 +234,7 @@ public class ZipalignWindow extends JFrame implements ThreadWatcher{
 		Cfg.readCfg();
 		R.initResources();
 
-		new ZipalignWindow();
+		new ZipalignWindow(null);
 	}
 
 	@Override
