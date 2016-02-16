@@ -50,6 +50,10 @@ public class JarObj {
 
 		this.origJar = new File(SessionCfg.getSystemFolder().getAbsolutePath() + File.separator + S.SYSTEM_FRAMEWORK
 				+ File.separator + absoluteName + ".jar");
+		if(!this.origJar.exists()){
+			// we copy a dummy jar to framework 
+			FilesUtils.copyFile(S.DUMMY_JAR, this.origJar);
+		}
 	}
 
 	public boolean copyNeedFiles(File tmpFolder) {

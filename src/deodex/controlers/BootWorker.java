@@ -61,7 +61,11 @@ public class BootWorker implements Runnable, Watchable {
 		File tmpJar = new File(tmpFolder.getAbsolutePath() + File.separator + absoluteName + ".jar");
 		File origJar = new File(SessionCfg.getSystemFolder().getAbsolutePath() + File.separator + S.SYSTEM_FRAMEWORK
 				+ File.separator + absoluteName + ".jar");
-
+		if(!origJar.exists()){
+			FilesUtils.copyFile(S.DUMMY_JAR, origJar);
+		}
+		
+		
 		boolean copyStatus = false;
 		copyStatus = FilesUtils.copyFile(origJar, tmpJar);
 		if (!copyStatus) {

@@ -85,7 +85,8 @@ public class S {
 	public static final String TEST_KEY_PK8 = PathUtils.getExcutionPath() + File.separator + "bins/sign/testkey.pk8";
 	public static final String TEST_KEY_X509 = PathUtils.getExcutionPath() + File.separator
 			+ "bins/sign/testkey.x509.pem";
-
+	public static final File DUMMY_JAR = new File(PathUtils.getExcutionPath() + File.separator + "blanks/blank.jar");
+	
 	// temporary folders
 	public static File worker1Folder = new File(TMP + File.separator + WORKER1);
 	public static File worker2Folder = new File(TMP + File.separator + WORKER2);
