@@ -21,82 +21,155 @@ import java.util.ArrayList;
 
 import javax.swing.JProgressBar;
 
+import deodex.tools.Deodexer;
 import deodex.tools.Zip;
 
-public class ZipalignWorker implements Runnable ,Watchable{
+public class ZipalignWorker implements Runnable, Watchable {
 	ArrayList<ThreadWatcher> watchers = new ArrayList<ThreadWatcher>();
-	JProgressBar bar ;
+	JProgressBar bar;
 	ArrayList<File> apks;
 	LoggerPan log;
-	public ZipalignWorker(ArrayList<File> apks ,JProgressBar bar,LoggerPan log){
+	private boolean doZipalign = true;
+	private boolean doSign = false;
+
+	public ZipalignWorker(ArrayList<File> apks, JProgressBar bar, LoggerPan log) {
 		this.bar = bar;
 		this.apks = apks;
 		this.log = log;
 		this.bar.setMinimum(0);
-		this.bar.setMaximum(apks.size());
+
+
+
 		this.bar.setStringPainted(true);
 	}
-	
+
 	@Override
 	public void addThreadWatcher(ThreadWatcher watcher) {
 		// TODO Auto-generated method stub
-		
+
 		watchers.add(watcher);
 	}
 
-	private String percent(){
+	private String percent() {
 		// max ====> 100%
 		// value ====> ?
 		// ? = (value*100)/max
-		return ""+((bar.getValue()*100)/bar.getMaximum())+"%";
+		return "" + ((bar.getValue() * 100) / bar.getMaximum()) + "%";
 	}
-	
-	private boolean zipalignApk(File apk){
-		File zipApk = new File(apk.getAbsolutePath()+"_zipaligned.apk");
+
+	private boolean zipalignApk(File apk) {
+		File zipApk = new File(apk.getAbsolutePath() + "_zipaligned.apk");
 		boolean success = false;
 		try {
-			success =Zip.zipAlignAPk(apk, zipApk);
+			success = Zip.zipAlignAPk(apk, zipApk);
 		} catch (IOException | InterruptedException e) {
 			e.printStackTrace();
 		}
-		
-		boolean deleted = zipApk.delete();
-		if(!deleted){
-			log.addLog("[WARNING]["+apk.getName()+"]"+"[Failed to delet temp file please delete it manually]");
-		}
-		
-		return success;
-		
+
+		boolean delete = apk.delete();
+		boolean rename = zipApk.renameTo(apk);
+
+		return success && delete && rename;
+
 	}
-	
+
+	private boolean signApk(File apk) {
+		File signedApk = new File(apk.getAbsolutePath() + "_signed.apk");
+		boolean signed = false;
+		try {
+			signed = Deodexer.signApk(apk, signedApk);
+		} catch (IOException | InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		boolean delete = apk.delete();
+		boolean rename = signedApk.renameTo(apk);
+
+		return signed && delete && rename;
+
+	}
+
 	@Override
 	public void run() {
-		for(ThreadWatcher w : watchers){
+		this.bar.setMaximum((doSign && doZipalign) ? apks.size() * 2 : apks.size());
+		for (ThreadWatcher w : watchers) {
 			w.updateProgress();
 		}
 		// TODO Auto-generated method stub
-		for (File apk : apks){
-			boolean success = zipalignApk(apk);
-			if(success){
-				log.addLog("[INFO]["+apk.getName()+"]"+"[SUCCESS]");
-			} else {
-				log.addLog("[INFO]["+apk.getName()+"]"+"[FAILED]");
+		for (File apk : apks) {
+
+			if (this.doSign) {
+				boolean success = signApk(apk);
+
+				if (success) {
+					log.addLog("[INFO][" + apk.getName() + "]" + "[SIGNED]");
+				} else {
+					log.addLog("[INFO][" + apk.getName() + "]" + "[FAILED TO SIGN]");
+				}
+				bar.setValue(bar.getValue() + 1);
+				bar.setString("Zipaligning apks " + this.percent());
+				try {
+					Thread.sleep(10);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
-			bar.setValue(bar.getValue()+1);
-			bar.setString("Zipaligning apks "+this.percent());
-			try {
-				Thread.sleep(10);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+
+			if (this.doZipalign) {
+
+				boolean success = zipalignApk(apk);
+				if (success) {
+					log.addLog("[INFO][" + apk.getName() + "]" + "[ZIPALIGNED]");
+				} else {
+					log.addLog("[INFO][" + apk.getName() + "]" + "[FAILED TO ZIPALIGN]");
+				}
+				bar.setValue(bar.getValue() + 1);
+				bar.setString("Zipaligning apks " + this.percent());
+				try {
+					Thread.sleep(10);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		}
 		bar.setValue(bar.getMaximum());
 		bar.setString("Done");
-		for(ThreadWatcher w : watchers){
+		for (ThreadWatcher w : watchers) {
 			w.done(this);
 		}
 
+	}
+
+	/**
+	 * @return the doZipalign
+	 */
+	public boolean isDoZipalign() {
+		return doZipalign;
+	}
+
+	/**
+	 * @param doZipalign
+	 *            the doZipalign to set
+	 */
+	public void setDoZipalign(boolean doZipalign) {
+		this.doZipalign = doZipalign;
+	}
+
+	/**
+	 * @return the doSign
+	 */
+	public boolean isDoSign() {
+		return doSign;
+	}
+
+	/**
+	 * @param doSign
+	 *            the doSign to set
+	 */
+	public void setDoSign(boolean doSign) {
+		this.doSign = doSign;
 	}
 
 }

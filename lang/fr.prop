@@ -100,3 +100,6 @@ alert.thread.box.dont.ask.again=Make this the default value and don't ask again
 zipalign.now.btn=Zipaligner Mtn.
 log.no.apk.to.zipalign=No apks in the selected folder ae you sure you selected the right folder ?
 apk.to.be.zipaligned.log= apks to be zipaligned ...
+zipalign.fram.file.chooser.title=Choose a folder containing apks !
+no.job.selected.zipalign.frame=<HTML><p>You need to select at least a job <b>zipalign/sign</b> otherwise this is pointless !</p></HTML>
+you.shall.not.pass=You shall not pass !

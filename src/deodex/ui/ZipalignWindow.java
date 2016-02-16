@@ -21,8 +21,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.JTextField;
@@ -41,6 +43,8 @@ public class ZipalignWindow extends JFrame implements ThreadWatcher{
 	 */
 	private static final long serialVersionUID = 1L;
 
+	
+	
 	class BrowseAction implements ActionListener {
 
 		@Override
@@ -48,7 +52,7 @@ public class ZipalignWindow extends JFrame implements ThreadWatcher{
 
 			JFileChooser fileChooser = new JFileChooser();
 			fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-			fileChooser.setDialogTitle("Choose a folder containing apks !");
+			fileChooser.setDialogTitle(R.getString("zipalign.fram.file.chooser.title"));
 			int exitCode = fileChooser.showOpenDialog(rootPannel);
 			if (exitCode == 0) {
 				int apkCount = FilesUtils.searchrecursively(fileChooser.getSelectedFile(), ".apk").size();
@@ -71,7 +75,15 @@ public class ZipalignWindow extends JFrame implements ThreadWatcher{
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
-			new Thread(zip).start();
+			if(!zipalignChk.isSelected() &&  !signChk.isSelected()){
+				signChk.setBackground(Color.RED);
+				zipalignChk.setBackground(Color.RED);
+				JOptionPane.showMessageDialog(rootPannel, R.getString("no.job.selected.zipalign.frame"), R.getString("you.shall.not.pass"),  JOptionPane.ERROR_MESSAGE);
+			}else {
+				zip.setDoSign(signChk.isSelected());
+				zip.setDoZipalign(zipalignChk.isSelected());
+				new Thread(zip).start();
+			}
 		}
 
 	}
@@ -86,6 +98,17 @@ public class ZipalignWindow extends JFrame implements ThreadWatcher{
 		}
 		
 	}
+	
+	class checkAction implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+			// TODO Auto-generated method stub
+			zipalignChk.setBackground(R.PANELS_BACK_COLOR);
+			signChk.setBackground(R.PANELS_BACK_COLOR);
+		}
+		
+	}
 	ZipalignWorker zip ;
 	JTextField browseField = new JTextField(R.getString(S.BROWSE_FEILD));
 	JButton browseBtn = new JButton("...");
@@ -94,6 +117,9 @@ public class ZipalignWindow extends JFrame implements ThreadWatcher{
 	JPanel rootPannel = new JPanel();
 	LoggerPane logger = new LoggerPane("");
 	JButton okBtn = new JButton("OK");
+	JCheckBox zipalignChk = new JCheckBox("zipalign");
+	JCheckBox signChk = new JCheckBox("sign");
+
 	
 	/**
 	 * 
@@ -101,7 +127,7 @@ public class ZipalignWindow extends JFrame implements ThreadWatcher{
 	public ZipalignWindow() {
 		this.setSize(500, 300);
 		this.setResizable(false);
-		this.setTitle("ODTRTA >> Batch Zipalign ");
+		this.setTitle("ODTRTA >> Batch Zipalign/Sign ");
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		this.add(rootPannel, BorderLayout.CENTER);
 
@@ -111,21 +137,30 @@ public class ZipalignWindow extends JFrame implements ThreadWatcher{
 		browseField.setBackground(R.FIELDS_BACK_COLOR);
 		zipalignBtn.setBackground(R.BUTTONS_BACK_COLOR);
 		okBtn.setBackground(R.BUTTONS_BACK_COLOR);
-		
+		zipalignChk.setBackground(R.PANELS_BACK_COLOR);
+		signChk.setBackground(R.PANELS_BACK_COLOR);
 		
 		// font
 		browseBtn.setFont(R.SMALL_FONT);
 		browseField.setFont(R.SMALL_FONT);
 		zipalignBtn.setFont(R.COURIER_NORMAL);
 		okBtn.setFont(R.COURIER_NORMAL);
+		zipalignChk.setFont(R.COURIER_NORMAL);
+		signChk.setFont(R.COURIER_NORMAL);
+
 		//
 		bar.setBackground(Color.WHITE);
 		bar.setForeground(new Color(0, 183, 92));
 		bar.setFont(R.COURIER_NORMAL);
+		
 		// actions
 		browseBtn.addActionListener(new BrowseAction());
 		zipalignBtn.addActionListener(new ZipNowAction());
 		okBtn.addActionListener(new OkAction());
+		zipalignChk.addActionListener(new checkAction());
+		signChk.addActionListener(new checkAction());
+		
+		
 		this.setVisible(true);
 		initBrowse();
 	}
@@ -138,18 +173,32 @@ public class ZipalignWindow extends JFrame implements ThreadWatcher{
 		rootPannel.setLayout(null);
 
 		zipalignBtn.setEnabled(false);
+		browseField.setEnabled(false);
 		browseField.setEditable(false);
-
+		zipalignChk.setSelected(true);
+		signChk.setSelected(false);
+		
 		// bounds
 		browseField.setBounds(5, 5, 400, 30);
 		browseBtn.setBounds(405, 5, 90, 30);
-		zipalignBtn.setBounds(5, 40, 490, 40);
+		zipalignBtn.setBounds(295, 40, 200, 40);
 		logger.setSize(490, 185);
 		logger.repaint();
 		logger.setBounds(5, 85, 490, 185);
+		zipalignChk.setBounds(5, 40, 140, 40);
+		signChk.setBounds(150, 40, 95, 40);
+		
+		
+		// TOOL tip
+		zipalignChk.setToolTipText("Zipalign all apks in the selected folder ");
+		signChk.setToolTipText("Sign all apks in the selected folder ");
+		browseBtn.setToolTipText("Click to choose the folder containing apks to be zipaligned/signed NOTE: the search for apks is recursive");
 
+		// add components
 		rootPannel.add(browseField);
 		rootPannel.add(browseBtn);
+		rootPannel.add(zipalignChk);
+		rootPannel.add(signChk);
 		rootPannel.add(zipalignBtn);
 		rootPannel.add(logger);
 		rootPannel.revalidate();
