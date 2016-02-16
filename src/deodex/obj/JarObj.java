@@ -76,6 +76,34 @@ public class JarObj {
 	}
 
 	/**
+	 * @return the tmpdex3
+	 */
+	public File getTmpdex3() {
+		return tmpdex3;
+	}
+
+	/**
+	 * @param tmpdex3 the tmpdex3 to set
+	 */
+	public void setTmpdex3(File tmpdex3) {
+		this.tmpdex3 = tmpdex3;
+	}
+
+	/**
+	 * @return the tmpClasses3
+	 */
+	public File getTmpClasses3() {
+		return tmpClasses3;
+	}
+
+	/**
+	 * @param tmpClasses3 the tmpClasses3 to set
+	 */
+	public void setTmpClasses3(File tmpClasses3) {
+		this.tmpClasses3 = tmpClasses3;
+	}
+
+	/**
 	 * @return the tmpCompodex
 	 */
 	public File getTmpCompodex() {
