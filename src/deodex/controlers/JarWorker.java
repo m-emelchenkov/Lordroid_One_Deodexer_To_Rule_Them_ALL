@@ -111,8 +111,10 @@ public class JarWorker implements Runnable, Watchable {
 		if (jar.getTmpdex2().exists()) {
 			rename = rename && jar.getTmpdex2().renameTo(jar.getTmpClasses2());
 		}
-		rename = jar.getTmpdex2().exists() ? jar.getTmpClasses().exists() && jar.getTmpClasses2().exists()
-				: jar.getTmpClasses().exists();
+		if(jar.getTmpdex3().exists()){
+			rename = rename && jar.getTmpdex3().renameTo(jar.getTmpClasses3());
+		}
+		
 		// if(rename) return true;
 		if (!rename) {
 			this.logPan.addLog(
@@ -128,6 +130,9 @@ public class JarWorker implements Runnable, Watchable {
 		list.add(jar.getTmpClasses());
 		if (jar.getTmpClasses2().exists()) {
 			list.add(jar.getTmpClasses2());
+		}
+		if(jar.getTmpClasses3().exists()){
+			list.add(jar.getTmpClasses3());
 		}
 		boolean addstatus = false;
 		try {

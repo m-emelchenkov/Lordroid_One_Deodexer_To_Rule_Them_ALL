@@ -30,8 +30,12 @@ public class JarObj {
 	File tmpodex;
 	File tmpdex;
 	File tmpdex2;
+	File tmpdex3;
+
 	File tmpClasses;
 	File tmpClasses2;
+	File tmpClasses3;
+
 	File tmpJar;
 	String absoluteName;
 
@@ -58,8 +62,11 @@ public class JarObj {
 		tmpJar = new File(this.tmpFolder.getAbsolutePath() + File.separator + this.origJar.getName());
 		tmpdex = new File(this.tmpFolder.getAbsolutePath() + File.separator + this.absoluteName + S.DEX_EXT);
 		tmpdex2 = new File(this.tmpFolder.getAbsolutePath() + File.separator + this.absoluteName + S.DEX2_EXT);
+		tmpdex3 = new File(this.tmpFolder.getAbsolutePath() + File.separator + this.absoluteName + S.DEX3_EXT);
+
 		tmpClasses = new File(this.tmpFolder.getAbsolutePath() + File.separator + S.CLASSES);
 		tmpClasses2 = new File(this.tmpFolder.getAbsolutePath() + File.separator + S.CLASSES_2);
+		tmpClasses3 = new File(this.tmpFolder.getAbsolutePath() + File.separator + S.CLASSES_3);
 
 		boolean copyStatus = FilesUtils.copyFile(odexFile, tmpCompodex);
 		boolean copyStatus2 = FilesUtils.copyFile(origJar, tmpJar);

@@ -56,8 +56,10 @@ public class ApkObj implements Serializable {
 	private File tempOdex;
 	private File tempDex;
 	private File tempDex2;
+	private File tempDex3;
 	private File tempClasses1;
 	private File tempClasses2;
+	private File tempClasses3;
 	private String pureName;
 
 	/**
@@ -105,8 +107,12 @@ public class ApkObj implements Serializable {
 		tempOdex = new File(tmpWorkingFolder.getAbsolutePath() + File.separator + this.pureName+S.ODEX_EXT);
 		tempDex = new File(tmpWorkingFolder.getAbsolutePath() + File.separator + folder.getName() + S.DEX_EXT);
 		tempDex2 = new File(tmpWorkingFolder.getAbsolutePath() + File.separator + folder.getName() + S.DEX2_EXT);
+		tempDex3 = new File(tmpWorkingFolder.getAbsolutePath() + File.separator + folder.getName() + S.DEX3_EXT);
+
 		setTempClasses1(new File(tmpWorkingFolder.getAbsolutePath() + File.separator + S.CLASSES));
 		setTempClasses2(new File(tmpWorkingFolder.getAbsolutePath() + File.separator + S.CLASSES_2));
+		setTempClasses3(new File(tmpWorkingFolder.getAbsolutePath() + File.separator + S.CLASSES_3));
+
 		Logger.writLog(this.origApk.getName()+"copying "+this.origApk.getAbsolutePath() +" to "+tempApk.getAbsolutePath());
 		FilesUtils.copyFile(this.origApk, tempApk);
 		Logger.writLog("copying "+odexFile.getAbsolutePath()+" to "+tempCompOdex.getAbsolutePath());
@@ -233,5 +239,33 @@ public class ApkObj implements Serializable {
 	 */
 	public void setPureName(String pureName) {
 		this.pureName = pureName;
+	}
+
+	/**
+	 * @return the tempDex3
+	 */
+	public File getTempDex3() {
+		return tempDex3;
+	}
+
+	/**
+	 * @param tempDex3 the tempDex3 to set
+	 */
+	public void setTempDex3(File tempDex3) {
+		this.tempDex3 = tempDex3;
+	}
+
+	/**
+	 * @return the tempClasses3
+	 */
+	public File getTempClasses3() {
+		return tempClasses3;
+	}
+
+	/**
+	 * @param tempClasses3 the tempClasses3 to set
+	 */
+	public void setTempClasses3(File tempClasses3) {
+		this.tempClasses3 = tempClasses3;
 	}
 }

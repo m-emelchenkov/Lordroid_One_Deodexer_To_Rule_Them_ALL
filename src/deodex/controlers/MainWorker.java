@@ -186,7 +186,7 @@ public class MainWorker implements Runnable, ThreadWatcher, Watchable {
 		File[] boots = bootFiles.listFiles();
 		worker4List = new ArrayList<File>();
 		for (File f : boots) {
-			if (!f.getName().equals("framework-classes2.dex")) {
+			if (!f.getName().endsWith(S.CLASSES_3) && !f.getName().endsWith(S.CLASSES_3)) {
 				if (f.getName().endsWith(".dex")) {
 					worker4List.add(f);
 				}

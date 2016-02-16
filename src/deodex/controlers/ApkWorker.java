@@ -131,6 +131,9 @@ public class ApkWorker implements Runnable {
 		if (apk.getTempDex2().exists()) {
 			rename = rename &&  apk.getTempDex2().renameTo(apk.getTempClasses2());  //FilesUtils.copyFile(apk.getTempDex2(), apk.getTempClasses2());
 		}
+		if(apk.getTempDex3().exists()){
+			rename = rename && apk.getTempDex3().renameTo(apk.getTempClasses3());
+		}
 		if (!rename) {
 			logPan.addLog(R.getString(S.LOG_WARNING) + " [" + apk.getOrigApk().getName() + "]"
 					+ R.getString("log.classes.failed"));
@@ -145,8 +148,13 @@ public class ApkWorker implements Runnable {
 		// phase 5
 		ArrayList<File> classesFiles = new ArrayList<File>();
 		classesFiles.add(apk.getTempClasses1());
+		// classes2.dex
 		if (apk.getTempClasses2().exists())
 			classesFiles.add(apk.getTempClasses2());
+		//classes3.dex
+		if(apk.getTempClasses3().exists())
+			classesFiles.add(apk.getTempClasses3());
+		
 		boolean addClassesToApkStatus = false;
 		try {
 			addClassesToApkStatus = Zip.addFilesToExistingZip(apk.getTempApk(), classesFiles);

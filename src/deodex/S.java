@@ -34,8 +34,11 @@ public class S {
 
 	public static final String DEX_EXT = ".dex";
 	public static final String DEX2_EXT = "-classes2.dex";
+	public static final String DEX3_EXT = "-classes3.dex";
 	public static final String CLASSES = "classes.dex";
 	public static final String CLASSES_2 = "classes2.dex";
+	public static final String CLASSES_3 = "classes3.dex";
+
 
 	public static final String WORKER1 = "worker1";
 	public static final String WORKER2 = "worker2";

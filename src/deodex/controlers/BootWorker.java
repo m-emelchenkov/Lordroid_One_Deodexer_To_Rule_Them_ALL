@@ -54,6 +54,8 @@ public class BootWorker implements Runnable, Watchable {
 	private boolean deoDexBootFile(File file) {
 		File tmpClasses = new File(tmpFolder.getAbsolutePath() + File.separator + S.CLASSES);
 		File tmpClasses2 = new File(tmpFolder.getAbsolutePath() + File.separator + S.CLASSES_2);
+		File tmpClasses3 = new File(tmpFolder.getAbsolutePath() + File.separator + S.CLASSES_3);
+		
 		String absoluteName = file.getName().substring(0, file.getName().lastIndexOf("."));
 
 		File tmpJar = new File(tmpFolder.getAbsolutePath() + File.separator + absoluteName + ".jar");
@@ -69,11 +71,18 @@ public class BootWorker implements Runnable, Watchable {
 		}
 
 		copyStatus = FilesUtils.copyFile(file, tmpClasses);
-		if (absoluteName.equals("framework")) {
+		if (new File(file.getParentFile().getAbsolutePath() + File.separator + absoluteName + S.DEX2_EXT).exists()) {
 			copyStatus = FilesUtils.copyFile(
 					new File(file.getParentFile().getAbsolutePath() + File.separator + absoluteName + S.DEX2_EXT),
 					tmpClasses2);
 		}
+		
+		if(new File(file.getParentFile().getAbsolutePath() + File.separator + absoluteName + S.DEX3_EXT).exists()){
+			copyStatus = copyStatus && FilesUtils.copyFile(
+					new File(file.getParentFile().getAbsolutePath() + File.separator + absoluteName + S.DEX3_EXT),
+					tmpClasses3);
+		}
+		
 		if (!copyStatus) {
 			this.log.addLog(
 					R.getString(S.LOG_ERROR) + "[" + absoluteName + ".jar]" + R.getString("log.classes.failed"));
@@ -83,8 +92,11 @@ public class BootWorker implements Runnable, Watchable {
 		boolean addStatus = false;
 		ArrayList<File> list = new ArrayList<File>();
 		list.add(tmpClasses);
-		if (absoluteName.equals("framework")) {
+		if (tmpClasses2.exists()) {
 			list.add(tmpClasses2);
+		}
+		if(tmpClasses3.exists()){
+			list.add(tmpClasses3);
 		}
 		try {
 			addStatus = Zip.addFilesToExistingZip(tmpJar, list);
