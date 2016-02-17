@@ -30,7 +30,6 @@ import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.JTextField;
 
-import deodex.Cfg;
 import deodex.R;
 import deodex.S;
 import deodex.controlers.ThreadWatcher;
@@ -228,14 +227,6 @@ public class ZipalignWindow extends JFrame implements ThreadWatcher{
 		rootPannel.repaint();
 	}
 	
-	public static void main(String[] args) {
-		Cfg.setCurrentLang(S.ENGLISH);
-		Cfg.writeCfgFile();
-		Cfg.readCfg();
-		R.initResources();
-
-		new ZipalignWindow(null);
-	}
 
 	@Override
 	public void done(Runnable r) {
