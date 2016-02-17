@@ -47,9 +47,12 @@ public class Logger {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd_HH.mm.ss"); // dd/MMM/yyyy
 		Date resultdate = new Date(yourmilliseconds);
 		init++;
+		new File(PathUtils.getExcutionPath() + File.separator + "logs" + File.separator + sdf.format(resultdate)
+		+ "_full.log").getParentFile().mkdirs();
 		return  PathUtils.getExcutionPath() + File.separator + "logs" + File.separator + sdf.format(resultdate)
 				+ "_full.log";
 	}
+		
 		return LOG_FILE.getAbsolutePath();
 	}
 	
@@ -63,6 +66,7 @@ public class Logger {
 		try {
 		out= new BufferedWriter(new FileWriter(LOG_FILE.getAbsolutePath(), true));
 		out.write(sdf.format(resultdate)+str);
+		if(!str.endsWith("\n"));
 		out.newLine();
 		out.flush();
 		out.close();

@@ -26,23 +26,7 @@ public class Deodexer {
 	public static boolean deodexApk(File odexFile, File dexFile) {
 		String cmd[] = { "java", "-jar", new File(S.OAT2DEX_JAR).getAbsolutePath(), odexFile.getAbsolutePath(),
 				S.bootTmpDex.getAbsolutePath() };
-		// for logging 
-		String command = "";
-		for (String s : cmd){
-			command = command +" "+ s;
-		}
-		Logger.writLog("Running command : "+command+"");
-		
-		try {
-			Process p = Runtime.getRuntime().exec(cmd);
-			p.waitFor();
-		} catch (IOException e) {
-			e.printStackTrace();
-			return false;
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-
+		CmdUtils.runCommand(cmd);
 		return dexFile.exists();
 	}
 
@@ -55,48 +39,18 @@ public class Deodexer {
 				S.bootTmp.getParentFile().getAbsolutePath(), odexFile.getAbsolutePath(), "-o",
 				smaliFolder.getAbsolutePath() };
 
-		
 		// smalicommand
 		String[] cmd2 = { "java", "-jar", new File(S.SMALI_JAR).getAbsolutePath(), "-a", "" + SessionCfg.getSdk(), "-o",
 				dexFile.getAbsolutePath(), smaliFolder.getAbsolutePath() };
-		
 
-		Process p;
+		CmdUtils.runCommand(cmd);
 
-		try {
-			// logging> 
-			String command = "";
-			for (String s : cmd){
-				command = command +" "+ s;
-			}
-			Logger.writLog("Running command : "+command+"");
-			// </ligging
-			p = Runtime.getRuntime().exec(cmd);
-			p.waitFor();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
 		if (!smaliFolder.exists()) {
 			Logger.logToStdIO("Failed at baksmali " + odexFile.getName());
 			return false;
 		}
-		try {
-			// logging >
-			String command2 = "";
-			for (String s : cmd2){
-				command2 = command2+" " + s;
-			}
-			Logger.writLog("Running command : "+command2+"");
-			// </logging 
-			p = Runtime.getRuntime().exec(cmd2);
-			p.waitFor();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+		CmdUtils.runCommand(cmd2);
+
 		return dexFile.exists();
 	}
 
@@ -112,61 +66,18 @@ public class Deodexer {
 				classesFile.getAbsolutePath(), tempSmali.getAbsolutePath() };
 		// TODO search further info (can apks here have 2 classes.dex ? if so
 		// what should we do here ?) XXX: there is none that I know about !
-		Process p;
 
-		// logging> 
-		String command = "";
-		for (String s : cmd){
-			command = command +" "+ s;
-		}
-		Logger.writLog("Running command : "+command+"");
-		// </ligging
-
-		try {
-			p = Runtime.getRuntime().exec(cmd);
-			p.waitFor();
-			if (!tempSmali.exists()) {
-				return false;
-			}
-			// logging >
-			String command2 = "";
-			for (String s : cmd2){
-				command2 = command2 +" "+ s;
-			}
-			Logger.writLog("Running command : "+command2+"");
-			// </logging
-			
-			p = Runtime.getRuntime().exec(cmd2);
-			p.waitFor();
-			if (!classesFile.exists()) {
-				return false;
-			}
-
-		} catch (IOException | InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		CmdUtils.runCommand(cmd);
+		CmdUtils.runCommand(cmd2);
+		
 		FilesUtils.deleteRecursively(tempSmali);
 		return classesFile.exists();
 	}
 
 	public static boolean oat2dexBoot(File bootOat) {
 		String[] cmd = { "java", "-jar", new File(S.OAT2DEX_JAR).getAbsolutePath(), "boot", bootOat.getAbsolutePath() };
-		// logging> 
-		String command = "";
-		for (String s : cmd){
-			command = command+" " + s;
-		}
-		Logger.writLog("Running command : "+command+"");
-		// </ligging
-		try {
-			Process p = Runtime.getRuntime().exec(cmd);
-			p.waitFor();
-		} catch (IOException | InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 
-		}
+		CmdUtils.runCommand(cmd);
 
 		return S.bootTmpDex.exists();
 	}
@@ -175,16 +86,8 @@ public class Deodexer {
 		String[] cmd = { "java", "-jar", new File(S.SIGN_APK).getAbsolutePath(),
 				new File(S.TEST_KEY_X509).getAbsolutePath(), new File(S.TEST_KEY_PK8).getAbsolutePath(),
 				in.getAbsolutePath(), out.getAbsolutePath() };
-		// logging> 
-		String command = "";
-		for (String s : cmd){
-			command = command+" " + s;
-		}
-		Logger.writLog("Running command : "+command+"");
-		// </ligging
-		Process p;
-		p = Runtime.getRuntime().exec(cmd);
-		p.waitFor();
+
+		CmdUtils.runCommand(cmd);
 
 		return out.exists();
 	}
