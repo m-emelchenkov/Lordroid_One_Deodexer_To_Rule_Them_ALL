@@ -22,12 +22,6 @@ import java.util.ArrayList;
 
 public class CmdUtils {
 
-	public static void main(String[] args){
-		String[] cmd = {"java" ,"-version"};
-
-			runCommand(cmd);
-
-	}
 	public static void runCommand(String[] cmd)  {
 		String strCmd = "running command : ";
 		
@@ -82,6 +76,7 @@ public class CmdUtils {
 		for(String str : outPut){
 			Logger.writLog(str);
 		}
+		if(errors.size()>1)
 		for(String str : errors){
 			Logger.writLog(str);
 		}
