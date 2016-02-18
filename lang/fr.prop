@@ -19,8 +19,8 @@
 file.launguage=Français
 #
 #
-app.version=0.7_beta3
-app.name=Lordroid One Dedodexer To Rule Them All v0.7_beta3
+app.version=0.8_beta4
+app.name=Lordroid One Dedodexer To Rule Them All v0.8_beta4
 #
 # first window first launch !
 app.welcome=Bienvenue dans LUBD!
@@ -109,3 +109,23 @@ tools=Tools
 batch.zipalign.sign.menu.items=Batch sign/zipalign
 about.menu=About
 About.this.program=About this program
+create.zip.btn=Create flashable zip
+0000000=Open containing folder
+0000001=ODTRTA >> Zip creater
+0000002=Lordroid batch deodex ODTRTA 
+0000003=Copyright Rachid Boudjelida 2016
+0000004=This software is licenced under GPLV2
+0000005=About
+0000006=Please choose a name for your zip
+0000007=(Exemple : myDeodexedRom.zip)
+0000008=The chosen name is invalide ! Try again
+0000009=Please Note :
+0000010=1 - This zip will not contain your full Rom 
+0000011=2 - In order for this zip to work you need to have the same Rom installed on your phone !
+0000012=3 - this zip will flash /system/app & /system/priv-app & /system/framework folder and will
+0000013=    delete all odex,oat,art,odex.xz,art.xz files so it's only safe if the deodexed zip match
+0000014=    the Odexed installed Rom
+0000015=4 - as always FLASH AT YOUR OWN RISK 
+0000016=5 - Always do a backup before flashing any thing to your phone !
+0000017=Do you agree ?
+0000018=CAUTION !

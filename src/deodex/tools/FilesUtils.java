@@ -34,7 +34,7 @@ import deodex.controlers.LoggerPan;
 
 public class FilesUtils {
 
-	private static ArrayList<File> listAllFiles(File folder){
+	public static ArrayList<File> listAllFiles(File folder){
 		ArrayList<File> list = new ArrayList<File>();
 		if(!folder.exists() ||folder.listFiles() == null ||folder.listFiles().length <= 0){
 			return list;

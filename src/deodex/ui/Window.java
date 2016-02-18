@@ -22,6 +22,8 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.InvalidPathException;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -42,6 +44,7 @@ import javax.swing.JTextField;
 import deodex.R;
 import deodex.S;
 import deodex.SessionCfg;
+import deodex.controlers.FlashableZipCreater;
 import deodex.controlers.MainWorker;
 import deodex.controlers.ThreadWatcher;
 import deodex.tools.FilesUtils;
@@ -62,6 +65,8 @@ public class Window extends JFrame implements ThreadWatcher {
 				if(i == 0){
 					System.exit(0);
 				}
+			} else if(source.equals(aboutThisMenu)){
+				JOptionPane.showMessageDialog(logo, R.getString("0000002")+"\n"+R.getString("0000003")+"\n"+R.getString("0000004"), R.getString("0000005"), JOptionPane.INFORMATION_MESSAGE);
 			}
 			
 		}
@@ -127,7 +132,7 @@ public class Window extends JFrame implements ThreadWatcher {
 
 	public static final int W_WIDTH = 802;
 
-	public static final int W_HEIGHT = 597;
+	public static final int W_HEIGHT = 630;
 	/**
 	 * 
 	 */
@@ -170,6 +175,7 @@ public class Window extends JFrame implements ThreadWatcher {
 	LoggerPane logger = new LoggerPane();
 	JButton quitbtn = new JButton(R.getString("window.exitbtn"));
 	JButton restart = new JButton(R.getString("window.restartbtn"));
+	JButton zipIt;
 	ImageIcon icon;
 
 	// JMuneBar & MenuItems
@@ -211,7 +217,7 @@ public class Window extends JFrame implements ThreadWatcher {
 		
 		menuBar.setVisible(true);
 		// attach menus to the bar
-		menuBar.add(fichierMenu);
+		//menuBar.add(fichierMenu);
 		menuBar.add(toolsMenu);
 		menuBar.add(aboutMenu);
 		
@@ -220,16 +226,21 @@ public class Window extends JFrame implements ThreadWatcher {
 		
 		// attach tools Items
 		this.toolsMenu.add(this.batchZipalignSignMenuItem);
+		toolsMenu.setFont(R.COURIER_NORMAL);
+		batchZipalignSignMenuItem.setFont(R.COURIER_NORMAL);
+		
 		
 		// attach about Items
 		this.aboutMenu.add(this.aboutThisMenu);
-		
+		aboutMenu.setFont(R.COURIER_NORMAL);
+		aboutThisMenu.setFont(R.COURIER_NORMAL);
 		
 		/// les Action 
 		
 		this.setVisible(true);
 		batchZipalignSignMenuItem.addActionListener(new MenuItemsListener());
 		exitMenuItem.addActionListener(new MenuItemsListener());
+		aboutThisMenu.addActionListener(new MenuItemsListener());
 	}
 	
 	public void addThreadWatcher() {
@@ -242,6 +253,7 @@ public class Window extends JFrame implements ThreadWatcher {
 		this.initProgress();
 		this.quitbtn.setEnabled(true);
 		this.restart.setEnabled(true);
+		this.zipIt.setEnabled(true);
 		this.repaint();
 	}
 
@@ -351,23 +363,26 @@ public class Window extends JFrame implements ThreadWatcher {
 
 		quitbtn = new JButton(R.getString("window.exitbtn"));
 		restart = new JButton(R.getString("window.restartbtn"));
-
+		zipIt = new JButton(R.getString("create.zip.btn"));
 		//
 		mainWorker.mainPannel.setBounds(0, 101, 795, 128);
 		logo.setBounds(0, 0, 802, 100);
 		logger.setBounds(1, 270, 798, 300);
-		quitbtn.setBounds(483, 235, 300, 30);
-		restart.setBounds(10, 235, 300, 30);
+		
+		quitbtn.setBounds(690, 235, 100, 30);
+		zipIt.setBounds(115, 235, 570, 30);
+		restart.setBounds(10, 235, 100, 30);
 
 		quitbtn.setFont(R.COURIER_NORMAL);
 		restart.setFont(R.COURIER_NORMAL);
+		zipIt.setFont(R.COURIER_NORMAL);
 
 		quitbtn.setEnabled(false);
 		restart.setEnabled(false);
-
+		zipIt.setEnabled(false);
 		quitbtn.setBackground(new Color(89, 195, 216));
 		restart.setBackground(new Color(89, 195, 216));
-
+		zipIt.setBackground(new Color(69, 179, 157)/*new Color(0, 183, 92)*/);
 		// Action listners
 		quitbtn.addActionListener(new ActionListener() {
 
@@ -393,17 +408,66 @@ public class Window extends JFrame implements ThreadWatcher {
 			}
 
 		});
+		
+		zipIt.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				int agree = JOptionPane.showConfirmDialog(zipIt,
+							R.getString("0000009")+"\n"+
+							R.getString("0000010")+"\n"+
+							R.getString("0000011")+"\n"+
+							R.getString("0000012")+"\n"+
+							R.getString("0000013")+"\n"+	
+							R.getString("0000014")+"\n"+
+							R.getString("0000015")+"\n"+
+							R.getString("0000016")+"\n\n"+
+							R.getString("0000017"),
+							R.getString("0000018"), JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+				if(agree == 0){
+				String name = JOptionPane.showInputDialog(R.getString("0000006")+"\n"+R.getString("0000007"));
+				if(name != null){
+					boolean valid = false;
+					try {
+						valid = new File(name).createNewFile();
+						
+						
+					} catch (InvalidPathException  | IOException ex){
+						ex.printStackTrace();
+						valid = false;
+					}
+					System.out.println(valid);
+					if(valid){
+						new File(name).delete();
+						String abName = name.endsWith(".zip")? name.substring(0, name.lastIndexOf(".")) : name;
+						zipIt.setEnabled(false);
+						File zipFile = new File(SessionCfg.getSystemFolder().getParentFile().getAbsolutePath()+File.separator+ 
+								abName+File.separator+abName+".zip");
+						new FlashableZipCreater(SessionCfg.getSystemFolder(), zipFile, getThisFram());
+					} else {
+						JOptionPane.showMessageDialog(zipIt, R.getString("0000008"));
+					}
+				}
+				}
+			}
+			
+		});
 		//
 		rootPanel.add(logo);
 		rootPanel.add(logger);
 		rootPanel.add(mainWorker.mainPannel);
 		rootPanel.add(quitbtn);
 		rootPanel.add(restart);
-
+		rootPanel.add(zipIt);
+		
 		rootPanel.revalidate();
 		this.repaint();
 	}
 
+	private JFrame getThisFram(){
+		return this;
+	}
 	private void initwaiting() {
 		rootPanel.removeAll();
 		rootPanel.setLayout(null);

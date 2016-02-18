@@ -29,6 +29,8 @@ import deodex.Cfg;
 import deodex.S;
 import net.lingala.zip4j.core.ZipFile;
 import net.lingala.zip4j.exception.ZipException;
+import net.lingala.zip4j.model.ZipParameters;
+import net.lingala.zip4j.util.Zip4jConstants;
 
 public class Zip {
 
@@ -123,5 +125,52 @@ public class Zip {
 		p.waitFor();
 
 		return out.exists();
+	}
+	
+	public  static void AddFileToFolderInZip(File pathToIgnore,File fileToAdd ,ZipFile zipFile) {
+		try {
+			
+			ArrayList <File>filesToAdd = new ArrayList<File>();
+			filesToAdd.add(fileToAdd);
+
+			
+			ZipParameters parameters = new ZipParameters();
+			parameters.setCompressionMethod(Zip4jConstants.COMP_STORE); // set compression method to deflate compression
+			
+			parameters.setCompressionLevel(Zip4jConstants.DEFLATE_LEVEL_NORMAL);
+			
+
+			String rootInZip = "system"+fileToAdd.getParentFile().getAbsolutePath().substring( pathToIgnore.getAbsolutePath().length());
+			Logger.writLog("putting "+fileToAdd.getAbsolutePath() +" in " +zipFile.getFile().getAbsolutePath() + 
+					" >> "+rootInZip+File.separator+fileToAdd.getName());
+			parameters.setRootFolderInZip(rootInZip);
+			
+			// Now add files to the zip file
+			zipFile.addFiles(filesToAdd, parameters);
+		} catch (ZipException e) {
+			e.printStackTrace();
+		} 
+		
+		
+	}
+	
+	/**
+	 * @param args
+	 */
+	public static void AddFilesToFolderInZip(File systemFolder ,ZipFile zipFile) {
+		
+		ArrayList<File> list0 = FilesUtils.listAllFiles(new File(systemFolder.getAbsolutePath()+File.separator+S.SYSTEM_APP));
+		ArrayList<File> list1 = FilesUtils.listAllFiles(new File(systemFolder.getAbsolutePath()+File.separator+S.SYSTEM_PRIV_APP));
+		ArrayList<File> list2 = FilesUtils.listAllFiles(new File(systemFolder.getAbsolutePath()+File.separator+S.SYSTEM_FRAMEWORK));
+		ArrayList<File> list = new ArrayList<File>();
+		for(File f : list0)
+			list.add(f);
+		for(File f : list1)
+			list.add(f);
+		for(File f : list2)
+			list.add(f);		
+		
+		for (File f : list)
+		Zip.AddFileToFolderInZip(systemFolder, f, zipFile);
 	}
 }
