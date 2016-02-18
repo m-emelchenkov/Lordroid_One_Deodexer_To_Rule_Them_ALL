@@ -23,7 +23,7 @@ app.version=0.8_beta4
 app.name=Lordroid One Dedodexer To Rule Them All v0.8_beta4
 #
 # first window first launch !
-app.welcome=Bienvenue dans LUBD!
+app.welcome=Bienvenue dans LODTRTA!
 app.welcome.message=C'est la première fois que vous lancer cette application :
 app.langBoxLab=Choisir une langue : 
 app.buttonNext=Suivant >>
