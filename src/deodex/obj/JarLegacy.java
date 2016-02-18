@@ -54,6 +54,13 @@ public class JarLegacy {
 	}
 
 	/**
+	 * @return the classes
+	 */
+	public File getClasses() {
+		return classes;
+	}
+
+	/**
 	 * @return the origJar
 	 */
 	public File getOrigJar() {
@@ -61,10 +68,10 @@ public class JarLegacy {
 	}
 
 	/**
-	 * @return the tempJar
+	 * @return the origOdex
 	 */
-	public File getTempJar() {
-		return tempJar;
+	public File getOrigOdex() {
+		return origOdex;
 	}
 
 	/**
@@ -75,10 +82,10 @@ public class JarLegacy {
 	}
 
 	/**
-	 * @return the classes
+	 * @return the tempJar
 	 */
-	public File getClasses() {
-		return classes;
+	public File getTempJar() {
+		return tempJar;
 	}
 
 	/**
@@ -86,13 +93,6 @@ public class JarLegacy {
 	 */
 	public File getTempOdex() {
 		return tempOdex;
-	}
-
-	/**
-	 * @return the origOdex
-	 */
-	public File getOrigOdex() {
-		return origOdex;
 	}
 
 }

@@ -114,118 +114,6 @@ public class MainWorker implements Runnable, ThreadWatcher, Watchable {
 		}
 	}
 
-	private void init() {
-
-		// XXX: you may wanna rethink this the boot.oat can be somewhere else in
-		// the future
-		// may be searching for it recursively in all framework folder is better
-		// ?
-		// yes more code but it will be more compatible
-		try {
-		isinitialized = FilesUtils.copyFile(SessionCfg.getBootOatFile(), S.bootTmp);
-		} catch (Exception e){
-			
-		}
-		isinitialized = isinitialized && Deodexer.oat2dexBoot(S.bootTmp);
-		if (!isinitialized) {
-			return;
-		}
-
-		File bootFiles = new File(S.bootTmpDex.getAbsolutePath());
-
-		// TODO init apklist here
-		worker1List = this.getapkOdexFiles();
-
-		int half = worker1List.size() / 2;
-		worker2List = new ArrayList<File>();
-		for (int i = worker1List.size() - 1; i >= half; i = worker1List.size() - 1) {
-			worker2List.add(worker1List.get(i));
-			worker1List.remove(i);
-		}
-
-
-
-
-		/// framework
-		this.worker3List = FilesUtils.searchrecursively(
-				new File(folder.getAbsolutePath() + File.separator + S.SYSTEM_FRAMEWORK), S.ODEX_EXT);
-		if (this.worker3List != null && this.worker3List.size() > 0)
-			this.worker3List = ArrayUtils.deletedupricates(worker3List);
-
-		ArrayList<File> tmpList = FilesUtils.searchrecursively(
-				new File(folder.getAbsolutePath() + File.separator + S.SYSTEM_FRAMEWORK), S.COMP_ODEX_EXT);
-		if (tmpList != null && tmpList.size() > 0) {
-			tmpList = ArrayUtils.deletedupricates(tmpList);
-			for (File f : tmpList) {
-				this.worker3List.add(f);
-			}
-		}
-		
-		// some roms have apks under framwork like LG roms 
-		ArrayList<File> temapkinfram = new ArrayList<File>();
-		for(File f : this.worker3List){
-			ArrayList<File> apksInFram = ArrayUtils.deletedupricates(FilesUtils.searchExactFileNames(
-					new File(folder.getAbsolutePath() + File.separator + S.SYSTEM_FRAMEWORK),
-					(f.getName().endsWith(".odex")? f.getName().substring(0, f.getName().lastIndexOf(".")): f.getName().substring(0, f.getName().lastIndexOf(".odex.xz")))+".apk"));
-			Logger.writLog("Searching for "+
-					(f.getName().endsWith(".odex")? f.getName().substring(0, f.getName().lastIndexOf(".")): f.getName().substring(0, f.getName().lastIndexOf(".odex.xz")))+".apk");
-			if(!apksInFram.isEmpty()){
-				temapkinfram.add(f);
-				Logger.writLog("fount moving it to apk worker's list ");
-			} else {
-				Logger.writLog("not found skip ...");
-			}
-		}
-		for (File f : temapkinfram){
-			this.worker1List.add(f);
-			this.worker3List.remove(f);
-		}
-		
-		apk1 = new ApkWorker(worker1List, logPan, S.worker1Folder, SessionCfg.isSign(), SessionCfg.isZipalign());
-		apk2 = new ApkWorker(worker2List, logPan, S.worker2Folder, SessionCfg.isSign(), SessionCfg.isZipalign());
-		jar = new JarWorker(worker3List, logPan, S.worker3Folder);
-
-		// bootFile
-		File[] boots = bootFiles.listFiles();
-		worker4List = new ArrayList<File>();
-		for (File f : boots) {
-			if (!f.getName().endsWith(S.CLASSES_2) && !f.getName().endsWith(S.CLASSES_3)) {
-				if (f.getName().endsWith(".dex")) {
-					worker4List.add(f);
-				}
-			}
-		}
-		boot = new BootWorker(worker4List, S.worker4Folder, this.logPan);
-		
-		Logger.writLog("APK list 1");
-		for (File f : this.worker1List){
-			Logger.writLog(f.getAbsolutePath());
-		}
-		Logger.writLog("APK list 2");
-		for (File f : this.worker2List){
-			Logger.writLog(f.getAbsolutePath());
-		}
-		Logger.writLog("Jar list 3");
-		for (File f : this.worker3List){
-			Logger.writLog(f.getAbsolutePath());
-		}
-		Logger.writLog("boot list 1");
-		for (File f : this.worker4List){
-			Logger.writLog(f.getAbsolutePath());
-		}
-		
-		
-		apk1.addThreadWatcher(this);
-		apk2.addThreadWatcher(this);
-		boot.addThreadWatcher(this);
-		jar.addThreadWatcher(this);
-		tasks.add(apk1);
-		tasks.add(apk2);
-		tasks.add(jar);
-		tasks.add(boot);
-		this.initPannel();
-	}
-
 	private ArrayList<File> getapkOdexFiles() {
 		ArrayList<File> global = new ArrayList<File>();
 		ArrayList<File> list1 = null;
@@ -272,6 +160,128 @@ public class MainWorker implements Runnable, ThreadWatcher, Watchable {
 				global.add(f);
 		}
 		return ArrayUtils.deletedupricates(global);
+	}
+
+	private int getPercent() {
+		// max ===> 100
+		// value ===> ?
+		// ? = value*100/max;
+		return (this.progressBar.getValue() * 100) / this.progressBar.getMaximum();
+
+	}
+
+	private void init() {
+
+		// XXX: you may wanna rethink this the boot.oat can be somewhere else in
+		// the future
+		// may be searching for it recursively in all framework folder is better
+		// ?
+		// yes more code but it will be more compatible
+		try {
+			isinitialized = FilesUtils.copyFile(SessionCfg.getBootOatFile(), S.bootTmp);
+		} catch (Exception e) {
+
+		}
+		isinitialized = isinitialized && Deodexer.oat2dexBoot(S.bootTmp);
+		if (!isinitialized) {
+			return;
+		}
+
+		File bootFiles = new File(S.bootTmpDex.getAbsolutePath());
+
+		// TODO init apklist here
+		worker1List = this.getapkOdexFiles();
+
+		int half = worker1List.size() / 2;
+		worker2List = new ArrayList<File>();
+		for (int i = worker1List.size() - 1; i >= half; i = worker1List.size() - 1) {
+			worker2List.add(worker1List.get(i));
+			worker1List.remove(i);
+		}
+
+		/// framework
+		this.worker3List = FilesUtils.searchrecursively(
+				new File(folder.getAbsolutePath() + File.separator + S.SYSTEM_FRAMEWORK), S.ODEX_EXT);
+		if (this.worker3List != null && this.worker3List.size() > 0)
+			this.worker3List = ArrayUtils.deletedupricates(worker3List);
+
+		ArrayList<File> tmpList = FilesUtils.searchrecursively(
+				new File(folder.getAbsolutePath() + File.separator + S.SYSTEM_FRAMEWORK), S.COMP_ODEX_EXT);
+		if (tmpList != null && tmpList.size() > 0) {
+			tmpList = ArrayUtils.deletedupricates(tmpList);
+			for (File f : tmpList) {
+				this.worker3List.add(f);
+			}
+		}
+
+		// some roms have apks under framwork like LG roms
+		ArrayList<File> temapkinfram = new ArrayList<File>();
+		for (File f : this.worker3List) {
+			ArrayList<File> apksInFram = ArrayUtils
+					.deletedupricates(
+							FilesUtils.searchExactFileNames(
+									new File(folder.getAbsolutePath() + File.separator + S.SYSTEM_FRAMEWORK),
+									(f.getName().endsWith(".odex")
+											? f.getName().substring(0, f.getName().lastIndexOf("."))
+											: f.getName().substring(0, f.getName().lastIndexOf(".odex.xz"))) + ".apk"));
+			Logger.writLog("Searching for "
+					+ (f.getName().endsWith(".odex") ? f.getName().substring(0, f.getName().lastIndexOf("."))
+							: f.getName().substring(0, f.getName().lastIndexOf(".odex.xz")))
+					+ ".apk");
+			if (!apksInFram.isEmpty()) {
+				temapkinfram.add(f);
+				Logger.writLog("fount moving it to apk worker's list ");
+			} else {
+				Logger.writLog("not found skip ...");
+			}
+		}
+		for (File f : temapkinfram) {
+			this.worker1List.add(f);
+			this.worker3List.remove(f);
+		}
+
+		apk1 = new ApkWorker(worker1List, logPan, S.worker1Folder, SessionCfg.isSign(), SessionCfg.isZipalign());
+		apk2 = new ApkWorker(worker2List, logPan, S.worker2Folder, SessionCfg.isSign(), SessionCfg.isZipalign());
+		jar = new JarWorker(worker3List, logPan, S.worker3Folder);
+
+		// bootFile
+		File[] boots = bootFiles.listFiles();
+		worker4List = new ArrayList<File>();
+		for (File f : boots) {
+			if (!f.getName().endsWith(S.CLASSES_2) && !f.getName().endsWith(S.CLASSES_3)) {
+				if (f.getName().endsWith(".dex")) {
+					worker4List.add(f);
+				}
+			}
+		}
+		boot = new BootWorker(worker4List, S.worker4Folder, this.logPan);
+
+		Logger.writLog("APK list 1");
+		for (File f : this.worker1List) {
+			Logger.writLog(f.getAbsolutePath());
+		}
+		Logger.writLog("APK list 2");
+		for (File f : this.worker2List) {
+			Logger.writLog(f.getAbsolutePath());
+		}
+		Logger.writLog("Jar list 3");
+		for (File f : this.worker3List) {
+			Logger.writLog(f.getAbsolutePath());
+		}
+		Logger.writLog("boot list 1");
+		for (File f : this.worker4List) {
+			Logger.writLog(f.getAbsolutePath());
+		}
+
+		apk1.addThreadWatcher(this);
+		apk2.addThreadWatcher(this);
+		boot.addThreadWatcher(this);
+		jar.addThreadWatcher(this);
+		tasks.add(apk1);
+		tasks.add(apk2);
+		tasks.add(jar);
+		tasks.add(boot);
+		this.initPannel();
 	}
 
 	private void initLegacy() {
@@ -446,14 +456,6 @@ public class MainWorker implements Runnable, ThreadWatcher, Watchable {
 				tasks.remove(0);
 			}
 		}
-	}
-
-	private int getPercent() {
-		// max ===> 100
-		// value ===> ?
-		// ? = value*100/max;
-		return (this.progressBar.getValue() * 100) / this.progressBar.getMaximum();
-
 	}
 
 	private synchronized void setProgress() {

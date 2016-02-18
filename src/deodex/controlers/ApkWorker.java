@@ -79,17 +79,17 @@ public class ApkWorker implements Runnable {
 
 	private boolean deodexApk(File apkFolder) {
 		ApkObj apk = new ApkObj(apkFolder);
-		Logger.writLog("Processing "+apk.getOrigApk().getName() +" ...");
+		Logger.writLog("Processing " + apk.getOrigApk().getName() + " ...");
 		// phase 01 copying to temp forlder
-		Logger.writLog(apk.getOrigApk().getName()+"Copying needed Files to working folder ...");
+		Logger.writLog(apk.getOrigApk().getName() + "Copying needed Files to working folder ...");
 		boolean copyStatus = apk.copyNeededFilesToTempFolder(tmpFolder);
 		if (!copyStatus) { // returns
 			logPan.addLog(R.getString(S.LOG_WARNING) + " [" + apk.getOrigApk().getName() + "]"
 					+ R.getString("log.copy.to.tmp.failed"));
-			Logger.writLog(apk.getOrigApk().getName()+" Failed to copy needed files ");
+			Logger.writLog(apk.getOrigApk().getName() + " Failed to copy needed files ");
 			return false;
 		}
-		Logger.writLog(apk.getOrigApk().getName()+" copy files to temp folder successfull ! ");
+		Logger.writLog(apk.getOrigApk().getName() + " copy files to temp folder successfull ! ");
 		progressBar.setValue(progressBar.getValue() + 1);
 		progressBar.setString(R.getString("progress.apks") + " (" + this.getPercent() + "%)");
 		threadWatcher.updateProgress();
@@ -130,11 +130,13 @@ public class ApkWorker implements Runnable {
 
 		// phase 04 renamming (FIXME: why copy instead of rename? is it relly
 		// safer ?)
-		boolean rename = apk.getTempDex().renameTo(apk.getTempClasses1());// FilesUtils.copyFile(apk.getTempDex(), apk.getTempClasses1());
+		boolean rename = apk.getTempDex().renameTo(apk.getTempClasses1());// FilesUtils.copyFile(apk.getTempDex(),
+																			// apk.getTempClasses1());
 		if (apk.getTempDex2().exists()) {
-			rename = rename &&  apk.getTempDex2().renameTo(apk.getTempClasses2());  //FilesUtils.copyFile(apk.getTempDex2(), apk.getTempClasses2());
+			rename = rename && apk.getTempDex2().renameTo(apk.getTempClasses2()); // FilesUtils.copyFile(apk.getTempDex2(),
+																					// apk.getTempClasses2());
 		}
-		if(apk.getTempDex3().exists()){
+		if (apk.getTempDex3().exists()) {
 			rename = rename && apk.getTempDex3().renameTo(apk.getTempClasses3());
 		}
 		if (!rename) {
@@ -154,10 +156,10 @@ public class ApkWorker implements Runnable {
 		// classes2.dex
 		if (apk.getTempClasses2().exists())
 			classesFiles.add(apk.getTempClasses2());
-		//classes3.dex
-		if(apk.getTempClasses3().exists())
+		// classes3.dex
+		if (apk.getTempClasses3().exists())
 			classesFiles.add(apk.getTempClasses3());
-		
+
 		boolean addClassesToApkStatus = false;
 		try {
 			addClassesToApkStatus = Zip.addFilesToExistingZip(apk.getTempApk(), classesFiles);
@@ -179,13 +181,13 @@ public class ApkWorker implements Runnable {
 			// TODO sign !
 			try {
 				this.signStatus = Deodexer.signApk(apk.getTempApk(), apk.getTempApkSigned());
-				if(!this.signStatus)
+				if (!this.signStatus)
 					apk.getTempApk().renameTo(apk.getTempApkSigned());
 			} catch (IOException | InterruptedException e) {
 				apk.getTempApk().renameTo(apk.getTempApkSigned());
 			}
 		} else {
-			//FilesUtils.copyFile(apk.getTempApk(), apk.getTempApkSigned());
+			// FilesUtils.copyFile(apk.getTempApk(), apk.getTempApkSigned());
 			apk.getTempApk().renameTo(apk.getTempApkSigned());
 
 		}
@@ -197,7 +199,7 @@ public class ApkWorker implements Runnable {
 		if (this.doZipalign) {
 			try {
 				this.zipAlignStatus = Zip.zipAlignAPk(apk.getTempApkSigned(), apk.getTempApkZipalign());
-				if(!this.zipAlignStatus)
+				if (!this.zipAlignStatus)
 					apk.getTempApkSigned().renameTo(apk.getTempApkZipalign());
 			} catch (IOException | InterruptedException e) {
 				apk.getTempApkSigned().renameTo(apk.getTempApkZipalign());
@@ -227,6 +229,22 @@ public class ApkWorker implements Runnable {
 		return true;
 	}
 
+	private void finalMove() {
+		FilesUtils.deleteRecursively(tmpFolder);
+		progressBar.setValue(progressBar.getMaximum());
+		progressBar.setString(R.getString("progress.done"));
+		this.threadWatcher.updateProgress();
+		this.threadWatcher.done(this);
+	}
+
+	private int getPercent() {
+		// max ===> 100
+		// value ===> ?
+		// ? = value*100/max;
+		return (this.progressBar.getValue() * 100) / this.progressBar.getMaximum();
+
+	}
+
 	/**
 	 * @return the progressBar
 	 */
@@ -239,14 +257,6 @@ public class ApkWorker implements Runnable {
 	 */
 	public ThreadWatcher getThreadWatcher() {
 		return threadWatcher;
-	}
-
-	private int getPercent() {
-		// max ===> 100
-		// value ===> ?
-		// ? = value*100/max;
-		return (this.progressBar.getValue() * 100) / this.progressBar.getMaximum();
-
 	}
 
 	@Override
@@ -283,14 +293,6 @@ public class ApkWorker implements Runnable {
 			finalMove();
 		}
 		finalMove();
-	}
-
-	private void finalMove() {
-		FilesUtils.deleteRecursively(tmpFolder);
-		progressBar.setValue(progressBar.getMaximum());
-		progressBar.setString(R.getString("progress.done"));
-		this.threadWatcher.updateProgress();
-		this.threadWatcher.done(this);
 	}
 
 	/**

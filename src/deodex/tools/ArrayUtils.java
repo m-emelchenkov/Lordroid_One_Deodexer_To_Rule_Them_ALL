@@ -32,20 +32,6 @@ public class ArrayUtils {
 		return list;
 	}
 
-	public static int[] getDuplicatesindex(ArrayList<File> list) {
-		int index[] = new int[duplicateCount(list)];
-		for (int ii = 0, y = 0; ii < list.size() - 1; ii++) {
-
-			for (int n = ii + 1; n < list.size(); n++) {
-				if (list.get(ii).getName().equals(list.get(n).getName())) {
-					index[y] = ii;
-					y++;
-				}
-			}
-		}
-		return index;
-	}
-
 	public static int duplicateCount(ArrayList<File> list) {
 		int x = 0;
 		ArrayList<File> tempList = new ArrayList<File>();
@@ -62,6 +48,20 @@ public class ArrayUtils {
 		}
 
 		return x;
+	}
+
+	public static int[] getDuplicatesindex(ArrayList<File> list) {
+		int index[] = new int[duplicateCount(list)];
+		for (int ii = 0, y = 0; ii < list.size() - 1; ii++) {
+
+			for (int n = ii + 1; n < list.size(); n++) {
+				if (list.get(ii).getName().equals(list.get(n).getName())) {
+					index[y] = ii;
+					y++;
+				}
+			}
+		}
+		return index;
 	}
 
 }

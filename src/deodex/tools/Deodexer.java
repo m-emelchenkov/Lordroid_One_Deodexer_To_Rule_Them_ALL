@@ -72,7 +72,7 @@ public class Deodexer {
 
 		CmdUtils.runCommand(cmd);
 		CmdUtils.runCommand(cmd2);
-		
+
 		FilesUtils.deleteRecursively(tempSmali);
 		return classesFile.exists();
 	}

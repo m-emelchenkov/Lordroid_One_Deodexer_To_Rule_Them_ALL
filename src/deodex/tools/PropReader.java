@@ -96,6 +96,29 @@ public class PropReader {
 
 	}
 
+	public static int linesCont(File propFile) {
+		ArrayList<String> lines = new ArrayList<String>();
+		BufferedReader br = null;
+
+		try {
+			DataInputStream dis = new DataInputStream(new FileInputStream(propFile));
+			br = new BufferedReader(
+					new InputStreamReader(new BufferedInputStream(dis), Charset.forName("UTF-8").newDecoder()));
+			String line;
+			while ((line = br.readLine()) != null) {
+				lines.add(line);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		try {
+			br.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return lines.size();
+	}
+
 	public static ArrayList<String> propToArray(File propFile) {
 		ArrayList<String> lines = new ArrayList<String>();
 		BufferedReader br = null;
@@ -119,29 +142,6 @@ public class PropReader {
 			e.printStackTrace();
 		}
 		return lines;
-	}
-
-	public static int linesCont(File propFile) {
-		ArrayList<String> lines = new ArrayList<String>();
-		BufferedReader br = null;
-
-		try {
-			DataInputStream dis = new DataInputStream(new FileInputStream(propFile));
-			br = new BufferedReader(
-					new InputStreamReader(new BufferedInputStream(dis), Charset.forName("UTF-8").newDecoder()));
-			String line;
-			while ((line = br.readLine()) != null) {
-				lines.add(line);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		try {
-			br.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return lines.size();
 	}
 
 	public static void writeProp(String prop, String value, File propFile) {

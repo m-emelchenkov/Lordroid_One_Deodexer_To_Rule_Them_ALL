@@ -63,7 +63,7 @@ public class Tester {
 		} else if (args.length == 1 && args[0].equals("-h")) {
 			R.initResources();
 			printHelp();
-		}else {
+		} else {
 			Logger.logToStd = false;
 			int lengh = args.length;
 			// the user used one argument and it's not '-h' so we assume he
@@ -72,10 +72,10 @@ public class Tester {
 			File systemFolder = new File(args[0]);
 			boolean sign = false;
 			boolean zipAlign = false;
-			if( lengh == 1){
+			if (lengh == 1) {
 				sign = false;
 				zipAlign = false;
-			}else if (lengh == 2) {
+			} else if (lengh == 2) {
 				if (args[1].equals("-z") || args[1].equals("-s")) {
 					if (args[1].equals("-z")) {
 						zipAlign = true;
@@ -130,6 +130,17 @@ public class Tester {
 		}
 	}
 
+	private static void printHelp() {
+
+		System.out.println("Lordroid batch deodex :\n");
+		System.out.println("USAGE :\n");
+		System.out.println("java -jar lordroid-ODTRTA.jar <systemFolder> [OPTIONS]");
+		System.out.println("Options");
+		System.out.println("-z : zipalign every apk after deodexing it");
+		System.out.println("-s : sign every apk after deodexing");
+		System.out.println("-h : print this help page");
+	}
+
 	private static void proseedWithNoGui(File systemFolder, boolean sign, boolean zipalign) {
 		SessionCfg.sign = sign;
 		SessionCfg.setSign(sign);
@@ -140,16 +151,5 @@ public class Tester {
 		Thread t = new Thread(mainWorker);
 
 		t.start();
-	}
-
-	private static void printHelp() {
-
-		System.out.println("Lordroid batch deodex :\n");
-		System.out.println("USAGE :\n");
-		System.out.println("java -jar lordroid-ODTRTA.jar <systemFolder> [OPTIONS]");
-		System.out.println("Options");
-		System.out.println("-z : zipalign every apk after deodexing it");
-		System.out.println("-s : sign every apk after deodexing");
-		System.out.println("-h : print this help page");
 	}
 }

@@ -31,53 +31,53 @@ public class Logger {
 	public static final String WARNNING = "[WARNNING]";
 	public static final String ERROR = "[ERROR]";
 	public static final String FATAL = "[FATAL]";
-	public static final File LOG_FILE =  new File(getlogFileName());
+	public static final File LOG_FILE = new File(getlogFileName());
 	private static int init = 0;
-	
+
 	public static boolean logToStd = true;
-	
+
+	public static String getlogFileName() {
+		if (init == 0) {
+			long yourmilliseconds = System.currentTimeMillis();
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd_HH.mm.ss"); // dd/MMM/yyyy
+			Date resultdate = new Date(yourmilliseconds);
+			init++;
+			new File(PathUtils.getExcutionPath() + File.separator + "logs" + File.separator + sdf.format(resultdate)
+					+ "_full.log").getParentFile().mkdirs();
+			return PathUtils.getExcutionPath() + File.separator + "logs" + File.separator + sdf.format(resultdate)
+					+ "_full.log";
+		}
+
+		return LOG_FILE.getAbsolutePath();
+	}
+
 	public static void logToStdIO(String str) {
 		long yourmilliseconds = System.currentTimeMillis();
 		SimpleDateFormat sdf = new SimpleDateFormat("[HH:mm:ss]"); // dd/MMM/yyyy
 		Date resultdate = new Date(yourmilliseconds);
 		if (LOG)
-			System.out.println(sdf.format(resultdate)+str);
+			System.out.println(sdf.format(resultdate) + str);
 	}
 
-	public static String getlogFileName(){
-		if(init == 0){
-		long yourmilliseconds = System.currentTimeMillis();
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd_HH.mm.ss"); // dd/MMM/yyyy
-		Date resultdate = new Date(yourmilliseconds);
-		init++;
-		new File(PathUtils.getExcutionPath() + File.separator + "logs" + File.separator + sdf.format(resultdate)
-		+ "_full.log").getParentFile().mkdirs();
-		return  PathUtils.getExcutionPath() + File.separator + "logs" + File.separator + sdf.format(resultdate)
-				+ "_full.log";
-	}
-		
-		return LOG_FILE.getAbsolutePath();
-	}
-	
-	public static synchronized void writLog(String str){
+	public static synchronized void writLog(String str) {
 		long yourmilliseconds = System.currentTimeMillis();
 		SimpleDateFormat sdf = new SimpleDateFormat("[HH:mm:ss]"); // dd/MMM/yyyy
 		Date resultdate = new Date(yourmilliseconds);
-		if(logToStd)
-		System.out.println(sdf.format(resultdate)+str);
-		BufferedWriter out; 
+		if (logToStd)
+			System.out.println(sdf.format(resultdate) + str);
+		BufferedWriter out;
 		try {
-		out= new BufferedWriter(new FileWriter(LOG_FILE.getAbsolutePath(), true));
-		out.write(sdf.format(resultdate)+str);
-		if(!str.endsWith("\n"));
-		out.newLine();
-		out.flush();
-		out.close();
+			out = new BufferedWriter(new FileWriter(LOG_FILE.getAbsolutePath(), true));
+			out.write(sdf.format(resultdate) + str);
+			if (!str.endsWith("\n"))
+				;
+			out.newLine();
+			out.flush();
+			out.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
-		
 	}
 }

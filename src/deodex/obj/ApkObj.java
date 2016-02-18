@@ -42,29 +42,17 @@ public class ApkObj implements Serializable {
 	private File tempApkZipalign;
 	private File tempApkSigned;
 	private File tempCompOdex;
-	/**
-	 * @return the tempCompOdex
-	 */
-	public File getTempCompOdex() {
-		return tempCompOdex;
-	}
-
-	/**
-	 * @param tempCompOdex the tempCompOdex to set
-	 */
-	public void setTempCompOdex(File tempCompOdex) {
-		this.tempCompOdex = tempCompOdex;
-	}
 
 	private File tempOdex;
+
 	private File tempDex;
+
 	private File tempDex2;
 	private File tempDex3;
 	private File tempClasses1;
 	private File tempClasses2;
 	private File tempClasses3;
 	private String pureName;
-
 	/**
 	 * 
 	 * @param folder
@@ -90,7 +78,6 @@ public class ApkObj implements Serializable {
 		this.origApk = new File(folder.getAbsolutePath() + File.separator + this.pureName + S.APK_EXT);
 
 	}
-
 	/**
 	 * 
 	 * @param tmpFolder
@@ -107,7 +94,7 @@ public class ApkObj implements Serializable {
 		tempApkSigned = new File(
 				tmpWorkingFolder.getAbsolutePath() + File.separator + folder.getName() + "_signed" + S.APK_EXT);
 		tempCompOdex = new File(tmpWorkingFolder.getAbsolutePath() + File.separator + this.odexFile.getName());
-		tempOdex = new File(tmpWorkingFolder.getAbsolutePath() + File.separator + this.pureName+S.ODEX_EXT);
+		tempOdex = new File(tmpWorkingFolder.getAbsolutePath() + File.separator + this.pureName + S.ODEX_EXT);
 		tempDex = new File(tmpWorkingFolder.getAbsolutePath() + File.separator + folder.getName() + S.DEX_EXT);
 		tempDex2 = new File(tmpWorkingFolder.getAbsolutePath() + File.separator + folder.getName() + S.DEX2_EXT);
 		tempDex3 = new File(tmpWorkingFolder.getAbsolutePath() + File.separator + folder.getName() + S.DEX3_EXT);
@@ -116,9 +103,10 @@ public class ApkObj implements Serializable {
 		setTempClasses2(new File(tmpWorkingFolder.getAbsolutePath() + File.separator + S.CLASSES_2));
 		setTempClasses3(new File(tmpWorkingFolder.getAbsolutePath() + File.separator + S.CLASSES_3));
 
-		Logger.writLog(this.origApk.getName()+"copying "+this.origApk.getAbsolutePath() +" to "+tempApk.getAbsolutePath());
+		Logger.writLog(this.origApk.getName() + "copying " + this.origApk.getAbsolutePath() + " to "
+				+ tempApk.getAbsolutePath());
 		FilesUtils.copyFile(this.origApk, tempApk);
-		Logger.writLog("copying "+odexFile.getAbsolutePath()+" to "+tempCompOdex.getAbsolutePath());
+		Logger.writLog("copying " + odexFile.getAbsolutePath() + " to " + tempCompOdex.getAbsolutePath());
 		FilesUtils.copyFile(odexFile, tempCompOdex);
 		return tempApk.exists() && tempCompOdex.exists();
 	}
@@ -141,6 +129,13 @@ public class ApkObj implements Serializable {
 	 */
 	public File getOrigApk() {
 		return origApk;
+	}
+
+	/**
+	 * @return the pureName
+	 */
+	public String getPureName() {
+		return pureName;
 	}
 
 	public File getTempApk() {
@@ -174,6 +169,20 @@ public class ApkObj implements Serializable {
 	}
 
 	/**
+	 * @return the tempClasses3
+	 */
+	public File getTempClasses3() {
+		return tempClasses3;
+	}
+
+	/**
+	 * @return the tempCompOdex
+	 */
+	public File getTempCompOdex() {
+		return tempCompOdex;
+	}
+
+	/**
 	 * 
 	 * @return
 	 */
@@ -187,6 +196,13 @@ public class ApkObj implements Serializable {
 	 */
 	public File getTempDex2() {
 		return tempDex2;
+	}
+
+	/**
+	 * @return the tempDex3
+	 */
+	public File getTempDex3() {
+		return tempDex3;
 	}
 
 	/**
@@ -214,6 +230,14 @@ public class ApkObj implements Serializable {
 	}
 
 	/**
+	 * @param pureName
+	 *            the pureName to set
+	 */
+	public void setPureName(String pureName) {
+		this.pureName = pureName;
+	}
+
+	/**
 	 * @param tempClasses1
 	 *            the tempClasses1 to set
 	 */
@@ -230,45 +254,26 @@ public class ApkObj implements Serializable {
 	}
 
 	/**
-	 * @return the pureName
-	 */
-	public String getPureName() {
-		return pureName;
-	}
-
-	/**
-	 * @param pureName
-	 *            the pureName to set
-	 */
-	public void setPureName(String pureName) {
-		this.pureName = pureName;
-	}
-
-	/**
-	 * @return the tempDex3
-	 */
-	public File getTempDex3() {
-		return tempDex3;
-	}
-
-	/**
-	 * @param tempDex3 the tempDex3 to set
-	 */
-	public void setTempDex3(File tempDex3) {
-		this.tempDex3 = tempDex3;
-	}
-
-	/**
-	 * @return the tempClasses3
-	 */
-	public File getTempClasses3() {
-		return tempClasses3;
-	}
-
-	/**
-	 * @param tempClasses3 the tempClasses3 to set
+	 * @param tempClasses3
+	 *            the tempClasses3 to set
 	 */
 	public void setTempClasses3(File tempClasses3) {
 		this.tempClasses3 = tempClasses3;
+	}
+
+	/**
+	 * @param tempCompOdex
+	 *            the tempCompOdex to set
+	 */
+	public void setTempCompOdex(File tempCompOdex) {
+		this.tempCompOdex = tempCompOdex;
+	}
+
+	/**
+	 * @param tempDex3
+	 *            the tempDex3 to set
+	 */
+	public void setTempDex3(File tempDex3) {
+		this.tempDex3 = tempDex3;
 	}
 }

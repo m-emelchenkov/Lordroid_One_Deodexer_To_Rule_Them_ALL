@@ -41,8 +41,6 @@ public class ZipalignWorker implements Runnable, Watchable {
 		this.log = log;
 		this.bar.setMinimum(0);
 
-
-
 		this.bar.setStringPainted(true);
 	}
 
@@ -53,43 +51,25 @@ public class ZipalignWorker implements Runnable, Watchable {
 		watchers.add(watcher);
 	}
 
+	/**
+	 * @return the doSign
+	 */
+	public boolean isDoSign() {
+		return doSign;
+	}
+
+	/**
+	 * @return the doZipalign
+	 */
+	public boolean isDoZipalign() {
+		return doZipalign;
+	}
+
 	private String percent() {
 		// max ====> 100%
 		// value ====> ?
 		// ? = (value*100)/max
 		return "" + ((bar.getValue() * 100) / bar.getMaximum()) + "%";
-	}
-
-	private boolean zipalignApk(File apk) {
-		File zipApk = new File(apk.getAbsolutePath() + "_zipaligned.apk");
-		boolean success = false;
-		try {
-			success = Zip.zipAlignAPk(apk, zipApk);
-		} catch (IOException | InterruptedException e) {
-			e.printStackTrace();
-		}
-
-		boolean delete = apk.delete();
-		boolean rename = zipApk.renameTo(apk);
-
-		return success && delete && rename;
-
-	}
-
-	private boolean signApk(File apk) {
-		File signedApk = new File(apk.getAbsolutePath() + "_signed.apk");
-		boolean signed = false;
-		try {
-			signed = Deodexer.signApk(apk, signedApk);
-		} catch (IOException | InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		boolean delete = apk.delete();
-		boolean rename = signedApk.renameTo(apk);
-
-		return signed && delete && rename;
-
 	}
 
 	@Override
@@ -146,10 +126,11 @@ public class ZipalignWorker implements Runnable, Watchable {
 	}
 
 	/**
-	 * @return the doZipalign
+	 * @param doSign
+	 *            the doSign to set
 	 */
-	public boolean isDoZipalign() {
-		return doZipalign;
+	public void setDoSign(boolean doSign) {
+		this.doSign = doSign;
 	}
 
 	/**
@@ -160,19 +141,36 @@ public class ZipalignWorker implements Runnable, Watchable {
 		this.doZipalign = doZipalign;
 	}
 
-	/**
-	 * @return the doSign
-	 */
-	public boolean isDoSign() {
-		return doSign;
+	private boolean signApk(File apk) {
+		File signedApk = new File(apk.getAbsolutePath() + "_signed.apk");
+		boolean signed = false;
+		try {
+			signed = Deodexer.signApk(apk, signedApk);
+		} catch (IOException | InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		boolean delete = apk.delete();
+		boolean rename = signedApk.renameTo(apk);
+
+		return signed && delete && rename;
+
 	}
 
-	/**
-	 * @param doSign
-	 *            the doSign to set
-	 */
-	public void setDoSign(boolean doSign) {
-		this.doSign = doSign;
+	private boolean zipalignApk(File apk) {
+		File zipApk = new File(apk.getAbsolutePath() + "_zipaligned.apk");
+		boolean success = false;
+		try {
+			success = Zip.zipAlignAPk(apk, zipApk);
+		} catch (IOException | InterruptedException e) {
+			e.printStackTrace();
+		}
+
+		boolean delete = apk.delete();
+		boolean rename = zipApk.renameTo(apk);
+
+		return success && delete && rename;
+
 	}
 
 }

@@ -54,29 +54,6 @@ import deodex.tools.FilesUtils;
 
 public class Window extends JFrame implements ThreadWatcher {
 
-	class MenuItemsListener implements ActionListener{
-
-		@Override
-		public void actionPerformed(ActionEvent arg0) {
-			// TODO Auto-generated method stub
-			Object source = arg0.getSource();
-			if(source.equals(batchZipalignSignMenuItem)){
-				new ZipalignWindow(logo);
-			} else if(source.equals(exitMenuItem)){
-				int i = JOptionPane.showConfirmDialog(rootPanel, R.getString("dialog.sure.exit.message"),
-						R.getString("dialog.sure.exit"), JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
-				if(i == 0){
-					System.exit(0);
-				}
-			} else if(source.equals(aboutThisMenu)){
-				JOptionPane.showMessageDialog(logo, R.getString("0000002")+"\n"+R.getString("0000003")+"\n"+R.getString("0000004"), R.getString("0000005"), JOptionPane.INFORMATION_MESSAGE);
-			}
-			
-		}
-		
-	}
-	
-	
 	class BrowseAction implements ActionListener {
 
 		@Override
@@ -133,6 +110,30 @@ public class Window extends JFrame implements ThreadWatcher {
 
 	}
 
+	class MenuItemsListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+			// TODO Auto-generated method stub
+			Object source = arg0.getSource();
+			if (source.equals(batchZipalignSignMenuItem)) {
+				new ZipalignWindow(logo);
+			} else if (source.equals(exitMenuItem)) {
+				int i = JOptionPane.showConfirmDialog(rootPanel, R.getString("dialog.sure.exit.message"),
+						R.getString("dialog.sure.exit"), JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
+				if (i == 0) {
+					System.exit(0);
+				}
+			} else if (source.equals(aboutThisMenu)) {
+				JOptionPane.showMessageDialog(logo,
+						R.getString("0000002") + "\n" + R.getString("0000003") + "\n" + R.getString("0000004"),
+						R.getString("0000005"), JOptionPane.INFORMATION_MESSAGE);
+			}
+
+		}
+
+	}
+
 	public static final int W_WIDTH = 802;
 
 	public static final int W_HEIGHT = 630;
@@ -183,20 +184,19 @@ public class Window extends JFrame implements ThreadWatcher {
 
 	// JMuneBar & MenuItems
 	JMenuBar menuBar = new JMenuBar();
-	
+
 	// File Menu
 	JMenu fichierMenu = new JMenu(R.getString("file"));
 	JMenuItem exitMenuItem = new JMenuItem(R.getString("exit"));
-	
+
 	// Tools Menu
 	JMenu toolsMenu = new JMenu(R.getString("tools"));
-	JMenuItem batchZipalignSignMenuItem = new JMenuItem(R.getString("batch.zipalign.sign.menu.items")); 
-	
-	// About 
+	JMenuItem batchZipalignSignMenuItem = new JMenuItem(R.getString("batch.zipalign.sign.menu.items"));
+
+	// About
 	JMenu aboutMenu = new JMenu(R.getString("about.menu"));
 	JMenuItem aboutThisMenu = new JMenuItem(R.getString("About.this.program"));
-	
-	
+
 	public Window() {
 		this.setResizable(false);
 		this.setIconImage(R.icon);
@@ -207,8 +207,8 @@ public class Window extends JFrame implements ThreadWatcher {
 		this.setSize(W_WIDTH, W_HEIGHT);
 		this.setJMenuBar(menuBar);
 		rootPanel.setSize(W_WIDTH, W_HEIGHT);
-		//this.setContentPane(rootPanel);
-		this.add(rootPanel,BorderLayout.CENTER);
+		// this.setContentPane(rootPanel);
+		this.add(rootPanel, BorderLayout.CENTER);
 		icon = new ImageIcon(Window.this.getClass().getResource("/loading.gif"));
 		browseBtn.addActionListener(new BrowseAction());
 		this.deodexNow.addActionListener(new DeodexNowAction());
@@ -216,36 +216,6 @@ public class Window extends JFrame implements ThreadWatcher {
 		initBrowseView();
 	}
 
-	private void initMenuBar(){
-		
-		menuBar.setVisible(true);
-		// attach menus to the bar
-		//menuBar.add(fichierMenu);
-		menuBar.add(toolsMenu);
-		menuBar.add(aboutMenu);
-		
-		// attach items to File menu
-		this.fichierMenu.add(exitMenuItem);
-		
-		// attach tools Items
-		this.toolsMenu.add(this.batchZipalignSignMenuItem);
-		toolsMenu.setFont(R.COURIER_NORMAL);
-		batchZipalignSignMenuItem.setFont(R.COURIER_NORMAL);
-		
-		
-		// attach about Items
-		this.aboutMenu.add(this.aboutThisMenu);
-		aboutMenu.setFont(R.COURIER_NORMAL);
-		aboutThisMenu.setFont(R.COURIER_NORMAL);
-		
-		/// les Action 
-		
-		this.setVisible(true);
-		batchZipalignSignMenuItem.addActionListener(new MenuItemsListener());
-		exitMenuItem.addActionListener(new MenuItemsListener());
-		aboutThisMenu.addActionListener(new MenuItemsListener());
-	}
-	
 	public void addThreadWatcher() {
 		mainWorker.addThreadWatcher(this);
 	}
@@ -258,6 +228,10 @@ public class Window extends JFrame implements ThreadWatcher {
 		this.restart.setEnabled(true);
 		this.zipIt.setEnabled(true);
 		this.repaint();
+	}
+
+	private JFrame getThisFram() {
+		return this;
 	}
 
 	private void initBrowseView() {
@@ -310,8 +284,8 @@ public class Window extends JFrame implements ThreadWatcher {
 				BorderFactory.createLineBorder(new Color(89, 195, 216), 2), R.getString("optionalPan")));
 
 		// toolTips
-		 zipalignCheck.setToolTipText(R.getString("zipalignCheck.ToolTip"));
-		 signCheck.setToolTipText(R.getString("signCheck.ToolTip"));
+		zipalignCheck.setToolTipText(R.getString("zipalignCheck.ToolTip"));
+		signCheck.setToolTipText(R.getString("signCheck.ToolTip"));
 
 		// other propreties
 		optionalPan.setOpaque(false);
@@ -358,6 +332,35 @@ public class Window extends JFrame implements ThreadWatcher {
 		});
 	}
 
+	private void initMenuBar() {
+
+		menuBar.setVisible(true);
+		// attach menus to the bar
+		// menuBar.add(fichierMenu);
+		menuBar.add(toolsMenu);
+		menuBar.add(aboutMenu);
+
+		// attach items to File menu
+		this.fichierMenu.add(exitMenuItem);
+
+		// attach tools Items
+		this.toolsMenu.add(this.batchZipalignSignMenuItem);
+		toolsMenu.setFont(R.COURIER_NORMAL);
+		batchZipalignSignMenuItem.setFont(R.COURIER_NORMAL);
+
+		// attach about Items
+		this.aboutMenu.add(this.aboutThisMenu);
+		aboutMenu.setFont(R.COURIER_NORMAL);
+		aboutThisMenu.setFont(R.COURIER_NORMAL);
+
+		/// les Action
+
+		this.setVisible(true);
+		batchZipalignSignMenuItem.addActionListener(new MenuItemsListener());
+		exitMenuItem.addActionListener(new MenuItemsListener());
+		aboutThisMenu.addActionListener(new MenuItemsListener());
+	}
+
 	public void initProgress() {
 		rootPanel.removeAll();
 		rootPanel.setLayout(null);
@@ -371,7 +374,7 @@ public class Window extends JFrame implements ThreadWatcher {
 		mainWorker.mainPannel.setBounds(0, 101, 795, 128);
 		logo.setBounds(0, 0, 802, 100);
 		logger.setBounds(1, 270, 798, 300);
-		
+
 		quitbtn.setBounds(690, 235, 100, 30);
 		zipIt.setBounds(115, 235, 570, 30);
 		restart.setBounds(10, 235, 100, 30);
@@ -385,7 +388,7 @@ public class Window extends JFrame implements ThreadWatcher {
 		zipIt.setEnabled(false);
 		quitbtn.setBackground(new Color(89, 195, 216));
 		restart.setBackground(new Color(89, 195, 216));
-		zipIt.setBackground(new Color(69, 179, 157)/*new Color(0, 183, 92)*/);
+		zipIt.setBackground(new Color(69, 179, 157)/* new Color(0, 183, 92) */);
 		// Action listners
 		quitbtn.addActionListener(new ActionListener() {
 
@@ -411,49 +414,44 @@ public class Window extends JFrame implements ThreadWatcher {
 			}
 
 		});
-		
-		zipIt.addActionListener(new ActionListener(){
+
+		zipIt.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				int agree = JOptionPane.showConfirmDialog(zipIt,
-							R.getString("0000009")+"\n"+
-							R.getString("0000010")+"\n"+
-							R.getString("0000011")+"\n"+
-							R.getString("0000012")+"\n"+
-							R.getString("0000013")+"\n"+	
-							R.getString("0000014")+"\n"+
-							R.getString("0000015")+"\n"+
-							R.getString("0000016")+"\n\n"+
-							R.getString("0000017"),
-							R.getString("0000018"), JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
-				if(agree == 0){
-				String name = JOptionPane.showInputDialog(zipIt,R.getString("0000006")+"\n"+R.getString("0000007"));
-				if(name != null){
-					boolean valid = false;
-					try {
-						valid = new File(name).createNewFile();
-						
-						
-					} catch (InvalidPathException  | IOException ex){
-						ex.printStackTrace();
-						valid = false;
+						R.getString("0000009") + "\n" + R.getString("0000010") + "\n" + R.getString("0000011") + "\n"
+								+ R.getString("0000012") + "\n" + R.getString("0000013") + "\n" + R.getString("0000014")
+								+ "\n" + R.getString("0000015") + "\n" + R.getString("0000016") + "\n\n"
+								+ R.getString("0000017"),
+						R.getString("0000018"), JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+				if (agree == 0) {
+					String name = JOptionPane.showInputDialog(zipIt,
+							R.getString("0000006") + "\n" + R.getString("0000007"));
+					if (name != null) {
+						boolean valid = false;
+						try {
+							valid = new File(name).createNewFile();
+
+						} catch (InvalidPathException | IOException ex) {
+							ex.printStackTrace();
+							valid = false;
+						}
+						System.out.println(valid);
+						if (valid) {
+							new File(name).delete();
+							String abName = name.endsWith(".zip") ? name.substring(0, name.lastIndexOf(".")) : name;
+							zipIt.setEnabled(false);
+							File zipFile = new File(S.ZIP_OUTPUT + File.separator + abName + ".zip");
+							new FlashableZipCreater(SessionCfg.getSystemFolder(), zipFile, getThisFram());
+						} else {
+							JOptionPane.showMessageDialog(zipIt, R.getString("0000008"));
+						}
 					}
-					System.out.println(valid);
-					if(valid){
-						new File(name).delete();
-						String abName = name.endsWith(".zip")? name.substring(0, name.lastIndexOf(".")) : name;
-						zipIt.setEnabled(false);
-						File zipFile = new File(S.ZIP_OUTPUT+File.separator+abName+".zip");
-						new FlashableZipCreater(SessionCfg.getSystemFolder(), zipFile, getThisFram());
-					} else {
-						JOptionPane.showMessageDialog(zipIt, R.getString("0000008"));
-					}
-				}
 				}
 			}
-			
+
 		});
 		//
 		rootPanel.add(logo);
@@ -462,14 +460,11 @@ public class Window extends JFrame implements ThreadWatcher {
 		rootPanel.add(quitbtn);
 		rootPanel.add(restart);
 		rootPanel.add(zipIt);
-		
+
 		rootPanel.revalidate();
 		this.repaint();
 	}
 
-	private JFrame getThisFram(){
-		return this;
-	}
 	private void initwaiting() {
 		rootPanel.removeAll();
 		rootPanel.setLayout(null);

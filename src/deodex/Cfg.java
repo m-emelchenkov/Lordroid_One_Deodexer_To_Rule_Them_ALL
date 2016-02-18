@@ -70,49 +70,6 @@ public class Cfg {
 		return showThreadAlert == 1;
 	}
 
-	/**
-	 * set weither or not show a dialog to the user
-	 * 
-	 * @param show
-	 */
-	public static void setShowDeodexAlert(boolean show) {
-		if (show) {
-			showDeodexAlert = 1;
-		} else {
-			showDeodexAlert = 0;
-		}
-		PropReader.writeProp(SHOW_DEODEX_ALERT, "" + showDeodexAlert, new File(Cfg.CFG_PATH));
-	}
-
-	/**
-	 * set weither or not show a dialog to the user
-	 * 
-	 * @param show
-	 */
-	public static void setShowExitAlert(boolean show) {
-		if (show) {
-			showExitAlert = 1;
-		} else {
-			showExitAlert = 0;
-		}
-		PropReader.writeProp(SHOW_EXIT_ALERT, "" + showExitAlert, new File(Cfg.CFG_PATH));
-
-	}
-
-	/**
-	 * set weither or not show a dialog to the user
-	 * 
-	 * @param show
-	 */
-	public static void setShowThreadAlert(boolean show) {
-		if (show) {
-			showThreadAlert = 1;
-		} else {
-			showThreadAlert = 0;
-		}
-		PropReader.writeProp(SHOW_THREAD_ALERT, "" + showThreadAlert, new File(Cfg.CFG_PATH));
-	}
-
 	public static ArrayList<String> getAvailableLaunguages() {
 		File langFolder = new File(LANG_FOLDER);
 		File lang[] = langFolder.listFiles();
@@ -177,6 +134,10 @@ public class Cfg {
 		return tmp;
 	}
 
+	public static int getMaxJobs() {
+		return Cfg.maxJobs;
+	}
+
 	public static String getOs() {
 		if (Os.isLinux()) {
 			return S.LINUX;
@@ -222,21 +183,60 @@ public class Cfg {
 		}
 	}
 
-	public static void setMaxJobs(int i) {
-		Cfg.maxJobs = i;
-		PropReader.writeProp(MAX_JOBS_PROP, "" + i, new File(CFG_PATH));
-	}
-
-	public static int getMaxJobs() {
-		return Cfg.maxJobs;
-	}
-
 	/**
 	 * @param currentLang
 	 *            the currentLang to set
 	 */
 	public static void setCurrentLang(String currentLang) {
 		Cfg.currentLang = currentLang;
+	}
+
+	public static void setMaxJobs(int i) {
+		Cfg.maxJobs = i;
+		PropReader.writeProp(MAX_JOBS_PROP, "" + i, new File(CFG_PATH));
+	}
+
+	/**
+	 * set weither or not show a dialog to the user
+	 * 
+	 * @param show
+	 */
+	public static void setShowDeodexAlert(boolean show) {
+		if (show) {
+			showDeodexAlert = 1;
+		} else {
+			showDeodexAlert = 0;
+		}
+		PropReader.writeProp(SHOW_DEODEX_ALERT, "" + showDeodexAlert, new File(Cfg.CFG_PATH));
+	}
+
+	/**
+	 * set weither or not show a dialog to the user
+	 * 
+	 * @param show
+	 */
+	public static void setShowExitAlert(boolean show) {
+		if (show) {
+			showExitAlert = 1;
+		} else {
+			showExitAlert = 0;
+		}
+		PropReader.writeProp(SHOW_EXIT_ALERT, "" + showExitAlert, new File(Cfg.CFG_PATH));
+
+	}
+
+	/**
+	 * set weither or not show a dialog to the user
+	 * 
+	 * @param show
+	 */
+	public static void setShowThreadAlert(boolean show) {
+		if (show) {
+			showThreadAlert = 1;
+		} else {
+			showThreadAlert = 0;
+		}
+		PropReader.writeProp(SHOW_THREAD_ALERT, "" + showThreadAlert, new File(Cfg.CFG_PATH));
 	}
 
 	/**

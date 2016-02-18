@@ -46,9 +46,9 @@ public class ZipTools {
 		if (odex.getName().endsWith(S.ODEX_EXT)) {
 			return true;
 		} else {
-			Decomdex = new File(odex.getParentFile().getAbsolutePath()
-					+"/"+ StringUtils.getCropString(odex.getName(), odex.getName().length() - 3));
-			Logger.writLog("Decompressed value of "+ odex.getAbsolutePath() +"  is  "+Decomdex.getAbsolutePath());
+			Decomdex = new File(odex.getParentFile().getAbsolutePath() + "/"
+					+ StringUtils.getCropString(odex.getName(), odex.getName().length() - 3));
+			Logger.writLog("Decompressed value of " + odex.getAbsolutePath() + "  is  " + Decomdex.getAbsolutePath());
 			FileInputStream fin = new FileInputStream(odex);
 			BufferedInputStream in = new BufferedInputStream(fin);
 			FileOutputStream out = new FileOutputStream(Decomdex);

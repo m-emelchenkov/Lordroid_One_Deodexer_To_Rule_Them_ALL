@@ -25,13 +25,13 @@ import java.util.ArrayList;
 
 public class CmdUtils {
 
-	public static void runCommand(String[] cmd)  {
+	public static void runCommand(String[] cmd) {
 		String strCmd = "running command : ";
-		
+
 		for (String str : cmd)
-			strCmd = strCmd+str+" ";
+			strCmd = strCmd + str + " ";
 		Logger.writLog(strCmd);
-		
+
 		Runtime rt = Runtime.getRuntime();
 		Process proc = null;
 		try {
@@ -45,11 +45,9 @@ public class CmdUtils {
 			e.printStackTrace();
 		}
 
-		BufferedReader stdInput = new BufferedReader(new 
-		     InputStreamReader(proc.getInputStream()));
+		BufferedReader stdInput = new BufferedReader(new InputStreamReader(proc.getInputStream()));
 
-		BufferedReader stdError = new BufferedReader(new 
-		     InputStreamReader(proc.getErrorStream()));
+		BufferedReader stdError = new BufferedReader(new InputStreamReader(proc.getErrorStream()));
 
 		// read the output from the command
 		ArrayList<String> outPut = new ArrayList<String>();
@@ -76,13 +74,13 @@ public class CmdUtils {
 			e.printStackTrace();
 		}
 		// lets log the cmdoutput
-		for(String str : outPut){
+		for (String str : outPut) {
 			Logger.writLog(str);
 		}
-		if(errors.size()>1)
-		for(String str : errors){
-			Logger.writLog(str);
-		}
+		if (errors.size() > 1)
+			for (String str : errors) {
+				Logger.writLog(str);
+			}
 		proc.destroy();
 
 	}

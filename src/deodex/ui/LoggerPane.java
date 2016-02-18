@@ -65,7 +65,7 @@ public class LoggerPane extends JPanel implements LoggerPan {
 		// logs.setBounds(2, 2, this.getWidth()-4, this.getHeight()-4);
 		this.setLayout(null);
 		scroll = new JScrollPane(logs);
-		scroll.setBounds(0, 0, this.getWidth() , this.getHeight() - 0);
+		scroll.setBounds(0, 0, this.getWidth(), this.getHeight() - 0);
 		this.add(scroll);
 
 	}
@@ -87,11 +87,11 @@ public class LoggerPane extends JPanel implements LoggerPan {
 		// logs.setBounds(2, 2, this.getWidth()-4, this.getHeight()-4);
 		this.setLayout(null);
 		scroll = new JScrollPane(logs);
-		scroll.setBounds(0, 0, this.getWidth() , this.getHeight() - 0);
+		scroll.setBounds(0, 0, this.getWidth(), this.getHeight() - 0);
 		this.add(scroll);
 
 	}
-	
+
 	@Override
 	public void addLog(String str) {
 		// TODO Auto-generated method stub
@@ -115,7 +115,7 @@ public class LoggerPane extends JPanel implements LoggerPan {
 
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		g.drawImage(bg, 0, 0,this.getWidth() ,this.getHeight() ,this);
+		g.drawImage(bg, 0, 0, this.getWidth(), this.getHeight(), this);
 	}
 
 	@Override
@@ -146,7 +146,7 @@ public class LoggerPane extends JPanel implements LoggerPan {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd_HH.mm.ss"); // dd/MMM/yyyy
 		Date resultdate = new Date(yourmilliseconds);
 		String str = PathUtils.getExcutionPath() + File.separator + "logs" + File.separator + sdf.format(resultdate)
-				+"_"+string+ "_.log";
+				+ "_" + string + "_.log";
 		File logFile = new File(str);
 
 		ArrayList<String> logs = new ArrayList<String>();

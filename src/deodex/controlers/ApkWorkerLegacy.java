@@ -103,7 +103,7 @@ public class ApkWorkerLegacy implements Watchable, Runnable {
 					if (this.doSign) {
 						try {
 							signStatus = Deodexer.signApk(apk.tempApk, apk.tempSigned);
-							if(!signStatus)
+							if (!signStatus)
 								apk.tempApk.renameTo(apk.tempSigned);
 						} catch (IOException | InterruptedException e) {
 							e.printStackTrace();
@@ -115,7 +115,7 @@ public class ApkWorkerLegacy implements Watchable, Runnable {
 					if (this.doZipalign) {
 						try {
 							this.zipAlignStatus = Zip.zipAlignAPk(apk.tempSigned, apk.tempZipaligned);
-							if(!this.zipAlignStatus)
+							if (!this.zipAlignStatus)
 								apk.tempSigned.renameTo(apk.tempZipaligned);
 						} catch (IOException | InterruptedException e) {
 							e.printStackTrace();
@@ -149,6 +149,13 @@ public class ApkWorkerLegacy implements Watchable, Runnable {
 		FilesUtils.deleteRecursively(apk.tempZipaligned);
 
 		return true;
+	}
+
+	private void finalMove() {
+		progressBar.setValue(progressBar.getMaximum());
+		progressBar.setString(R.getString("progress.done"));
+		this.threadWatcher.updateProgress();
+		threadWatcher.done(this);
 	}
 
 	/**
@@ -193,13 +200,6 @@ public class ApkWorkerLegacy implements Watchable, Runnable {
 			finalMove();
 		}
 		finalMove();
-	}
-
-	private void finalMove() {
-		progressBar.setValue(progressBar.getMaximum());
-		progressBar.setString(R.getString("progress.done"));
-		this.threadWatcher.updateProgress();
-		threadWatcher.done(this);
 	}
 
 	/**

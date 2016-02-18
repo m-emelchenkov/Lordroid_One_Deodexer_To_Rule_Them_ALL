@@ -42,7 +42,6 @@ public class S {
 	public static final String CLASSES_2 = "classes2.dex";
 	public static final String CLASSES_3 = "classes3.dex";
 
-
 	public static final String WORKER1 = "worker1";
 	public static final String WORKER2 = "worker2";
 	public static final String WORKER3 = "worker3";
@@ -89,7 +88,8 @@ public class S {
 	public static final String TEST_KEY_X509 = PathUtils.getExcutionPath() + File.separator
 			+ "bins/sign/testkey.x509.pem";
 	public static final File DUMMY_JAR = new File(PathUtils.getExcutionPath() + File.separator + "blanks/blank.jar");
-	public static final File DUMMY_ZIP = new File(PathUtils.getExcutionPath() + File.separator + "blanks/blank_rom.zip");
+	public static final File DUMMY_ZIP = new File(
+			PathUtils.getExcutionPath() + File.separator + "blanks/blank_rom.zip");
 	public static final File ZIP_OUTPUT = new File(PathUtils.getExcutionPath() + File.separator + "flashable_zips_out");
 	// temporary folders
 	public static File worker1Folder = new File(TMP + File.separator + WORKER1);

@@ -39,15 +39,8 @@ import deodex.controlers.ThreadWatcher;
 import deodex.controlers.ZipalignWorker;
 import deodex.tools.FilesUtils;
 
-public class ZipalignWindow extends JFrame implements ThreadWatcher{
+public class ZipalignWindow extends JFrame implements ThreadWatcher {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-
-	
-	
 	class BrowseAction implements ActionListener {
 
 		@Override
@@ -62,13 +55,36 @@ public class ZipalignWindow extends JFrame implements ThreadWatcher{
 				if (apkCount == 0) {
 					logger.addLog(R.getString("log.no.apk.to.zipalign"));
 					initProgress();
-					} else {
+				} else {
 					logger.addLog(R.getString("log.there.is") + apkCount + R.getString("apk.to.be.zipaligned.log"));
-					zip = new ZipalignWorker(FilesUtils.searchrecursively(fileChooser.getSelectedFile(), ".apk"), bar, logger);
+					zip = new ZipalignWorker(FilesUtils.searchrecursively(fileChooser.getSelectedFile(), ".apk"), bar,
+							logger);
 					addWatcher();
 					zipalignBtn.setEnabled(true);
 				}
 			}
+		}
+
+	}
+
+	class checkAction implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+			// TODO Auto-generated method stub
+			zipalignChk.setBackground(R.PANELS_BACK_COLOR);
+			signChk.setBackground(R.PANELS_BACK_COLOR);
+		}
+
+	}
+
+	class OkAction implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+			// TODO Auto-generated method stub
+			logger.clearAllLogs();
+			initBrowse();
 		}
 
 	}
@@ -78,11 +94,12 @@ public class ZipalignWindow extends JFrame implements ThreadWatcher{
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
-			if(!zipalignChk.isSelected() &&  !signChk.isSelected()){
+			if (!zipalignChk.isSelected() && !signChk.isSelected()) {
 				signChk.setBackground(Color.RED);
 				zipalignChk.setBackground(Color.RED);
-				JOptionPane.showMessageDialog(rootPannel, R.getString("no.job.selected.zipalign.frame"), R.getString("you.shall.not.pass"),  JOptionPane.ERROR_MESSAGE);
-			}else {
+				JOptionPane.showMessageDialog(rootPannel, R.getString("no.job.selected.zipalign.frame"),
+						R.getString("you.shall.not.pass"), JOptionPane.ERROR_MESSAGE);
+			} else {
 				zip.setDoSign(signChk.isSelected());
 				zip.setDoZipalign(zipalignChk.isSelected());
 				new Thread(zip).start();
@@ -91,28 +108,12 @@ public class ZipalignWindow extends JFrame implements ThreadWatcher{
 
 	}
 
-	class OkAction implements ActionListener{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
-		@Override
-		public void actionPerformed(ActionEvent arg0) {
-			// TODO Auto-generated method stub
-			logger.clearAllLogs();
-			initBrowse();
-		}
-		
-	}
-	
-	class checkAction implements ActionListener{
-
-		@Override
-		public void actionPerformed(ActionEvent arg0) {
-			// TODO Auto-generated method stub
-			zipalignChk.setBackground(R.PANELS_BACK_COLOR);
-			signChk.setBackground(R.PANELS_BACK_COLOR);
-		}
-		
-	}
-	ZipalignWorker zip ;
+	ZipalignWorker zip;
 	JTextField browseField = new JTextField(R.getString(S.BROWSE_FEILD));
 	JButton browseBtn = new JButton("...");
 	JButton zipalignBtn = new JButton(R.getString("zipalign.now.btn"));
@@ -123,7 +124,6 @@ public class ZipalignWindow extends JFrame implements ThreadWatcher{
 	JCheckBox zipalignChk = new JCheckBox("zipalign");
 	JCheckBox signChk = new JCheckBox("sign");
 
-	
 	/**
 	 * 
 	 */
@@ -143,7 +143,7 @@ public class ZipalignWindow extends JFrame implements ThreadWatcher{
 		okBtn.setBackground(R.BUTTONS_BACK_COLOR);
 		zipalignChk.setBackground(R.PANELS_BACK_COLOR);
 		signChk.setBackground(R.PANELS_BACK_COLOR);
-		
+
 		// font
 		browseBtn.setFont(R.SMALL_FONT);
 		browseField.setFont(R.SMALL_FONT);
@@ -156,22 +156,28 @@ public class ZipalignWindow extends JFrame implements ThreadWatcher{
 		bar.setBackground(Color.WHITE);
 		bar.setForeground(new Color(0, 183, 92));
 		bar.setFont(R.COURIER_NORMAL);
-		
+
 		// actions
 		browseBtn.addActionListener(new BrowseAction());
 		zipalignBtn.addActionListener(new ZipNowAction());
 		okBtn.addActionListener(new OkAction());
 		zipalignChk.addActionListener(new checkAction());
 		signChk.addActionListener(new checkAction());
-		
-		
+
 		this.setVisible(true);
 		initBrowse();
 	}
 
-	private void addWatcher(){
+	private void addWatcher() {
 		zip.addThreadWatcher(this);
 	}
+
+	@Override
+	public void done(Runnable r) {
+		this.okBtn.setEnabled(true);
+		logger.saveToFile("ZIPALIGN");
+	}
+
 	private void initBrowse() {
 		rootPannel.removeAll();
 		rootPannel.setLayout(null);
@@ -181,7 +187,7 @@ public class ZipalignWindow extends JFrame implements ThreadWatcher{
 		browseField.setEditable(false);
 		zipalignChk.setSelected(true);
 		signChk.setSelected(false);
-		
+
 		// bounds
 		browseField.setBounds(5, 5, 400, 30);
 		browseBtn.setBounds(405, 5, 90, 30);
@@ -191,12 +197,12 @@ public class ZipalignWindow extends JFrame implements ThreadWatcher{
 		logger.setBounds(5, 85, 490, 185);
 		zipalignChk.setBounds(5, 40, 140, 40);
 		signChk.setBounds(150, 40, 95, 40);
-		
-		
+
 		// TOOL tip
 		zipalignChk.setToolTipText("Zipalign all apks in the selected folder ");
 		signChk.setToolTipText("Sign all apks in the selected folder ");
-		browseBtn.setToolTipText("Click to choose the folder containing apks to be zipaligned/signed NOTE: the search for apks is recursive");
+		browseBtn.setToolTipText(
+				"Click to choose the folder containing apks to be zipaligned/signed NOTE: the search for apks is recursive");
 
 		// add components
 		rootPannel.add(browseField);
@@ -209,32 +215,24 @@ public class ZipalignWindow extends JFrame implements ThreadWatcher{
 		rootPannel.repaint();
 	}
 
-	private void initProgress(){
+	private void initProgress() {
 		rootPannel.removeAll();
 		rootPannel.setLayout(null);
 
 		bar.setBounds(5, 5, 490, 30);
 		okBtn.setBounds(5, 40, 490, 40);
 		okBtn.setEnabled(false);
-		
+
 		logger.setSize(490, 185);
 		logger.repaint();
 		logger.setBounds(5, 85, 490, 185);
-		
+
 		rootPannel.add(bar);
 		rootPannel.add(okBtn);
 		rootPannel.add(logger);
-	
-		
+
 		rootPannel.revalidate();
 		rootPannel.repaint();
-	}
-	
-
-	@Override
-	public void done(Runnable r) {
-		this.okBtn.setEnabled(true);
-		logger.saveToFile("ZIPALIGN");
 	}
 
 	@Override

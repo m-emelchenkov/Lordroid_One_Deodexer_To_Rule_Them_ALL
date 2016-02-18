@@ -113,8 +113,9 @@ public class SessionCfg {
 	 */
 	public static void setSystemFolder(File systemFolder) {
 		SessionCfg.systemFolder = systemFolder;
-//		setBootOatFile(new File(systemFolder.getAbsolutePath() + File.separator + S.SYSTEM_FRAMEWORK + File.separator
-//				+ arch + File.separator + S.SYSTEM_FRAMEWORK_BOOT));
+		// setBootOatFile(new File(systemFolder.getAbsolutePath() +
+		// File.separator + S.SYSTEM_FRAMEWORK + File.separator
+		// + arch + File.separator + S.SYSTEM_FRAMEWORK_BOOT));
 	}
 
 	/**

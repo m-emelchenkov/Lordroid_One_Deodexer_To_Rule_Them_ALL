@@ -53,8 +53,8 @@ public class JarObj {
 
 		this.origJar = new File(SessionCfg.getSystemFolder().getAbsolutePath() + File.separator + S.SYSTEM_FRAMEWORK
 				+ File.separator + absoluteName + ".jar");
-		if(!this.origJar.exists()){
-			// we copy a dummy jar to framework 
+		if (!this.origJar.exists()) {
+			// we copy a dummy jar to framework
 			FilesUtils.copyFile(S.DUMMY_JAR, this.origJar);
 		}
 	}
@@ -80,48 +80,6 @@ public class JarObj {
 
 		return copyStatus && copyStatus2;
 
-	}
-
-	/**
-	 * @return the tmpdex3
-	 */
-	public File getTmpdex3() {
-		return tmpdex3;
-	}
-
-	/**
-	 * @param tmpdex3 the tmpdex3 to set
-	 */
-	public void setTmpdex3(File tmpdex3) {
-		this.tmpdex3 = tmpdex3;
-	}
-
-	/**
-	 * @return the tmpClasses3
-	 */
-	public File getTmpClasses3() {
-		return tmpClasses3;
-	}
-
-	/**
-	 * @param tmpClasses3 the tmpClasses3 to set
-	 */
-	public void setTmpClasses3(File tmpClasses3) {
-		this.tmpClasses3 = tmpClasses3;
-	}
-
-	/**
-	 * @return the tmpCompodex
-	 */
-	public File getTmpCompodex() {
-		return tmpCompodex;
-	}
-
-	/**
-	 * @param tmpCompodex the tmpCompodex to set
-	 */
-	public void setTmpCompodex(File tmpCompodex) {
-		this.tmpCompodex = tmpCompodex;
 	}
 
 	/**
@@ -160,6 +118,20 @@ public class JarObj {
 	}
 
 	/**
+	 * @return the tmpClasses3
+	 */
+	public File getTmpClasses3() {
+		return tmpClasses3;
+	}
+
+	/**
+	 * @return the tmpCompodex
+	 */
+	public File getTmpCompodex() {
+		return tmpCompodex;
+	}
+
+	/**
 	 * @return the tmpdex
 	 */
 	public File getTmpdex() {
@@ -171,6 +143,13 @@ public class JarObj {
 	 */
 	public File getTmpdex2() {
 		return tmpdex2;
+	}
+
+	/**
+	 * @return the tmpdex3
+	 */
+	public File getTmpdex3() {
+		return tmpdex3;
 	}
 
 	/**
@@ -235,6 +214,22 @@ public class JarObj {
 	}
 
 	/**
+	 * @param tmpClasses3
+	 *            the tmpClasses3 to set
+	 */
+	public void setTmpClasses3(File tmpClasses3) {
+		this.tmpClasses3 = tmpClasses3;
+	}
+
+	/**
+	 * @param tmpCompodex
+	 *            the tmpCompodex to set
+	 */
+	public void setTmpCompodex(File tmpCompodex) {
+		this.tmpCompodex = tmpCompodex;
+	}
+
+	/**
 	 * @param tmpdex
 	 *            the tmpdex to set
 	 */
@@ -248,6 +243,14 @@ public class JarObj {
 	 */
 	public void setTmpdex2(File tmpdex2) {
 		this.tmpdex2 = tmpdex2;
+	}
+
+	/**
+	 * @param tmpdex3
+	 *            the tmpdex3 to set
+	 */
+	public void setTmpdex3(File tmpdex3) {
+		this.tmpdex3 = tmpdex3;
 	}
 
 	/**

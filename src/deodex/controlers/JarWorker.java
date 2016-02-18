@@ -114,10 +114,10 @@ public class JarWorker implements Runnable, Watchable {
 		if (jar.getTmpdex2().exists()) {
 			rename = rename && jar.getTmpdex2().renameTo(jar.getTmpClasses2());
 		}
-		if(jar.getTmpdex3().exists()){
+		if (jar.getTmpdex3().exists()) {
 			rename = rename && jar.getTmpdex3().renameTo(jar.getTmpClasses3());
 		}
-		
+
 		// if(rename) return true;
 		if (!rename) {
 			this.logPan.addLog(
@@ -134,7 +134,7 @@ public class JarWorker implements Runnable, Watchable {
 		if (jar.getTmpClasses2().exists()) {
 			list.add(jar.getTmpClasses2());
 		}
-		if(jar.getTmpClasses3().exists()){
+		if (jar.getTmpClasses3().exists()) {
 			list.add(jar.getTmpClasses3());
 		}
 		boolean addstatus = false;
@@ -169,13 +169,6 @@ public class JarWorker implements Runnable, Watchable {
 		return true;
 	}
 
-	/**
-	 * @return the progressBar
-	 */
-	public JProgressBar getProgressBar() {
-		return progressBar;
-	}
-
 	private int getPercent() {
 		// max ===> 100
 		// value ===> ?
@@ -184,17 +177,24 @@ public class JarWorker implements Runnable, Watchable {
 
 	}
 
+	/**
+	 * @return the progressBar
+	 */
+	public JProgressBar getProgressBar() {
+		return progressBar;
+	}
+
 	@Override
 	public void run() {
 		if (this.odexFiles != null && this.odexFiles.size() > 0) {
 			for (File jar : odexFiles) {
 				boolean success = deodexJar(jar);
 				if (success) {
-					logPan.addLog(R.getString(S.LOG_INFO) + "["
-							+ new JarObj(jar).getAbsoluteName()+".jar]" + " [SUCCESS]");
+					logPan.addLog(
+							R.getString(S.LOG_INFO) + "[" + new JarObj(jar).getAbsoluteName() + ".jar]" + " [SUCCESS]");
 				} else {
-					logPan.addLog(R.getString(S.LOG_INFO) + "["+
-							new JarObj(jar).getAbsoluteName()+".jar]" + " [FAILED]");
+					logPan.addLog(
+							R.getString(S.LOG_INFO) + "[" + new JarObj(jar).getAbsoluteName() + ".jar]" + " [FAILED]");
 				}
 				this.progressBar.setValue(this.progressBar.getValue() + 1);
 				progressBar.setString(R.getString("progress.jar") + " " + this.getPercent() + "%");

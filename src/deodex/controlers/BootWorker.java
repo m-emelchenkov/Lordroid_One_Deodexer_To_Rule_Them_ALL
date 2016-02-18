@@ -58,17 +58,16 @@ public class BootWorker implements Runnable, Watchable {
 		File tmpClasses = new File(tmpFolder.getAbsolutePath() + File.separator + S.CLASSES);
 		File tmpClasses2 = new File(tmpFolder.getAbsolutePath() + File.separator + S.CLASSES_2);
 		File tmpClasses3 = new File(tmpFolder.getAbsolutePath() + File.separator + S.CLASSES_3);
-		
+
 		String absoluteName = file.getName().substring(0, file.getName().lastIndexOf("."));
 
 		File tmpJar = new File(tmpFolder.getAbsolutePath() + File.separator + absoluteName + ".jar");
 		File origJar = new File(SessionCfg.getSystemFolder().getAbsolutePath() + File.separator + S.SYSTEM_FRAMEWORK
 				+ File.separator + absoluteName + ".jar");
-		if(!origJar.exists()){
+		if (!origJar.exists()) {
 			FilesUtils.copyFile(S.DUMMY_JAR, origJar);
 		}
-		
-		
+
 		boolean copyStatus = false;
 		copyStatus = FilesUtils.copyFile(origJar, tmpJar);
 		if (!copyStatus) {
@@ -83,13 +82,13 @@ public class BootWorker implements Runnable, Watchable {
 					new File(file.getParentFile().getAbsolutePath() + File.separator + absoluteName + S.DEX2_EXT),
 					tmpClasses2);
 		}
-		
-		if(new File(file.getParentFile().getAbsolutePath() + File.separator + absoluteName + S.DEX3_EXT).exists()){
+
+		if (new File(file.getParentFile().getAbsolutePath() + File.separator + absoluteName + S.DEX3_EXT).exists()) {
 			copyStatus = copyStatus && FilesUtils.copyFile(
 					new File(file.getParentFile().getAbsolutePath() + File.separator + absoluteName + S.DEX3_EXT),
 					tmpClasses3);
 		}
-		
+
 		if (!copyStatus) {
 			this.log.addLog(
 					R.getString(S.LOG_ERROR) + "[" + absoluteName + ".jar]" + R.getString("log.classes.failed"));
@@ -102,7 +101,7 @@ public class BootWorker implements Runnable, Watchable {
 		if (tmpClasses2.exists()) {
 			list.add(tmpClasses2);
 		}
-		if(tmpClasses3.exists()){
+		if (tmpClasses3.exists()) {
 			list.add(tmpClasses3);
 		}
 		try {
