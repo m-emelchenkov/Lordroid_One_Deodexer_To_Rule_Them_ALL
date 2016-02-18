@@ -426,7 +426,7 @@ public class Window extends JFrame implements ThreadWatcher {
 							R.getString("0000017"),
 							R.getString("0000018"), JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
 				if(agree == 0){
-				String name = JOptionPane.showInputDialog(R.getString("0000006")+"\n"+R.getString("0000007"));
+				String name = JOptionPane.showInputDialog(zipIt,R.getString("0000006")+"\n"+R.getString("0000007"));
 				if(name != null){
 					boolean valid = false;
 					try {
