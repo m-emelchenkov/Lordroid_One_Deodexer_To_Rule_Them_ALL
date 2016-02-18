@@ -442,8 +442,7 @@ public class Window extends JFrame implements ThreadWatcher {
 						new File(name).delete();
 						String abName = name.endsWith(".zip")? name.substring(0, name.lastIndexOf(".")) : name;
 						zipIt.setEnabled(false);
-						File zipFile = new File(SessionCfg.getSystemFolder().getParentFile().getAbsolutePath()+File.separator+ 
-								abName+File.separator+abName+".zip");
+						File zipFile = new File(S.ZIP_OUTPUT+File.separator+abName+".zip");
 						new FlashableZipCreater(SessionCfg.getSystemFolder(), zipFile, getThisFram());
 					} else {
 						JOptionPane.showMessageDialog(zipIt, R.getString("0000008"));

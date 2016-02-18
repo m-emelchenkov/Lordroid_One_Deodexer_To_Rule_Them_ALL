@@ -87,7 +87,7 @@ public class S {
 			+ "bins/sign/testkey.x509.pem";
 	public static final File DUMMY_JAR = new File(PathUtils.getExcutionPath() + File.separator + "blanks/blank.jar");
 	public static final File DUMMY_ZIP = new File(PathUtils.getExcutionPath() + File.separator + "blanks/blank_rom.zip");
-
+	public static final File ZIP_OUTPUT = new File(PathUtils.getExcutionPath() + File.separator + "flashable_zips_out");
 	// temporary folders
 	public static File worker1Folder = new File(TMP + File.separator + WORKER1);
 	public static File worker2Folder = new File(TMP + File.separator + WORKER2);
