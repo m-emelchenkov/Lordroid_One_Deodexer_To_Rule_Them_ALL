@@ -38,7 +38,7 @@ public class R {
 	public static final Font SMALL_FONT = new Font("Arial", Font.BOLD, 12);
 
 	public static final Font COURIER_NORMAL = new Font("Courier 10 Pitch", Font.PLAIN, 18);
-	public static final Font COURIER_LOGGER = new Font("Courier 10 Pitch", Font.PLAIN, 22);
+	public static final Font COURIER_LOGGER = new Font("Courier 10 Pitch", Font.PLAIN, 16);
 
 	// public static final LogoPane LOGO_PANE =
 	public static final String LOG_HEADER = "[R]";
