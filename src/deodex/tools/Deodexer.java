@@ -27,9 +27,10 @@ import deodex.SessionCfg;
 public class Deodexer {
 
 	public static boolean deodexApk(File odexFile, File dexFile) {
-		String cmd[] = { "java", "-jar", new File(S.OAT2DEX_JAR).getAbsolutePath(), odexFile.getAbsolutePath(),
+		String cmd[] = { /**"java", "-jar", new File(S.OAT2DEX_JAR).getAbsolutePath(), */odexFile.getAbsolutePath(),
 				S.bootTmpDex.getAbsolutePath() };
-		CmdUtils.runCommand(cmd);
+		org.rh.smaliex.Main.main(cmd);
+		//CmdUtils.runCommand(cmd);
 		return dexFile.exists();
 	}
 
@@ -78,10 +79,10 @@ public class Deodexer {
 	}
 
 	public static boolean oat2dexBoot(File bootOat) {
-		String[] cmd = { "java", "-jar", new File(S.OAT2DEX_JAR).getAbsolutePath(), "boot", bootOat.getAbsolutePath() };
+		String[] cmd = { /**"java", "-jar", new File(S.OAT2DEX_JAR).getAbsolutePath(), */"boot", bootOat.getAbsolutePath() };
 
-		CmdUtils.runCommand(cmd);
-
+		//CmdUtils.runCommand(cmd);
+		org.rh.smaliex.Main.main(cmd);
 		return S.bootTmpDex.exists();
 	}
 
