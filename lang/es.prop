@@ -1,0 +1,130 @@
+#
+# 
+# 
+# Copyright 2016 Rachid Boudjelida <rachidboudjelida@gmail.com>
+# 
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+# 
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+#   Language resources file for LUBD
+#   this file will be read with a line reader so no multi-line allowed !
+#	for translation use UTF-8 encoding spaces in the right end of '=' count !
+file.launguage=Spanish
+#
+#
+app.version=0.8_beta4
+app.name=Lordroid One Dedodexer To Rule Them All 0.8_beta4
+#
+# first window first launch !
+app.welcome=Bienvenido a LODTRTA!
+app.welcome.message=Esta es la primera vez que usas el programa <> por favor, selecciona tu lenguaje :
+app.langBoxLab=Elige un lenguaje : 
+app.buttonNext=Siguiente >>
+#
+# path to system choose 
+browse.Field= Arrastra y suelta o haz click aquí para buscar tu carpeta system
+browseBtn=buscar
+optionalPan=Opcional(Podría no funcionar, depende de tu SO) 
+zipalignCheck=zipalign
+zipalignCheck.ToolTip=zipalign APK's despues del deodexeo 
+signCheck=re-firmar APK's
+signCheck.ToolTip=refirmar apk's despues del deodexeo(puede ser necesario en algunas roms y dispositivos)
+deodexNow=Deodexando..
+log.warning=[ADVERTENCIA] 
+log.error=[ ERROR ] 
+log.info=[ INFO  ] 
+log.success=[EXITO] 
+log.fail=[FALLO] 
+log.no.build.prop=no hay build.prop en la carpeta seleccionada !
+log.could.not.read.sdk_level= no se puede leer el nivel sdk del build.prop
+log.app.found=carpeta /system/app encontrada !...  [OK]
+log.app.not.found=carpeta /system/app NO encontrada ! [IGNORE] 
+log.not.a.system.folder=Carpetas [app] [priv-app] [framework] NO encontradas !¿ Has escogido bien la carpeta?
+log.privapp.found=carpeta /system/priv-app encontrada! ... [OK] 
+log.privapp.not.found=carpeta /system/priv-app NO encontrada !  
+log.framework.found=carpeta /system/framework encontrada ... [OK]
+log.framwork.not.found=carpeta /system/framework NO encontrada ! 
+log.framwork.not.found.error=carpeta /system/framework NO encontrada ! no se puede deodexar sin! skd > 20 !
+log.no.arch.detected= No se puede determinar tu arch! tu arch no está soportado o tu rom ya está deodexada
+log.no.boot.oat=No se puede encontrar boot.oat! no se puede deodexar sin esto! sdk > 20 !
+log.ok=[OK]
+log.rom.arch=Rom arch detectado ===>  
+log.build.prop.found=/system/build.prop encontrado ... [OK]
+log.copy.to.tmp.failed=[No se puede copiar a la carpeta de trabajo, no se puede deodexar] [SALTANDO]
+log.extract.to.tmp.failed=[No se puede extraer el archivo odex! NO se puede deodexar !][SALTANDO]
+log.deodex.failed=[No se puede deodexar el archivo odex! no puedes deodex esto !][SALTANDO]
+log.classes.failed=[No se puede crear classes.dex][APK SALTADA]
+log.add.classes.failed=[No se puede añadir classes.dex al archivo][SALTANDO]
+log.already.deodex= Ya deodexada ! [EXITO]
+log.putback.apk.failed=[Fallo al copiar el archivo de vuelta a su carpeta original][SALTANDO]
+window.exitbtn=SALIR
+window.restartbtn=VOLVER
+mainworker.finallog=Archivo de registro guardado en /logs/yyyy-MM-dd|hh:mm:ss.log
+mainWorker.alljobsDone=TODOS LOS TRABAJOS FINALIZADOS !
+progress.done=Hecho
+progress.bootFiles=Deodexando archivos boot
+progress.apks=Deodexando apks
+progress.jar=Deodexando jar 	
+overal.progress=Progreso general 
+dialog.sure.exit=Estas seguro ?
+dialog.sure.exit.message=Por favor confirma tu accion, estás seguro de que quieres salir?
+box.jobs=Máximo de trabajos
+log.resign.ok=[FIRMADO]
+log.resign.fail=[FIRMADO fallido!]
+log.zipalign.ok=[zipalign]
+log.zipalign.fail=[zipalign fallido]
+alert.deodexNow=Deodexar es un proceso que consume muchos recursos
+alert.deodexNow1=este proceso puede durar hasta una hora en algunos casos
+alert.deodexNow.areyousure=Estás seguro que quieres continuar?
+alert.deodex.now.title=Confirma tu accion
+log.detected.sdk= Nivel Sdk detectado: 
+log.detected.arch= ARCH detectado : 
+log.chosen.folder= elige tu carpeta system : 
+log.there.is=Hay 
+log.to.be.deodexed=ser deodexado
+no.odexFiles.wereFound=No se han encontrado archivos odex o la rom ya está deodexada
+dont.show.this.again=No mostrar de nuevo
+alert.thread.line1=Puedes usar multiples tareas para deodexar los apk y jars
+alert.thread.line2=esto puede reducir el tiempo de procesamiento consumiendo recursos
+alert.thread.line3=NOTA : si no sabes lo que haces, o cual es tus caracteristicas
+alert.thread.line4=       de hardware deja esto como estaba por defecto en '2' 
+alert.thread.box.dont.ask.again=Hacer este valor por defecto y no preguntarme más
+zipalign.now.btn=Zipalignear ahora
+log.no.apk.to.zipalign=No hay apks en la carpeta seleccionada, estás seguro que has cogido la carpeta correcta?
+apk.to.be.zipaligned.log= apks listas para ser zipalignedas ...
+zipalign.fram.file.chooser.title=Elie una carpeta que contenga apks!
+no.job.selected.zipalign.frame=<HTML><p>Necesitas seleccionar al menos un trabajo<b>zipalign/sign</b> de lo contrario esto no tiene sentido !</p></HTML>
+you.shall.not.pass=No pasarás
+file=Archivo
+exit=Salr
+tools=Herramienta
+batch.zipalign.sign.menu.items=Batch sign/zipalign
+about.menu=Menu
+About.this.program=Acerca de este programa
+create.zip.btn=Crear zip flashable
+0000000=Abrir carpeta contenedora containing folder
+0000001=ODTRTA >> Creador de zip
+0000002=Lordroid batch deodex ODTRTA 
+0000003=Copyright Rachid Boudjelida 2016
+0000004=Progama bajo Licencia GPLV2
+0000005=Acerca
+0000006=Por favor selecciona un nombre para tu zip
+0000007=(Ejemplo : myDeodexedRom.zip)
+0000008=El nombre elegido es invalido! elige otro
+0000009=Nota :
+0000010=1 - Este zip no contiene tu rom completa
+0000011=2 - De acuerdo para que esto funcione,necesitas tener la misma rom instalada en tu movil!
+0000012=3 - este zip flasheará /system/app y /system/priv-app y /system/framework y
+0000013=    eliminará todos los odex,oat,art,odex.xz,art.xz así que es seguro solo si encuentra los odex instalados 
+0000014=    en la rom odexada
+0000015=4 - siempre FLASHEA CON CUIDADO! Usa en tu propio riesgo, no nos hacemos responsables
+0000016=5 - Realiza un backup siempre antes de flashear lo que quieras en tu telefono!
+0000017=Estás de acuerdo?
+0000018=PRECAUCION! !
