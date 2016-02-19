@@ -36,14 +36,11 @@ public class CmdUtils {
 		Process proc = null;
 		try {
 			proc = rt.exec(cmd);
-			proc.waitFor();
+		
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		} 
 
 		BufferedReader stdInput = new BufferedReader(new InputStreamReader(proc.getInputStream()));
 
@@ -64,12 +61,19 @@ public class CmdUtils {
 
 		// read any errors from the attempted command
 		ArrayList<String> errors = new ArrayList<String>();
-		errors.add("Errors thrown by this command are(if any ) : ");
+		errors.add("Errors are");
 		try {
 			while ((s = stdError.readLine()) != null) {
 				errors.add(s);
 			}
 		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		int exitValue = 1000;
+		try {
+			exitValue =	proc.waitFor();
+		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -79,8 +83,11 @@ public class CmdUtils {
 		}
 		if (errors.size() > 1)
 			for (String str : errors) {
+				Logger.writLog("It's exit value was : "+exitValue);
 				Logger.writLog(str);
-			}
+		} else {
+			Logger.writLog("It's exit value was : "+exitValue);
+		}
 		proc.destroy();
 
 	}
