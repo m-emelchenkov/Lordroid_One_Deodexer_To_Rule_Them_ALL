@@ -93,19 +93,31 @@ public class LoggerPane extends JPanel implements LoggerPan {
 	}
 
 	@Override
-	public void addLog(String str) {
+	public synchronized void addLog(String str)  {
 		// TODO Auto-generated method stub
-		addLogR(str);
+		try {
+			addLogR(str);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	// multiple threads can log here !
-	public synchronized void addLogR(String str) {
-		long yourmilliseconds = System.currentTimeMillis();
-		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss"); // dd/MMM/yyyy
-		Date resultdate = new Date(yourmilliseconds);
-		String str2 = sdf.format(resultdate);
-		model.addElement("[" + str2 + "]" + str);
-		scroll.getViewport().setViewPosition(logs.indexToLocation(model.size() - 1));
+	private synchronized void addLogR(String str) throws Exception{
+		synchronized(model ){
+			synchronized (scroll){
+				synchronized (logs){
+					long yourmilliseconds = System.currentTimeMillis();
+					SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss"); // dd/MMM/yyyy
+					Date resultdate = new Date(yourmilliseconds);
+					String str2 = sdf.format(resultdate);
+					model.addElement("[" + str2 + "]" + str);
+					scroll.getViewport().setViewPosition(logs.indexToLocation(model.size() - 1));
+				}
+			}
+		}
+		
 		this.repaint();
 	}
 
