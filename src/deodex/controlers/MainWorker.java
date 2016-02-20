@@ -300,11 +300,11 @@ public class MainWorker implements Runnable, ThreadWatcher, Watchable {
 			privList = privApp.listFiles();
 
 		File framworkList[] = framwork.listFiles();
-
+		S.bootTmpDex.mkdirs();
 		for (File f : framworkList) {
 			if (f.getName().endsWith(".odex")) {
 				worker3List.add(f);
-				FilesUtils.copyFileRecurcively(f, new File(S.bootTmpDex + File.separator + f.getName()));
+				FilesUtils.copyFile(f, new File(S.bootTmpDex.getAbsolutePath() + File.separator + f.getName()));
 			}
 		}
 		// FIXME: check this before
