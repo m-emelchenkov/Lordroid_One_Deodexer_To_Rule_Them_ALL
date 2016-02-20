@@ -321,7 +321,7 @@ public class FilesUtils {
 
 	public static ArrayList<File> listAllFiles(File folder) {
 		ArrayList<File> list = new ArrayList<File>();
-		if (!folder.exists() || folder.listFiles() == null || folder.listFiles().length <= 0) {
+		if (!folder.exists() || folder.listFiles() == null || folder.listFiles().length <= 0 || !folder.canRead()) {
 			return list;
 		}
 		File[] listf = folder.listFiles();
@@ -340,8 +340,21 @@ public class FilesUtils {
 
 	public static void LogFilesListToFile(File folder) {
 		String str = "System folder Files list :\n";
-		for (File f : listAllFiles(folder)) {
-			str = str + (f.getAbsolutePath().substring(folder.getAbsolutePath().length() + 1)) + "\n";
+		File app = new File(folder.getAbsolutePath()+File.separator+"app");
+		File privApp = new File(folder.getAbsolutePath()+File.separator+"priv-app");
+		File framework = new File(folder.getAbsolutePath()+File.separator+"framework");
+
+		if(app.exists())
+		for (File f : listAllFiles(app)) {
+			str = str + (f.getAbsolutePath().substring(app.getAbsolutePath().length() + 1)) + "\n";
+		}
+		if(privApp.exists())
+		for (File f : listAllFiles(privApp)) {
+			str = str + (f.getAbsolutePath().substring(privApp.getAbsolutePath().length() + 1)) + "\n";
+		}
+		if(framework.exists())
+		for (File f : listAllFiles(framework)) {
+			str = str + (f.getAbsolutePath().substring(framework.getAbsolutePath().length() + 1)) + "\n";
 		}
 		Logger.writLog(str);
 	}
