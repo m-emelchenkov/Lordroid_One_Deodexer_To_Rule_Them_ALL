@@ -77,6 +77,7 @@ public class S {
 	public static final String LINUX = "linux";
 	public static final String MAC = "osx";
 
+	public static final File ADB_BIN = new File(PathUtils.getExcutionPath() + File.separator +"bins/native/adb/"+Cfg.getOs()+"/adb"); //XXX here!
 	public static final String OAT2DEX_JAR = PathUtils.getExcutionPath() + File.separator + "bins/oat2dex/oat2dex.jar";
 	public static final String BACKSMALI_JAR = PathUtils.getExcutionPath() + File.separator
 			+ "bins/smali_backsmali/baksmali.jar";
@@ -91,6 +92,7 @@ public class S {
 	public static final File DUMMY_ZIP = new File(
 			PathUtils.getExcutionPath() + File.separator + "blanks/blank_rom.zip");
 	public static final File ZIP_OUTPUT = new File(PathUtils.getExcutionPath() + File.separator + "flashable_zips_out");
+	public static final File EXTRACTED_SYSTEMS = new File(PathUtils.getExcutionPath() +File.separator+ "extracted_system_folders");
 	// temporary folders
 	public static File worker1Folder = new File(TMP + File.separator + WORKER1);
 	public static File worker2Folder = new File(TMP + File.separator + WORKER2);
