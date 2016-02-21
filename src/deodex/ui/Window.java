@@ -540,6 +540,10 @@ public class Window extends JFrame implements ThreadWatcher, ChangeListener {
 	}
 
 	private void refressAdb() {
+		// do nothing if an operation is in progress
+		if(this.workInProgress){
+		 return;
+		}
 		String formatedDevice = AdbUtils.getDevices(logger);
 		this.devieNameField.setText("  " + formatedDevice.substring(0, formatedDevice.lastIndexOf("|")));
 		this.devieStatusField.setText("  " + formatedDevice.substring(formatedDevice.lastIndexOf("|") + 1));
