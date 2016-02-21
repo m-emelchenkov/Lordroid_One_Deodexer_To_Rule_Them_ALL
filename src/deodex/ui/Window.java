@@ -161,7 +161,6 @@ public class Window extends JFrame implements ThreadWatcher ,ChangeListener {
 	JCheckBox zipalignCheck = new JCheckBox(R.getString("zipalignCheck"));
 	JCheckBox signCheck = new JCheckBox(R.getString("signCheck"));
 	JButton deodexNow = new JButton(R.getString("deodexNow"));
-	JRadioButton focusStealer = new JRadioButton();
 	LoggerPane logger = new LoggerPane();
 	JButton quitbtn = new JButton(R.getString("window.exitbtn"));
 	JButton restart = new JButton(R.getString("window.restartbtn"));
@@ -344,9 +343,7 @@ public class Window extends JFrame implements ThreadWatcher ,ChangeListener {
 		fromDevicePanel.setLayout(null);
 		// adding component
 
-		// XXX: need this to steal the focus from textField ?
-		// is there an other way to do this ?
-		focusStealer.setBounds(-50, -50, 1, 1);
+
 
 		this.fromDevicePanel.add(devieNameField);
 		this.fromDevicePanel.add(devieStatusField);
@@ -356,7 +353,6 @@ public class Window extends JFrame implements ThreadWatcher ,ChangeListener {
 		
 		rootPanel.add(optionalPan);
 		rootPanel.add(logger);
-		rootPanel.add(focusStealer);
 		rootPanel.add(deodexNow);
 		optionalPan.add(this.signCheck);
 		optionalPan.add(this.zipalignCheck);
