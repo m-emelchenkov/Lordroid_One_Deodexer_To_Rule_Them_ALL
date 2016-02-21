@@ -7,3 +7,4 @@ cfg/app_config.rsx
 cfg
 flashable_zips_out
 clean.sh
+extracted_system_folders
