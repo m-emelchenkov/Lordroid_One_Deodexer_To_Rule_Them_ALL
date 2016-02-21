@@ -415,7 +415,7 @@ public class Window extends JFrame implements ThreadWatcher, ChangeListener {
 		restart = new JButton(R.getString("window.restartbtn"));
 		zipIt = new JButton(R.getString("create.zip.btn"));
 		//
-		mainWorker.mainPannel.setBounds(0, 101, 795, 128);
+		mainWorker.mainPannel.setBounds(0, 5, 795, 224);
 		// logo.setBounds(0, 0, 802, 100);
 		logger.setBounds(1, 270, 798, 300);
 
