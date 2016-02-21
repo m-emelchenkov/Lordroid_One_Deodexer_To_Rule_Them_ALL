@@ -28,7 +28,8 @@ public class SessionCfg {
 	private static File bootOatFile;
 	public static boolean zipalign = false;
 	public static boolean sign = false;
-
+	public static int sessionFrom = 0;
+	
 	/**
 	 * 
 	 * @return
