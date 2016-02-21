@@ -25,7 +25,7 @@ import java.util.ArrayList;
 
 public class CmdUtils {
 
-	public static void runCommand(String[] cmd) {
+	public static int runCommand(String[] cmd) {
 		String strCmd = "running command : ";
 
 		for (String str : cmd)
@@ -47,12 +47,10 @@ public class CmdUtils {
 		BufferedReader stdError = new BufferedReader(new InputStreamReader(proc.getErrorStream()));
 
 		// read the output from the command
-		ArrayList<String> outPut = new ArrayList<String>();
-		outPut.add("it's Out put was :");
 		String s = null;
 		try {
 			while ((s = stdInput.readLine()) != null) {
-				outPut.add(s);
+				Logger.writLog(s);
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -60,11 +58,9 @@ public class CmdUtils {
 		}
 
 		// read any errors from the attempted command
-		ArrayList<String> errors = new ArrayList<String>();
-		errors.add("Errors are");
 		try {
 			while ((s = stdError.readLine()) != null) {
-				errors.add(s);
+				Logger.writLog(s);
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -77,19 +73,11 @@ public class CmdUtils {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		// lets log the cmdoutput
-		for (String str : outPut) {
-			Logger.writLog(str);
-		}
-		if (errors.size() > 1)
-			for (String str : errors) {
-				Logger.writLog("It's exit value was : "+exitValue);
-				Logger.writLog(str);
-		} else {
-			Logger.writLog("It's exit value was : "+exitValue);
-		}
-		proc.destroy();
 
+			Logger.writLog("It's exit value was : "+exitValue);
+
+		proc.destroy();
+		return exitValue;
 	}
 
 }
