@@ -70,14 +70,14 @@ public class AdbUtils {
 		boolean killStatus = killServer();
 		if (!killStatus) {
 			Logger.writLog("adb server couldn't be killed aborting ...");
-			logger.addLog(R.getString(S.LOG_ERROR) + "adb server couldn't be killed aborting ...");
+			logger.addLog(R.getString(S.LOG_ERROR) + R.getString("0000019"));
 			return NULL_DEVICE;
 		}
 
 		boolean startStatus = startServer();
 		if (!startStatus) {
 			Logger.writLog("adb server couldn't be started aborting ...");
-			logger.addLog(R.getString(S.LOG_ERROR) + "adb server couldn't be started aborting ...");
+			logger.addLog(R.getString(S.LOG_ERROR) + R.getString("0000020"));
 			return NULL_DEVICE;
 		}
 
@@ -107,34 +107,33 @@ public class AdbUtils {
 			int exitValue = p.waitFor();
 			if (exitValue != 0) {
 				// TODO : ADD logging for this
-				logger.addLog(R.getString(S.LOG_ERROR) + "adb command returned non zero exit code ! aborting !");
+				logger.addLog(R.getString(S.LOG_ERROR) + R.getString("0000021"));
 				Logger.writLog("adb exited with no zero code error=" + exitValue);
 				return NULL_DEVICE;
 			}
 			if (output.size() > 3) {
 				logger.addLog(R.getString(
-						S.LOG_ERROR + " Multiple devices were detected please connect only one device to the PC! "));
+						S.LOG_ERROR + R.getString("0000022")));
 				return NULL_DEVICE;
 			}
 			if (output.size() < 3) {
-				// TODO log no device was found
-				logger.addLog(R.getString(S.LOG_ERROR) + " No device was found !");
+				logger.addLog(R.getString(S.LOG_ERROR) + R.getString("0000023"));
 				if (Cfg.getOs().equals("windows"))
-					logger.addLog(R.getString(S.LOG_INFO) + "Make sure the device is connected and drivers installed ");
+					logger.addLog(R.getString(S.LOG_INFO) + R.getString("0000024"));
 				else if (Cfg.getOs().equals("linux"))
 					logger.addLog(R.getString(S.LOG_INFO)
-							+ "Make sure the device is connected and the udev rules are corectlly set ");
+							+ R.getString("0000025"));
 				else if (Cfg.getOs().equals("osx")) {
 					logger.addLog(R.getString(S.LOG_INFO)
-							+ "Make sure the device is connected Osx detects adb out-of-the-box no drivers needed ");
+							+ R.getString("0000026"));
 				}
 
 				return NULL_DEVICE;
 			}
 			if (output.size() == 3) {
 				formatedDevice = getDeviceName(output.get(1)) + "|" + AdbUtils.getDeviceStatus(output.get(1));
-				logger.addLog(R.getString(S.LOG_INFO) + " device detected ! Name = " + getDeviceName(output.get(1))
-						+ "Status is : " + AdbUtils.getDeviceStatus(output.get(1)));
+				logger.addLog(R.getString(S.LOG_INFO) + R.getString("0000027") + getDeviceName(output.get(1))
+						+ R.getString("0000028") + AdbUtils.getDeviceStatus(output.get(1)));
 			}
 		} catch (IOException | InterruptedException e) {
 			e.printStackTrace();
@@ -169,52 +168,53 @@ public class AdbUtils {
 		File appOut = new File(outputFolder.getAbsolutePath() + "/app");
 		File framworkOut = new File(outputFolder.getAbsolutePath() + "/framework");
 
-		logger.addLog(R.getString(S.LOG_INFO) + "Extracting build.prop from device ...");
+		logger.addLog(R.getString(S.LOG_INFO) + R.getString("0000029"));
 		String[] cmd = { S.ADB_BIN.getAbsolutePath(), "pull", "/system/build.prop", buildPropOut.getAbsolutePath() };
 		boolean copyprop = CmdUtils.runCommand(cmd) == 0;
 		if (!copyprop) {
-			logger.addLog(R.getString(S.LOG_ERROR) + "Couldn't extract build.prop aborting ...[FAIL]");
+			logger.addLog(R.getString(S.LOG_ERROR) + R.getString("0000030"));
 			return false;
 		}
-		logger.addLog(R.getString(S.LOG_INFO) + "build.prop was successfully extracted from device ...");
+		logger.addLog(R.getString(S.LOG_INFO) + R.getString("0000031"));
 
-		logger.addLog(R.getString(S.LOG_INFO) + "Trying to determine sdk level ...");
+		logger.addLog(R.getString(S.LOG_INFO) + R.getString("0000032"));
 		try {
 			sdk = Integer.parseInt(PropReader.getProp(S.SDK_LEVEL_PROP, buildPropOut));
 		} catch (Exception e) {
-			logger.addLog(R.getString(S.LOG_ERROR) + "Couldn't detect your sdk level [FAIL]");
+			logger.addLog(R.getString(S.LOG_ERROR) + R.getString("0000033"));
 		}
-		logger.addLog(R.getString(S.LOG_INFO) + "Sdk level detected is "+sdk);
+		logger.addLog(R.getString(S.LOG_INFO) + R.getString("0000034")+sdk);
 
 		if (sdk > 18) {
-			logger.addLog(R.getString(S.LOG_INFO) + "Extracting /system/priv-app ...");
+			logger.addLog(R.getString(S.LOG_INFO) + R.getString("0000035"));
 			String[] privAppCmd = { S.ADB_BIN.getAbsolutePath(), "pull", "system/priv-app",
 					privAppOut.getAbsolutePath() };
 			boolean privAppStatus = CmdUtils.runCommand(privAppCmd) == 0;
 			if (!privAppStatus) {
 				logger.addLog(R.getString(
-						S.LOG_WARNING + " priv-app folder couldn't be copied,BE CAREFULL  we will ignore it !"));
+						S.LOG_WARNING + R.getString("0000036")));
 			}
-			logger.addLog(R.getString(S.LOG_INFO) + "/system/priv-app was successfully extracted...");
+			logger.addLog(R.getString(S.LOG_INFO) + R.getString("0000037"));
 
 		}
 		// copy system app
-		logger.addLog(R.getString(S.LOG_INFO) + "extracting system/app from device ...");
+		logger.addLog(R.getString(S.LOG_INFO) + R.getString("0000038"));
 		String[] appCmd = { S.ADB_BIN.getAbsolutePath(), "pull", "/system/app", appOut.getAbsolutePath() };
 		boolean appStatus = CmdUtils.runCommand(appCmd) == 0;
 		if (!appStatus) {
 			logger.addLog(
-					R.getString(S.LOG_WARNING + " app folder couldn't be copied,BE CAREFULL  we will ignore it !"));
+					R.getString(S.LOG_WARNING + R.getString("0000039")));
 		}
-		logger.addLog(R.getString(S.LOG_INFO) + "/system/app was successfully extracted...");
+		logger.addLog(R.getString(S.LOG_INFO) + R.getString("0000040"));
 
 		// copy framwork
-		logger.addLog(R.getString(S.LOG_INFO) + "Extracting /system/framework from device...");
+		logger.addLog(R.getString(S.LOG_INFO) + R.getString("0000041"));
 		String[] framCmd = { S.ADB_BIN.getAbsolutePath(), "pull", "/system/framework", framworkOut.getAbsolutePath() };
 		boolean framStatus = CmdUtils.runCommand(framCmd) == 0;
 		if(framStatus )
-			logger.addLog(R.getString(S.LOG_INFO) + "/system/framework was successfully extracted...");
-
+			logger.addLog(R.getString(S.LOG_INFO) + R.getString("0000042"));
+		else
+			logger.addLog(R.getString(S.LOG_INFO) + R.getString("0000043"));
 		return framStatus;
 	}
 

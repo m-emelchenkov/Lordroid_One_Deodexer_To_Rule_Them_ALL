@@ -168,12 +168,12 @@ public class Window extends JFrame implements ThreadWatcher, ChangeListener {
 	JTabbedPane inputPan = new JTabbedPane();
 	JPanel fromDevicePanel = new JPanel();
 	JPanel fromFolderPanel = new JPanel();
-	// TODO externalize Strings
-	JLabel deviceName = new JLabel("Device Serial");
-	JLabel deviceStatus = new JLabel("Device Status");
+
+	JLabel deviceName = new JLabel(R.getString("0000044"));
+	JLabel deviceStatus = new JLabel(R.getString("0000045"));
 	JTextField devieNameField = new JTextField();
 	JTextField devieStatusField = new JTextField();
-	JButton refreshDevices = new JButton("Refresh");
+	JButton refreshDevices = new JButton(R.getString("0000046"));
 	// JMuneBar & MenuItems
 	JMenuBar menuBar = new JMenuBar();
 
@@ -208,14 +208,13 @@ public class Window extends JFrame implements ThreadWatcher, ChangeListener {
 		browseBtn.addActionListener(new BrowseAction());
 		this.deodexNow.addActionListener(new DeodexNowAction());
 		inputPan.addChangeListener(this);
-		// TODO EXTERNALIZE THOSE
-		inputPan.add("From Folder", fromFolderPanel);
-		inputPan.add("From Device", fromDevicePanel);
+		inputPan.add(R.getString("0000047"), fromFolderPanel);
+		inputPan.add(R.getString("0000048"), fromDevicePanel);
 		refreshDevices.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
+				// TODO Move this somewhere else when you have tile
 				refressAdb();
 			}
 
@@ -324,10 +323,7 @@ public class Window extends JFrame implements ThreadWatcher, ChangeListener {
 		this.devieStatusField.setBorder(BorderFactory.createLineBorder(new Color(89, 195, 216)));
 		optionalPan.setBorder(BorderFactory.createTitledBorder(
 				BorderFactory.createLineBorder(new Color(89, 195, 216), 2), R.getString("optionalPan")));
-				// TODO EXTERNALIZE
-				// inputPan.setBorder(BorderFactory.createTitledBorder(
-				// BorderFactory.createLineBorder(new Color(89, 195, 216), 2),
-				// "Input"));
+
 
 		// toolTips
 		zipalignCheck.setToolTipText(R.getString("zipalignCheck.ToolTip"));
@@ -587,7 +583,7 @@ public class Window extends JFrame implements ThreadWatcher, ChangeListener {
 
 				@Override
 				public void updateProgress() {
-					// TODO Auto-generated method stub
+					
 					workInProgress = false;
 				}
 
@@ -625,7 +621,7 @@ public class Window extends JFrame implements ThreadWatcher, ChangeListener {
 
 		@Override
 		public void run() {
-			// TODO Auto-generated method stub
+			
 			boolean extractStatus = AdbUtils.extractSystem(systemFolder, logger);
 			if (!extractStatus) {
 				logger.addLog(R.getString(S.LOG_ERROR)
@@ -683,7 +679,7 @@ public class Window extends JFrame implements ThreadWatcher, ChangeListener {
 
 	@Override
 	public void stateChanged(ChangeEvent arg0) {
-		// TODO Auto-generated method stub
+		
 		if (arg0.getSource().equals(inputPan)) {
 			if (!this.workInProgress) {
 				if (inputPan.getSelectedIndex() == 0) {
@@ -697,6 +693,7 @@ public class Window extends JFrame implements ThreadWatcher, ChangeListener {
 				}
 				this.currentSelectedtab = inputPan.getSelectedIndex();
 			} else {
+				JOptionPane.showMessageDialog(inputPan, R.getString("0000049"));
 				this.inputPan.setSelectedIndex(this.currentSelectedtab);
 			}
 		}
