@@ -62,5 +62,4 @@ Lordroid batch deodexer **ODTRTA** One Deodexer To Rule Them All ,is a free soft
 
   
 ### LICENCE 
-#### Code writen by me are under GPL V2 
-#### All other libraries see the NOTICE file for more details 
+#### The software is licensed under GPL V3 feel free to do what ever you like with it :smile: 
