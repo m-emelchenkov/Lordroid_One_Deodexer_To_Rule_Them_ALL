@@ -192,7 +192,6 @@ public class Window extends JFrame implements ThreadWatcher, ChangeListener {
 	boolean workInProgress = false;
 
 	public Window() {
-		JFrame.setDefaultLookAndFeelDecorated(true);
 		this.setResizable(false);
 		this.setIconImage(R.icon);
 		this.setTitle(R.getString(S.APP_NAME));
