@@ -194,7 +194,7 @@ public class JarWorker implements Runnable, Watchable {
 							R.getString(S.LOG_INFO) + "[" + new JarObj(jar).getAbsoluteName() + ".jar]" + " [SUCCESS]");
 				} else {
 					logPan.addLog(
-							R.getString(S.LOG_INFO) + "[" + new JarObj(jar).getAbsoluteName() + ".jar]" + " [FAILED]");
+							R.getString(S.LOG_WARNING) + "[" + new JarObj(jar).getAbsoluteName() + ".jar]" + " [FAILED]");
 				}
 				this.progressBar.setValue(this.progressBar.getValue() + 1);
 				progressBar.setString(R.getString("progress.jar") + " " + this.getPercent() + "%");

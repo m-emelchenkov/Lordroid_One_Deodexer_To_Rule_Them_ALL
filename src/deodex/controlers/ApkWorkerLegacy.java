@@ -181,7 +181,7 @@ public class ApkWorkerLegacy implements Watchable, Runnable {
 											: R.getString("log.zipalign.fail")) : ""));
 				} else {
 					logPan.addLog(
-							R.getString(S.LOG_ERROR) + "[" + apk.origApk.getName() + "]" + R.getString(S.LOG_FAIL));
+							R.getString(S.LOG_WARNING) + "[" + apk.origApk.getName() + "]" + R.getString(S.LOG_FAIL));
 				}
 				progressBar.setValue(progressBar.getValue() + 1);
 				progressBar.setString(R.getString("progress.apks") + " (" + progressBar.getValue() + "/"

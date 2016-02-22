@@ -130,7 +130,7 @@ public class BootWorker implements Runnable, Watchable {
 				log.addLog(R.getString(S.LOG_INFO) + "[" + file.getName().substring(0, file.getName().lastIndexOf("."))
 						+ ".jar]" + " [SUCCESS]");
 			} else {
-				log.addLog(R.getString(S.LOG_INFO) + "[" + file.getName().substring(0, file.getName().lastIndexOf("."))
+				log.addLog(R.getString(S.LOG_WARNING) + "[" + file.getName().substring(0, file.getName().lastIndexOf("."))
 						+ ".jar]" + " [FAILED ]");
 
 			}

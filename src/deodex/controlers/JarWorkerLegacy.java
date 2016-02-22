@@ -121,9 +121,9 @@ public class JarWorkerLegacy implements Watchable, Runnable {
 				JarLegacy jar = new JarLegacy(f);
 				success = this.deodexJar(jar);
 				if (success) {
-					logPan.addLog("[" + jar.origJar.getName() + "]" + R.getString(S.LOG_SUCCESS));
+					logPan.addLog(R.getString(S.LOG_INFO)+"[" + jar.origJar.getName() + "]" + R.getString(S.LOG_SUCCESS));
 				} else {
-					logPan.addLog("[" + jar.origJar.getName() + "]" + R.getString(S.LOG_FAIL));
+					logPan.addLog(R.getString(S.LOG_WARNING)+"[" + jar.origJar.getName() + "]" + R.getString(S.LOG_FAIL));
 				}
 				progressBar.setValue(progressBar.getValue() + 1);
 				progressBar.setString(R.getString("progress.jar") + "(" + progressBar.getValue() + "/"
