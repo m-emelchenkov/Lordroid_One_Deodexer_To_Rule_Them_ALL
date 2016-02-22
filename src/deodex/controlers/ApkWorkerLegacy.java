@@ -165,6 +165,12 @@ public class ApkWorkerLegacy implements Watchable, Runnable {
 		return progressBar;
 	}
 
+	private String percent (){
+		//  ?  >>> value
+		// 100 >>>> max 
+		return (this.progressBar.getValue() *100 / this.progressBar.getMaximum())+"%";
+	}
+	
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
@@ -184,8 +190,7 @@ public class ApkWorkerLegacy implements Watchable, Runnable {
 							R.getString(S.LOG_WARNING) + "[" + apk.origApk.getName() + "]" + R.getString(S.LOG_FAIL));
 				}
 				progressBar.setValue(progressBar.getValue() + 1);
-				progressBar.setString(R.getString("progress.apks") + " (" + progressBar.getValue() + "/"
-						+ progressBar.getMaximum() + ")");
+				progressBar.setString(R.getString("progress.apks") + " "+this.percent());
 				this.threadWatcher.updateProgress();
 			}
 		}

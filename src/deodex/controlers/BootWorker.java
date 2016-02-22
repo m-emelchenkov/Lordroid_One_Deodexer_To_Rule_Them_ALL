@@ -121,6 +121,12 @@ public class BootWorker implements Runnable, Watchable {
 
 	}
 
+	private String percent (){
+		//  ?  >>> value
+		// 100 >>>> max 
+		return (this.progressBar.getValue() *100 / this.progressBar.getMaximum())+"%";
+	}
+	
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
@@ -135,8 +141,7 @@ public class BootWorker implements Runnable, Watchable {
 
 			}
 			progressBar.setValue(progressBar.getValue() + 1);
-			progressBar.setString(R.getString("progress.bootFiles") + " (" + progressBar.getValue() + "/"
-					+ progressBar.getMaximum() + ")");
+			progressBar.setString(R.getString("progress.bootFiles") + " "+this.percent());
 			threadWatcher.updateProgress();
 		}
 		FilesUtils.deleteRecursively(tmpFolder);
