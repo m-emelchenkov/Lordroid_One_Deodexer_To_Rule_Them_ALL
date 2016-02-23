@@ -102,15 +102,15 @@ public class Window extends JFrame implements ThreadWatcher, ChangeListener {
 		public void actionPerformed(ActionEvent arg0) {
 			Object source = arg0.getSource();
 			if (source.equals(batchZipalignSignMenuItem)) {
-				new ZipalignWindow(batchZipalignSignMenuItem);
+				new ZipalignWindow(getThisFram());
 			} else if (source.equals(exitMenuItem)) {
-				int i = JOptionPane.showConfirmDialog(rootPanel, R.getString("dialog.sure.exit.message"),
+				int i = JOptionPane.showConfirmDialog(getThisFram(), R.getString("dialog.sure.exit.message"),
 						R.getString("dialog.sure.exit"), JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
 				if (i == 0) {
 					System.exit(0);
 				}
 			} else if (source.equals(aboutThisMenu)) {
-				JOptionPane.showMessageDialog(aboutThisMenu,
+				JOptionPane.showMessageDialog(getThisFram(),
 						R.getString("0000002") + "\n" + R.getString("0000003") + "\n" + R.getString("0000004"),
 						R.getString("0000005"), JOptionPane.INFORMATION_MESSAGE);
 			}
