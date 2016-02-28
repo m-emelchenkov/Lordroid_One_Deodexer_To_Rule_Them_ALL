@@ -559,7 +559,7 @@ public class Window extends JFrame implements ThreadWatcher, ChangeListener {
 	private void adbDeodexNow() {
 		deodexNow.setEnabled(false);
 		this.workInProgress = true;
-		String name = JOptionPane.showInputDialog(zipIt, R.getString("0000006") + "\n" + R.getString("0000007"));
+		String name = JOptionPane.showInputDialog(zipIt, R.getString("0000050") + "\n" + R.getString("0000051"));
 		File outPutFolder;
 		boolean valid = false;
 		if (name != null) {

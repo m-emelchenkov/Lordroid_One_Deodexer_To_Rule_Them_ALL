@@ -159,3 +159,5 @@ create.zip.btn=Create flashable zip
 0000047=From Folder
 0000048=From Device
 0000049=An operation is in progress you can't change tab until the operation is finished !
+0000050=Please choose a name for your extracted folder
+0000051=(Exemple : myOdexRom)
