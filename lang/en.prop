@@ -19,8 +19,8 @@
 file.launguage=English
 #
 #
-app.version=0.8_beta4
-app.name=Lordroid One Dedodexer To Rule Them All 0.8_beta4
+app.version=v1.00
+app.name=Lordroid One Dedodexer To Rule Them All v1.00
 #
 # first window first launch !
 app.welcome=Welcome to LODTRTA!
@@ -144,15 +144,15 @@ create.zip.btn=Create flashable zip
 0000032=Trying to determine sdk level ...
 0000033=Couldn't detect your sdk level [FAIL]
 0000034=Sdk level detected is 
-0000035=Extracting /system/priv-app ...
+0000035=Extracting /system/priv-app ... (don't close this window the process may take a while)
 0000036= priv-app folder couldn't be copied,BE CAREFULL  we will ignore it !
 0000037=/system/priv-app was successfully extracted...
-0000038=extracting system/app from device ...
+0000038=extracting system/app from device ...  (don't close this window the process may take a while)
 0000039= app folder couldn't be copied,BE CAREFULL  we will ignore it !
 0000040=/system/app was successfully extracted...
-0000041=Extracting /system/framework from device...
+0000041=Extracting /system/framework from device...  (don't close this window the process may take a while)
 0000042=/system/framework was successfully extracted...
-0000043=/system/framework failed to extract...
+0000043=/system/framework failed to extract... 
 0000044=Device Serial
 0000045=Device Status
 0000046=Refresh
@@ -161,3 +161,6 @@ create.zip.btn=Create flashable zip
 0000049=An operation is in progress you can't change tab until the operation is finished !
 0000050=Please choose a name for your extracted folder
 0000051=(Exemple : myOdexRom)
+0000052= Settings
+0000053=Language (will be available next launch)
+0000054=Max used Threads 

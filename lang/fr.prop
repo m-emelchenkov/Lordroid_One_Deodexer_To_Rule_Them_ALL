@@ -19,8 +19,8 @@
 file.launguage=Français
 #
 #
-app.version=0.8_beta4
-app.name=Lordroid One Dedodexer To Rule Them All v0.8_beta4
+app.version=v1.00
+app.name=Lordroid One Dedodexer To Rule Them All v1.00
 #
 # first window first launch !
 app.welcome=Bienvenue dans LODTRTA!
@@ -103,7 +103,7 @@ apk.to.be.zipaligned.log= apks vont etre zipaligner ...
 zipalign.fram.file.chooser.title=Veillez coisir un dossier contenant des apks !
 no.job.selected.zipalign.frame=<HTML><p>Vous devez en moin choisir une tache <b>zipalign/sign</b> autrement ça sers à rien de l'ancer le program !</p></HTML>
 you.shall.not.pass=Vous ne pouvez pas passer !
-file=   Fichir   
+file=   Fichier   
 exit=   Quiter   
 tools=  Outils  
 batch.zipalign.sign.menu.items=sign/zipalign par lots
@@ -162,3 +162,6 @@ create.zip.btn=Créer un zip flashable
 0000049=une opération est en cours veillez attendre la fin de la tache courante !
 0000050=Please choose a name for your extracted folder
 0000051=(Exemple : myOdexRom)
+0000052= Paramètre
+0000053=Langue (appliquer aprés relancement )
+0000054=Tache maximal : 

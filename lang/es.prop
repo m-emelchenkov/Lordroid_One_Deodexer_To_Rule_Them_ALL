@@ -8,7 +8,7 @@
 # the Free Software Foundation; either version 2 of the License, or
 # (at your option) any later version.
 # 
-# This program is distributed in the hope that it will be useful,
+# This program is distributed in the hope that it will be rootPaneluseful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
@@ -19,8 +19,8 @@
 file.launguage=Spanish
 #
 #
-app.version=0.8_beta4
-app.name=Lordroid One Dedodexer To Rule Them All 0.8_beta4
+app.version=v1.00
+app.name=Lordroid One Dedodexer To Rule Them All v1.00
 #
 # first window first launch !
 app.welcome=Bienvenido a LODTRTA!
@@ -128,7 +128,7 @@ create.zip.btn=Crear zip flashable
 0000016=5 - Realiza un backup siempre antes de flashear lo que quieras en tu telefono!
 0000017=Estás de acuerdo?
 0000018=PRECAUCION! !
-0000019=adb server couldn't be killed aborting ...
+0000019=adb server couldn't be killed aborting ...rootPanel
 0000020=adb server couldn't be started aborting ...
 0000021=adb command returned non zero exit code ! aborting !
 0000022= Multiple devices were detected please connect only one device to the PC! 
@@ -161,3 +161,6 @@ create.zip.btn=Crear zip flashable
 0000049=An operation is in progress you can't change tab until the operation is finished !
 0000050=Please choose a name for your extracted folder
 0000051=(Exemple : myOdexRom)
+0000052=Settings
+0000053=Language (will be available next launch)
+0000054=Max used Threads 

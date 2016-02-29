@@ -113,6 +113,8 @@ public class Window extends JFrame implements ThreadWatcher, ChangeListener {
 				JOptionPane.showMessageDialog(getThisFram(),
 						R.getString("0000002") + "\n" + R.getString("0000003") + "\n" + R.getString("0000004"),
 						R.getString("0000005"), JOptionPane.INFORMATION_MESSAGE);
+			} else if(source.equals(settingsItem)){
+				Alerts.showSettingsDialog(settingsItem);
 			}
 
 		}
@@ -180,7 +182,8 @@ public class Window extends JFrame implements ThreadWatcher, ChangeListener {
 	// File Menu
 	JMenu fichierMenu = new JMenu(R.getString("file"));
 	JMenuItem exitMenuItem = new JMenuItem(R.getString("exit"));
-
+	JMenuItem settingsItem = new JMenuItem(R.getString("0000052"));
+	
 	// Tools Menu
 	JMenu toolsMenu = new JMenu(R.getString("tools"));
 	JMenuItem batchZipalignSignMenuItem = new JMenuItem(R.getString("batch.zipalign.sign.menu.items"));
@@ -384,8 +387,10 @@ public class Window extends JFrame implements ThreadWatcher, ChangeListener {
 		menuBar.add(aboutMenu);
 
 		// attach items to File menu
+		this.fichierMenu.add(this.settingsItem);
 		this.fichierMenu.add(exitMenuItem);
 		fichierMenu.setFont(R.COURIER_NORMAL);
+		settingsItem.setFont(R.COURIER_NORMAL);
 		exitMenuItem.setFont(R.COURIER_NORMAL);
 		// attach tools Items
 		this.toolsMenu.add(this.batchZipalignSignMenuItem);
@@ -403,6 +408,7 @@ public class Window extends JFrame implements ThreadWatcher, ChangeListener {
 		batchZipalignSignMenuItem.addActionListener(new MenuItemsListener());
 		exitMenuItem.addActionListener(new MenuItemsListener());
 		aboutThisMenu.addActionListener(new MenuItemsListener());
+		this.settingsItem.addActionListener(new MenuItemsListener());
 	}
 
 	public void initProgress() {
