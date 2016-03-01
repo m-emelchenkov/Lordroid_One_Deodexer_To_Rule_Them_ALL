@@ -581,7 +581,7 @@ public class Window extends JFrame implements ThreadWatcher, ChangeListener {
 		if (name != null) {
 
 			try {
-				valid = new File(name).createNewFile();
+				valid = new File(S.TMP+File.separator +name).createNewFile();
 				new File(name).delete();
 			} catch (InvalidPathException | IOException ex) {
 				ex.printStackTrace();
