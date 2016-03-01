@@ -477,28 +477,38 @@ public class Window extends JFrame implements ThreadWatcher, ChangeListener {
 								+ R.getString("0000017"),
 						R.getString("0000018"), JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
 				if (agree == 0) {
-					String name = JOptionPane.showInputDialog(zipIt,
-							R.getString("0000006") + "\n" + R.getString("0000007"));
-					if (name != null) {
-						boolean valid = false;
-						try {
-							valid = new File(name).createNewFile();
-
-						} catch (InvalidPathException | IOException ex) {
-							ex.printStackTrace();
-							valid = false;
-						}
-						System.out.println(valid);
-						if (valid) {
-							new File(name).delete();
-							String abName = name.endsWith(".zip") ? name.substring(0, name.lastIndexOf(".")) : name;
+//					String name = JOptionPane.showInputDialog(zipIt,
+//							R.getString("0000006") + "\n" + R.getString("0000007"));
+//					if (name != null) {
+//						boolean valid = false;
+//						try {
+//							valid = new File(name).createNewFile();
+//
+//						} catch (InvalidPathException | IOException ex) {
+//							ex.printStackTrace();
+//							valid = false;
+//						}
+//						System.out.println(valid);
+//						if (valid) {
+//							new File(name).delete();
+							String abName = SessionCfg.getRomName();
+							boolean valid = false;
+							try {
+								valid	= new File(S.TMP + File.separator + abName).createNewFile();
+							} catch (IOException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
+							if(!valid){
+								abName = "Default_Rom_Name";
+							}
 							zipIt.setEnabled(false);
 							File zipFile = new File(S.ZIP_OUTPUT + File.separator + abName + ".zip");
 							new FlashableZipCreater(SessionCfg.getSystemFolder(), zipFile, getThisFram());
-						} else {
-							JOptionPane.showMessageDialog(zipIt, R.getString("0000008"));
-						}
-					}
+//						} else {
+//							JOptionPane.showMessageDialog(zipIt, R.getString("0000008"));
+//						}
+//					}
 				}
 			}
 

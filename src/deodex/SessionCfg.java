@@ -20,6 +20,8 @@ package deodex;
 
 import java.io.File;
 
+import deodex.tools.PropReader;
+
 public class SessionCfg {
 
 	private static String arch;
@@ -29,7 +31,8 @@ public class SessionCfg {
 	public static boolean zipalign = false;
 	public static boolean sign = false;
 	public static int sessionFrom = 1;
-	
+	public static File buildProp;
+	private static String romName ;
 	/**
 	 * 
 	 * @return
@@ -114,9 +117,18 @@ public class SessionCfg {
 	 */
 	public static void setSystemFolder(File systemFolder) {
 		SessionCfg.systemFolder = systemFolder;
+		buildProp = new File(systemFolder.getAbsolutePath()+File.separator+"build.prop");
+		try{
+		setRomName(PropReader.getProp("ro.build.display.id", buildProp)+"_"+
+		PropReader.getProp("ro.product.manufacturer", buildProp)+"_"+
+		PropReader.getProp("ro.product.device", buildProp));
+		} catch (Exception e){
+			setRomName("default_rom_name.zip");
+		}
 		// setBootOatFile(new File(systemFolder.getAbsolutePath() +
 		// File.separator + S.SYSTEM_FRAMEWORK + File.separator
 		// + arch + File.separator + S.SYSTEM_FRAMEWORK_BOOT));
+		
 	}
 
 	/**
@@ -125,6 +137,20 @@ public class SessionCfg {
 	 */
 	public static void setZipalign(boolean zipalignp) {
 		zipalign = zipalignp;
+	}
+
+	/**
+	 * @return the romName
+	 */
+	public static String getRomName() {
+		return romName;
+	}
+
+	/**
+	 * @param romName the romName to set
+	 */
+	public static void setRomName(String romName) {
+		SessionCfg.romName = romName;
 	}
 
 }
