@@ -709,6 +709,8 @@ public class Window extends JFrame implements ThreadWatcher, ChangeListener {
 						// we are from device
 						this.deodexNow.setEnabled(false);
 					}
+				} else {
+					this.deodexNow.setEnabled(false);
 				}
 				this.currentSelectedtab = inputPan.getSelectedIndex();
 			} else {
