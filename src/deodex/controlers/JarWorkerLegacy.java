@@ -135,23 +135,25 @@ public class JarWorkerLegacy implements Watchable, Runnable {
 				progressBar.setString(R.getString("progress.jar") + " " + this.percent());
 				threadWatcher.updateProgress();
 			}
-		}
-		try {
-			Thread.sleep(2000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 			FilesUtils.deleteRecursively(tempFolder);
 			progressBar.setValue(progressBar.getMaximum());
 			progressBar.setString(R.getString("progress.done"));
 			threadWatcher.updateProgress();
 			threadWatcher.done(this);
+		} else {
+			try {
+				Thread.sleep(2000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				FilesUtils.deleteRecursively(tempFolder);
+				progressBar.setValue(progressBar.getMaximum());
+				progressBar.setString(R.getString("progress.done"));
+				threadWatcher.updateProgress();
+				threadWatcher.done(this);
+			}
 		}
-		FilesUtils.deleteRecursively(tempFolder);
-		progressBar.setValue(progressBar.getMaximum());
-		progressBar.setString(R.getString("progress.done"));
-		threadWatcher.updateProgress();
-		threadWatcher.done(this);
+
 
 	}
 

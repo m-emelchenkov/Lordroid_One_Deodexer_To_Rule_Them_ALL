@@ -193,18 +193,19 @@ public class ApkWorkerLegacy implements Watchable, Runnable {
 				progressBar.setString(R.getString("progress.apks") + " "+this.percent());
 				this.threadWatcher.updateProgress();
 			}
-		}
-
-		try {
-			Thread.sleep(2000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			// lets make sure the whatcher is always updated even when an
-			// Exception is thrown
 			finalMove();
+		} else {
+			try {
+				Thread.sleep(2000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				// lets make sure the whatcher is always updated even when an
+				// Exception is thrown
+				finalMove();
+			}
 		}
-		finalMove();
+		
 	}
 
 	/**
