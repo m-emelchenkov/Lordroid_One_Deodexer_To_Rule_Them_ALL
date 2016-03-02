@@ -32,6 +32,7 @@ import deodex.tools.ArrayUtils;
 import deodex.tools.Deodexer;
 import deodex.tools.FilesUtils;
 import deodex.tools.Logger;
+import deodex.tools.UnsquashUtils;
 
 public class MainWorker implements Runnable, ThreadWatcher, Watchable {
 
@@ -186,7 +187,17 @@ public class MainWorker implements Runnable, ThreadWatcher, Watchable {
 		if (!isinitialized) {
 			return;
 		}
-
+		// lets unsquash this bitch !
+		if(SessionCfg.isSquash){
+			boolean unsquash =UnsquashUtils.unsquash(folder);
+			if(!unsquash)
+				isinitialized = false;
+			else{
+				new File(folder.getAbsolutePath()+File.separator+"odex.app.sqsh").delete();
+				new File(folder.getAbsolutePath()+File.separator+"odex.priv-app.sqsh").delete();
+			}
+		}
+		
 		File bootFiles = new File(S.bootTmpDex.getAbsolutePath());
 
 		// TODO init apklist here

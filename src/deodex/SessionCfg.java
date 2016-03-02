@@ -29,7 +29,7 @@ public class SessionCfg {
 	public static boolean zipalign = false;
 	public static boolean sign = false;
 	public static int sessionFrom = 1;
-	
+	public static boolean isSquash = false;
 	/**
 	 * 
 	 * @return

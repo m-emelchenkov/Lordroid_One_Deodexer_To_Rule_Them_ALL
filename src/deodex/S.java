@@ -81,6 +81,7 @@ public class S {
 	public static final String OAT2DEX_JAR = PathUtils.getExcutionPath() + File.separator + "bins/oat2dex/oat2dex.jar";
 	public static final String BACKSMALI_JAR = PathUtils.getExcutionPath() + File.separator
 			+ "bins/smali_backsmali/baksmali.jar";
+	public static final File UNSQUASH_WIN = new File(PathUtils.getExcutionPath() + File.separator + "bins/native/squashfs/unsquashfs");
 	public static final String SMALI_JAR = PathUtils.getExcutionPath() + File.separator
 			+ "bins/smali_backsmali/smali.jar";
 	public static final String ZIPALIGN_BIN = PathUtils.getExcutionPath() + File.separator + "bins/native/zipAlign";

@@ -47,6 +47,8 @@ public class FilesUtils {
 
 			try {
 
+				dest.delete();
+
 				InputStream is = new FileInputStream(input);
 				OutputStream out = new FileOutputStream(dest);
 				byte[] buffer = new byte[32768];
@@ -291,8 +293,18 @@ public class FilesUtils {
 				SessionCfg.setBootOatFile(bootOat.get(0));
 			}
 		}
-
+		// lets detect if the rom is have squashfs 
+		File appSquash = new File(systemFolder.getAbsolutePath()+File.separator+"odex.app.sqsh");
+		File privAppSquash = new File(systemFolder.getAbsolutePath()+File.separator+"odex.priv-app.sqsh");
+		boolean isSquash = false;
+		if(appSquash.exists() || privAppSquash.exists()){
+			log.addLog(".sqsh files were detected they will be extracted to their respective folders ");
+			isSquash = true;
+		}
+		
+		
 		// Session Settings set them
+		SessionCfg.isSquash = isSquash;
 		SessionCfg.setSdk(sdkLevel);
 		log.addLog(R.getString(S.LOG_INFO) + R.getString("log.detected.sdk") + sdkLevel);
 		SessionCfg.setArch(arch);
