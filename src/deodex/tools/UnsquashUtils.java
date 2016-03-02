@@ -82,7 +82,7 @@ public class UnsquashUtils {
 		return cmd;
 	}
 	
-	public static boolean haveUnsquash(File squashFile){
+	public static boolean haveUnsquash(){
 		String[] cmd =null;
 		String os = Cfg.getOs();
 		if(os.equals(S.WINDOWS)){
@@ -95,7 +95,7 @@ public class UnsquashUtils {
 			String cmdOsx[] = {"unsquashfs","-h"};
 			cmd = cmdOsx;
 		}
-		
-		return CmdUtils.runCommand(cmd) == 0 ;
+		int exitValue = CmdUtils.runCommand(cmd);
+		return exitValue == 0 || exitValue == 1;
 	}
 }

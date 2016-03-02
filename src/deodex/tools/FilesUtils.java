@@ -298,8 +298,12 @@ public class FilesUtils {
 		File privAppSquash = new File(systemFolder.getAbsolutePath()+File.separator+"odex.priv-app.sqsh");
 		boolean isSquash = false;
 		if(appSquash.exists() || privAppSquash.exists()){
-			log.addLog(".sqsh files were detected they will be extracted to their respective folders ");
+			log.addLog(R.getString(S.LOG_INFO)+".sqsh Files were detected it will be extracted no action needed from user... ");
 			isSquash = true;
+			if(!UnsquashUtils.haveUnsquash()){
+				log.addLog(R.getString(S.LOG_ERROR)+"squashfs tools not found ! please refer to the manual for mor info ! ");
+				return false;
+			}
 		}
 		
 		
