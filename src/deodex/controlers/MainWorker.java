@@ -180,11 +180,14 @@ public class MainWorker implements Runnable, ThreadWatcher, Watchable {
 		// yes more code but it will be more compatible
 		try {
 			isinitialized = FilesUtils.copyFile(SessionCfg.getBootOatFile(), S.bootTmp);
+			if(!isinitialized)
+				this.logPan.addLog(R.getString(S.LOG_ERROR)+"couldn't copy boot.oat to working folder aborting ...");
 		} catch (Exception e) {
 
 		}
 		isinitialized = isinitialized && Deodexer.oat2dexBoot(S.bootTmp);
 		if (!isinitialized) {
+			this.logPan.addLog(R.getString(S.LOG_ERROR)+"couldn't deodex boot.oat aborting ...");
 			return;
 		}
 		// lets unsquash this bitch !
@@ -458,9 +461,10 @@ public class MainWorker implements Runnable, ThreadWatcher, Watchable {
 
 	@Override
 	public void run() {
-
-		this.threadWatcher.updateProgress();
-
+		if(this.isinitialized)
+			this.threadWatcher.updateProgress();
+		else
+			this.threadWatcher.sendFailed(this);
 		for (int i = 0; i < this.maxThreading; i++) {
 			if (tasks.size() > 0) {
 				new Thread(tasks.get(0)).start();
@@ -489,5 +493,11 @@ public class MainWorker implements Runnable, ThreadWatcher, Watchable {
 
 	private void updateWatcher() {
 		threadWatcher.done(this);
+	}
+
+	@Override
+	public void sendFailed(Runnable r) {
+		// TODO Auto-generated method stub
+		
 	}
 }

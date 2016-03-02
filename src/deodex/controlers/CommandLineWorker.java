@@ -31,4 +31,10 @@ public class CommandLineWorker implements ThreadWatcher {
 
 	}
 
+	@Override
+	public void sendFailed(Runnable r) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

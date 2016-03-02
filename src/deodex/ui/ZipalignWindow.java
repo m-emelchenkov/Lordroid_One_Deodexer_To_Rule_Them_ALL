@@ -239,4 +239,10 @@ public class ZipalignWindow extends JFrame implements ThreadWatcher {
 	public void updateProgress() {
 		this.initProgress();
 	}
+
+	@Override
+	public void sendFailed(Runnable r) {
+		// TODO Auto-generated method stub
+		
+	}
 }

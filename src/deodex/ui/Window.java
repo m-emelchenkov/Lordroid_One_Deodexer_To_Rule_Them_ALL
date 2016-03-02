@@ -545,6 +545,34 @@ public class Window extends JFrame implements ThreadWatcher, ChangeListener {
 		this.repaint();
 	}
 
+	private void initFatalError(){
+		rootPanel.removeAll();
+		rootPanel.setLayout(null);
+		rootPanel.setBackground(new Color(206, 194, 229));
+		rootPanel.setOpaque(true);
+		// TODO : externalize those
+		JLabel errorLab = new JLabel("<HTML><p>Oops ... we couldn't initialize the working environement "+
+		" please make sure that you have followed all the guide lines if you think this is a bug please send a bug report along with the full log to rachidboudjelida@gmail.com or post it on XDA </p></HTML>");
+		JButton exit = new JButton("Back");
+		exit.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				initBrowseView();
+			}
+			
+		});
+		errorLab.setFont(R.COURIER_NORMAL);
+		errorLab.setBounds(50,10,700,100);
+		exit.setBounds(100, 150, 600, 60);
+		rootPanel.add(errorLab);
+		rootPanel.add(exit);
+		rootPanel.add(logger);
+		rootPanel.revalidate();
+		this.repaint();
+	}
+	
 	private void refressAdb() {
 		// do nothing if an operation is in progress
 		if(this.workInProgress){
@@ -596,6 +624,12 @@ public class Window extends JFrame implements ThreadWatcher, ChangeListener {
 				public void updateProgress() {
 					
 					workInProgress = false;
+				}
+
+				@Override
+				public void sendFailed(Runnable r) {
+					// TODO Auto-generated method stub
+					
 				}
 
 			});
@@ -711,5 +745,12 @@ public class Window extends JFrame implements ThreadWatcher, ChangeListener {
 			}
 		}
 
+	}
+
+	@Override
+	public void sendFailed(Runnable r) {
+		// TODO Auto-generated method stub
+		initFatalError();
+		this.workInProgress = false;
 	}
 }
