@@ -11,7 +11,7 @@ Lordroid batch deodexer **ODTRTA** One Deodexer To Rule Them All ,is a free soft
 3. JAVA PATH needs to be set folow those links for more informations[Windows](https://www.java.com/en/download/help/path.xml)| [Linux](http://ask.xmodulo.com/change-default-java-version-linux.html)| [Mac](https://docs.oracle.com/javase/8/docs/technotes/guides/install/mac_jre.html)
 
 ### Download :  
-1. Download this archive [lordroid_ODTRTA_v0.5_beta-1_ALL.tar.gz](https://github.com/lord-ralf-adolf/Lordroid_Universal_Batch_deodexer/releases/download/v0.6_beta2-release/lordroid_ODTRTA_v0.6-beta-2_ALL.tar.gz)
+1. Download the [Latest version](https://github.com/lord-ralf-adolf/Lordroid_One_Deodexer_To_Rule_Them_ALL/releases)
  
 
 ### How to use (GUI) :
@@ -30,26 +30,6 @@ Lordroid batch deodexer **ODTRTA** One Deodexer To Rule Them All ,is a free soft
 2. Options :`-z` to zipalign after deodexing , `-s` to resign apps apfter deodexing is done.
 3. `java -jar lordroid-ODTRTA.jar  -h`  to display help.
   
-  
-  
-### Release notes 
-#### V0.5-beta2
-1. New command line tool `java -jar lordroid-ODTRTA.jar -h` for more details
-2. Better detection for already deodexed roms 
-3. You can now choose the max threads to be used !
-4. Code optimized for less HDD IOs may reduce the deodexing time.
-5. better handling of some Exceptions.
-6. you can get ride of the alert popup messages after the first apearence.
-
-#### V0.5-beta1
-1. Please keep in mind this is a beta even though I tested it it might be bugs that I didn't run into.
-2. this version supports all rom versions and all architectures.
-3. The software detects every thing on it's own no actions are needed from the user for that matter.
-4. The software uses two Threads to work no settings is available to change that right now.
-5. Pealse reports bugs and suggestions by openning an essue ticket or emailing me at : rachidboudjelida(at)gmail.com
-6. have fun guys 
-  
-  
 
 #### Guide lines & troubleshooting :
 1. make sure the is a build.prop file in the selected folder 
@@ -59,7 +39,12 @@ Lordroid batch deodexer **ODTRTA** One Deodexer To Rule Them All ,is a free soft
 5. make sur the system folder you chose is writable (means you have the right to write inside it) otherwise the tool will not work.
 6. if your rom is sdk > 20 make sure you have a boot.oat file under framework/*arch* other wise the tool will not work.
 7. if you followed all those instructions and you are still having trouble send me a link to your rom or list me the all files under /system/framework ,/system/app and /system/priv-app.
-
+  
+  
+### Build 
+#### import the project to eclipse and  build it (if you wanna step up and make an ant build script I will be glad to add it here thanks in advance )
+  
   
 ### LICENCE 
-#### The software is licensed under GPL V3 feel free to do what ever you like with it :smile: 
+#### The software is licensed under GPL V3 feel free to do what ever you like with it of course in complience with the GPL V3 license :smile: 
+#### All (TM) noted in any location of the software are there for reference purpuse only none of them are associated with this project  
