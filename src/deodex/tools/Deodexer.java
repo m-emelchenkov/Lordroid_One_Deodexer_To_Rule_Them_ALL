@@ -79,18 +79,16 @@ public class Deodexer {
 	}
 
 	public static boolean oat2dexBoot(File bootOat) {
-		// FIXME : don't forget this !
 		String[] cmd = { /**"java", "-jar", new File(S.OAT2DEX_JAR).getAbsolutePath(), */"boot", bootOat.getAbsolutePath() };
-//		try {
-//		org.rh.smaliex.Main.main(cmd);
-//		} catch (Exception e) {
-//
-//			String[] cmd1 = { "java", "-jar", new File(S.OAT2DEX_JAR).getAbsolutePath(), "boot", bootOat.getAbsolutePath() };
-//			CmdUtils.runCommand(cmd1);
-//
-//		}
-		String[] cmd1 = { "java", "-jar", new File(S.OAT2DEX_JAR).getAbsolutePath(), "boot", bootOat.getAbsolutePath() };
-		CmdUtils.runCommand(cmd1);
+		try {
+		org.rh.smaliex.Main.main(cmd);
+		} catch (Exception e) {
+
+			String[] cmd1 = { "java", "-jar", new File(S.OAT2DEX_JAR).getAbsolutePath(), "boot", bootOat.getAbsolutePath() };
+			CmdUtils.runCommand(cmd1);
+
+		}
+
 		return S.bootTmpDex.exists();
 	}
 
