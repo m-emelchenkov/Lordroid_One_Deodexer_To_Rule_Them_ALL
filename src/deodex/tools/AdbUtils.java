@@ -207,6 +207,18 @@ public class AdbUtils {
 		}
 		logger.addLog(R.getString(S.LOG_INFO) + R.getString("0000040"));
 
+		// check for squash files 
+		File appSquashOutput = new File(outputFolder.getAbsolutePath()+File.separator+"odex.app.sqsh");
+		File privAppSquashOutput = new File(outputFolder.getAbsolutePath()+File.separator+"odex.priv-app.sqsh");
+		String[] appSquashCmd = {S.ADB_BIN.getAbsolutePath(),"pull","/system/odex.app.sqsh",appSquashOutput.getAbsolutePath()};
+		String[] privAppSquashCmd = {S.ADB_BIN.getAbsolutePath(),"pull","/system/odex.priv-app.sqsh",privAppSquashOutput.getAbsolutePath()};
+		boolean squash = CmdUtils.runCommand(appSquashCmd) == 0;
+		squash = squash || CmdUtils.runCommand(privAppSquashCmd) == 0;
+		// TODO externalize this 
+		if(squash)
+		logger.addLog(R.getString(S.LOG_INFO)+".sqsh Files were detected it will be extracted no action needed from user... ");
+			
+			
 		// copy framwork
 		logger.addLog(R.getString(S.LOG_INFO) + R.getString("0000041"));
 		String[] framCmd = { S.ADB_BIN.getAbsolutePath(), "pull", "/system/framework", framworkOut.getAbsolutePath() };
