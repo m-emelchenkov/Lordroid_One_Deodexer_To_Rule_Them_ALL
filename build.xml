@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<project default="build" name="Create Runnable Jar for Project lordroid batch deodex with libraries in their places">
-    <!--this file was created by Eclipse Runnable JAR Export Wizard-->
+<project default="build" name="build lordroid One Batch Deodexer To Rule Them All">
+    <!--this file was created by Eclipse Runnable JAR Export Wizard and edited manually by rachidboudjelida -->
     <!--ANT 1.7 is required                                        -->
     <!--define folder properties-->
     <property name="dir.buildfile" value="."/>
@@ -14,7 +14,6 @@
     <target name="build" depends="small-clean">
 	
       	<mkdir dir="bin"/>
-	<!-- <copy file="${dir.jarfile}/res" todir="${dir.jarfile}/bin"/> -->
         <copy todir="${dir.jarfile}/bin" >  
               <fileset dir="${dir.jarfile}/res" includes="**"/>  
         </copy>
@@ -26,40 +25,23 @@
             </manifest>
             <fileset dir="${dir.jarfile}/bin"/>
         </jar>
-	<mkdir dir="${dir.jarfile}/build"/>
-	<copy todir="${dir.jarfile}/build/lang" >  
-              <fileset dir="${dir.jarfile}/lang" includes="**"/>  
-        </copy>
-	<copy todir="${dir.jarfile}/build/bins" >  
-              <fileset dir="${dir.jarfile}/bins" includes="**"/>  
-        </copy>
-	<copy todir="${dir.jarfile}/build/libs" >  
-              <fileset dir="${dir.jarfile}/libs" includes="**"/>  
-        </copy>
-	<copy todir="${dir.jarfile}/build/blanks" >  
-              <fileset dir="${dir.jarfile}/blanks" includes="**"/>  
-        </copy>
-	<copy file="${dir.jarfile}/Launcher.jar" todir="${dir.jarfile}/build"/>
-	<!-- <delete file ="${dir.jarfile}/Launcher.jar"/>-->
 
-
-
-<!--        <delete dir="${dir.jarfile}/Launcher_lib"/>
-        <mkdir dir="${dir.jarfile}/Launcher_lib"/>
-        <copy file="${dir.jarfile}/libs/commons-compress-1.10.jar" todir="${dir.jarfile}/Launcher_lib"/>
-        <copy file="${dir.jarfile}/libs/zip4j_1.3.2.jar" todir="${dir.jarfile}/Launcher_lib"/>
-        <copy file="${dir.jarfile}/libs/xz.jar" todir="${dir.jarfile}/Launcher_lib"/>
-        <copy file="${dir.jarfile}/bins/oat2dex/oat2dex.jar" todir="${dir.jarfile}/Launcher_lib"/> -->
  	</target>
 
-	<target name = "make-release" depends="clean,build">
-	<copy file="${dir.jarfile}/Manual.pdf" todir="${dir.jarfile}/build"/>
-	<copy file="${dir.jarfile}/README.md" todir="${dir.jarfile}/build"/>
-	<copy file="${dir.jarfile}/LICENCE.md" todir="${dir.jarfile}/build"/>
-	<copy file="${dir.jarfile}/NOTICE.txt" todir="${dir.jarfile}/build"/>
-	<tar destfile="${dir.jarfile}/re-dist/lordroid_ODTRTA_v1.10_ALL.tar.gz" basedir="${dir.jarfile}/build" compression="gzip"/>
-	<!--<gzip src="${dir.jarfile}/re-dist/lordroid_ODTRTA_v1.10_ALL.tar" destfile="${dir.jarfile}/re-dist/lordroid_ODTRTA_v1.10_ALL.tar.gz"/>-->
-	<delete file ="${dir.jarfile}/re-dist/lordroid_ODTRTA_v1.10_ALL.tar"/>
+	<target name = "release" depends="clean,build">
+		<tar destfile="${dir.jarfile}/re-dist/lordroid_ODTRTA_v1.10_ALL.tar.gz" longfile="gnu" compression="gzip">
+        		<tarfileset dir="${dir.jarfile}" filemode="755" >
+        		    <include name="bins/**"/>
+        		    <include name="libs/**"/>
+        		    <include name="lang/**"/>
+        		    <include name="blanks/**"/>
+			    <include name="Manual.pdf"/>
+        		    <include name="Launcher.jar"/>
+        		    <include name="LICENCE.md"/>
+        		    <include name="README.md"/>
+       		 	    <include name="NOTICE.txt"/>
+      		  	</tarfileset>
+ 		</tar>
 	</target>
 
 	<!-- SMALL CLEAN  -->
@@ -67,8 +49,10 @@
 	<target name = "small-clean">
 		<delete dir="${dir.jarfile}/bin" />
 	</target>
+
 	<!--  CLEAN  -->
 	<target name = "clean">
+		<delete file ="${dir.jarfile}/Launcher.jar"/>
 		<delete dir="${dir.jarfile}/build"/>
 		<delete dir="${dir.jarfile}/re-dist"/>
 		<delete dir="${dir.jarfile}/bin"/>
