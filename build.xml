@@ -40,7 +40,7 @@
               <fileset dir="${dir.jarfile}/blanks" includes="**"/>  
         </copy>
 	<copy file="${dir.jarfile}/Launcher.jar" todir="${dir.jarfile}/build"/>
-	<delete file ="${dir.jarfile}/Launcher.jar"/>
+	<!-- <delete file ="${dir.jarfile}/Launcher.jar"/>-->
 
 
 
@@ -57,8 +57,8 @@
 	<copy file="${dir.jarfile}/README.md" todir="${dir.jarfile}/build"/>
 	<copy file="${dir.jarfile}/LICENCE.md" todir="${dir.jarfile}/build"/>
 	<copy file="${dir.jarfile}/NOTICE.txt" todir="${dir.jarfile}/build"/>
-	<tar destfile="${dir.jarfile}/re-dist/lordroid_ODTRTA_v1.10_ALL.tar" basedir="${dir.jarfile}/build" />
-	<gzip src="${dir.jarfile}/re-dist/lordroid_ODTRTA_v1.10_ALL.tar" destfile="${dir.jarfile}/re-dist/lordroid_ODTRTA_v1.10_ALL.tar.gz"/>
+	<tar destfile="${dir.jarfile}/re-dist/lordroid_ODTRTA_v1.10_ALL.tar.gz" basedir="${dir.jarfile}/build" compression="gzip"/>
+	<!--<gzip src="${dir.jarfile}/re-dist/lordroid_ODTRTA_v1.10_ALL.tar" destfile="${dir.jarfile}/re-dist/lordroid_ODTRTA_v1.10_ALL.tar.gz"/>-->
 	<delete file ="${dir.jarfile}/re-dist/lordroid_ODTRTA_v1.10_ALL.tar"/>
 	</target>
 
@@ -72,5 +72,11 @@
 		<delete dir="${dir.jarfile}/build"/>
 		<delete dir="${dir.jarfile}/re-dist"/>
 		<delete dir="${dir.jarfile}/bin"/>
+		<delete dir="${dir.jarfile}/logs"/>
+		<delete dir="${dir.jarfile}/cfg"/>
+		<delete dir="${dir.jarfile}/bin"/>
+		<delete dir="${dir.jarfile}/extracted_system_folders"/>
+		<delete dir="${dir.jarfile}/flashable_zips_out"/>
+
 	</target>
 </project>
