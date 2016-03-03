@@ -19,6 +19,7 @@
 package deodex.tools;
 
 import java.io.File;
+import java.util.ArrayList;
 
 import deodex.Cfg;
 import deodex.S;
@@ -36,7 +37,8 @@ public class UnsquashUtils {
 			// unsquash app 
 			boolean sucess = CmdUtils.runCommand(cmd1)==0;
 			if(sucess){
-				if(!destFile.exists()){
+				ArrayList<File> files = FilesUtils.listAllFiles(destFile);
+				if(!destFile.exists() || files == null || files.size() == 0){
 					return false;
 				}else {
 					boolean copied = FilesUtils.copyFileRecurcively(destFile, new File(systemFolder.getAbsolutePath()+File.separator+"app"));
@@ -52,7 +54,8 @@ public class UnsquashUtils {
 			// unsquash priv-app 
 			boolean sucess = CmdUtils.runCommand(cmd2)==0;
 			if(sucess){
-				if(!destFile.exists()){
+				ArrayList<File> files = FilesUtils.listAllFiles(destFile);
+				if(!destFile.exists() || files == null || files.size() == 0){
 					return false;
 				}else {
 					boolean copied = FilesUtils.copyFileRecurcively(destFile, new File(systemFolder.getAbsolutePath()+File.separator+"priv-app"));
@@ -76,6 +79,7 @@ public class UnsquashUtils {
 			String cmdlinux[] = {"unsquashfs","-no-xattrs","-f","-n","-d",dest.getAbsolutePath(),squashFile.getAbsolutePath()};
 			cmd = cmdlinux;
 		} else if(os.equals(S.MAC)){
+			// FIXME : test on MAC
 			String cmdOsx[] = {"unsquashfs","-no-xattrs","-f","-n","-d",dest.getAbsolutePath(),squashFile.getAbsolutePath()};
 			cmd = cmdOsx;
 		}

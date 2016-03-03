@@ -61,7 +61,7 @@ public class ApkWorker implements Runnable {
 
 		progressBar = new JProgressBar();
 		progressBar.setMinimum(0);
-		if (apkList != null)
+		if (apkList != null && apkList.size()>0)
 			progressBar.setMaximum(apkList.size() <= 0 ? 2 : apkList.size() * 8);
 		else
 			progressBar.setMaximum(1);
