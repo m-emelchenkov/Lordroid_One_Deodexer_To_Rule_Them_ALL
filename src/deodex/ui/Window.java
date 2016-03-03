@@ -522,7 +522,7 @@ public class Window extends JFrame implements ThreadWatcher, ChangeListener {
 		rootPanel.setBackground(new Color(206, 194, 229));
 		rootPanel.setOpaque(true);
 
-		JLabel waiting = new JLabel("De-Optimizing boot.out this may take a minute...");
+		JLabel waiting = new JLabel("De-Optimizing boot.oat this may take a minute...");
 		waiting.setFont(R.COURIER_NORMAL.deriveFont(25.0f));
 		waiting.setBounds(10, 25, 748, 50);
 		waiting.setBackground(new Color(0, 0, 0, 0));
