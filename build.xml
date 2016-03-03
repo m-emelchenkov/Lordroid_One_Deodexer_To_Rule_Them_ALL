@@ -70,6 +70,7 @@
 	<!--  CLEAN  -->
 	<target name = "clean">
 		<delete dir="${dir.jarfile}/build"/>
+		<delete dir="${dir.jarfile}/re-dist"/>
 		<delete dir="${dir.jarfile}/bin"/>
 	</target>
 </project>
