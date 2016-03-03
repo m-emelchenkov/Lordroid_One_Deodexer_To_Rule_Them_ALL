@@ -18,9 +18,7 @@
  */
 package deodex.tools;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 
 public class CmdUtils {
 
@@ -41,36 +39,21 @@ public class CmdUtils {
 			e.printStackTrace();
 		} 
 
-		BufferedReader stdInput = new BufferedReader(new InputStreamReader(proc.getInputStream()));
+		
+		StreamReader stdInputReader = new StreamReader("stdIn",proc.getInputStream());
+		StreamReader stdErrorReader = new StreamReader("stdError",proc.getErrorStream());
+		stdInputReader.start();
+		stdErrorReader.start();
 
-		BufferedReader stdError = new BufferedReader(new InputStreamReader(proc.getErrorStream()));
-
-		// read the output from the command
-		String s = null;
-		try {
-			while ((s = stdInput.readLine()) != null) {
-				Logger.writLog(s);
-			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		// read any errors from the attempted command
-		try {
-			while ((s = stdError.readLine()) != null) {
-				Logger.writLog(s);
-			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		int exitValue = 1000;
 		try {
 			exitValue =	proc.waitFor();
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally {
+			if(proc != null)
+				proc.destroy();
 		}
 
 			Logger.writLog("It's exit value was : "+exitValue);
