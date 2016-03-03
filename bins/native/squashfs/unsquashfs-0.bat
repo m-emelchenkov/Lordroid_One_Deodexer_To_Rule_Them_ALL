@@ -1,0 +1,1 @@
+unsquashfs -no-xattrs %1
