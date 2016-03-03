@@ -43,17 +43,26 @@ Lordroid batch deodexer **ODTRTA** One Deodexer To Rule Them All ,is a free soft
   
 ### Build 
 #### using ant 1.7 or higher
-     mkdir deodexer 
+     mkdir deodexer
      git clone https://github.com/lord-ralf-adolf/Lordroid_One_Deodexer_To_Rule_Them_ALL.git deodexer
-     cd deodexer
-     # to build a for test type the command
-     ant
-     # to create a release .tar.gz archive type the command
-     ant release
-     # the tar.gz will be under re-dist folder
-     # to clean the repo 
-     ant clean
+     cd deodexer  
 
+  
+to build a for test type the command   
+```
+ant
+```
+  
+to create a release .tar.gz archive type the command the tar.gz will be under re-dist folder   
+```
+ant release
+```
+  
+to clean the repo   
+  
+  ```
+ant clean  
+```
   
   
 ### LICENCE 
