@@ -213,8 +213,9 @@ public class AdbUtils {
 		String[] appSquashCmd = {S.ADB_BIN.getAbsolutePath(),"pull","/system/odex.app.sqsh",appSquashOutput.getAbsolutePath()};
 		String[] privAppSquashCmd = {S.ADB_BIN.getAbsolutePath(),"pull","/system/odex.priv-app.sqsh",privAppSquashOutput.getAbsolutePath()};
 		boolean squash = CmdUtils.runCommand(appSquashCmd) == 0;
-		squash = squash || CmdUtils.runCommand(privAppSquashCmd) == 0;
+		CmdUtils.runCommand(privAppSquashCmd) ;
 		// TODO externalize this 
+		
 		if(squash)
 		logger.addLog(R.getString(S.LOG_INFO)+".sqsh Files were detected it will be extracted no action needed from user... ");
 			
