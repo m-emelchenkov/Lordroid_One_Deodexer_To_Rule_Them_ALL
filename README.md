@@ -42,7 +42,18 @@ Lordroid batch deodexer **ODTRTA** One Deodexer To Rule Them All ,is a free soft
   
   
 ### Build 
-#### import the project to eclipse and  build it (if you wanna step up and make an ant build script I will be glad to add it here thanks in advance )
+#### using ant 1.7 or higher
+     mkdir deodexer 
+     git clone https://github.com/lord-ralf-adolf/Lordroid_One_Deodexer_To_Rule_Them_ALL.git deodexer
+     cd deodexer
+     # to build a for test type the command
+     ant
+     # to create a release .tar.gz archive type the command
+     ant release
+     # the tar.gz will be under re-dist folder
+     # to clean the repo 
+     ant clean
+
   
   
 ### LICENCE 
