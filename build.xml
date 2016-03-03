@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project default="build" name="Create Runnable Jar for Project lordroid batch deodex with libraries in their places">
+    <!--this file was created by Eclipse Runnable JAR Export Wizard-->
+    <!--ANT 1.7 is required                                        -->
+    <!--define folder properties-->
+    <property name="dir.buildfile" value="."/>
+    <property name="dir.workspace" value="${dir.buildfile}/.."/>
+    <property name="dir.jarfile" value="${dir.buildfile}"/>
+	<path id="project-classpath">
+		<fileset dir="${dir.jarfile}/libs" includes="*.jar" />
+		<fileset dir="${dir.jarfile}/bins/oat2dex" includes="*.jar" />
+	</path>
+
+    <target name="build" depends="small-clean">
+	
+      	<mkdir dir="bin"/>
+	<!-- <copy file="${dir.jarfile}/res" todir="${dir.jarfile}/bin"/> -->
+        <copy todir="${dir.jarfile}/bin" >  
+              <fileset dir="${dir.jarfile}/res" includes="**"/>  
+        </copy>
+        <javac includeantruntime="false" srcdir="src" destdir="bin" classpathref="project-classpath"/>
+        <jar destfile="${dir.jarfile}/Launcher.jar">
+            <manifest>
+                <attribute name="Main-Class" value="deodex.Tester"/>
+                <attribute name="Class-Path" value=". libs/commons-compress-1.10.jar libs/zip4j_1.3.2.jar libs/xz.jar bins/oat2dex/oat2dex.jar"/>
+            </manifest>
+            <fileset dir="${dir.jarfile}/bin"/>
+        </jar>
+	<mkdir dir="${dir.jarfile}/build"/>
+	<copy todir="${dir.jarfile}/build/lang" >  
+              <fileset dir="${dir.jarfile}/lang" includes="**"/>  
+        </copy>
+	<copy todir="${dir.jarfile}/build/bins" >  
+              <fileset dir="${dir.jarfile}/bins" includes="**"/>  
+        </copy>
+	<copy todir="${dir.jarfile}/build/libs" >  
+              <fileset dir="${dir.jarfile}/libs" includes="**"/>  
+        </copy>
+	<copy todir="${dir.jarfile}/build/blanks" >  
+              <fileset dir="${dir.jarfile}/blanks" includes="**"/>  
+        </copy>
+	<copy file="${dir.jarfile}/Launcher.jar" todir="${dir.jarfile}/build"/>
+	<delete file ="${dir.jarfile}/Launcher.jar"/>
+
+
+
+<!--        <delete dir="${dir.jarfile}/Launcher_lib"/>
+        <mkdir dir="${dir.jarfile}/Launcher_lib"/>
+        <copy file="${dir.jarfile}/libs/commons-compress-1.10.jar" todir="${dir.jarfile}/Launcher_lib"/>
+        <copy file="${dir.jarfile}/libs/zip4j_1.3.2.jar" todir="${dir.jarfile}/Launcher_lib"/>
+        <copy file="${dir.jarfile}/libs/xz.jar" todir="${dir.jarfile}/Launcher_lib"/>
+        <copy file="${dir.jarfile}/bins/oat2dex/oat2dex.jar" todir="${dir.jarfile}/Launcher_lib"/> -->
+ 	</target>
+
+	<target name = "make-release" depends="clean,build">
+	<copy file="${dir.jarfile}/Manual.pdf" todir="${dir.jarfile}/build"/>
+	<copy file="${dir.jarfile}/README.md" todir="${dir.jarfile}/build"/>
+	<copy file="${dir.jarfile}/LICENCE.md" todir="${dir.jarfile}/build"/>
+	<copy file="${dir.jarfile}/NOTICE.txt" todir="${dir.jarfile}/build"/>
+	<tar destfile="${dir.jarfile}/re-dist/lordroid_ODTRTA_v1.10_ALL.tar" basedir="${dir.jarfile}/build" />
+	<gzip src="${dir.jarfile}/re-dist/lordroid_ODTRTA_v1.10_ALL.tar" destfile="${dir.jarfile}/re-dist/lordroid_ODTRTA_v1.10_ALL.tar.gz"/>
+	<delete file ="${dir.jarfile}/re-dist/lordroid_ODTRTA_v1.10_ALL.tar"/>
+	</target>
+
+	<!-- SMALL CLEAN  -->
+       
+	<target name = "small-clean">
+		<delete dir="${dir.jarfile}/bin" />
+	</target>
+	<!--  CLEAN  -->
+	<target name = "clean">
+		<delete dir="${dir.jarfile}/build"/>
+		<delete dir="${dir.jarfile}/bin"/>
+	</target>
+</project>
