@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>Lordroid One Deodexer To Rule Them All by lord-ralf-adolf</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">Lordroid One Deodexer To Rule Them All</h1>
+      <h2 class="project-tagline">Deodex any rom under any Operating system !</h2>
+      <a href="https://github.com/lord-ralf-adolf/Lordroid_One_Deodexer_To_Rule_Them_ALL" class="btn">View on GitHub</a>
+      <a href="https://github.com/lord-ralf-adolf/Lordroid_One_Deodexer_To_Rule_Them_ALL/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/lord-ralf-adolf/Lordroid_One_Deodexer_To_Rule_Them_ALL/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
+
+    <section class="main-content">
+      <p><img src="https://github.com/lord-ralf-adolf/Lordroid_Universal_Batch_deodexer/blob/master/res/images/logo.png?raw=true" alt="logo"></p>
+
+<h1>
+<a id="lordroid_universal_batch_deodexer" class="anchor" href="#lordroid_universal_batch_deodexer" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Lordroid_Universal_Batch_deodexer</h1>
+
+<p>Multi platform Tools to deodex any android rom</p>
+
+<h3>
+<a id="description-" class="anchor" href="#description-" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>description :</h3>
+
+<p>Lordroid batch deodexer <strong>ODTRTA</strong> One Deodexer To Rule Them All ,is a free software writen in JAVA that can deodex any android rom with ease ,all you have to do is point the system folder and click the Deodex Now button ! it runs under any OS that have JAVA JRE 8 and higher (see prerequired for more details about this limitation) ,it is compatible with all Roms SDK levels and know architectures but you should note that it support list is the same as <a href="https://github.com/JesusFreke/smali">smali/backsmali</a> &amp;&amp; <a href="https://github.com/testwhat/SmaliEx">oat2dex(smaliEX)</a> support list all roms not compatible with them will not be supported by this software since it uses those softwares to do the job.</p>
+
+<h3>
+<a id="prerequired" class="anchor" href="#prerequired" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Prerequired</h3>
+
+<ol>
+<li>JAVA JRE 8 and higher if you are deodexing sdk&gt;20 Roms.</li>
+<li>JAVA JRE 6 or higher if you are deodexing sdk&lt;20 Roms.</li>
+<li>JAVA PATH needs to be set folow those links for more informations<a href="https://www.java.com/en/download/help/path.xml">Windows</a>| <a href="http://ask.xmodulo.com/change-default-java-version-linux.html">Linux</a>| <a href="https://docs.oracle.com/javase/8/docs/technotes/guides/install/mac_jre.html">Mac</a>
+</li>
+</ol>
+
+<h3>
+<a id="download-" class="anchor" href="#download-" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Download :</h3>
+
+<ol>
+<li>Download the <a href="https://github.com/lord-ralf-adolf/Lordroid_One_Deodexer_To_Rule_Them_ALL/releases">Latest version</a>
+</li>
+</ol>
+
+<h3>
+<a id="how-to-use-gui-" class="anchor" href="#how-to-use-gui-" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>How to use (GUI) :</h3>
+
+<ol>
+<li>Under linux/mac extract the archive with the command <code>tar xzvf lordroid_ODTRTA_v0.5_beta-1_ALL.tar.gz</code>
+</li>
+<li>Under windows open the archive with 7zip GUI and extract it.</li>
+<li>If the default file association of <code>.jar</code> files is not <code>JAVA SE</code> right click then open with <code>JAVA SE</code>
+</li>
+<li>Click the browse button and choose the ROM's <code>system</code> folder or drag and drop a folder to the <code>Text Field</code>
+</li>
+<li>The log will tell you weither or not you selected folder is valide and if so the deodex Button will be activeted click on it</li>
+<li>The deodexing can take a lot of time so be patient </li>
+<li>when done a log file will be saved under <code>logs/yyyy-MM-dd_hh-mm-ss.log</code> check it out to see what happend or just scroll in the log Pannel to see the logs</li>
+<li>You are done ! the rom is deodexed </li>
+</ol>
+
+<h3>
+<a id="how-to-use-command-line-" class="anchor" href="#how-to-use-command-line-" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>How to use (Command line) :</h3>
+
+<ol>
+<li>Usage  <code>java -jar lordroid-ODTRTA.jar &lt;System_Folder&gt; [Options]</code>
+</li>
+<li>Options :<code>-z</code> to zipalign after deodexing , <code>-s</code> to resign apps apfter deodexing is done.</li>
+<li>
+<code>java -jar lordroid-ODTRTA.jar  -h</code>  to display help.</li>
+</ol>
+
+<h4>
+<a id="guide-lines--troubleshooting-" class="anchor" href="#guide-lines--troubleshooting-" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Guide lines &amp; troubleshooting :</h4>
+
+<ol>
+<li>make sure the is a build.prop file in the selected folder </li>
+<li>make sure the is a framwork folder under the selected folder.</li>
+<li>make sure the rom is odexed ! make a search in system folder with the request ".odex" if no results are there then your rom is deodexed and you don't need to run this tool on it.</li>
+<li>make sure JRE 8 is the default JRE see the output of java -version you should see 1.8.x if 1.7.x or lower the tool will not work for roms &gt; sdk 20 lollipop and above !</li>
+<li>make sur the system folder you chose is writable (means you have the right to write inside it) otherwise the tool will not work.</li>
+<li>if your rom is sdk &gt; 20 make sure you have a boot.oat file under framework/<em>arch</em> other wise the tool will not work.</li>
+<li>if you followed all those instructions and you are still having trouble send me a link to your rom or list me the all files under /system/framework ,/system/app and /system/priv-app.</li>
+</ol>
+
+<h3>
+<a id="build" class="anchor" href="#build" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Build</h3>
+
+<h4>
+<a id="using-ant-17-or-higher" class="anchor" href="#using-ant-17-or-higher" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>using ant 1.7 or higher</h4>
+
+<pre><code> mkdir deodexer
+ git clone https://github.com/lord-ralf-adolf/Lordroid_One_Deodexer_To_Rule_Them_ALL.git deodexer
+ cd deodexer  
+</code></pre>
+
+<p>to build a for test type the command   </p>
+
+<pre><code>ant
+</code></pre>
+
+<p>to create a release .tar.gz archive type the command the tar.gz will be under re-dist folder   </p>
+
+<pre><code>ant release
+</code></pre>
+
+<p>to clean the repo   </p>
+
+<pre><code>ant clean  
+</code></pre>
+
+<h3>
+<a id="licence" class="anchor" href="#licence" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>LICENCE</h3>
+
+<h4>
+<a id="the-software-is-licensed-under-gpl-v3-feel-free-to-do-what-ever-you-like-with-it-of-course-in-complience-with-the-gpl-v3-license-smile" class="anchor" href="#the-software-is-licensed-under-gpl-v3-feel-free-to-do-what-ever-you-like-with-it-of-course-in-complience-with-the-gpl-v3-license-smile" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>The software is licensed under GPL V3 feel free to do what ever you like with it of course in complience with the GPL V3 license <img class="emoji" title=":smile:" alt=":smile:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f604.png" height="20" width="20" align="absmiddle">
+</h4>
+
+<h4>
+<a id="all-tm-noted-in-any-location-of-the-software-are-there-for-reference-purpuse-only-none-of-them-are-associated-with-this-project" class="anchor" href="#all-tm-noted-in-any-location-of-the-software-are-there-for-reference-purpuse-only-none-of-them-are-associated-with-this-project" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>All (TM) noted in any location of the software are there for reference purpuse only none of them are associated with this project</h4>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/lord-ralf-adolf/Lordroid_One_Deodexer_To_Rule_Them_ALL">Lordroid One Deodexer To Rule Them All</a> is maintained by <a href="https://github.com/lord-ralf-adolf">lord-ralf-adolf</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
+
+    </section>
+
+  
+  </body>
+</html>
