@@ -26,9 +26,34 @@ Lordroid batch deodexer **ODTRTA** One Deodexer To Rule Them All ,is a free soft
   
   
 ### How to use (Command line) :
-1. Usage  `java -jar lordroid-ODTRTA.jar <System_Folder> [Options]`
-2. Options :`-z` to zipalign after deodexing , `-s` to resign apps apfter deodexing is done.
-3. `java -jar lordroid-ODTRTA.jar  -h`  to display help.
+         Lordroid One Deodexer To Rule'em All v1.20        |
+         ------------------------------------------        |
+ USAGE :                                                   |
+ java -jar Launcher.jar <source> [OPTIONS]                 |
+ <source> can be either                                    |
+ PATH to System Folder exemple : /path/system              |
+                   OR                                      |
+ e : to extract systemFolder directlly from device         |
+ Options :                                                 |
+ c : create a flashabe zip  after deodexing the rom        |
+ z : zipalign every apk after deodexing it                 |
+ s : sign every apk after deodexing                        |
+ h : print this help page                                  |
+ please note that options should'nt be separated by spaces |
+ Exemple :                                                 |
+ java -jar Launcher.jar /path/system zsc                   |
+ this command will deodex   and sign and zipalign          |
+ and then creates a flashable zip file                     |
+ java -jar Launcher.jar e  zsc                             |
+ this command will extract and deodex                      |
+ from connected device                                     |
+ then sign and zipalign                                    |
+ and then creates a flashable zip file                     |
+                                                           |
+ NOTE :                                                    |
+extracted systems will be under extracted_system_folders   |
+create flashable zip will be under flashable_zips_out      |
+
   
 
 #### Guide lines & troubleshooting :
