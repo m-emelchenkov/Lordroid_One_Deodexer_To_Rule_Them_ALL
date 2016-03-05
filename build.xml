@@ -6,6 +6,7 @@
     <property name="dir.buildfile" value="."/>
     <property name="dir.workspace" value="${dir.buildfile}/.."/>
     <property name="dir.jarfile" value="${dir.buildfile}"/>
+	<property name="app.version" value="v1.11"/>
 	<path id="project-classpath">
 		<fileset dir="${dir.jarfile}/libs" includes="*.jar" />
 		<fileset dir="${dir.jarfile}/bins/oat2dex" includes="*.jar" />
@@ -29,23 +30,23 @@
  	</target>
 
 	<target name = "release" depends="clean,build">
-		<tar destfile="${dir.jarfile}/re-dist/lordroid_ODTRTA_v1.10_ALL.tar.gz" longfile="gnu" compression="gzip">
+		<tar destfile="${dir.jarfile}/re-dist/lordroid_ODTRTA_${app.version}_ALL.tar.gz" longfile="gnu" compression="gzip">
         		<tarfileset dir="${dir.jarfile}" filemode="755" >
         		    <include name="bins/**"/>
         		    <include name="libs/**"/>
         		    <include name="lang/**"/>
         		    <include name="blanks/**"/>
-			    <include name="Manual.pdf"/>
+			   		<include name="Manual.pdf"/>
         		    <include name="Launcher.jar"/>
         		    <include name="LICENCE.md"/>
         		    <include name="README.md"/>
        		 	    <include name="NOTICE.txt"/>
       		  	</tarfileset>
  		</tar>
+        <!-- <copy todir="${dir.jarfile}/releses" file="${dir.jarfile}/re-dist/lordroid_ODTRTA_${app.version}_ALL.tar.gz"/>-->
 	</target>
 
 	<!-- SMALL CLEAN  -->
-       
 	<target name = "small-clean">
 		<delete dir="${dir.jarfile}/bin" />
 	</target>
@@ -61,6 +62,5 @@
 		<delete dir="${dir.jarfile}/bin"/>
 		<delete dir="${dir.jarfile}/extracted_system_folders"/>
 		<delete dir="${dir.jarfile}/flashable_zips_out"/>
-
 	</target>
 </project>
