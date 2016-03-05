@@ -20,9 +20,11 @@ package deodex;
 
 import java.awt.EventQueue;
 import java.io.File;
+import java.io.IOException;
 
 import deodex.controlers.CommandLineWorker;
 import deodex.controlers.MainWorker;
+import deodex.tools.AdbUtils;
 import deodex.tools.CmdLogger;
 import deodex.tools.FilesUtils;
 import deodex.tools.Logger;
@@ -33,13 +35,13 @@ import deodex.ui.Window;
 
 public class Tester {
 	public static CmdLogger logger = new CmdLogger();
-	public static CommandLineWorker rootWorker = new CommandLineWorker();
-
+	//public static CommandLineWorker rootWorker = new CommandLineWorker();
+	public static final String[] OPTIONS = {"z","s","c"};
 	public static void main(String args[]) {
-		PathUtils.logCallingProcessLocation();
-		logOsInfo();
-		HostInfo.logInfo();
 		if (args == null || args.length == 0) {
+			PathUtils.logCallingProcessLocation();
+			logOsInfo();
+			HostInfo.logInfo();
 			if (Cfg.isFirstLaunch()) {
 				Cfg.setCurrentLang(S.ENGLISH);
 				R.initResources();
@@ -63,101 +65,237 @@ public class Tester {
 				Window win = new Window();
 			}
 
-		} else if (args.length > 3) {
+		} else if (args.length > 2) {
+			Logger.logToStd = false;
 			printHelp();
-		} else if (args.length == 1 && args[0].equals("-h")) {
+		} else if (args.length == 1 && args[0].equals("h")) {
+			Logger.logToStd = false;
 			R.initResources();
 			printHelp();
 		} else {
 			Logger.logToStd = false;
-			int lengh = args.length;
-			// the user used one argument and it's not '-h' so we assume he
-			// selected a folder
-			R.initResources();
-			logOsInfo();
-			File systemFolder = new File(args[0]);
-			boolean sign = false;
-			boolean zipAlign = false;
-			if (lengh == 1) {
-				sign = false;
-				zipAlign = false;
-			} else if (lengh == 2) {
-				if (args[1].equals("-z") || args[1].equals("-s")) {
-					if (args[1].equals("-z")) {
-						zipAlign = true;
-					}
-					if (args[1].equals("-s")) {
-						sign = true;
-					}
-				} else {
-					System.out.println("unkown option !");
-					printHelp();
-					return;
-				}
-			} else {
-				if (args[1].equals("-z") || args[1].equals("-s")) {
-
-					if (args[1].equals("-z")) {
-						zipAlign = true;
-					}
-					if (args[1].equals("-s")) {
-						sign = true;
-					}
-				} else {
-					System.out.println("unkown option !");
-					printHelp();
-					return;
-				}
-				if (args[2].equals("-z") || args[2].equals("-s")) {
-
-					if (args[2].equals("-z")) {
-						zipAlign = true;
-					}
-					if (args[2].equals("-s")) {
-						sign = true;
-					}
-				} else {
-					System.out.println("unkown option !");
-					printHelp();
-					return;
-				}
-			}
-			if (!systemFolder.exists()) {
-				logger.addLog(systemFolder.getAbsolutePath() + " no such folder double check the path !");
-				printHelp();
-				return;
-			} else if (!systemFolder.isDirectory()) {
-				logger.addLog(systemFolder.getAbsolutePath() + " is not a directory !");
-				printHelp();
-				return;
-			} else if (FilesUtils.isAValideSystemDir(systemFolder, logger)) {
-				proseedWithNoGui(systemFolder, sign, zipAlign);
-			}
+			argsReader(args);
+//			Logger.logToStd = false;
+//			int lengh = args.length;
+//			// the user used one argument and it's not '-h' so we assume he
+//			// selected a folder
+//			R.initResources();
+//			logOsInfo();
+//			File systemFolder = new File(args[0]);
+//			boolean sign = false;
+//			boolean zipAlign = false;
+//			if (lengh == 1) {
+//				sign = false;
+//				zipAlign = false;
+//			} else if (lengh == 2) {
+//				if (args[1].equals("-z") || args[1].equals("-s")) {
+//					if (args[1].equals("-z")) {
+//						zipAlign = true;
+//					}
+//					if (args[1].equals("-s")) {
+//						sign = true;
+//					}
+//				} else {
+//					System.out.println("unkown option !");
+//					printHelp();
+//					return;
+//				}
+//			} else {
+//				if (args[1].equals("-z") || args[1].equals("-s")) {
+//
+//					if (args[1].equals("-z")) {
+//						zipAlign = true;
+//					}
+//					if (args[1].equals("-s")) {
+//						sign = true;
+//					}
+//				} else {
+//					System.out.println("unkown option !");
+//					printHelp();
+//					return;
+//				}
+//				if (args[2].equals("-z") || args[2].equals("-s")) {
+//
+//					if (args[2].equals("-z")) {
+//						zipAlign = true;
+//					}
+//					if (args[2].equals("-s")) {
+//						sign = true;
+//					}
+//				} else {
+//					System.out.println("unkown option !");
+//					printHelp();
+//					return;
+//				}
+//			}
+//			if (!systemFolder.exists()) {
+//				logger.addLog(systemFolder.getAbsolutePath() + " no such folder double check the path !");
+//				printHelp();
+//				return;
+//			} else if (!systemFolder.isDirectory()) {
+//				logger.addLog(systemFolder.getAbsolutePath() + " is not a directory !");
+//				printHelp();
+//				return;
+//			} else if (FilesUtils.isAValideSystemDir(systemFolder, logger)) {
+//				proseedWithNoGui(systemFolder, sign, zipAlign);
+//			}
 		}
 	}
 
 	private static void printHelp() {
+		System.out.println("_____________________________________________________________");
+		System.out.println("|         Lordroid One Deodexer To Rule'em All v1.20        |");
+		System.out.println("|-----------------------------------------------------------|");
+		System.out.println("|                                                           |");
+		System.out.println("| USAGE :                                                   |");
+		System.out.println("| java -jar Launcher.jar <source> [OPTIONS]                 |");
+		System.out.println("|-----------------------------------------------------------|");
+		System.out.println("| <source> can be either                                    |");
+		System.out.println("|-----------------------------------------------------------|");
+		System.out.println("| PATH to System Folder exemple : /path/system              |" );
+		System.out.println("|                   OR                                      |");
+		System.out.println("| e : to extract systemFolder directlly from device         |" );
+		System.out.println("|-----------------------------------------------------------|");
+		System.out.println("|                                                           |");
+		System.out.println("| Options :                                                 |");
+		System.out.println("|-----------------------------------------------------------|");
+		System.out.println("| c : create a flashabe zip  after deodexing the rom        |");		
+		System.out.println("| z : zipalign every apk after deodexing it                 |");
+		System.out.println("| s : sign every apk after deodexing                        |");
+		System.out.println("| h : print this help page                                  |");
+		System.out.println("| please note that options should'nt be separated by spaces |");
+		System.out.println("|                                                           |");
+		System.out.println("|-----------------------------------------------------------|");
+		System.out.println("| Exemple :                                                 |");
+		System.out.println("|-----------------------------------------------------------|");
+		System.out.println("| java -jar Launcher.jar /path/system zsc                   |");
+		System.out.println("| this command will deodex   and sign and zipalign          |\n"+
+						   "| and then creates a flashable zip file                     |");
+		System.out.println("| java -jar Launcher.jar e  zsc                             |");
+		System.out.println("| this command will extract and deodex                      |\n" 
+						  +"| from connected device                                     |\n"+
+				           "| then sign and zipalign                                    |\n"+
+						   "| and then creates a flashable zip file                     |");
+		System.out.println("|                                                           |\n"+
+				           "|-----------------------------------------------------------|\n"+
+						   "| NOTE :                                                    |");
+		System.out.println("|-----------------------------------------------------------|");
+		System.out.println("|extracted systems will be under extracted_system_folders   |");
+		System.out.println("|create flashable zip will be under flashable_zips_out      |");
+		System.out.println("|-----------------------------------------------------------|");
+		System.out.println("|                 © Rachid Boudjelida 2016                  |");
+		System.out.println("|             Software distributed under GPL V3             |");
+		System.out.println("|___________________________________________________________|");
 
-		System.out.println("Lordroid batch deodex :\n");
-		System.out.println("USAGE :\n");
-		System.out.println("java -jar lordroid-ODTRTA.jar <systemFolder> [OPTIONS]");
-		System.out.println("Options");
-		System.out.println("-z : zipalign every apk after deodexing it");
-		System.out.println("-s : sign every apk after deodexing");
-		System.out.println("-h : print this help page");
+
+
+		
 	}
 
-	private static void proseedWithNoGui(File systemFolder, boolean sign, boolean zipalign) {
-		SessionCfg.sign = sign;
+	private static void argsReader(String[] args){
+		R.initResources();
+		S.initTempFolders();
+		boolean zipalign = true;
+		boolean sign = false;
+		boolean createZip = false;
+		boolean adbExtracted = false;
+		File systemFolder ;
+		if(args.length == 2){
+			String source = args[0];
+			if(source.equals("e")){
+				adbExtracted=true;
+				systemFolder = new File(S.EXTRACTED_SYSTEMS.getAbsolutePath()+File.separator+S.getRomExtractionFolderName());
+			} else {
+				systemFolder = new File(source);
+				// does the folder exist ?
+				if(!systemFolder.exists()){
+					System.out.println(systemFolder.getAbsolutePath() +" : No such file or directory");
+					System.exit(2);
+				}
+				// can we write in this folder ?
+				boolean canWrite = false;
+				File writeTest = new File(systemFolder.getAbsolutePath()+File.separator+
+						"test.write");
+				try {
+					canWrite = writeTest.createNewFile();
+					writeTest.delete();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				if(!canWrite){
+					System.out.println(systemFolder.getAbsolutePath()+" : read-only file system "+
+				"\n please make sure that the system folder is read-write before trying again !");
+					System.exit(3);
+				}
+				
+				// obviously if we are here the systemfolder exists and is rw so lets proseed 
+			}
+			
+			String options = args[1];
+			for(int i = 0 ; i < options.length() ; i++){
+				String str = ""+options.charAt(i);
+				boolean valid = false;
+				for(String s : OPTIONS){
+					valid = valid || (s.equals(str));
+				}
+				if(!valid){
+					System.out.println("Unkown Option  : "+str);
+					printHelp();
+					return ;
+				}
+			}
+			// if we didn't return every thing is ok ! 
+			zipalign = options.contains("z");
+			sign = options.contains("s");
+			createZip = options.contains("c");
+			Tester.proseedWithNoGui(systemFolder, sign, zipalign, createZip, adbExtracted);
+		} else {
+			String source = args[0];
+			systemFolder = new File(source);
+			if(!systemFolder.exists()){
+				System.out.println(systemFolder.getAbsolutePath() +" : No such file or directory");
+				System.exit(2);
+			}
+			// can we write in this folder ?
+			boolean canWrite = false;
+			File writeTest = new File(systemFolder.getAbsolutePath()+File.separator+
+					"test.write");
+			try {
+				canWrite = writeTest.createNewFile();
+				writeTest.delete();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			if(!canWrite){
+				System.out.println(systemFolder.getAbsolutePath()+" : read-only file system "+
+			"\n please make sure that the system folder is read-write before trying again !");
+				System.exit(3);
+			}
+			Tester.proseedWithNoGui(systemFolder, sign, zipalign, createZip, adbExtracted);
+		}
+		
+		
+	}
+	
+	private static void proseedWithNoGui(File systemFolder, boolean sign, boolean zipalign , boolean createZip ,boolean fromdevice ) {
+		// lets check if system folder is a valid one 
+		boolean valid = FilesUtils.isAValideSystemDir(systemFolder, logger);
+		if(!valid){
+			System.exit(3);
+		}
+		if(fromdevice){
+			AdbUtils.extractSystem(systemFolder, logger);
+		}
 		SessionCfg.setSign(sign);
-		SessionCfg.zipalign = zipalign;
 		SessionCfg.setZipalign(zipalign);
 		MainWorker mainWorker = new MainWorker(systemFolder, logger, 1);
-		mainWorker.addThreadWatcher(new CommandLineWorker());
+		mainWorker.addThreadWatcher(new CommandLineWorker(createZip));
 		Thread t = new Thread(mainWorker);
-
 		t.start();
 	}
+	
 	private static void logOsInfo(){
 		// lets log SystemInfos
 		Logger.logToStdIO("[Tester][I]" + Cfg.getCurrentLang());
@@ -166,4 +304,5 @@ public class Tester {
 		Logger.writLog("[Tester][I]User Platform is : "+Os.platform());
 		Logger.writLog("[Tester][I]JAVA version : "+System.getProperty("java.version"));
 	}
+
 }

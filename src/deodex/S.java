@@ -20,6 +20,7 @@
 package deodex;
 
 import java.io.File;
+import java.io.IOException;
 
 import deodex.tools.Logger;
 import deodex.tools.PathUtils;
@@ -114,5 +115,26 @@ public class S {
 		boolean b = new File(TMP + File.separator + "boot").mkdirs();
 		Logger.writLog("[S] worker1 created ? "+w1 +" worker2 created ? "+w2+
 						" worker3 created ? "+w3 +" worker4 created ? "+w4 +" boot created ? "+b);
+	}
+	public static String getRomExtractionFolderName() {
+		File temp = new File("Rom_Extracted__lordroid");
+		try {
+			temp = File.createTempFile("ROM_Extracted_", "_lordroid");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return temp.getName();
+	}
+	public static String getPathExemple(){
+		String path = "/something/otherthing/mysystemFolder";
+		if(Cfg.getOs().equals(S.WINDOWS)){
+			path = "c:"+File.separator+"my_system_folder";
+		} else if(Cfg.getOs().equals(S.LINUX)){
+			path = "/home/user/my_systemFolder";
+		}else if (Cfg.getOs().equals(S.MAC)){
+			path = "/home/user/my_systemFolder";
+		}
+		return path;
 	}
 }

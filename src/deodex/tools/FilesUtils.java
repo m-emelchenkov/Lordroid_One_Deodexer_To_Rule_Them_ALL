@@ -268,11 +268,15 @@ public class FilesUtils {
 			// To do externalize those
 			try {
 				if (odexCount <= 0) {
+					// TODO is this good ? make some research !
+					if(!log.getClass().equals(CmdLogger.class))
 					JOptionPane.showMessageDialog((Component) log,
 							"<HTML><p>No arch was detected and no odex files were found in the system folder!</p><p>This usally means that the rom is already deodexed</p></HTML>",
 							"Rom is already deodexed!", JOptionPane.ERROR_MESSAGE);
 					return false;
 				} else if (bootcount <= 0) {
+					// TODO is this good ? make some research !
+					if(!log.getClass().equals(CmdLogger.class))
 					JOptionPane.showMessageDialog((Component) log,
 							"<HTML><p>No arch was detected and no boot.oat file was found in the system folder </p><p>boot.oat is critical to the depdex process can't do it without it</p></HTML>",
 							"No arch detected", JOptionPane.ERROR_MESSAGE);
