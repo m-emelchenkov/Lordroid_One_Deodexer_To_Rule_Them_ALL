@@ -3,6 +3,7 @@ releases
 lordroid-ODTRTA.jar
 *.class
 *.log
+logs
 cfg/app_config.rsx
 cfg
 flashable_zips_out
