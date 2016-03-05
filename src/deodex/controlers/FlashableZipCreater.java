@@ -76,7 +76,7 @@ public class FlashableZipCreater extends JFrame implements Runnable, MouseMotion
 		try {
 			this.zipFile = new ZipFile(zipFilep);
 		} catch (ZipException e) {
-			Logger.writLog("[FlashableZipCreater][EX]"+e.getStackTrace());
+			Logger.writLog("[FlashableZipCreater][EX]" + e.getStackTrace());
 			e.printStackTrace();
 		}
 
@@ -114,7 +114,7 @@ public class FlashableZipCreater extends JFrame implements Runnable, MouseMotion
 					getThisFram().dispose();
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
-					Logger.writLog("[FlashableZipCreater][EX]"+e1.getStackTrace());
+					Logger.writLog("[FlashableZipCreater][EX]" + e1.getStackTrace());
 					e1.printStackTrace();
 				}
 			}

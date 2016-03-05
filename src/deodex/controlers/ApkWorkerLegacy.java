@@ -94,7 +94,7 @@ public class ApkWorkerLegacy implements Watchable, Runnable {
 				try {
 					putBack = Zip.addFilesToExistingZip(apk.tempApk, classes);
 				} catch (IOException e) {
-					Logger.writLog("[ApkWorkerLegacy][EX]"+e.getStackTrace());
+					Logger.writLog("[ApkWorkerLegacy][EX]" + e.getStackTrace());
 					e.printStackTrace();
 				}
 				if (!putBack) {
@@ -109,7 +109,7 @@ public class ApkWorkerLegacy implements Watchable, Runnable {
 						} catch (IOException | InterruptedException e) {
 							e.printStackTrace();
 							apk.tempApk.renameTo(apk.tempSigned);
-							Logger.writLog("[ApkWorkerLegacy][EX]"+e.getStackTrace());
+							Logger.writLog("[ApkWorkerLegacy][EX]" + e.getStackTrace());
 						}
 					} else {
 						apk.tempApk.renameTo(apk.tempSigned);
@@ -122,7 +122,7 @@ public class ApkWorkerLegacy implements Watchable, Runnable {
 						} catch (IOException | InterruptedException e) {
 							e.printStackTrace();
 							apk.tempSigned.renameTo(apk.tempZipaligned);
-							Logger.writLog("[ApkWorkerLegacy][EX]"+e.getStackTrace());
+							Logger.writLog("[ApkWorkerLegacy][EX]" + e.getStackTrace());
 						}
 					} else {
 						apk.tempSigned.renameTo(apk.tempZipaligned);
@@ -168,12 +168,12 @@ public class ApkWorkerLegacy implements Watchable, Runnable {
 		return progressBar;
 	}
 
-	private String percent (){
-		//  ?  >>> value
-		// 100 >>>> max 
-		return (this.progressBar.getValue() *100 / this.progressBar.getMaximum())+"%";
+	private String percent() {
+		// ? >>> value
+		// 100 >>>> max
+		return (this.progressBar.getValue() * 100 / this.progressBar.getMaximum()) + "%";
 	}
-	
+
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
@@ -193,7 +193,7 @@ public class ApkWorkerLegacy implements Watchable, Runnable {
 							R.getString(S.LOG_WARNING) + "[" + apk.origApk.getName() + "]" + R.getString(S.LOG_FAIL));
 				}
 				progressBar.setValue(progressBar.getValue() + 1);
-				progressBar.setString(R.getString("progress.apks") + " "+this.percent());
+				progressBar.setString(R.getString("progress.apks") + " " + this.percent());
 				this.threadWatcher.updateProgress();
 			}
 			finalMove();
@@ -201,7 +201,7 @@ public class ApkWorkerLegacy implements Watchable, Runnable {
 			try {
 				Thread.sleep(2000);
 			} catch (InterruptedException e) {
-				Logger.writLog("[ApkWorkerLegacy][EX]"+e.getStackTrace());
+				Logger.writLog("[ApkWorkerLegacy][EX]" + e.getStackTrace());
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 				// lets make sure the whatcher is always updated even when an
@@ -209,7 +209,7 @@ public class ApkWorkerLegacy implements Watchable, Runnable {
 				finalMove();
 			}
 		}
-		
+
 	}
 
 	/**

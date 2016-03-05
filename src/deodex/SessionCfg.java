@@ -32,6 +32,7 @@ public class SessionCfg {
 	public static boolean sign = false;
 	public static int sessionFrom = 1;
 	public static boolean isSquash = false;
+
 	/**
 	 * 
 	 * @return
@@ -83,7 +84,7 @@ public class SessionCfg {
 	 * @param arch
 	 */
 	public static void setArch(String arch) {
-		Logger.writLog("[SessionCfg][I] setting arch to :" +arch);
+		Logger.writLog("[SessionCfg][I] setting arch to :" + arch);
 		SessionCfg.arch = arch;
 	}
 
@@ -92,7 +93,7 @@ public class SessionCfg {
 	 * @param bootOatFile
 	 */
 	public static void setBootOatFile(File bootOatFile) {
-		Logger.writLog("[SessionCfg][I] setting boot file to :" +bootOatFile.getAbsolutePath());
+		Logger.writLog("[SessionCfg][I] setting boot file to :" + bootOatFile.getAbsolutePath());
 		SessionCfg.bootOatFile = bootOatFile;
 	}
 
@@ -101,7 +102,7 @@ public class SessionCfg {
 	 * @param sdk
 	 */
 	public static void setSdk(int sdk) {
-		Logger.writLog("[SessionCfg][I] setting sdk level to : " +sdk);
+		Logger.writLog("[SessionCfg][I] setting sdk level to : " + sdk);
 		SessionCfg.sdk = sdk;
 	}
 

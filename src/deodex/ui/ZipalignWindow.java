@@ -243,6 +243,6 @@ public class ZipalignWindow extends JFrame implements ThreadWatcher {
 	@Override
 	public void sendFailed(Runnable r) {
 		// TODO Auto-generated method stub
-		
+
 	}
 }

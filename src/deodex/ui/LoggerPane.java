@@ -93,7 +93,7 @@ public class LoggerPane extends JPanel implements LoggerPan {
 	}
 
 	@Override
-	public synchronized void addLog(String str)  {
+	public synchronized void addLog(String str) {
 		// TODO Auto-generated method stub
 		try {
 			addLogR(str);
@@ -104,10 +104,10 @@ public class LoggerPane extends JPanel implements LoggerPan {
 	}
 
 	// multiple threads can log here !
-	private synchronized void addLogR(String str) throws Exception{
-		synchronized(model ){
-			synchronized (scroll){
-				synchronized (logs){
+	private synchronized void addLogR(String str) throws Exception {
+		synchronized (model) {
+			synchronized (scroll) {
+				synchronized (logs) {
 					long yourmilliseconds = System.currentTimeMillis();
 					SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss"); // dd/MMM/yyyy
 					Date resultdate = new Date(yourmilliseconds);
@@ -117,7 +117,7 @@ public class LoggerPane extends JPanel implements LoggerPan {
 				}
 			}
 		}
-		
+
 		this.repaint();
 	}
 

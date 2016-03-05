@@ -61,19 +61,20 @@ public class JarWorkerLegacy implements Watchable, Runnable {
 	}
 
 	private boolean deodexJar(JarLegacy jar) {
-		Logger.writLog("[JarWorkerLegacy][I]["+jar.getOrigJar().getName()+"]"+" about to copy needed files to working dir ");
+		Logger.writLog("[JarWorkerLegacy][I][" + jar.getOrigJar().getName() + "]"
+				+ " about to copy needed files to working dir ");
 		boolean copyStatus = jar.copyNeededFiles(tempFolder);
 		if (!copyStatus) {
-			Logger.writLog("[JarWorkerLegacy][E]["+jar.getOrigJar().getName()+"] failed to copy to working dir ");
+			Logger.writLog("[JarWorkerLegacy][E][" + jar.getOrigJar().getName() + "] failed to copy to working dir ");
 			this.logPan.addLog(
 					R.getString(S.LOG_ERROR) + "[" + jar.getOrigJar() + "]" + R.getString("log.copy.to.tmp.failed"));
 			return false;
 		}
 		// deodexing
-		Logger.writLog("[JarWorkerLegacy][I]["+jar.getOrigJar().getName()+"] about to deodex odex file ");
+		Logger.writLog("[JarWorkerLegacy][I][" + jar.getOrigJar().getName() + "] about to deodex odex file ");
 		boolean deodexStatus = Deodexer.deoDexApkLegacy(jar.tempOdex, jar.classes);
 		if (!deodexStatus) {
-			Logger.writLog("[JarWorkerLegacy][E]["+jar.getOrigJar().getName()+"] deodex odex file FAILED");
+			Logger.writLog("[JarWorkerLegacy][E][" + jar.getOrigJar().getName() + "] deodex odex file FAILED");
 			this.logPan
 					.addLog(R.getString(S.LOG_ERROR) + "[" + jar.getOrigJar() + "]" + R.getString("log.deodex.failed"));
 			return false;
@@ -81,17 +82,19 @@ public class JarWorkerLegacy implements Watchable, Runnable {
 		// putback
 		ArrayList<File> classes = new ArrayList<File>();
 		classes.add(jar.classes);
-		Logger.writLog("[JarWorkerLegacy][I]["+jar.getOrigJar().getName()+"] about to put "+jar.classes.getAbsolutePath()+"back in ");
+		Logger.writLog("[JarWorkerLegacy][I][" + jar.getOrigJar().getName() + "] about to put "
+				+ jar.classes.getAbsolutePath() + "back in ");
 		boolean putBack = false;
 		try {
 			putBack = Zip.addFilesToExistingZip(jar.tempJar, classes);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			Logger.writLog("[JarWorkerLegacy][EX]"+e.getStackTrace());
+			Logger.writLog("[JarWorkerLegacy][EX]" + e.getStackTrace());
 		}
 		if (!putBack) {
-			Logger.writLog("[JarWorkerLegacy][I]["+jar.getOrigJar().getName()+"] put "+jar.classes.getAbsolutePath()+"back in failed");
+			Logger.writLog("[JarWorkerLegacy][I][" + jar.getOrigJar().getName() + "] put "
+					+ jar.classes.getAbsolutePath() + "back in failed");
 			this.logPan.addLog(
 					R.getString(S.LOG_ERROR) + "[" + jar.getOrigJar() + "]" + R.getString("log.add.classes.failed"));
 			return false;
@@ -120,12 +123,12 @@ public class JarWorkerLegacy implements Watchable, Runnable {
 		return progressBar;
 	}
 
-	private String percent (){
-		//  ?  >>> value
-		// 100 >>>> max 
-		return (this.progressBar.getValue() *100 / this.progressBar.getMaximum())+"%";
+	private String percent() {
+		// ? >>> value
+		// 100 >>>> max
+		return (this.progressBar.getValue() * 100 / this.progressBar.getMaximum()) + "%";
 	}
-	
+
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
@@ -133,12 +136,14 @@ public class JarWorkerLegacy implements Watchable, Runnable {
 		if (this.jarList != null && !this.jarList.isEmpty()) {
 			for (File f : this.jarList) {
 				JarLegacy jar = new JarLegacy(f);
-				Logger.writLog("[JarWorkerLegacy][I] processing "+jar.getOrigJar());
+				Logger.writLog("[JarWorkerLegacy][I] processing " + jar.getOrigJar());
 				success = this.deodexJar(jar);
 				if (success) {
-					logPan.addLog(R.getString(S.LOG_INFO)+"[" + jar.origJar.getName() + "]" + R.getString(S.LOG_SUCCESS));
+					logPan.addLog(
+							R.getString(S.LOG_INFO) + "[" + jar.origJar.getName() + "]" + R.getString(S.LOG_SUCCESS));
 				} else {
-					logPan.addLog(R.getString(S.LOG_WARNING)+"[" + jar.origJar.getName() + "]" + R.getString(S.LOG_FAIL));
+					logPan.addLog(
+							R.getString(S.LOG_WARNING) + "[" + jar.origJar.getName() + "]" + R.getString(S.LOG_FAIL));
 				}
 				progressBar.setValue(progressBar.getValue() + 1);
 				progressBar.setString(R.getString("progress.jar") + " " + this.percent());
@@ -155,7 +160,7 @@ public class JarWorkerLegacy implements Watchable, Runnable {
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-				Logger.writLog("[JarWorkerLegacy][EX]"+e.getStackTrace());
+				Logger.writLog("[JarWorkerLegacy][EX]" + e.getStackTrace());
 				FilesUtils.deleteRecursively(tempFolder);
 				progressBar.setValue(progressBar.getMaximum());
 				progressBar.setString(R.getString("progress.done"));
@@ -163,7 +168,6 @@ public class JarWorkerLegacy implements Watchable, Runnable {
 				threadWatcher.done(this);
 			}
 		}
-
 
 	}
 

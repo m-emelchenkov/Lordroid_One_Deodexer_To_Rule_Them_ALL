@@ -31,13 +31,13 @@ public class CmdLogger implements LoggerPan {
 	@Override
 	public synchronized void addLog(String str) {
 		// TODO Auto-generated method stub
-		synchronized(logs){
-		long yourmilliseconds = System.currentTimeMillis();
-		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss"); // dd/MMM/yyyy
-		Date resultdate = new Date(yourmilliseconds);
-		String str2 = sdf.format(resultdate);
-		logs.add("[" + str2 + "]" + str);
-		System.out.println("[" + str2 + "]" + str);
+		synchronized (logs) {
+			long yourmilliseconds = System.currentTimeMillis();
+			SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss"); // dd/MMM/yyyy
+			Date resultdate = new Date(yourmilliseconds);
+			String str2 = sdf.format(resultdate);
+			logs.add("[" + str2 + "]" + str);
+			System.out.println("[" + str2 + "]" + str);
 		}
 	}
 

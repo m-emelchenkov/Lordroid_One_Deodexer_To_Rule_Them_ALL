@@ -64,15 +64,15 @@ public class JarWorker implements Runnable, Watchable {
 	private boolean deodexJar(File odex) {
 		JarObj jar = new JarObj(odex);
 		// phase 1
-		Logger.writLog("[JarWorker][I] about to copy needed files for "+jar.getAbsoluteName());
+		Logger.writLog("[JarWorker][I] about to copy needed files for " + jar.getAbsoluteName());
 		boolean copyStatus = jar.copyNeedFiles(tmpFolder);
 		if (!copyStatus) {
-			Logger.writLog("[JarWorker][E] copy of needed files for "+jar.getAbsoluteName()+"failed ");
+			Logger.writLog("[JarWorker][E] copy of needed files for " + jar.getAbsoluteName() + "failed ");
 			this.logPan.addLog(
 					R.getString(S.LOG_ERROR) + "[" + jar.getOrigJar() + "]" + R.getString("log.copy.to.tmp.failed"));
 			return false;
 		}
-		Logger.writLog("[JarWorker][I] copy of needed files for "+jar.getAbsoluteName()+" success ");
+		Logger.writLog("[JarWorker][I] copy of needed files for " + jar.getAbsoluteName() + " success ");
 		this.progressBar.setValue(this.progressBar.getValue() + 1);
 		progressBar.setString(R.getString("progress.jar") + " " + this.getPercent() + "%");
 		threadWatcher.updateProgress();
@@ -80,43 +80,46 @@ public class JarWorker implements Runnable, Watchable {
 		// phase 02
 		boolean extractStatus = false;
 		try {
-			Logger.writLog("[JarWorker][I]["+jar.getAbsoluteName()+ "]trying to extract odex file ");
+			Logger.writLog("[JarWorker][I][" + jar.getAbsoluteName() + "]trying to extract odex file ");
 			extractStatus = ZipTools.extractOdex(jar.getTmpCompodex());
 		} catch (IOException e) {
 			this.logPan.addLog(
 					R.getString(S.LOG_ERROR) + "[" + jar.getOrigJar() + "]" + R.getString("log.extract.to.tmp.failed"));
 			e.printStackTrace();
-			Logger.writLog("[JarWorker][E]["+jar.getAbsoluteName()+ "]trying to extract odex file failed with exception");
-			Logger.writLog("[JarWorker][EX]"+e.getStackTrace());
+			Logger.writLog(
+					"[JarWorker][E][" + jar.getAbsoluteName() + "]trying to extract odex file failed with exception");
+			Logger.writLog("[JarWorker][EX]" + e.getStackTrace());
 			return false;
-			
+
 		}
 		if (!extractStatus) {
-			Logger.writLog("[JarWorker][E]["+jar.getAbsoluteName()+ "]trying to extract odex file failed");
+			Logger.writLog("[JarWorker][E][" + jar.getAbsoluteName() + "]trying to extract odex file failed");
 			this.logPan.addLog(
 					R.getString(S.LOG_ERROR) + "[" + jar.getOrigJar() + "]" + R.getString("log.extract.to.tmp.failed"));
 			return false;
 		}
-		Logger.writLog("[JarWorker][I]["+jar.getAbsoluteName()+ "]trying to extract odex file success");
+		Logger.writLog("[JarWorker][I][" + jar.getAbsoluteName() + "]trying to extract odex file success");
 		this.progressBar.setValue(this.progressBar.getValue() + 1);
 		progressBar.setString(R.getString("progress.jar") + " " + this.getPercent() + "%");
 		threadWatcher.updateProgress();
 
 		// phase 3
 		boolean deodexStatus = false;
-		Logger.writLog("[JarWorker][I]["+jar.getAbsoluteName()+ "] about to deodex odex file ");
+		Logger.writLog("[JarWorker][I][" + jar.getAbsoluteName() + "] about to deodex odex file ");
 		deodexStatus = Deodexer.deodexApk(jar.getTmpodex(), jar.getTmpdex());
 		if (!deodexStatus) {
-			Logger.writLog("[JarWorker][W]["+jar.getAbsoluteName()+ "] about to deodex odex file failed with oat2dex trying smali/backsmali");
+			Logger.writLog("[JarWorker][W][" + jar.getAbsoluteName()
+					+ "] about to deodex odex file failed with oat2dex trying smali/backsmali");
 			deodexStatus = Deodexer.deodexApkFailSafe(jar.getTmpodex(), jar.getTmpdex());
 			if (!deodexStatus) {
-				Logger.writLog("[JarWorker][E]["+jar.getAbsoluteName()+ "] about to deodex odex file failed with oat2dex and smali/backsmali fatal");
+				Logger.writLog("[JarWorker][E][" + jar.getAbsoluteName()
+						+ "] about to deodex odex file failed with oat2dex and smali/backsmali fatal");
 				this.logPan.addLog(
 						R.getString(S.LOG_ERROR) + "[" + jar.getOrigJar() + "]" + R.getString("log.deodex.failed"));
 				return false;
 			}
 		}
-		Logger.writLog("[JarWorker][I]["+jar.getAbsoluteName()+ "] about to deodex odex file success");
+		Logger.writLog("[JarWorker][I][" + jar.getAbsoluteName() + "] about to deodex odex file success");
 		this.progressBar.setValue(this.progressBar.getValue() + 1);
 		progressBar.setString(R.getString("progress.jar") + " " + this.getPercent() + "%");
 		threadWatcher.updateProgress();
@@ -125,17 +128,20 @@ public class JarWorker implements Runnable, Watchable {
 		boolean rename = false;
 		rename = jar.getTmpdex().renameTo(jar.getTmpClasses());
 		if (jar.getTmpdex2().exists()) {
-			Logger.writLog("[JarWorker][D]["+jar.getAbsoluteName()+ "] Found "+jar.getTmpClasses2()+" ! renaming it to " +jar.getTmpClasses2());
+			Logger.writLog("[JarWorker][D][" + jar.getAbsoluteName() + "] Found " + jar.getTmpClasses2()
+					+ " ! renaming it to " + jar.getTmpClasses2());
 			rename = rename && jar.getTmpdex2().renameTo(jar.getTmpClasses2());
 		}
 		if (jar.getTmpdex3().exists()) {
-			Logger.writLog("[JarWorker][D]["+jar.getAbsoluteName()+ "] Found "+jar.getTmpClasses3()+" ! renaming it to " +jar.getTmpClasses3());
+			Logger.writLog("[JarWorker][D][" + jar.getAbsoluteName() + "] Found " + jar.getTmpClasses3()
+					+ " ! renaming it to " + jar.getTmpClasses3());
 			rename = rename && jar.getTmpdex3().renameTo(jar.getTmpClasses3());
 		}
 
 		// if(rename) return true;
 		if (!rename) {
-			Logger.writLog("[JarWorker][E]["+jar.getAbsoluteName()+ "] Found multiple classes and we couldn't rename them !");
+			Logger.writLog("[JarWorker][E][" + jar.getAbsoluteName()
+					+ "] Found multiple classes and we couldn't rename them !");
 			this.logPan.addLog(
 					R.getString(S.LOG_ERROR) + "[" + jar.getOrigJar() + "]" + R.getString("log.classes.failed"));
 			return false;
@@ -145,7 +151,7 @@ public class JarWorker implements Runnable, Watchable {
 		threadWatcher.updateProgress();
 
 		// phase 5
-		Logger.writLog("[JarWorker][I]["+jar.getAbsoluteName()+ "] abotut to put classes file(s) back in jar file");
+		Logger.writLog("[JarWorker][I][" + jar.getAbsoluteName() + "] abotut to put classes file(s) back in jar file");
 
 		ArrayList<File> list = new ArrayList<File>();
 		list.add(jar.getTmpClasses());
@@ -156,23 +162,24 @@ public class JarWorker implements Runnable, Watchable {
 			list.add(jar.getTmpClasses3());
 		}
 		String classesFiles = "";
-		for (int i = 0 ; i < list.size() ; i++){
-			if(i != list.size()-1){
-				classesFiles = classesFiles + ""+list.get(i).getAbsolutePath()+" :: ";
+		for (int i = 0; i < list.size(); i++) {
+			if (i != list.size() - 1) {
+				classesFiles = classesFiles + "" + list.get(i).getAbsolutePath() + " :: ";
 			} else {
-				classesFiles = classesFiles + ""+list.get(i).getAbsolutePath();
+				classesFiles = classesFiles + "" + list.get(i).getAbsolutePath();
 			}
 		}
-		Logger.writLog("[JarWorker][I]["+jar.getAbsoluteName()+ "] files to be added : "+classesFiles);
+		Logger.writLog("[JarWorker][I][" + jar.getAbsoluteName() + "] files to be added : " + classesFiles);
 		boolean addstatus = false;
 		try {
 			addstatus = Zip.addFilesToExistingZip(jar.getTmpJar(), list);
 		} catch (IOException e1) {
 			e1.printStackTrace();
-			Logger.writLog("[JarWorker][EX]"+e1.getStackTrace());
+			Logger.writLog("[JarWorker][EX]" + e1.getStackTrace());
 		}
 		if (!addstatus) {
-			Logger.writLog("[JarWorker][E]["+jar.getAbsoluteName()+ "] failed to put classes file(s) back in jar file");
+			Logger.writLog(
+					"[JarWorker][E][" + jar.getAbsoluteName() + "] failed to put classes file(s) back in jar file");
 			this.logPan.addLog(
 					R.getString(S.LOG_ERROR) + "[" + jar.getOrigJar() + "]" + R.getString("log.add.classes.failed"));
 			return false;
@@ -183,10 +190,11 @@ public class JarWorker implements Runnable, Watchable {
 
 		// phase 6
 		boolean putBack = false;
-		Logger.writLog("[JarWorker][I]["+jar.getAbsoluteName()+ "] about to copy file back to it's original folder");
+		Logger.writLog("[JarWorker][I][" + jar.getAbsoluteName() + "] about to copy file back to it's original folder");
 		putBack = FilesUtils.copyFile(jar.getTmpJar(), jar.getOrigJar());
 		if (!putBack) {
-			Logger.writLog("[JarWorker][E]["+jar.getAbsoluteName()+ "] about to copy file back to it's original folder failed ");
+			Logger.writLog("[JarWorker][E][" + jar.getAbsoluteName()
+					+ "] about to copy file back to it's original folder failed ");
 			this.logPan.addLog(
 					R.getString(S.LOG_ERROR) + "[" + jar.getOrigJar() + "]" + R.getString("log.putback.apk.failed"));
 			return false;
@@ -219,16 +227,16 @@ public class JarWorker implements Runnable, Watchable {
 	public void run() {
 		if (this.odexFiles != null && this.odexFiles.size() > 0) {
 			for (File jar : odexFiles) {
-				Logger.writLog("[JarWorker][I] processing "+new JarObj(jar).getAbsoluteName() + ".jar ...");
+				Logger.writLog("[JarWorker][I] processing " + new JarObj(jar).getAbsoluteName() + ".jar ...");
 				boolean success = deodexJar(jar);
 				if (success) {
-					Logger.writLog("[JarWorker][I] "+new JarObj(jar).getAbsoluteName() + ".jar [SUCCESS]");
+					Logger.writLog("[JarWorker][I] " + new JarObj(jar).getAbsoluteName() + ".jar [SUCCESS]");
 					logPan.addLog(
 							R.getString(S.LOG_INFO) + "[" + new JarObj(jar).getAbsoluteName() + ".jar]" + " [SUCCESS]");
 				} else {
-					Logger.writLog("[JarWorker][E] "+new JarObj(jar).getAbsoluteName() + ".jar [FAILED]");
-					logPan.addLog(
-							R.getString(S.LOG_WARNING) + "[" + new JarObj(jar).getAbsoluteName() + ".jar]" + " [FAILED]");
+					Logger.writLog("[JarWorker][E] " + new JarObj(jar).getAbsoluteName() + ".jar [FAILED]");
+					logPan.addLog(R.getString(S.LOG_WARNING) + "[" + new JarObj(jar).getAbsoluteName() + ".jar]"
+							+ " [FAILED]");
 				}
 				this.progressBar.setValue(this.progressBar.getValue() + 1);
 				progressBar.setString(R.getString("progress.jar") + " " + this.getPercent() + "%");
@@ -240,7 +248,7 @@ public class JarWorker implements Runnable, Watchable {
 			Thread.sleep(2000);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
-			Logger.writLog("[JarWorker][EX]"+e.getStackTrace());
+			Logger.writLog("[JarWorker][EX]" + e.getStackTrace());
 		}
 		Logger.writLog("[JarWorker][I] ALL Jobs Done now cleaning ...");
 		FilesUtils.deleteRecursively(tmpFolder);

@@ -72,9 +72,10 @@ public class Alerts {
 
 		return Cfg.getMaxJobs();
 	}
-	public static void showSettingsDialog(JComponent com){
+
+	public static void showSettingsDialog(JComponent com) {
 		SettingsPanel setings = new SettingsPanel();
-		JOptionPane pane = new JOptionPane(setings , JOptionPane.PLAIN_MESSAGE,JOptionPane.OK_CANCEL_OPTION);
+		JOptionPane pane = new JOptionPane(setings, JOptionPane.PLAIN_MESSAGE, JOptionPane.OK_CANCEL_OPTION);
 		JDialog dialog = pane.createDialog(com, R.getString("0000052"));
 		dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		dialog.setSize(500, 200);
@@ -82,16 +83,17 @@ public class Alerts {
 		int status = 10;
 		try {
 			status = (int) pane.getValue();
-		} catch (Exception e){
-			
+		} catch (Exception e) {
+
 		}
-		if(status == 0){
-			Cfg.setCurrentLang((String)setings.langs.getSelectedItem());
+		if (status == 0) {
+			Cfg.setCurrentLang((String) setings.langs.getSelectedItem());
 			Cfg.setMaxJobs((int) setings.thread.getSelectedItem());
 			Cfg.writeCfgFile();
 		}
 	}
-	public static void main(String args[]){
+
+	public static void main(String args[]) {
 		Cfg.readCfg();
 		R.initResources();
 		showSettingsDialog(null);

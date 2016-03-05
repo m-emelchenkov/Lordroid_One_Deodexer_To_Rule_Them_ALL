@@ -113,7 +113,7 @@ public class Window extends JFrame implements ThreadWatcher, ChangeListener {
 				JOptionPane.showMessageDialog(getThisFram(),
 						R.getString("0000002") + "\n" + R.getString("0000003") + "\n" + R.getString("0000004"),
 						R.getString("0000005"), JOptionPane.INFORMATION_MESSAGE);
-			} else if(source.equals(settingsItem)){
+			} else if (source.equals(settingsItem)) {
 				Alerts.showSettingsDialog(settingsItem);
 			}
 
@@ -183,7 +183,7 @@ public class Window extends JFrame implements ThreadWatcher, ChangeListener {
 	JMenu fichierMenu = new JMenu(R.getString("file"));
 	JMenuItem exitMenuItem = new JMenuItem(R.getString("exit"));
 	JMenuItem settingsItem = new JMenuItem(R.getString("0000052"));
-	
+
 	// Tools Menu
 	JMenu toolsMenu = new JMenu(R.getString("tools"));
 	JMenuItem batchZipalignSignMenuItem = new JMenuItem(R.getString("batch.zipalign.sign.menu.items"));
@@ -325,7 +325,6 @@ public class Window extends JFrame implements ThreadWatcher, ChangeListener {
 		this.devieStatusField.setBorder(BorderFactory.createLineBorder(new Color(89, 195, 216)));
 		optionalPan.setBorder(BorderFactory.createTitledBorder(
 				BorderFactory.createLineBorder(new Color(89, 195, 216), 2), R.getString("optionalPan")));
-
 
 		// toolTips
 		zipalignCheck.setToolTipText(R.getString("zipalignCheck.ToolTip"));
@@ -482,8 +481,8 @@ public class Window extends JFrame implements ThreadWatcher, ChangeListener {
 					if (name != null) {
 						boolean valid = false;
 						try {
-							new File(S.TMP+File.separator+name).getParentFile().mkdirs();
-							valid = new File(S.TMP+File.separator+name).createNewFile();
+							new File(S.TMP + File.separator + name).getParentFile().mkdirs();
+							valid = new File(S.TMP + File.separator + name).createNewFile();
 
 						} catch (InvalidPathException | IOException ex) {
 							ex.printStackTrace();
@@ -545,26 +544,26 @@ public class Window extends JFrame implements ThreadWatcher, ChangeListener {
 		this.repaint();
 	}
 
-	private void initFatalError(){
+	private void initFatalError() {
 		rootPanel.removeAll();
 		rootPanel.setLayout(null);
 		rootPanel.setBackground(new Color(206, 194, 229));
 		rootPanel.setOpaque(true);
 		// TODO : externalize those
-		JLabel errorLab = new JLabel("<HTML><p>Oops ... we couldn't initialize the working environement "+
-		" please make sure that you have followed all the guide lines if you think this is a bug please send a bug report along with the full log to rachidboudjelida@gmail.com or post it on XDA </p></HTML>");
+		JLabel errorLab = new JLabel("<HTML><p>Oops ... we couldn't initialize the working environement "
+				+ " please make sure that you have followed all the guide lines if you think this is a bug please send a bug report along with the full log to rachidboudjelida@gmail.com or post it on XDA </p></HTML>");
 		JButton exit = new JButton("Back");
-		exit.addActionListener(new ActionListener(){
+		exit.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
 				initBrowseView();
 			}
-			
+
 		});
 		errorLab.setFont(R.COURIER_NORMAL);
-		errorLab.setBounds(50,10,700,100);
+		errorLab.setBounds(50, 10, 700, 100);
 		exit.setBounds(100, 150, 600, 60);
 		rootPanel.add(errorLab);
 		rootPanel.add(exit);
@@ -572,11 +571,11 @@ public class Window extends JFrame implements ThreadWatcher, ChangeListener {
 		rootPanel.revalidate();
 		this.repaint();
 	}
-	
+
 	private void refressAdb() {
 		// do nothing if an operation is in progress
-		if(this.workInProgress){
-		 return;
+		if (this.workInProgress) {
+			return;
 		}
 		String formatedDevice = AdbUtils.getDevices(logger);
 		this.devieNameField.setText("  " + formatedDevice.substring(0, formatedDevice.lastIndexOf("|")));
@@ -600,8 +599,8 @@ public class Window extends JFrame implements ThreadWatcher, ChangeListener {
 		if (name != null) {
 
 			try {
-				new File(S.TMP+File.separator +name).getParentFile().mkdirs();
-				valid = new File(S.TMP+File.separator +name).createNewFile();
+				new File(S.TMP + File.separator + name).getParentFile().mkdirs();
+				valid = new File(S.TMP + File.separator + name).createNewFile();
 				new File(name).delete();
 			} catch (InvalidPathException | IOException ex) {
 				ex.printStackTrace();
@@ -622,14 +621,14 @@ public class Window extends JFrame implements ThreadWatcher, ChangeListener {
 
 				@Override
 				public void updateProgress() {
-					
+
 					workInProgress = false;
 				}
 
 				@Override
 				public void sendFailed(Runnable r) {
 					// TODO Auto-generated method stub
-					
+
 				}
 
 			});
@@ -666,7 +665,7 @@ public class Window extends JFrame implements ThreadWatcher, ChangeListener {
 
 		@Override
 		public void run() {
-			
+
 			boolean extractStatus = AdbUtils.extractSystem(systemFolder, logger);
 			if (!extractStatus) {
 				logger.addLog(R.getString(S.LOG_ERROR)
@@ -724,7 +723,7 @@ public class Window extends JFrame implements ThreadWatcher, ChangeListener {
 
 	@Override
 	public void stateChanged(ChangeEvent arg0) {
-		
+
 		if (arg0.getSource().equals(inputPan)) {
 			if (!this.workInProgress) {
 				if (inputPan.getSelectedIndex() == 0) {

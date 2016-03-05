@@ -79,11 +79,14 @@ public class S {
 	public static final String LINUX = "linux";
 	public static final String MAC = "osx";
 
-	public static final File ADB_BIN = new File(PathUtils.getExcutionPath() + File.separator +"bins/native/adb/"+Cfg.getOs()+"/adb"); //XXX here!
+	public static final File ADB_BIN = new File(
+			PathUtils.getExcutionPath() + File.separator + "bins/native/adb/" + Cfg.getOs() + "/adb"); // XXX
+																										// here!
 	public static final String OAT2DEX_JAR = PathUtils.getExcutionPath() + File.separator + "bins/oat2dex/oat2dex.jar";
 	public static final String BACKSMALI_JAR = PathUtils.getExcutionPath() + File.separator
 			+ "bins/smali_backsmali/baksmali.jar";
-	public static final File UNSQUASH_WIN = new File(PathUtils.getExcutionPath() + File.separator + "bins/native/squashfs/unsquashfs");
+	public static final File UNSQUASH_WIN = new File(
+			PathUtils.getExcutionPath() + File.separator + "bins/native/squashfs/unsquashfs");
 	public static final String SMALI_JAR = PathUtils.getExcutionPath() + File.separator
 			+ "bins/smali_backsmali/smali.jar";
 	public static final String ZIPALIGN_BIN = PathUtils.getExcutionPath() + File.separator + "bins/native/zipAlign";
@@ -95,7 +98,8 @@ public class S {
 	public static final File DUMMY_ZIP = new File(
 			PathUtils.getExcutionPath() + File.separator + "blanks/blank_rom.zip");
 	public static final File ZIP_OUTPUT = new File(PathUtils.getExcutionPath() + File.separator + "flashable_zips_out");
-	public static final File EXTRACTED_SYSTEMS = new File(PathUtils.getExcutionPath() +File.separator+ "extracted_system_folders");
+	public static final File EXTRACTED_SYSTEMS = new File(
+			PathUtils.getExcutionPath() + File.separator + "extracted_system_folders");
 	// temporary folders
 	public static File worker1Folder = new File(TMP + File.separator + WORKER1);
 	public static File worker2Folder = new File(TMP + File.separator + WORKER2);
@@ -113,9 +117,10 @@ public class S {
 		boolean w3 = new File(TMP + File.separator + WORKER2).mkdirs();
 		boolean w4 = new File(TMP + File.separator + WORKER4).mkdirs();
 		boolean b = new File(TMP + File.separator + "boot").mkdirs();
-		Logger.writLog("[S] worker1 created ? "+w1 +" worker2 created ? "+w2+
-						" worker3 created ? "+w3 +" worker4 created ? "+w4 +" boot created ? "+b);
+		Logger.writLog("[S] worker1 created ? " + w1 + " worker2 created ? " + w2 + " worker3 created ? " + w3
+				+ " worker4 created ? " + w4 + " boot created ? " + b);
 	}
+
 	public static String getRomExtractionFolderName() {
 		File temp = new File("Rom_Extracted__lordroid");
 		try {
@@ -126,13 +131,14 @@ public class S {
 		}
 		return temp.getName();
 	}
-	public static String getPathExemple(){
+
+	public static String getPathExemple() {
 		String path = "/something/otherthing/mysystemFolder";
-		if(Cfg.getOs().equals(S.WINDOWS)){
-			path = "c:"+File.separator+"my_system_folder";
-		} else if(Cfg.getOs().equals(S.LINUX)){
+		if (Cfg.getOs().equals(S.WINDOWS)) {
+			path = "c:" + File.separator + "my_system_folder";
+		} else if (Cfg.getOs().equals(S.LINUX)) {
 			path = "/home/user/my_systemFolder";
-		}else if (Cfg.getOs().equals(S.MAC)){
+		} else if (Cfg.getOs().equals(S.MAC)) {
 			path = "/home/user/my_systemFolder";
 		}
 		return path;

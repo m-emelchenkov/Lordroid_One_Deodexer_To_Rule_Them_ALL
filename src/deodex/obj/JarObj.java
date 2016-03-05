@@ -76,12 +76,14 @@ public class JarObj {
 		tmpClasses2 = new File(this.tmpFolder.getAbsolutePath() + File.separator + S.CLASSES_2);
 		tmpClasses3 = new File(this.tmpFolder.getAbsolutePath() + File.separator + S.CLASSES_3);
 
-		Logger.writLog("[JarObj][I] copying "+odexFile.getAbsolutePath()+" to "+tmpCompodex);
+		Logger.writLog("[JarObj][I] copying " + odexFile.getAbsolutePath() + " to " + tmpCompodex);
 		boolean copyStatus = FilesUtils.copyFile(odexFile, tmpCompodex);
-		Logger.writLog("[JarObj][I] copy of "+odexFile.getAbsolutePath()+" to "+tmpCompodex + "success ? "+copyStatus);
-		Logger.writLog("[JarObj][I] copying "+origJar.getAbsolutePath()+" to "+tmpJar);
+		Logger.writLog(
+				"[JarObj][I] copy of " + odexFile.getAbsolutePath() + " to " + tmpCompodex + "success ? " + copyStatus);
+		Logger.writLog("[JarObj][I] copying " + origJar.getAbsolutePath() + " to " + tmpJar);
 		boolean copyStatus2 = FilesUtils.copyFile(origJar, tmpJar);
-		Logger.writLog("[JarObj][I] copy of "+origJar.getAbsolutePath()+" to "+tmpJar + "success ? "+copyStatus2);
+		Logger.writLog(
+				"[JarObj][I] copy of " + origJar.getAbsolutePath() + " to " + tmpJar + "success ? " + copyStatus2);
 
 		return copyStatus && copyStatus2;
 

@@ -41,7 +41,7 @@ public class FilesUtils {
 		// making sure the path is there and writable !
 		dest.getParentFile().mkdirs();
 		// dest.delete();
-		Logger.writLog("[FilesUtils][I] copying "+input.getAbsolutePath()+" to "+dest.getAbsolutePath());
+		Logger.writLog("[FilesUtils][I] copying " + input.getAbsolutePath() + " to " + dest.getAbsolutePath());
 		if (dest.getParentFile().exists()) { // if the parent doesn't exist then
 												// don't bother copy
 
@@ -62,16 +62,17 @@ public class FilesUtils {
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-				Logger.writLog("[FilesUtils][EX]"+e.getStackTrace());
+				Logger.writLog("[FilesUtils][EX]" + e.getStackTrace());
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-				Logger.writLog("[FilesUtils][EX]"+e.getStackTrace());
+				Logger.writLog("[FilesUtils][EX]" + e.getStackTrace());
 			}
 		} else {
 			return false;
 		}
-		Logger.writLog("[FilesUtils][I] copy of "+input.getAbsolutePath()+" to "+dest.getAbsolutePath()+" successed ? "+dest.exists());
+		Logger.writLog("[FilesUtils][I] copy of " + input.getAbsolutePath() + " to " + dest.getAbsolutePath()
+				+ " successed ? " + dest.exists());
 		return dest.exists();
 	}
 
@@ -92,11 +93,11 @@ public class FilesUtils {
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-				Logger.writLog("[FilesUtils][EX]"+e.getStackTrace());
+				Logger.writLog("[FilesUtils][EX]" + e.getStackTrace());
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-				Logger.writLog("[FilesUtils][EX]"+e.getStackTrace());
+				Logger.writLog("[FilesUtils][EX]" + e.getStackTrace());
 			}
 		} else {
 			return false;
@@ -128,8 +129,8 @@ public class FilesUtils {
 	public static void deleteFiles(ArrayList<File> files) {
 		if (files != null && files.size() > 0)
 			for (File f : files) {
-				if (f.isFile()){
-					Logger.writLog("[FilesUtils][I] deleting "+f.getAbsolutePath());
+				if (f.isFile()) {
+					Logger.writLog("[FilesUtils][I] deleting " + f.getAbsolutePath());
 					f.delete();
 				}
 			}
@@ -145,7 +146,7 @@ public class FilesUtils {
 		if (f.isDirectory()) {
 			File[] list = f.listFiles();
 			if (list.length < 0) {
-				Logger.writLog("[FilesUtils][I] deleting "+f.getAbsolutePath());
+				Logger.writLog("[FilesUtils][I] deleting " + f.getAbsolutePath());
 				return f.delete();
 			} else {
 
@@ -172,7 +173,7 @@ public class FilesUtils {
 			}
 		}
 		if (folder.listFiles() == null || folder.listFiles().length <= 0) {
-			Logger.writLog("[FilesUtils][I] deleting because it is umpty " +folder.getAbsolutePath());
+			Logger.writLog("[FilesUtils][I] deleting because it is umpty " + folder.getAbsolutePath());
 			folder.delete();
 		}
 	}
@@ -222,7 +223,7 @@ public class FilesUtils {
 			// Logger.logToStdIO("[WHAT ?] "+str);
 		} catch (Exception e) {
 			for (StackTraceElement element : e.getStackTrace())
-				Logger.writLog("[FilesUtils][EX]"+element.toString());
+				Logger.writLog("[FilesUtils][EX]" + element.toString());
 			log.addLog(R.getString(S.LOG_ERROR) + R.getString(S.CANT_READ_SDK_LEVEL));
 			return false;
 		}
@@ -269,21 +270,21 @@ public class FilesUtils {
 			try {
 				if (odexCount <= 0) {
 					// TODO is this good ? make some research !
-					if(!log.getClass().equals(CmdLogger.class))
-					JOptionPane.showMessageDialog((Component) log,
-							"<HTML><p>No arch was detected and no odex files were found in the system folder!</p><p>This usally means that the rom is already deodexed</p></HTML>",
-							"Rom is already deodexed!", JOptionPane.ERROR_MESSAGE);
+					if (!log.getClass().equals(CmdLogger.class))
+						JOptionPane.showMessageDialog((Component) log,
+								"<HTML><p>No arch was detected and no odex files were found in the system folder!</p><p>This usally means that the rom is already deodexed</p></HTML>",
+								"Rom is already deodexed!", JOptionPane.ERROR_MESSAGE);
 					return false;
 				} else if (bootcount <= 0) {
 					// TODO is this good ? make some research !
-					if(!log.getClass().equals(CmdLogger.class))
-					JOptionPane.showMessageDialog((Component) log,
-							"<HTML><p>No arch was detected and no boot.oat file was found in the system folder </p><p>boot.oat is critical to the depdex process can't do it without it</p></HTML>",
-							"No arch detected", JOptionPane.ERROR_MESSAGE);
+					if (!log.getClass().equals(CmdLogger.class))
+						JOptionPane.showMessageDialog((Component) log,
+								"<HTML><p>No arch was detected and no boot.oat file was found in the system folder </p><p>boot.oat is critical to the depdex process can't do it without it</p></HTML>",
+								"No arch detected", JOptionPane.ERROR_MESSAGE);
 					return false;
 				}
 			} catch (Exception e) {
-				Logger.writLog("[FilesUtils][EX]"+e.getStackTrace());
+				Logger.writLog("[FilesUtils][EX]" + e.getStackTrace());
 			}
 
 		}
@@ -306,20 +307,21 @@ public class FilesUtils {
 				SessionCfg.setBootOatFile(bootOat.get(0));
 			}
 		}
-		// lets detect if the rom is have squashfs 
-		File appSquash = new File(systemFolder.getAbsolutePath()+File.separator+"odex.app.sqsh");
-		File privAppSquash = new File(systemFolder.getAbsolutePath()+File.separator+"odex.priv-app.sqsh");
+		// lets detect if the rom is have squashfs
+		File appSquash = new File(systemFolder.getAbsolutePath() + File.separator + "odex.app.sqsh");
+		File privAppSquash = new File(systemFolder.getAbsolutePath() + File.separator + "odex.priv-app.sqsh");
 		boolean isSquash = false;
-		if(appSquash.exists() || privAppSquash.exists()){
-			log.addLog(R.getString(S.LOG_INFO)+".sqsh Files were detected it will be extracted no action needed from user... ");
+		if (appSquash.exists() || privAppSquash.exists()) {
+			log.addLog(R.getString(S.LOG_INFO)
+					+ ".sqsh Files were detected it will be extracted no action needed from user... ");
 			isSquash = true;
-			if(!UnsquashUtils.haveUnsquash()){
-				log.addLog(R.getString(S.LOG_ERROR)+"squashfs tools not found ! please refer to the manual for mor info ! ");
+			if (!UnsquashUtils.haveUnsquash()) {
+				log.addLog(R.getString(S.LOG_ERROR)
+						+ "squashfs tools not found ! please refer to the manual for mor info ! ");
 				return false;
 			}
 		}
-		
-		
+
 		// Session Settings set them
 		SessionCfg.isSquash = isSquash;
 		SessionCfg.setSdk(sdkLevel);
@@ -369,23 +371,23 @@ public class FilesUtils {
 
 	public static void LogFilesListToFile(File folder) {
 		String str = "System folder Files list :\n";
-		File app = new File(folder.getAbsolutePath()+File.separator+"app");
-		File privApp = new File(folder.getAbsolutePath()+File.separator+"priv-app");
-		File framework = new File(folder.getAbsolutePath()+File.separator+"framework");
+		File app = new File(folder.getAbsolutePath() + File.separator + "app");
+		File privApp = new File(folder.getAbsolutePath() + File.separator + "priv-app");
+		File framework = new File(folder.getAbsolutePath() + File.separator + "framework");
 
-		if(app.exists())
-		for (File f : listAllFiles(app)) {
-			str = str + (f.getAbsolutePath().substring(app.getAbsolutePath().length() + 1)) + "\n";
-		}
-		if(privApp.exists())
-		for (File f : listAllFiles(privApp)) {
-			str = str + (f.getAbsolutePath().substring(privApp.getAbsolutePath().length() + 1)) + "\n";
-		}
-		if(framework.exists())
-		for (File f : listAllFiles(framework)) {
-			str = str + (f.getAbsolutePath().substring(framework.getAbsolutePath().length() + 1)) + "\n";
-		}
-		Logger.writLog("[FilesUtils][D]"+str);
+		if (app.exists())
+			for (File f : listAllFiles(app)) {
+				str = str + (f.getAbsolutePath().substring(app.getAbsolutePath().length() + 1)) + "\n";
+			}
+		if (privApp.exists())
+			for (File f : listAllFiles(privApp)) {
+				str = str + (f.getAbsolutePath().substring(privApp.getAbsolutePath().length() + 1)) + "\n";
+			}
+		if (framework.exists())
+			for (File f : listAllFiles(framework)) {
+				str = str + (f.getAbsolutePath().substring(framework.getAbsolutePath().length() + 1)) + "\n";
+			}
+		Logger.writLog("[FilesUtils][D]" + str);
 	}
 
 	public static boolean moveFile(File in, File dest) {
@@ -405,7 +407,8 @@ public class FilesUtils {
 	 * @return
 	 */
 	public static ArrayList<File> searchExactFileNames(File folder, String ext) {
-		Logger.writLog("[FileUtils][I] searching  for "+ext+" in (Exact file name mode )"+folder.getAbsolutePath());
+		Logger.writLog(
+				"[FileUtils][I] searching  for " + ext + " in (Exact file name mode )" + folder.getAbsolutePath());
 		ArrayList<File> list = new ArrayList<File>();
 		File[] files = folder.listFiles();
 		for (File f : files) {
@@ -418,14 +421,14 @@ public class FilesUtils {
 			}
 		}
 		String found = "";
-		for(int i = 0 ; i < list.size() ; i++){
-			if(i != list.size()-1){
-				found = found + list.get(i).getAbsolutePath()+" :: ";
+		for (int i = 0; i < list.size(); i++) {
+			if (i != list.size() - 1) {
+				found = found + list.get(i).getAbsolutePath() + " :: ";
 			} else {
 				found = found + list.get(i).getAbsolutePath();
 			}
 		}
-		Logger.writLog("[FilesUtils][I] list of found files = "+found);
+		Logger.writLog("[FilesUtils][I] list of found files = " + found);
 		return list;
 	}
 
@@ -436,7 +439,7 @@ public class FilesUtils {
 	 * @return ArrayfilesList
 	 */
 	public static ArrayList<File> searchrecursively(File folder, String ext) {
-		Logger.writLog("[FileUtils][I] searching  for *."+ext+" in "+folder.getAbsolutePath());
+		Logger.writLog("[FileUtils][I] searching  for *." + ext + " in " + folder.getAbsolutePath());
 		ArrayList<File> list = new ArrayList<File>();
 		File[] files = folder.listFiles();
 		for (File f : files) {
@@ -449,14 +452,14 @@ public class FilesUtils {
 			}
 		}
 		String found = "";
-		for(int i = 0 ; i < list.size() ; i++){
-			if(i != list.size()-1){
-				found = found + list.get(i).getAbsolutePath()+" :: ";
+		for (int i = 0; i < list.size(); i++) {
+			if (i != list.size() - 1) {
+				found = found + list.get(i).getAbsolutePath() + " :: ";
 			} else {
 				found = found + list.get(i).getAbsolutePath();
 			}
 		}
-		Logger.writLog("[FilesUtils][I] list of found files = "+found);
+		Logger.writLog("[FilesUtils][I] list of found files = " + found);
 		return list;
 	}
 }

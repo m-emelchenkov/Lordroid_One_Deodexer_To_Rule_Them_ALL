@@ -44,12 +44,13 @@ public class ZipTools {
 	public static boolean extractOdex(File odex) throws IOException {
 		File Decomdex;
 		if (odex.getName().endsWith(S.ODEX_EXT)) {
-			Logger.writLog("[ZipTools][I]Decompressing  "+odex.getName()+" not needed");
+			Logger.writLog("[ZipTools][I]Decompressing  " + odex.getName() + " not needed");
 			return true;
 		} else {
 			Decomdex = new File(odex.getParentFile().getAbsolutePath() + "/"
 					+ StringUtils.getCropString(odex.getName(), odex.getName().length() - 3));
-			Logger.writLog("[ZipTools][I]Decompressing  " + odex.getAbsolutePath() + "  to  " + Decomdex.getAbsolutePath());
+			Logger.writLog(
+					"[ZipTools][I]Decompressing  " + odex.getAbsolutePath() + "  to  " + Decomdex.getAbsolutePath());
 			FileInputStream fin = new FileInputStream(odex);
 			BufferedInputStream in = new BufferedInputStream(fin);
 			FileOutputStream out = new FileOutputStream(Decomdex);
@@ -63,7 +64,8 @@ public class ZipTools {
 			xzIn.close();
 
 		}
-		Logger.writLog("[ZipTools][I]Decompressing  " + odex.getAbsolutePath() + "  to  " + Decomdex.getAbsolutePath()+" success ? "+Decomdex.exists());
+		Logger.writLog("[ZipTools][I]Decompressing  " + odex.getAbsolutePath() + "  to  " + Decomdex.getAbsolutePath()
+				+ " success ? " + Decomdex.exists());
 		return Decomdex.exists();
 	}
 
@@ -76,7 +78,7 @@ public class ZipTools {
 	 */
 	public static boolean isFileinZip(String fileName, ZipFile zipFile) {
 		try {
-			Logger.writLog("[ZipTools][I] about to search "+fileName+" in "+zipFile.getFile().getAbsolutePath());
+			Logger.writLog("[ZipTools][I] about to search " + fileName + " in " + zipFile.getFile().getAbsolutePath());
 			// Get the list of file headers from the zip file
 			@SuppressWarnings("rawtypes")
 			List fileHeaderList = zipFile.getFileHeaders();
@@ -96,7 +98,7 @@ public class ZipTools {
 
 		} catch (ZipException e) {
 			e.printStackTrace();
-			Logger.writLog("[ZipTools][EX]"+e.getStackTrace());
+			Logger.writLog("[ZipTools][EX]" + e.getStackTrace());
 		}
 		return false;
 	}

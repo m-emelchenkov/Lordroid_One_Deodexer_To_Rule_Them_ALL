@@ -22,32 +22,35 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-
 public class StreamReader implements Runnable {
-    String name;
-    InputStream is;
-    Thread thread;      
-    public StreamReader(String name, InputStream is) {
-        this.name = name;
-        this.is = is;
-    }       
-    public void start () {
-        thread = new Thread (this);
-        thread.start ();
-    }       
-    public void run () {
-        try {
-            InputStreamReader isr = new InputStreamReader (is);
-            BufferedReader br = new BufferedReader (isr);   
-            while (true) {
-                String s = br.readLine ();
-                if (s == null) break;
-                Logger.writLog("[" + name + "] " + s);
-            }
-            is.close ();    
-        } catch (Exception ex) {
-            Logger.writLog("Problem reading stream " + name + "... :" + ex);
-            ex.printStackTrace ();
-        }
-    }
+	String name;
+	InputStream is;
+	Thread thread;
+
+	public StreamReader(String name, InputStream is) {
+		this.name = name;
+		this.is = is;
+	}
+
+	public void start() {
+		thread = new Thread(this);
+		thread.start();
+	}
+
+	public void run() {
+		try {
+			InputStreamReader isr = new InputStreamReader(is);
+			BufferedReader br = new BufferedReader(isr);
+			while (true) {
+				String s = br.readLine();
+				if (s == null)
+					break;
+				Logger.writLog("[" + name + "] " + s);
+			}
+			is.close();
+		} catch (Exception ex) {
+			Logger.writLog("Problem reading stream " + name + "... :" + ex);
+			ex.printStackTrace();
+		}
+	}
 }

@@ -90,7 +90,7 @@ public class R {
 
 		} catch (Exception e) {
 			e.printStackTrace();
-			Logger.writLog("[R][EX]"+e.getStackTrace());
+			Logger.writLog("[R][EX]" + e.getStackTrace());
 		}
 
 		try {
@@ -103,7 +103,7 @@ public class R {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			Logger.writLog("[R][EX]"+e.getStackTrace());
+			Logger.writLog("[R][EX]" + e.getStackTrace());
 		}
 
 	}

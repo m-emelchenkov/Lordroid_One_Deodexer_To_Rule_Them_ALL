@@ -32,14 +32,16 @@ public class CommandLineWorker implements ThreadWatcher {
 	boolean createZip = false;
 	File systemFolder = SessionCfg.getSystemFolder();
 	ArrayList<File> fileToAdd = new ArrayList<File>();
-	public CommandLineWorker(boolean createZip){
+
+	public CommandLineWorker(boolean createZip) {
 		this.createZip = createZip;
 	}
+
 	@Override
 	public void done(Runnable r) {
 		// TODO Auto-generated method stub
-		if(createZip){
-			// TODO do create the zip 
+		if (createZip) {
+			// TODO do create the zip
 			System.out.println("Creating zip File ");
 			createFlashableZip();
 		}
@@ -55,15 +57,15 @@ public class CommandLineWorker implements ThreadWatcher {
 	@Override
 	public void sendFailed(Runnable r) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
-	private void createFlashableZip(){
-		initFilesList() ;
+	private void createFlashableZip() {
+		initFilesList();
 		S.ZIP_OUTPUT.mkdirs();
 		File zipFile = new File(S.ZIP_OUTPUT + File.separator + this.systemFolder + ".zip");
 		FilesUtils.copyFile(S.DUMMY_ZIP, zipFile);
-		System.out.println("zip file to be created : "+zipFile.getAbsolutePath());
+		System.out.println("zip file to be created : " + zipFile.getAbsolutePath());
 		for (File f : this.fileToAdd) {
 
 			try {
@@ -74,6 +76,7 @@ public class CommandLineWorker implements ThreadWatcher {
 			}
 		}
 	}
+
 	private void initFilesList() {
 		ArrayList<File> list0 = FilesUtils
 				.listAllFiles(new File(systemFolder.getAbsolutePath() + File.separator + S.SYSTEM_APP));

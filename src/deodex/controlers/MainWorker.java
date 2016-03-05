@@ -108,7 +108,7 @@ public class MainWorker implements Runnable, ThreadWatcher, Watchable {
 
 			FilesUtils.deleteRecursively(S.bootTmp.getParentFile().getParentFile());
 			// TODO remove this
-			Logger.writLog("[MainWorker][I]"+"ALL JOBS THERMINATED ");
+			Logger.writLog("[MainWorker][I]" + "ALL JOBS THERMINATED ");
 			// logPan.addLog(R.getString(S.LOG_INFO)+R.getString("mainWorker.alljobsDone"));
 			// logPan.addLog(R.getString(S.LOG_INFO)+R.getString("mainworker.finallog"));
 			progressBar.setValue(progressBar.getMaximum());
@@ -182,27 +182,27 @@ public class MainWorker implements Runnable, ThreadWatcher, Watchable {
 		// yes more code but it will be more compatible
 		try {
 			isinitialized = FilesUtils.copyFile(SessionCfg.getBootOatFile(), S.bootTmp);
-			if(!isinitialized)
-				this.logPan.addLog(R.getString(S.LOG_ERROR)+"couldn't copy boot.oat to working folder aborting ...");
+			if (!isinitialized)
+				this.logPan.addLog(R.getString(S.LOG_ERROR) + "couldn't copy boot.oat to working folder aborting ...");
 		} catch (Exception e) {
-			Logger.writLog("[MainWorker][EX]"+e.getStackTrace());
+			Logger.writLog("[MainWorker][EX]" + e.getStackTrace());
 		}
 		isinitialized = isinitialized && Deodexer.oat2dexBoot(S.bootTmp);
 		if (!isinitialized) {
-			this.logPan.addLog(R.getString(S.LOG_ERROR)+"couldn't deodex boot.oat aborting ...");
+			this.logPan.addLog(R.getString(S.LOG_ERROR) + "couldn't deodex boot.oat aborting ...");
 			return;
 		}
 		// lets unsquash this bitch !
-		if(SessionCfg.isSquash){
-			boolean unsquash =UnsquashUtils.unsquash(folder);
-			if(!unsquash)
+		if (SessionCfg.isSquash) {
+			boolean unsquash = UnsquashUtils.unsquash(folder);
+			if (!unsquash)
 				isinitialized = false;
-			else{
-				new File(folder.getAbsolutePath()+File.separator+"odex.app.sqsh").delete();
-				new File(folder.getAbsolutePath()+File.separator+"odex.priv-app.sqsh").delete();
+			else {
+				new File(folder.getAbsolutePath() + File.separator + "odex.app.sqsh").delete();
+				new File(folder.getAbsolutePath() + File.separator + "odex.priv-app.sqsh").delete();
 			}
 		}
-		
+
 		File bootFiles = new File(S.bootTmpDex.getAbsolutePath());
 
 		// TODO init apklist here
@@ -240,15 +240,15 @@ public class MainWorker implements Runnable, ThreadWatcher, Watchable {
 									(f.getName().endsWith(".odex")
 											? f.getName().substring(0, f.getName().lastIndexOf("."))
 											: f.getName().substring(0, f.getName().lastIndexOf(".odex.xz"))) + ".apk"));
-			Logger.writLog("[MainWorker][I]"+"Searching for "
+			Logger.writLog("[MainWorker][I]" + "Searching for "
 					+ (f.getName().endsWith(".odex") ? f.getName().substring(0, f.getName().lastIndexOf("."))
 							: f.getName().substring(0, f.getName().lastIndexOf(".odex.xz")))
 					+ ".apk");
 			if (!apksInFram.isEmpty()) {
 				temapkinfram.add(f);
-				Logger.writLog("[MainWorker][I]"+"fount moving it to apk worker's list ");
+				Logger.writLog("[MainWorker][I]" + "fount moving it to apk worker's list ");
 			} else {
-				Logger.writLog("[MainWorker][I]"+"not found skip ...");
+				Logger.writLog("[MainWorker][I]" + "not found skip ...");
 			}
 		}
 		for (File f : temapkinfram) {
@@ -272,21 +272,21 @@ public class MainWorker implements Runnable, ThreadWatcher, Watchable {
 		}
 		boot = new BootWorker(worker4List, S.worker4Folder, this.logPan);
 
-		Logger.writLog("[MainWorker][I]"+"APK list 1");
+		Logger.writLog("[MainWorker][I]" + "APK list 1");
 		for (File f : this.worker1List) {
-			Logger.writLog("[MainWorker][I]"+f.getAbsolutePath());
+			Logger.writLog("[MainWorker][I]" + f.getAbsolutePath());
 		}
-		Logger.writLog("[MainWorker][I]"+"APK list 2");
+		Logger.writLog("[MainWorker][I]" + "APK list 2");
 		for (File f : this.worker2List) {
-			Logger.writLog("[MainWorker][I]"+f.getAbsolutePath());
+			Logger.writLog("[MainWorker][I]" + f.getAbsolutePath());
 		}
-		Logger.writLog("[MainWorker][I]"+"Jar list 3");
+		Logger.writLog("[MainWorker][I]" + "Jar list 3");
 		for (File f : this.worker3List) {
-			Logger.writLog("[MainWorker][I]"+f.getAbsolutePath());
+			Logger.writLog("[MainWorker][I]" + f.getAbsolutePath());
 		}
-		Logger.writLog("[MainWorker][I]"+"boot list 4 (boot)");
+		Logger.writLog("[MainWorker][I]" + "boot list 4 (boot)");
 		for (File f : this.worker4List) {
-			Logger.writLog("[MainWorker][I]"+f.getAbsolutePath());
+			Logger.writLog("[MainWorker][I]" + f.getAbsolutePath());
 		}
 
 		apk1.addThreadWatcher(this);
@@ -461,22 +461,23 @@ public class MainWorker implements Runnable, ThreadWatcher, Watchable {
 		mainPannel.add(progressBar);
 	}
 
-	private void logToolsversions(){
-		String[] oat2dex = {"java","-jar",new File(S.OAT2DEX_JAR).getAbsolutePath(),"-v"};
-		String[] smali = {"java","-jar",new File(S.SMALI_JAR).getAbsolutePath(),"-v"};
-		String[] backsmali = {"java","-jar",new File(S.BACKSMALI_JAR).getAbsolutePath(),"-v"};
-		String[] zupalign = {new File(S.ZIPALIGN_BIN + File.separator + Cfg.getOs()).getAbsolutePath(),"-v"};
+	private void logToolsversions() {
+		String[] oat2dex = { "java", "-jar", new File(S.OAT2DEX_JAR).getAbsolutePath(), "-v" };
+		String[] smali = { "java", "-jar", new File(S.SMALI_JAR).getAbsolutePath(), "-v" };
+		String[] backsmali = { "java", "-jar", new File(S.BACKSMALI_JAR).getAbsolutePath(), "-v" };
+		String[] zupalign = { new File(S.ZIPALIGN_BIN + File.separator + Cfg.getOs()).getAbsolutePath(), "-v" };
 
 		CmdUtils.runCommand(oat2dex);
 		CmdUtils.runCommand(smali);
 		CmdUtils.runCommand(backsmali);
 		CmdUtils.runCommand(zupalign);
-		
+
 	}
+
 	@Override
 	public void run() {
-		logToolsversions();		
-		if(this.isinitialized)
+		logToolsversions();
+		if (this.isinitialized)
 			this.threadWatcher.updateProgress();
 		else
 			this.threadWatcher.sendFailed(this);
@@ -513,6 +514,6 @@ public class MainWorker implements Runnable, ThreadWatcher, Watchable {
 	@Override
 	public void sendFailed(Runnable r) {
 		// TODO Auto-generated method stub
-		
+
 	}
 }

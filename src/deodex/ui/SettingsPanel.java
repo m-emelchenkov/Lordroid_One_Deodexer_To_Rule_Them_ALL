@@ -25,7 +25,7 @@ import javax.swing.JPanel;
 import deodex.Cfg;
 import deodex.R;
 
-public class SettingsPanel extends JPanel{
+public class SettingsPanel extends JPanel {
 
 	/**
 	 * 
@@ -36,21 +36,21 @@ public class SettingsPanel extends JPanel{
 	public JComboBox<Integer> thread = new JComboBox<Integer>();
 	public JLabel langsLab = new JLabel(R.getString("0000053"));
 	public JLabel threadLab = new JLabel(R.getString("0000054"));
-	
-	public SettingsPanel(){
+
+	public SettingsPanel() {
 		this.setSize(500, 200);
 		this.setBounds(0, 0, 500, 200);
 		this.setLayout(null);
 		langsLab.setBounds(10, 10, 300, 40);
 		langs.setBounds(315, 10, 120, 40);
-		for (String str : Cfg.getAvailableLaunguages()){
+		for (String str : Cfg.getAvailableLaunguages()) {
 			langs.addItem(str);
 		}
 		langs.setSelectedItem(Cfg.getCurrentLang());
-		int[] ints = {1,2,3,4};
+		int[] ints = { 1, 2, 3, 4 };
 		threadLab.setBounds(10, 70, 300, 40);
 		thread.setBounds(315, 70, 120, 40);
-		for (int i : ints){
+		for (int i : ints) {
 			thread.addItem(i);
 		}
 		thread.setSelectedItem(Cfg.getMaxJobs());

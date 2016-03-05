@@ -26,77 +26,82 @@ import deodex.S;
 
 public class UnsquashUtils {
 
-	public static boolean unsquash(File systemFolder){
-		File appSquash = new File(systemFolder.getAbsolutePath()+File.separator+"odex.app.sqsh");
-		File privAppSquash = new File(systemFolder.getAbsolutePath()+File.separator+"odex.priv-app.sqsh");
-		File destFile = new File(S.TMP+File.separator+"unsquash");
-		// get the commands 
-		String[] cmd1 = getUnsquashCommand(appSquash,destFile);
-		String[] cmd2 = getUnsquashCommand(privAppSquash,destFile);
-		if(appSquash.exists()){
-			// unsquash app 
-			boolean sucess = CmdUtils.runCommand(cmd1)==0;
-			if(sucess){
+	public static boolean unsquash(File systemFolder) {
+		File appSquash = new File(systemFolder.getAbsolutePath() + File.separator + "odex.app.sqsh");
+		File privAppSquash = new File(systemFolder.getAbsolutePath() + File.separator + "odex.priv-app.sqsh");
+		File destFile = new File(S.TMP + File.separator + "unsquash");
+		// get the commands
+		String[] cmd1 = getUnsquashCommand(appSquash, destFile);
+		String[] cmd2 = getUnsquashCommand(privAppSquash, destFile);
+		if (appSquash.exists()) {
+			// unsquash app
+			boolean sucess = CmdUtils.runCommand(cmd1) == 0;
+			if (sucess) {
 				ArrayList<File> files = FilesUtils.listAllFiles(destFile);
-				if(!destFile.exists() || files == null || files.size() == 0){
+				if (!destFile.exists() || files == null || files.size() == 0) {
 					return false;
-				}else {
-					boolean copied = FilesUtils.copyFileRecurcively(destFile, new File(systemFolder.getAbsolutePath()+File.separator+"app"));
+				} else {
+					boolean copied = FilesUtils.copyFileRecurcively(destFile,
+							new File(systemFolder.getAbsolutePath() + File.separator + "app"));
 					FilesUtils.deleteRecursively(destFile);
-					if(!copied)
+					if (!copied)
 						return false;
 				}
 			}
-			
+
 		}
-		
-		if (privAppSquash.exists()){
-			// unsquash priv-app 
-			boolean sucess = CmdUtils.runCommand(cmd2)==0;
-			if(sucess){
+
+		if (privAppSquash.exists()) {
+			// unsquash priv-app
+			boolean sucess = CmdUtils.runCommand(cmd2) == 0;
+			if (sucess) {
 				ArrayList<File> files = FilesUtils.listAllFiles(destFile);
-				if(!destFile.exists() || files == null || files.size() == 0){
+				if (!destFile.exists() || files == null || files.size() == 0) {
 					return false;
-				}else {
-					boolean copied = FilesUtils.copyFileRecurcively(destFile, new File(systemFolder.getAbsolutePath()+File.separator+"priv-app"));
+				} else {
+					boolean copied = FilesUtils.copyFileRecurcively(destFile,
+							new File(systemFolder.getAbsolutePath() + File.separator + "priv-app"));
 					FilesUtils.deleteRecursively(destFile);
-					if(!copied)
+					if (!copied)
 						return false;
 				}
 			}
 		}
-		
+
 		return true;
 	}
-	
-	private static String[] getUnsquashCommand(File squashFile,File dest){
-		String[] cmd =null;
+
+	private static String[] getUnsquashCommand(File squashFile, File dest) {
+		String[] cmd = null;
 		String os = Cfg.getOs();
-		if(os.equals(S.WINDOWS)){
-			String cmdwin[] = {S.UNSQUASH_WIN.getAbsolutePath(),"-no-xattrs","-f","-n","-d",dest.getAbsolutePath(),squashFile.getAbsolutePath()};
+		if (os.equals(S.WINDOWS)) {
+			String cmdwin[] = { S.UNSQUASH_WIN.getAbsolutePath(), "-no-xattrs", "-f", "-n", "-d",
+					dest.getAbsolutePath(), squashFile.getAbsolutePath() };
 			cmd = cmdwin;
-		} else if(os.equals(S.LINUX)){
-			String cmdlinux[] = {"unsquashfs","-no-xattrs","-f","-n","-d",dest.getAbsolutePath(),squashFile.getAbsolutePath()};
+		} else if (os.equals(S.LINUX)) {
+			String cmdlinux[] = { "unsquashfs", "-no-xattrs", "-f", "-n", "-d", dest.getAbsolutePath(),
+					squashFile.getAbsolutePath() };
 			cmd = cmdlinux;
-		} else if(os.equals(S.MAC)){
+		} else if (os.equals(S.MAC)) {
 			// FIXME : test on MAC
-			String cmdOsx[] = {"unsquashfs","-no-xattrs","-f","-n","-d",dest.getAbsolutePath(),squashFile.getAbsolutePath()};
+			String cmdOsx[] = { "unsquashfs", "-no-xattrs", "-f", "-n", "-d", dest.getAbsolutePath(),
+					squashFile.getAbsolutePath() };
 			cmd = cmdOsx;
 		}
 		return cmd;
 	}
-	
-	public static boolean haveUnsquash(){
-		String[] cmd =null;
+
+	public static boolean haveUnsquash() {
+		String[] cmd = null;
 		String os = Cfg.getOs();
-		if(os.equals(S.WINDOWS)){
-			String cmdwin[] = {S.UNSQUASH_WIN.getAbsolutePath(),"-h"};
+		if (os.equals(S.WINDOWS)) {
+			String cmdwin[] = { S.UNSQUASH_WIN.getAbsolutePath(), "-h" };
 			cmd = cmdwin;
-		} else if(os.equals(S.LINUX)){
-			String cmdlinux[] = {"unsquashfs","-h"};
+		} else if (os.equals(S.LINUX)) {
+			String cmdlinux[] = { "unsquashfs", "-h" };
 			cmd = cmdlinux;
-		} else if(os.equals(S.MAC)){
-			String cmdOsx[] = {"unsquashfs","-h"};
+		} else if (os.equals(S.MAC)) {
+			String cmdOsx[] = { "unsquashfs", "-h" };
 			cmd = cmdOsx;
 		}
 		int exitValue = CmdUtils.runCommand(cmd);

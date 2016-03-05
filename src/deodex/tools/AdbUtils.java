@@ -108,12 +108,11 @@ public class AdbUtils {
 			if (exitValue != 0) {
 				// TODO : ADD logging for this
 				logger.addLog(R.getString(S.LOG_ERROR) + R.getString("0000021"));
-				Logger.writLog("[AdbUtils][E]"+"adb exited with no zero code error=" + exitValue);
+				Logger.writLog("[AdbUtils][E]" + "adb exited with no zero code error=" + exitValue);
 				return NULL_DEVICE;
 			}
 			if (output.size() > 3) {
-				logger.addLog(R.getString(
-						S.LOG_ERROR + R.getString("0000022")));
+				logger.addLog(R.getString(S.LOG_ERROR + R.getString("0000022")));
 				return NULL_DEVICE;
 			}
 			if (output.size() < 3) {
@@ -121,11 +120,9 @@ public class AdbUtils {
 				if (Cfg.getOs().equals("windows"))
 					logger.addLog(R.getString(S.LOG_INFO) + R.getString("0000024"));
 				else if (Cfg.getOs().equals("linux"))
-					logger.addLog(R.getString(S.LOG_INFO)
-							+ R.getString("0000025"));
+					logger.addLog(R.getString(S.LOG_INFO) + R.getString("0000025"));
 				else if (Cfg.getOs().equals("osx")) {
-					logger.addLog(R.getString(S.LOG_INFO)
-							+ R.getString("0000026"));
+					logger.addLog(R.getString(S.LOG_INFO) + R.getString("0000026"));
 				}
 
 				return NULL_DEVICE;
@@ -183,7 +180,7 @@ public class AdbUtils {
 		} catch (Exception e) {
 			logger.addLog(R.getString(S.LOG_ERROR) + R.getString("0000033"));
 		}
-		logger.addLog(R.getString(S.LOG_INFO) + R.getString("0000034")+sdk);
+		logger.addLog(R.getString(S.LOG_INFO) + R.getString("0000034") + sdk);
 
 		if (sdk > 18) {
 			logger.addLog(R.getString(S.LOG_INFO) + R.getString("0000035"));
@@ -191,8 +188,7 @@ public class AdbUtils {
 					privAppOut.getAbsolutePath() };
 			boolean privAppStatus = CmdUtils.runCommand(privAppCmd) == 0;
 			if (!privAppStatus) {
-				logger.addLog(R.getString(
-						S.LOG_WARNING + R.getString("0000036")));
+				logger.addLog(R.getString(S.LOG_WARNING + R.getString("0000036")));
 			}
 			logger.addLog(R.getString(S.LOG_INFO) + R.getString("0000037"));
 
@@ -202,29 +198,30 @@ public class AdbUtils {
 		String[] appCmd = { S.ADB_BIN.getAbsolutePath(), "pull", "/system/app", appOut.getAbsolutePath() };
 		boolean appStatus = CmdUtils.runCommand(appCmd) == 0;
 		if (!appStatus) {
-			logger.addLog(
-					R.getString(S.LOG_WARNING + R.getString("0000039")));
+			logger.addLog(R.getString(S.LOG_WARNING + R.getString("0000039")));
 		}
 		logger.addLog(R.getString(S.LOG_INFO) + R.getString("0000040"));
 
-		// check for squash files 
-		File appSquashOutput = new File(outputFolder.getAbsolutePath()+File.separator+"odex.app.sqsh");
-		File privAppSquashOutput = new File(outputFolder.getAbsolutePath()+File.separator+"odex.priv-app.sqsh");
-		String[] appSquashCmd = {S.ADB_BIN.getAbsolutePath(),"pull","/system/odex.app.sqsh",appSquashOutput.getAbsolutePath()};
-		String[] privAppSquashCmd = {S.ADB_BIN.getAbsolutePath(),"pull","/system/odex.priv-app.sqsh",privAppSquashOutput.getAbsolutePath()};
+		// check for squash files
+		File appSquashOutput = new File(outputFolder.getAbsolutePath() + File.separator + "odex.app.sqsh");
+		File privAppSquashOutput = new File(outputFolder.getAbsolutePath() + File.separator + "odex.priv-app.sqsh");
+		String[] appSquashCmd = { S.ADB_BIN.getAbsolutePath(), "pull", "/system/odex.app.sqsh",
+				appSquashOutput.getAbsolutePath() };
+		String[] privAppSquashCmd = { S.ADB_BIN.getAbsolutePath(), "pull", "/system/odex.priv-app.sqsh",
+				privAppSquashOutput.getAbsolutePath() };
 		boolean squash = CmdUtils.runCommand(appSquashCmd) == 0;
-		CmdUtils.runCommand(privAppSquashCmd) ;
-		// TODO externalize this 
-		
-		if(squash)
-		logger.addLog(R.getString(S.LOG_INFO)+".sqsh Files were detected it will be extracted no action needed from user... ");
-			
-			
+		CmdUtils.runCommand(privAppSquashCmd);
+		// TODO externalize this
+
+		if (squash)
+			logger.addLog(R.getString(S.LOG_INFO)
+					+ ".sqsh Files were detected it will be extracted no action needed from user... ");
+
 		// copy framwork
 		logger.addLog(R.getString(S.LOG_INFO) + R.getString("0000041"));
 		String[] framCmd = { S.ADB_BIN.getAbsolutePath(), "pull", "/system/framework", framworkOut.getAbsolutePath() };
 		boolean framStatus = CmdUtils.runCommand(framCmd) == 0;
-		if(framStatus )
+		if (framStatus)
 			logger.addLog(R.getString(S.LOG_INFO) + R.getString("0000042"));
 		else
 			logger.addLog(R.getString(S.LOG_INFO) + R.getString("0000043"));
@@ -234,12 +231,13 @@ public class AdbUtils {
 	public static void main(String[] args) throws IOException, InterruptedException {
 		R.initResources();
 		CmdLogger logger = new CmdLogger();
-		if (getDevices(logger) != NULL_DEVICE && (getDevices(logger).endsWith("device") || getDevices(logger).endsWith("online"))) {
-			AdbUtils.extractSystem(new File("/tmp/test-pull2"),logger );
+		if (getDevices(logger) != NULL_DEVICE
+				&& (getDevices(logger).endsWith("device") || getDevices(logger).endsWith("online"))) {
+			AdbUtils.extractSystem(new File("/tmp/test-pull2"), logger);
 		}
-		String args1 [] = {"/tmp/test-pull2","-z","-s"};
+		String args1[] = { "/tmp/test-pull2", "-z", "-s" };
 		Tester.main(args1);
-		
+
 	}
 
 }

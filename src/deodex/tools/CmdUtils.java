@@ -33,30 +33,29 @@ public class CmdUtils {
 		Process proc = null;
 		try {
 			proc = rt.exec(cmd);
-		
+
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} 
+		}
 
-		
-		StreamReader stdInputReader = new StreamReader("stdIn",proc.getInputStream());
-		StreamReader stdErrorReader = new StreamReader("stdError",proc.getErrorStream());
+		StreamReader stdInputReader = new StreamReader("stdIn", proc.getInputStream());
+		StreamReader stdErrorReader = new StreamReader("stdError", proc.getErrorStream());
 		stdInputReader.start();
 		stdErrorReader.start();
 
 		int exitValue = 1000;
 		try {
-			exitValue =	proc.waitFor();
+			exitValue = proc.waitFor();
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
-			if(proc != null)
+			if (proc != null)
 				proc.destroy();
 		}
 
-			Logger.writLog("It's exit value was : "+exitValue);
+		Logger.writLog("It's exit value was : " + exitValue);
 
 		proc.destroy();
 		return exitValue;

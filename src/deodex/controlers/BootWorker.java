@@ -66,7 +66,7 @@ public class BootWorker implements Runnable, Watchable {
 		File origJar = new File(SessionCfg.getSystemFolder().getAbsolutePath() + File.separator + S.SYSTEM_FRAMEWORK
 				+ File.separator + absoluteName + ".jar");
 		if (!origJar.exists()) {
-			Logger.writLog("[BootWorker][W] matching jar for "+file.getName() +" creating dummy ...");
+			Logger.writLog("[BootWorker][W] matching jar for " + file.getName() + " creating dummy ...");
 			FilesUtils.copyFile(S.DUMMY_JAR, origJar);
 		}
 
@@ -110,7 +110,7 @@ public class BootWorker implements Runnable, Watchable {
 			addStatus = Zip.addFilesToExistingZip(tmpJar, list);
 		} catch (IOException e) {
 			e.printStackTrace();
-			Logger.writLog("[MainWorker][EX]"+e.getStackTrace());
+			Logger.writLog("[MainWorker][EX]" + e.getStackTrace());
 		}
 
 		if (!addStatus) {
@@ -124,29 +124,29 @@ public class BootWorker implements Runnable, Watchable {
 
 	}
 
-	private String percent (){
-		//  ?  >>> value
-		// 100 >>>> max 
-		return (this.progressBar.getValue() *100 / this.progressBar.getMaximum())+"%";
+	private String percent() {
+		// ? >>> value
+		// 100 >>>> max
+		return (this.progressBar.getValue() * 100 / this.progressBar.getMaximum()) + "%";
 	}
-	
+
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
 		for (File file : bootFiles) {
-			Logger.writLog("[BootWorker][I] processing " +file.getName().substring(0, file.getName().lastIndexOf("."))
-						+ ".jar ");
+			Logger.writLog("[BootWorker][I] processing " + file.getName().substring(0, file.getName().lastIndexOf("."))
+					+ ".jar ");
 			boolean success = deoDexBootFile(file);
 			if (success) {
 				log.addLog(R.getString(S.LOG_INFO) + "[" + file.getName().substring(0, file.getName().lastIndexOf("."))
 						+ ".jar]" + " [SUCCESS]");
 			} else {
-				log.addLog(R.getString(S.LOG_WARNING) + "[" + file.getName().substring(0, file.getName().lastIndexOf("."))
-						+ ".jar]" + " [FAILED ]");
+				log.addLog(R.getString(S.LOG_WARNING) + "["
+						+ file.getName().substring(0, file.getName().lastIndexOf(".")) + ".jar]" + " [FAILED ]");
 
 			}
 			progressBar.setValue(progressBar.getValue() + 1);
-			progressBar.setString(R.getString("progress.bootFiles") + " "+this.percent());
+			progressBar.setString(R.getString("progress.bootFiles") + " " + this.percent());
 			threadWatcher.updateProgress();
 		}
 		FilesUtils.deleteRecursively(tmpFolder);

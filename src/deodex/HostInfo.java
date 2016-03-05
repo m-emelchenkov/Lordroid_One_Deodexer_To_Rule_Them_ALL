@@ -26,17 +26,18 @@ import java.io.IOException;
 import deodex.tools.PathUtils;
 
 public class HostInfo {
-	 public static void logInfo() {
-	        try {
-	        	File f = new File(PathUtils.getExcutionPath()+File.separator+"logs/system_info.txt");
-	        	f.getParentFile().mkdirs();
-	        	//f.createNewFile();
-				BufferedWriter out = new BufferedWriter(new FileWriter(f.getAbsolutePath(), false));
-		        System.getProperties().store(out, "System informations ");;
+	public static void logInfo() {
+		try {
+			File f = new File(PathUtils.getExcutionPath() + File.separator + "logs/system_info.txt");
+			f.getParentFile().mkdirs();
+			// f.createNewFile();
+			BufferedWriter out = new BufferedWriter(new FileWriter(f.getAbsolutePath(), false));
+			System.getProperties().store(out, "System informations ");
+			;
 
-	        } catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-	    }
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 }

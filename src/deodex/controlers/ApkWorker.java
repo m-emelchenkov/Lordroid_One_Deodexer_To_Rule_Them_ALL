@@ -61,7 +61,7 @@ public class ApkWorker implements Runnable {
 
 		progressBar = new JProgressBar();
 		progressBar.setMinimum(0);
-		if (apkList != null && apkList.size()>0)
+		if (apkList != null && apkList.size() > 0)
 			progressBar.setMaximum(apkList.size() <= 0 ? 2 : apkList.size() * 8);
 		else
 			progressBar.setMaximum(1);
@@ -81,15 +81,15 @@ public class ApkWorker implements Runnable {
 		ApkObj apk = new ApkObj(apkFolder);
 		Logger.writLog("[ApkWorker][I]Processing " + apk.getOrigApk().getName() + " ...");
 		// phase 01 copying to temp forlder
-		Logger.writLog("[ApkWorker][I]"+apk.getOrigApk().getName() + " Copying needed Files to working folder ...");
+		Logger.writLog("[ApkWorker][I]" + apk.getOrigApk().getName() + " Copying needed Files to working folder ...");
 		boolean copyStatus = apk.copyNeededFilesToTempFolder(tmpFolder);
 		if (!copyStatus) { // returns
 			logPan.addLog(R.getString(S.LOG_WARNING) + " [" + apk.getOrigApk().getName() + "]"
 					+ R.getString("log.copy.to.tmp.failed"));
-			Logger.writLog("[ApkWorker][E]"+apk.getOrigApk().getName() + " Failed to copy needed files ");
+			Logger.writLog("[ApkWorker][E]" + apk.getOrigApk().getName() + " Failed to copy needed files ");
 			return false;
 		}
-		Logger.writLog("[ApkWorker][I]"+apk.getOrigApk().getName() + " copy files to temp folder successfull ! ");
+		Logger.writLog("[ApkWorker][I]" + apk.getOrigApk().getName() + " copy files to temp folder successfull ! ");
 		progressBar.setValue(progressBar.getValue() + 1);
 		progressBar.setString(R.getString("progress.apks") + " (" + this.getPercent() + "%)");
 		threadWatcher.updateProgress();
@@ -101,7 +101,7 @@ public class ApkWorker implements Runnable {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			Logger.writLog("[ApkWorker][EX]"+e.getStackTrace());
+			Logger.writLog("[ApkWorker][EX]" + e.getStackTrace());
 		}
 		if (!extraxtStatus) {
 			logPan.addLog(R.getString(S.LOG_WARNING) + " [" + apk.getOrigApk().getName() + "]"
@@ -116,10 +116,10 @@ public class ApkWorker implements Runnable {
 		// phase 03 deodexing (most of the processing time is spend here)
 		boolean dexStatus = Deodexer.deodexApk(apk.getTempOdex(), apk.getTempDex());
 		if (!dexStatus) {
-			Logger.writLog("[Apkworker][W]"+apk.getOrigApk().getName() + " Failed with method1 trying method 2");
+			Logger.writLog("[Apkworker][W]" + apk.getOrigApk().getName() + " Failed with method1 trying method 2");
 			dexStatus = Deodexer.deodexApkFailSafe(apk.getTempOdex(), apk.getTempDex());
 			if (!dexStatus) {
-				Logger.writLog("[Apkworker][E]"+ apk.getOrigApk().getName() + " Failed to deodex ");
+				Logger.writLog("[Apkworker][E]" + apk.getOrigApk().getName() + " Failed to deodex ");
 				logPan.addLog(R.getString(S.LOG_WARNING) + " [" + apk.getOrigApk().getName() + "]"
 						+ R.getString("log.deodex.failed"));
 				FilesUtils.deleteRecursively(apk.getTempApk().getParentFile());
@@ -167,7 +167,7 @@ public class ApkWorker implements Runnable {
 			addClassesToApkStatus = Zip.addFilesToExistingZip(apk.getTempApk(), classesFiles);
 		} catch (IOException e) {
 			e.printStackTrace();
-			Logger.writLog("[ApkWorker][EX]"+e.getStackTrace());
+			Logger.writLog("[ApkWorker][EX]" + e.getStackTrace());
 		}
 		if (!addClassesToApkStatus) {
 			logPan.addLog(R.getString(S.LOG_WARNING) + " [" + apk.getOrigApk().getName() + "]"
@@ -188,7 +188,7 @@ public class ApkWorker implements Runnable {
 					apk.getTempApk().renameTo(apk.getTempApkSigned());
 			} catch (IOException | InterruptedException e) {
 				apk.getTempApk().renameTo(apk.getTempApkSigned());
-				Logger.writLog("[ApkWorker][EX]"+e.getStackTrace());
+				Logger.writLog("[ApkWorker][EX]" + e.getStackTrace());
 			}
 		} else {
 			// FilesUtils.copyFile(apk.getTempApk(), apk.getTempApkSigned());
@@ -206,7 +206,7 @@ public class ApkWorker implements Runnable {
 				if (!this.zipAlignStatus)
 					apk.getTempApkSigned().renameTo(apk.getTempApkZipalign());
 			} catch (IOException | InterruptedException e) {
-				Logger.writLog("[ApkWorker][EX]"+e.getStackTrace());
+				Logger.writLog("[ApkWorker][EX]" + e.getStackTrace());
 				apk.getTempApkSigned().renameTo(apk.getTempApkZipalign());
 			}
 		} else {
@@ -295,7 +295,7 @@ public class ApkWorker implements Runnable {
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			Logger.writLog("[ApkWorker][EX]"+e.getStackTrace());
+			Logger.writLog("[ApkWorker][EX]" + e.getStackTrace());
 			finalMove();
 		}
 		finalMove();
