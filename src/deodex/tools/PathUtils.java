@@ -18,6 +18,8 @@
  */
 package deodex.tools;
 
+import java.io.File;
+import java.io.IOException;
 import java.net.URISyntaxException;
 
 public class PathUtils {
@@ -32,5 +34,19 @@ public class PathUtils {
 		}
 		return path.substring(0, path.lastIndexOf("/"));
 	}
+	public static void logCallingProcessLocation(){
+		File f = new File("testFile11");
 
+		try {
+			f.createNewFile();
+			f.delete();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+			Logger.writLog("[PathUtils][EX]  "+e1.getStackTrace());
+		}
+		String calledfrom = f.getAbsolutePath().substring(0, f.getAbsolutePath().lastIndexOf(File.separator));
+		Logger.writLog("[PathUtils][I] we were called from "+calledfrom);
+		Logger.writLog("[PathUtils][I] we are located in : "+getExcutionPath());
+	}
 }

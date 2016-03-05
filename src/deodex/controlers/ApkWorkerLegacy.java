@@ -29,6 +29,7 @@ import deodex.S;
 import deodex.obj.ApkLegacy;
 import deodex.tools.Deodexer;
 import deodex.tools.FilesUtils;
+import deodex.tools.Logger;
 import deodex.tools.Zip;
 
 public class ApkWorkerLegacy implements Watchable, Runnable {
@@ -93,7 +94,7 @@ public class ApkWorkerLegacy implements Watchable, Runnable {
 				try {
 					putBack = Zip.addFilesToExistingZip(apk.tempApk, classes);
 				} catch (IOException e) {
-
+					Logger.writLog("[ApkWorkerLegacy][EX]"+e.getStackTrace());
 					e.printStackTrace();
 				}
 				if (!putBack) {
@@ -108,6 +109,7 @@ public class ApkWorkerLegacy implements Watchable, Runnable {
 						} catch (IOException | InterruptedException e) {
 							e.printStackTrace();
 							apk.tempApk.renameTo(apk.tempSigned);
+							Logger.writLog("[ApkWorkerLegacy][EX]"+e.getStackTrace());
 						}
 					} else {
 						apk.tempApk.renameTo(apk.tempSigned);
@@ -120,6 +122,7 @@ public class ApkWorkerLegacy implements Watchable, Runnable {
 						} catch (IOException | InterruptedException e) {
 							e.printStackTrace();
 							apk.tempSigned.renameTo(apk.tempZipaligned);
+							Logger.writLog("[ApkWorkerLegacy][EX]"+e.getStackTrace());
 						}
 					} else {
 						apk.tempSigned.renameTo(apk.tempZipaligned);
@@ -198,6 +201,7 @@ public class ApkWorkerLegacy implements Watchable, Runnable {
 			try {
 				Thread.sleep(2000);
 			} catch (InterruptedException e) {
+				Logger.writLog("[ApkWorkerLegacy][EX]"+e.getStackTrace());
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 				// lets make sure the whatcher is always updated even when an

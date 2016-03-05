@@ -26,6 +26,8 @@ import deodex.controlers.MainWorker;
 import deodex.tools.CmdLogger;
 import deodex.tools.FilesUtils;
 import deodex.tools.Logger;
+import deodex.tools.Os;
+import deodex.tools.PathUtils;
 import deodex.ui.LangFrame;
 import deodex.ui.Window;
 
@@ -34,6 +36,9 @@ public class Tester {
 	public static CommandLineWorker rootWorker = new CommandLineWorker();
 
 	public static void main(String args[]) {
+		PathUtils.logCallingProcessLocation();
+		logOsInfo();
+		HostInfo.logInfo();
 		if (args == null || args.length == 0) {
 			if (Cfg.isFirstLaunch()) {
 				Cfg.setCurrentLang(S.ENGLISH);
@@ -43,6 +48,7 @@ public class Tester {
 					@Override
 					public void run() {
 						// TODO Auto-generated method stub
+						
 						@SuppressWarnings("unused")
 						LangFrame win = new LangFrame();
 
@@ -53,7 +59,6 @@ public class Tester {
 				Cfg.readCfg();
 				R.initResources();
 				S.initTempFolders();
-				Logger.logToStdIO("[test]" + Cfg.getCurrentLang());
 				@SuppressWarnings("unused")
 				Window win = new Window();
 			}
@@ -69,6 +74,7 @@ public class Tester {
 			// the user used one argument and it's not '-h' so we assume he
 			// selected a folder
 			R.initResources();
+			logOsInfo();
 			File systemFolder = new File(args[0]);
 			boolean sign = false;
 			boolean zipAlign = false;
@@ -151,5 +157,13 @@ public class Tester {
 		Thread t = new Thread(mainWorker);
 
 		t.start();
+	}
+	private static void logOsInfo(){
+		// lets log SystemInfos
+		Logger.logToStdIO("[Tester][I]" + Cfg.getCurrentLang());
+		Logger.writLog("[Tester][I]User Os is "+Cfg.getOs());
+		Logger.writLog("[Tester][I]Os name : "+Os.getOsName());
+		Logger.writLog("[Tester][I]User Platform is : "+Os.platform());
+		Logger.writLog("[Tester][I]JAVA version : "+System.getProperty("java.version"));
 	}
 }

@@ -21,6 +21,7 @@ package deodex;
 
 import java.io.File;
 
+import deodex.tools.Logger;
 import deodex.tools.PathUtils;
 
 public class S {
@@ -105,10 +106,13 @@ public class S {
 	public static final String[] ARCH = { "arm64", "arm", "mips64", "mips", "x86_64", "x86" };
 
 	public static void initTempFolders() {
-		new File(TMP + File.separator + WORKER1).mkdirs();
-		new File(TMP + File.separator + WORKER3).mkdirs();
-		new File(TMP + File.separator + WORKER2).mkdirs();
-		new File(TMP + File.separator + WORKER4).mkdirs();
-		new File(TMP + File.separator + "boot").mkdirs();
+		Logger.writLog("[S] creating temp folders ...");
+		boolean w1 = new File(TMP + File.separator + WORKER1).mkdirs();
+		boolean w2 = new File(TMP + File.separator + WORKER3).mkdirs();
+		boolean w3 = new File(TMP + File.separator + WORKER2).mkdirs();
+		boolean w4 = new File(TMP + File.separator + WORKER4).mkdirs();
+		boolean b = new File(TMP + File.separator + "boot").mkdirs();
+		Logger.writLog("[S] worker1 created ? "+w1 +" worker2 created ? "+w2+
+						" worker3 created ? "+w3 +" worker4 created ? "+w4 +" boot created ? "+b);
 	}
 }

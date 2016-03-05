@@ -22,6 +22,7 @@ import java.io.File;
 
 import deodex.S;
 import deodex.tools.FilesUtils;
+import deodex.tools.Logger;
 
 public class JarLegacy {
 	public File origJar;
@@ -46,9 +47,13 @@ public class JarLegacy {
 		smaliFolder = new File(tempFolder.getName() + File.separator
 				+ origJar.getName().substring(0, origJar.getName().lastIndexOf(".")));
 		classes = new File(tempFolder.getAbsolutePath() + File.separator + S.CLASSES);
+		Logger.writLog("[JarLegacy][I] about to copy "+origJar.getAbsolutePath()+" to "+tempJar.getAbsolutePath());
+		boolean sucess = FilesUtils.copyFileRecurcively(origJar, tempJar);
+		Logger.writLog("[JarLegacy][I]  copy "+origJar.getAbsolutePath()+" to "+tempJar.getAbsolutePath() +(sucess ? " Success":" Failed"));
 
-		FilesUtils.copyFileRecurcively(origJar, tempJar);
-		FilesUtils.copyFileRecurcively(origOdex, tempOdex);
+		Logger.writLog("[JarLegacy][I] about to copy "+origOdex.getAbsolutePath()+" to "+tempOdex.getAbsolutePath());
+		sucess = FilesUtils.copyFileRecurcively(origOdex, tempOdex);
+		Logger.writLog("[JarLegacy][I] copy "+origOdex.getAbsolutePath()+" to "+tempOdex.getAbsolutePath()+(sucess ? " Success":" Failed"));
 
 		return tempJar.exists() && tempOdex.exists();
 	}

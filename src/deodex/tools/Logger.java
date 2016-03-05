@@ -60,6 +60,7 @@ public class Logger {
 	}
 
 	public static synchronized void writLog(String str) {
+		getlogFileName();
 		long yourmilliseconds = System.currentTimeMillis();
 		SimpleDateFormat sdf = new SimpleDateFormat("[HH:mm:ss]"); // dd/MMM/yyyy
 		Date resultdate = new Date(yourmilliseconds);

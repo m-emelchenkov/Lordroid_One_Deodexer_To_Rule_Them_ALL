@@ -28,6 +28,7 @@ import deodex.R;
 import deodex.S;
 import deodex.SessionCfg;
 import deodex.tools.FilesUtils;
+import deodex.tools.Logger;
 import deodex.tools.Zip;
 
 public class BootWorker implements Runnable, Watchable {
@@ -65,6 +66,7 @@ public class BootWorker implements Runnable, Watchable {
 		File origJar = new File(SessionCfg.getSystemFolder().getAbsolutePath() + File.separator + S.SYSTEM_FRAMEWORK
 				+ File.separator + absoluteName + ".jar");
 		if (!origJar.exists()) {
+			Logger.writLog("[BootWorker][W] matching jar for "+file.getName() +" creating dummy ...");
 			FilesUtils.copyFile(S.DUMMY_JAR, origJar);
 		}
 
@@ -108,6 +110,7 @@ public class BootWorker implements Runnable, Watchable {
 			addStatus = Zip.addFilesToExistingZip(tmpJar, list);
 		} catch (IOException e) {
 			e.printStackTrace();
+			Logger.writLog("[MainWorker][EX]"+e.getStackTrace());
 		}
 
 		if (!addStatus) {
@@ -131,6 +134,8 @@ public class BootWorker implements Runnable, Watchable {
 	public void run() {
 		// TODO Auto-generated method stub
 		for (File file : bootFiles) {
+			Logger.writLog("[BootWorker][I] processing " +file.getName().substring(0, file.getName().lastIndexOf("."))
+						+ ".jar ");
 			boolean success = deoDexBootFile(file);
 			if (success) {
 				log.addLog(R.getString(S.LOG_INFO) + "[" + file.getName().substring(0, file.getName().lastIndexOf("."))

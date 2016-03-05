@@ -22,6 +22,7 @@ package deodex;
 import java.io.File;
 import java.util.ArrayList;
 
+import deodex.tools.Logger;
 import deodex.tools.Os;
 import deodex.tools.PathUtils;
 import deodex.tools.PropReader;
@@ -164,22 +165,26 @@ public class Cfg {
 			showDeodexAlert = Integer.parseInt(PropReader.getProp(SHOW_DEODEX_ALERT, new File(CFG_PATH)));
 		} catch (Exception e) {
 			Cfg.setShowDeodexAlert(true);
+			Logger.writLog("[Cfg][EX]"+e.getStackTrace());
 		}
 
 		try {
 			showExitAlert = Integer.parseInt(PropReader.getProp(SHOW_EXIT_ALERT, new File(CFG_PATH)));
 		} catch (Exception e) {
 			Cfg.setShowExitAlert(true);
+			Logger.writLog("[Cfg][EX]"+e.getStackTrace());
 		}
 		try {
 			showThreadAlert = Integer.parseInt(PropReader.getProp(SHOW_THREAD_ALERT, new File(CFG_PATH)));
 		} catch (Exception e) {
 			Cfg.setShowThreadAlert(true);
+			Logger.writLog("[Cfg][EX]"+e.getStackTrace());
 		}
 		try {
 			Cfg.maxJobs = Integer.parseInt(PropReader.getProp(MAX_JOBS_PROP, new File(CFG_PATH)));
 		} catch (Exception e) {
 			Cfg.setMaxJobs(2);
+			Logger.writLog("[Cfg][EX]"+e.getStackTrace());
 		}
 	}
 

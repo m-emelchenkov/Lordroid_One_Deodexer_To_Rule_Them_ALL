@@ -41,7 +41,7 @@ public class FilesUtils {
 		// making sure the path is there and writable !
 		dest.getParentFile().mkdirs();
 		// dest.delete();
-
+		Logger.writLog("[FilesUtils][I] copying "+input.getAbsolutePath()+" to "+dest.getAbsolutePath());
 		if (dest.getParentFile().exists()) { // if the parent doesn't exist then
 												// don't bother copy
 
@@ -62,13 +62,16 @@ public class FilesUtils {
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+				Logger.writLog("[FilesUtils][EX]"+e.getStackTrace());
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+				Logger.writLog("[FilesUtils][EX]"+e.getStackTrace());
 			}
 		} else {
 			return false;
 		}
+		Logger.writLog("[FilesUtils][I] copy of "+input.getAbsolutePath()+" to "+dest.getAbsolutePath()+" successed ? "+dest.exists());
 		return dest.exists();
 	}
 
@@ -89,9 +92,11 @@ public class FilesUtils {
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+				Logger.writLog("[FilesUtils][EX]"+e.getStackTrace());
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+				Logger.writLog("[FilesUtils][EX]"+e.getStackTrace());
 			}
 		} else {
 			return false;
@@ -123,8 +128,10 @@ public class FilesUtils {
 	public static void deleteFiles(ArrayList<File> files) {
 		if (files != null && files.size() > 0)
 			for (File f : files) {
-				if (f.isFile())
+				if (f.isFile()){
+					Logger.writLog("[FilesUtils][I] deleting "+f.getAbsolutePath());
 					f.delete();
+				}
 			}
 
 	}
@@ -138,6 +145,7 @@ public class FilesUtils {
 		if (f.isDirectory()) {
 			File[] list = f.listFiles();
 			if (list.length < 0) {
+				Logger.writLog("[FilesUtils][I] deleting "+f.getAbsolutePath());
 				return f.delete();
 			} else {
 
@@ -164,6 +172,7 @@ public class FilesUtils {
 			}
 		}
 		if (folder.listFiles() == null || folder.listFiles().length <= 0) {
+			Logger.writLog("[FilesUtils][I] deleting because it is umpty " +folder.getAbsolutePath());
 			folder.delete();
 		}
 	}
@@ -213,7 +222,7 @@ public class FilesUtils {
 			// Logger.logToStdIO("[WHAT ?] "+str);
 		} catch (Exception e) {
 			for (StackTraceElement element : e.getStackTrace())
-				Logger.writLog(element.toString());
+				Logger.writLog("[FilesUtils][EX]"+element.toString());
 			log.addLog(R.getString(S.LOG_ERROR) + R.getString(S.CANT_READ_SDK_LEVEL));
 			return false;
 		}
@@ -270,7 +279,7 @@ public class FilesUtils {
 					return false;
 				}
 			} catch (Exception e) {
-
+				Logger.writLog("[FilesUtils][EX]"+e.getStackTrace());
 			}
 
 		}
@@ -372,7 +381,7 @@ public class FilesUtils {
 		for (File f : listAllFiles(framework)) {
 			str = str + (f.getAbsolutePath().substring(framework.getAbsolutePath().length() + 1)) + "\n";
 		}
-		Logger.writLog(str);
+		Logger.writLog("[FilesUtils][D]"+str);
 	}
 
 	public static boolean moveFile(File in, File dest) {
@@ -385,7 +394,14 @@ public class FilesUtils {
 		return !in.exists();
 	}
 
+	/**
+	 * 
+	 * @param folder
+	 * @param ext
+	 * @return
+	 */
 	public static ArrayList<File> searchExactFileNames(File folder, String ext) {
+		Logger.writLog("[FileUtils][I] searching  for "+ext+" in (Exact file name mode )"+folder.getAbsolutePath());
 		ArrayList<File> list = new ArrayList<File>();
 		File[] files = folder.listFiles();
 		for (File f : files) {
@@ -397,6 +413,15 @@ public class FilesUtils {
 				list.add(f);
 			}
 		}
+		String found = "";
+		for(int i = 0 ; i < list.size() ; i++){
+			if(i != list.size()-1){
+				found = found + list.get(i).getAbsolutePath()+" :: ";
+			} else {
+				found = found + list.get(i).getAbsolutePath();
+			}
+		}
+		Logger.writLog("[FilesUtils][I] list of found files = "+found);
 		return list;
 	}
 
@@ -407,6 +432,7 @@ public class FilesUtils {
 	 * @return ArrayfilesList
 	 */
 	public static ArrayList<File> searchrecursively(File folder, String ext) {
+		Logger.writLog("[FileUtils][I] searching  for *."+ext+" in "+folder.getAbsolutePath());
 		ArrayList<File> list = new ArrayList<File>();
 		File[] files = folder.listFiles();
 		for (File f : files) {
@@ -418,6 +444,15 @@ public class FilesUtils {
 				list.add(f);
 			}
 		}
+		String found = "";
+		for(int i = 0 ; i < list.size() ; i++){
+			if(i != list.size()-1){
+				found = found + list.get(i).getAbsolutePath()+" :: ";
+			} else {
+				found = found + list.get(i).getAbsolutePath();
+			}
+		}
+		Logger.writLog("[FilesUtils][I] list of found files = "+found);
 		return list;
 	}
 }

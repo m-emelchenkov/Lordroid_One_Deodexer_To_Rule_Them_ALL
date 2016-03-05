@@ -33,6 +33,7 @@ import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 
+import deodex.tools.Logger;
 import deodex.tools.StringUtils;
 
 public class R {
@@ -89,6 +90,7 @@ public class R {
 
 		} catch (Exception e) {
 			e.printStackTrace();
+			Logger.writLog("[R][EX]"+e.getStackTrace());
 		}
 
 		try {
@@ -101,6 +103,7 @@ public class R {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			Logger.writLog("[R][EX]"+e.getStackTrace());
 		}
 
 	}

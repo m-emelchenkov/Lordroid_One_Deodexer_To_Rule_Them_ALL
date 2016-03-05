@@ -50,7 +50,7 @@ public class Deodexer {
 		CmdUtils.runCommand(cmd);
 
 		if (!smaliFolder.exists()) {
-			Logger.logToStdIO("Failed at baksmali " + odexFile.getName());
+			Logger.writLog("[Deodexer][E]Failed at baksmali " + odexFile.getName());
 			return false;
 		}
 		CmdUtils.runCommand(cmd2);
@@ -81,14 +81,15 @@ public class Deodexer {
 	public static boolean oat2dexBoot(File bootOat) {
 		String[] cmd = { /**"java", "-jar", new File(S.OAT2DEX_JAR).getAbsolutePath(), */"boot", bootOat.getAbsolutePath() };
 		try {
+			Logger.writLog("[Deodexer][I] trying to de-optimize boot.oat using oat2dex as library ....");
 		org.rh.smaliex.Main.main(cmd);
-		} catch (Exception e) {
-
+		} catch (Exception e ) {
+			Logger.writLog("[Deodexer][E] de-optimize boot.oat using oat2dex as library ...." +"[failed]");
+			Logger.writLog("[Deodexer][I] trying to de-optimize boot.oat using oat2dex as binary ....");
 			String[] cmd1 = { "java", "-jar", new File(S.OAT2DEX_JAR).getAbsolutePath(), "boot", bootOat.getAbsolutePath() };
 			CmdUtils.runCommand(cmd1);
 
-		}
-
+		} 
 		return S.bootTmpDex.exists();
 	}
 

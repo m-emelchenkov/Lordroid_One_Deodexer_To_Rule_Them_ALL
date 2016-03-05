@@ -40,7 +40,7 @@ public class AdbUtils {
 	private static boolean killServer() {
 		// if we have no adb binary dont bother
 		if (Cfg.getOs().equals("null")) {
-			Logger.writLog("ADB is not supported by this OS");
+			Logger.writLog("[AdbUtils][E]ADB is not supported by this OS");
 			return false;
 		}
 		String[] cmd = { S.ADB_BIN.getAbsolutePath(), "kill-server" };
@@ -54,7 +54,7 @@ public class AdbUtils {
 	private static boolean startServer() {
 		// if we don't have adb binaries
 		if (Cfg.getOs().equals("null")) {
-			Logger.writLog("ADB is not supported by this OS");
+			Logger.writLog("[AdbUtils][E]ADB is not supported by this OS");
 			return false;
 		}
 		String[] cmd = { S.ADB_BIN.getAbsolutePath(), "start-server" };
@@ -69,14 +69,14 @@ public class AdbUtils {
 		String formatedDevice = "";
 		boolean killStatus = killServer();
 		if (!killStatus) {
-			Logger.writLog("adb server couldn't be killed aborting ...");
+			Logger.writLog("[AdbUtils][E] adb server couldn't be killed aborting ...");
 			logger.addLog(R.getString(S.LOG_ERROR) + R.getString("0000019"));
 			return NULL_DEVICE;
 		}
 
 		boolean startStatus = startServer();
 		if (!startStatus) {
-			Logger.writLog("adb server couldn't be started aborting ...");
+			Logger.writLog("[AdbUtils][E] adb server couldn't be started aborting ...");
 			logger.addLog(R.getString(S.LOG_ERROR) + R.getString("0000020"));
 			return NULL_DEVICE;
 		}
@@ -108,7 +108,7 @@ public class AdbUtils {
 			if (exitValue != 0) {
 				// TODO : ADD logging for this
 				logger.addLog(R.getString(S.LOG_ERROR) + R.getString("0000021"));
-				Logger.writLog("adb exited with no zero code error=" + exitValue);
+				Logger.writLog("[AdbUtils][E]"+"adb exited with no zero code error=" + exitValue);
 				return NULL_DEVICE;
 			}
 			if (output.size() > 3) {

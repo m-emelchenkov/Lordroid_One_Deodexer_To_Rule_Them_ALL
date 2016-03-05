@@ -25,10 +25,12 @@ import java.util.ArrayList;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 
+import deodex.Cfg;
 import deodex.R;
 import deodex.S;
 import deodex.SessionCfg;
 import deodex.tools.ArrayUtils;
+import deodex.tools.CmdUtils;
 import deodex.tools.Deodexer;
 import deodex.tools.FilesUtils;
 import deodex.tools.Logger;
@@ -106,7 +108,7 @@ public class MainWorker implements Runnable, ThreadWatcher, Watchable {
 
 			FilesUtils.deleteRecursively(S.bootTmp.getParentFile().getParentFile());
 			// TODO remove this
-			Logger.logToStdIO("ALL JOBS THERMINATED ");
+			Logger.writLog("[MainWorker][I]"+"ALL JOBS THERMINATED ");
 			// logPan.addLog(R.getString(S.LOG_INFO)+R.getString("mainWorker.alljobsDone"));
 			// logPan.addLog(R.getString(S.LOG_INFO)+R.getString("mainworker.finallog"));
 			progressBar.setValue(progressBar.getMaximum());
@@ -183,7 +185,7 @@ public class MainWorker implements Runnable, ThreadWatcher, Watchable {
 			if(!isinitialized)
 				this.logPan.addLog(R.getString(S.LOG_ERROR)+"couldn't copy boot.oat to working folder aborting ...");
 		} catch (Exception e) {
-
+			Logger.writLog("[MainWorker][EX]"+e.getStackTrace());
 		}
 		isinitialized = isinitialized && Deodexer.oat2dexBoot(S.bootTmp);
 		if (!isinitialized) {
@@ -238,15 +240,15 @@ public class MainWorker implements Runnable, ThreadWatcher, Watchable {
 									(f.getName().endsWith(".odex")
 											? f.getName().substring(0, f.getName().lastIndexOf("."))
 											: f.getName().substring(0, f.getName().lastIndexOf(".odex.xz"))) + ".apk"));
-			Logger.writLog("Searching for "
+			Logger.writLog("[MainWorker][I]"+"Searching for "
 					+ (f.getName().endsWith(".odex") ? f.getName().substring(0, f.getName().lastIndexOf("."))
 							: f.getName().substring(0, f.getName().lastIndexOf(".odex.xz")))
 					+ ".apk");
 			if (!apksInFram.isEmpty()) {
 				temapkinfram.add(f);
-				Logger.writLog("fount moving it to apk worker's list ");
+				Logger.writLog("[MainWorker][I]"+"fount moving it to apk worker's list ");
 			} else {
-				Logger.writLog("not found skip ...");
+				Logger.writLog("[MainWorker][I]"+"not found skip ...");
 			}
 		}
 		for (File f : temapkinfram) {
@@ -270,21 +272,21 @@ public class MainWorker implements Runnable, ThreadWatcher, Watchable {
 		}
 		boot = new BootWorker(worker4List, S.worker4Folder, this.logPan);
 
-		Logger.writLog("APK list 1");
+		Logger.writLog("[MainWorker][I]"+"APK list 1");
 		for (File f : this.worker1List) {
-			Logger.writLog(f.getAbsolutePath());
+			Logger.writLog("[MainWorker][I]"+f.getAbsolutePath());
 		}
-		Logger.writLog("APK list 2");
+		Logger.writLog("[MainWorker][I]"+"APK list 2");
 		for (File f : this.worker2List) {
-			Logger.writLog(f.getAbsolutePath());
+			Logger.writLog("[MainWorker][I]"+f.getAbsolutePath());
 		}
-		Logger.writLog("Jar list 3");
+		Logger.writLog("[MainWorker][I]"+"Jar list 3");
 		for (File f : this.worker3List) {
-			Logger.writLog(f.getAbsolutePath());
+			Logger.writLog("[MainWorker][I]"+f.getAbsolutePath());
 		}
-		Logger.writLog("boot list 1");
+		Logger.writLog("[MainWorker][I]"+"boot list 4 (boot)");
 		for (File f : this.worker4List) {
-			Logger.writLog(f.getAbsolutePath());
+			Logger.writLog("[MainWorker][I]"+f.getAbsolutePath());
 		}
 
 		apk1.addThreadWatcher(this);
@@ -459,8 +461,21 @@ public class MainWorker implements Runnable, ThreadWatcher, Watchable {
 		mainPannel.add(progressBar);
 	}
 
+	private void logToolsversions(){
+		String[] oat2dex = {"java","-jar",new File(S.OAT2DEX_JAR).getAbsolutePath(),"-v"};
+		String[] smali = {"java","-jar",new File(S.SMALI_JAR).getAbsolutePath(),"-v"};
+		String[] backsmali = {"java","-jar",new File(S.BACKSMALI_JAR).getAbsolutePath(),"-v"};
+		String[] zupalign = {new File(S.ZIPALIGN_BIN + File.separator + Cfg.getOs()).getAbsolutePath(),"-v"};
+
+		CmdUtils.runCommand(oat2dex);
+		CmdUtils.runCommand(smali);
+		CmdUtils.runCommand(backsmali);
+		CmdUtils.runCommand(zupalign);
+		
+	}
 	@Override
 	public void run() {
+		logToolsversions();		
 		if(this.isinitialized)
 			this.threadWatcher.updateProgress();
 		else

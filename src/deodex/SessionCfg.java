@@ -20,6 +20,8 @@ package deodex;
 
 import java.io.File;
 
+import deodex.tools.Logger;
+
 public class SessionCfg {
 
 	private static String arch;
@@ -81,6 +83,7 @@ public class SessionCfg {
 	 * @param arch
 	 */
 	public static void setArch(String arch) {
+		Logger.writLog("[SessionCfg][I] setting arch to :" +arch);
 		SessionCfg.arch = arch;
 	}
 
@@ -89,6 +92,7 @@ public class SessionCfg {
 	 * @param bootOatFile
 	 */
 	public static void setBootOatFile(File bootOatFile) {
+		Logger.writLog("[SessionCfg][I] setting boot file to :" +bootOatFile.getAbsolutePath());
 		SessionCfg.bootOatFile = bootOatFile;
 	}
 
@@ -97,6 +101,7 @@ public class SessionCfg {
 	 * @param sdk
 	 */
 	public static void setSdk(int sdk) {
+		Logger.writLog("[SessionCfg][I] setting sdk level to : " +sdk);
 		SessionCfg.sdk = sdk;
 	}
 
@@ -105,6 +110,7 @@ public class SessionCfg {
 	 *            the sign to set
 	 */
 	public static void setSign(boolean signp) {
+		Logger.writLog("[SessionCfg][I] setting sign to :" + signp);
 		sign = signp;
 	}
 
@@ -113,6 +119,7 @@ public class SessionCfg {
 	 * @param systemFolder
 	 */
 	public static void setSystemFolder(File systemFolder) {
+		Logger.writLog("[SessionCfg][I] setting systemFolder to :" + systemFolder);
 		SessionCfg.systemFolder = systemFolder;
 		// setBootOatFile(new File(systemFolder.getAbsolutePath() +
 		// File.separator + S.SYSTEM_FRAMEWORK + File.separator
@@ -124,6 +131,7 @@ public class SessionCfg {
 	 *            the zipalign to set
 	 */
 	public static void setZipalign(boolean zipalignp) {
+		Logger.writLog("[SessionCfg][I] setting zipalign to :" + zipalignp);
 		zipalign = zipalignp;
 	}
 
