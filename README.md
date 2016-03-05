@@ -15,8 +15,8 @@ Lordroid batch deodexer **ODTRTA** One Deodexer To Rule Them All ,is a free soft
  
 
 ### How to use (GUI) :
-1. Under linux/mac extract the archive with the command `tar xzvf lordroid_ODTRTA_v0.5_beta-1_ALL.tar.gz`
-2. Under windows open the archive with 7zip GUI and extract it.
+1. Under `linux/mac` extract the archive with the command `tar xzvf lordroid_ODTRTA_v0.5_beta-1_ALL.tar.gz`
+2. Under `windows` open the archive with `7zip` GUI and extract it.
 3. If the default file association of `.jar` files is not `JAVA SE` right click then open with `JAVA SE`
 4. Click the browse button and choose the ROM's `system` folder or drag and drop a folder to the `Text Field`
 5. The log will tell you weither or not you selected folder is valide and if so the deodex Button will be activeted click on it
@@ -26,33 +26,28 @@ Lordroid batch deodexer **ODTRTA** One Deodexer To Rule Them All ,is a free soft
   
   
 ### How to use (Command line) :
-         Lordroid One Deodexer To Rule'em All v1.20        |
+         __Lordroid One Deodexer To Rule'em All__              |
          ------------------------------------------        |
- USAGE :                                                   |
- java -jar Launcher.jar <source> [OPTIONS]                 |
- <source> can be either                                    |
- PATH to System Folder exemple : /path/system              |
+ __USAGE :__                                                   |
+ `java -jar Launcher.jar <source> [OPTIONS]`               |
+ __`<source>` can be either__                                  |
+ PATH to System Folder exemple : `/path/system`              |
                    OR                                      |
- e : to extract systemFolder directlly from device         |
- Options :                                                 |
- c : create a flashabe zip  after deodexing the rom        |
- z : zipalign every apk after deodexing it                 |
- s : sign every apk after deodexing                        |
- h : print this help page                                  |
+ `e` : to extract systemFolder directlly from device         |
+ __Options :__                                                 |
+ `c` : create a flashabe zip  after deodexing the rom        |
+ `z` : zipalign every apk after deodexing it                 |
+ `s` : sign every apk after deodexing                        |
+ `h` : print this help page                                  |
  please note that options should'nt be separated by spaces |
- Exemple :                                                 |
- java -jar Launcher.jar /path/system zsc                   |
- this command will deodex   and sign and zipalign          |
- and then creates a flashable zip file                     |
- java -jar Launcher.jar e  zsc                             |
- this command will extract and deodex                      |
- from connected device                                     |
- then sign and zipalign                                    |
- and then creates a flashable zip file                     |
-                                                           |
- NOTE :                                                    |
-extracted systems will be under extracted_system_folders   |
-create flashable zip will be under flashable_zips_out      |
+ __Exemple :__                                                 |
+ `java -jar Launcher.jar /path/system zsc`                  |
+ this command will deodex   and sign and zipalign and then creates a flashable zip file         |
+ `java -jar Launcher.jar e  zsc`                             |
+ this command will extract and deodex from connected device then sign and zipalign and then creates a flashable zip file|
+ __NOTE :__                                                  |
+extracted systems will be under `extracted_system_folders`   |
+create flashable zip will be under `flashable_zips_out`      |
 
   
 
@@ -60,20 +55,20 @@ create flashable zip will be under flashable_zips_out      |
 1. make sure the is a build.prop file in the selected folder 
 2. make sure the is a framwork folder under the selected folder.
 3. make sure the rom is odexed ! make a search in system folder with the request ".odex" if no results are there then your rom is deodexed and you don't need to run this tool on it.
-4. make sure JRE 8 is the default JRE see the output of java -version you should see 1.8.x if 1.7.x or lower the tool will not work for roms > sdk 20 lollipop and above !
+4. make sure `JRE 7` or higher is the default JRE see the output of java -version you should see `1.8.x` or `1.7.x` if `1.6.x` or lower the tool will not work for roms > sdk 20 lollipop and above !
 5. make sur the system folder you chose is writable (means you have the right to write inside it) otherwise the tool will not work.
-6. if your rom is sdk > 20 make sure you have a boot.oat file under framework/*arch* other wise the tool will not work.
-7. if you followed all those instructions and you are still having trouble send me a link to your rom or list me the all files under /system/framework ,/system/app and /system/priv-app.
+6. if your rom is sdk > 20 make sure you have a `boot.oat` file under `framework/**` other wise the tool will not work.
+7. if you followed all those instructions and you are still having trouble send me a link to your rom or list me the all files under `/system/framework` ,`/system/app` and `/system/priv-app`.
   
   
 ### Build 
-#### using ant 1.7 or higher
+#### using `ant 1.7` or higher
      mkdir deodexer
      git clone https://github.com/lord-ralf-adolf/Lordroid_One_Deodexer_To_Rule_Them_ALL.git deodexer
      cd deodexer  
 
   
-to build a for test type the command   
+to build a for testing type the command   
 ```
 ant
 ```
