@@ -246,7 +246,7 @@ public class Cfg {
 
 	/**
 	 * 
-	 * @return available languages as String if there is none retrrns null
+	 * @return
 	 */
 
 	public static void writeCfgFile() {

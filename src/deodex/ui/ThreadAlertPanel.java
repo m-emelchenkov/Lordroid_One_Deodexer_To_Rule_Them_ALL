@@ -39,13 +39,8 @@ public class ThreadAlertPanel extends JPanel {
 	JComboBox<Integer> count = new JComboBox<Integer>(ints);
 
 	public ThreadAlertPanel() {
-		// for (Integer i : ints)
-		// count.addItem(i);
 
 		text1.setBounds(5, 5, 450, 80);
-		// text2.setBounds(5, 25, 500, 20);
-		// text3.setBounds(5, 50, 500, 20);
-		// text4.setBounds(5, 70, 500, 20);
 		jobsLab.setBounds(5, 110, 120, 20);
 		count.setBounds(130, 110, 100, 20);
 		box.setBounds(5, 140, 400, 20);
@@ -54,9 +49,6 @@ public class ThreadAlertPanel extends JPanel {
 		this.setSize(450, 130);
 		this.setLayout(null);
 		this.add(text1);
-		// this.add(text2);
-		// this.add(text3);
-		// this.add(text4);
 
 		this.add(jobsLab);
 		this.add(count);

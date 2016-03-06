@@ -62,7 +62,6 @@ public class LoggerPane extends JPanel implements LoggerPan {
 		logs = new JList<String>(model);
 		logs.setFont(R.COURIER_LOGGER);
 		logs.setAutoscrolls(true);
-		// logs.setBounds(2, 2, this.getWidth()-4, this.getHeight()-4);
 		this.setLayout(null);
 		scroll = new JScrollPane(logs);
 		scroll.setBounds(0, 0, this.getWidth(), this.getHeight() - 0);
@@ -84,7 +83,6 @@ public class LoggerPane extends JPanel implements LoggerPan {
 		logs = new JList<String>(model);
 		logs.setFont(R.COURIER_LOGGER);
 		logs.setAutoscrolls(true);
-		// logs.setBounds(2, 2, this.getWidth()-4, this.getHeight()-4);
 		this.setLayout(null);
 		scroll = new JScrollPane(logs);
 		scroll.setBounds(0, 0, this.getWidth(), this.getHeight() - 0);
@@ -94,7 +92,6 @@ public class LoggerPane extends JPanel implements LoggerPan {
 
 	@Override
 	public synchronized void addLog(String str) {
-		// TODO Auto-generated method stub
 		try {
 			addLogR(str);
 		} catch (Exception e) {
@@ -125,6 +122,7 @@ public class LoggerPane extends JPanel implements LoggerPan {
 		model.removeAllElements();
 	}
 
+	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		g.drawImage(bg, 0, 0, this.getWidth(), this.getHeight(), this);
@@ -132,8 +130,6 @@ public class LoggerPane extends JPanel implements LoggerPan {
 
 	@Override
 	public synchronized void saveToFile() {
-		// TODO Auto-generated method stub
-
 		long yourmilliseconds = System.currentTimeMillis();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd_HH.mm.ss"); // dd/MMM/yyyy
 		Date resultdate = new Date(yourmilliseconds);
@@ -151,9 +147,6 @@ public class LoggerPane extends JPanel implements LoggerPan {
 	}
 
 	public synchronized void saveToFile(String string) {
-		// TODO Auto-generated method stub
-		// TODO Auto-generated method stub
-
 		long yourmilliseconds = System.currentTimeMillis();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd_HH.mm.ss"); // dd/MMM/yyyy
 		Date resultdate = new Date(yourmilliseconds);

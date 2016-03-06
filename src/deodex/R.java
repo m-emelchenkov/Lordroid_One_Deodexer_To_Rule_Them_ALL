@@ -52,8 +52,6 @@ public class R {
 	public static final Color PANELS_BACK_COLOR = new Color(189, 195, 199);
 
 	private static ArrayList<String> strings = new ArrayList<String>();
-	public static Image borderRight;
-	public static Image borderLeft;
 	public static Image icon;
 
 	public static String getString(String prop) {
@@ -83,8 +81,6 @@ public class R {
 			while ((line = br.readLine()) != null) {
 				if (line.length() > 0 && line.charAt(0) != '#' && line.lastIndexOf("=") > 0) {
 					strings.add(line);
-					// Logger.logToStdIO(LOG_HEADER + Logger.INFO + " String
-					// loaded : " + line);
 				}
 			}
 
@@ -94,12 +90,7 @@ public class R {
 		}
 
 		try {
-			borderRight = ImageIO
-					.read(Thread.currentThread().getContextClassLoader().getResource("images/borderRight.png"));
-			borderLeft = ImageIO
-					.read(Thread.currentThread().getContextClassLoader().getResource("images/borderLeft.png"));
 			icon = ImageIO.read(Thread.currentThread().getContextClassLoader().getResource("images/icon.png"));
-
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -120,8 +111,6 @@ public class R {
 			}
 		}
 		tmp = tmp + str.charAt(str.length() - 1);
-		// Logger.logToStdIO(LOG_HEADER + Logger.INFO + " String legalized :" +
-		// tmp);
 		return tmp;
 	}
 

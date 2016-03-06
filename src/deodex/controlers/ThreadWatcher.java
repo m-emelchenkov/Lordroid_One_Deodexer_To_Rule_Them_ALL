@@ -21,7 +21,7 @@ package deodex.controlers;
 public interface ThreadWatcher {
 	public void done(Runnable r);
 
-	public void updateProgress();
-
 	public void sendFailed(Runnable r);
+
+	public void updateProgress();
 }

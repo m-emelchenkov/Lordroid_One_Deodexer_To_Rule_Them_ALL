@@ -32,11 +32,7 @@ public class StreamReader implements Runnable {
 		this.is = is;
 	}
 
-	public void start() {
-		thread = new Thread(this);
-		thread.start();
-	}
-
+	@Override
 	public void run() {
 		try {
 			InputStreamReader isr = new InputStreamReader(is);
@@ -52,5 +48,10 @@ public class StreamReader implements Runnable {
 			Logger.writLog("Problem reading stream " + name + "... :" + ex);
 			ex.printStackTrace();
 		}
+	}
+
+	public void start() {
+		thread = new Thread(this);
+		thread.start();
 	}
 }

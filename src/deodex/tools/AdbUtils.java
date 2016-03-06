@@ -33,32 +33,88 @@ import deodex.controlers.LoggerPan;
 public class AdbUtils {
 	public static final String NULL_DEVICE = "null|null";
 
-	/**
-	 * 
-	 * @return serverWasKilled ?
-	 */
-	private static boolean killServer() {
-		// if we have no adb binary dont bother
-		if (Cfg.getOs().equals("null")) {
-			Logger.writLog("[AdbUtils][E]ADB is not supported by this OS");
+	public static boolean extractSystem(File outputFolder, LoggerPan logger) {
+		AdbUtils.killServer();
+		AdbUtils.startServer();
+		int sdk = 999;
+		File buildPropOut = new File(outputFolder.getAbsolutePath() + "/build.prop");
+		File privAppOut = new File(outputFolder.getAbsolutePath() + "/priv-app");
+		File appOut = new File(outputFolder.getAbsolutePath() + "/app");
+		File framworkOut = new File(outputFolder.getAbsolutePath() + "/framework");
+
+		logger.addLog(R.getString(S.LOG_INFO) + R.getString("0000029"));
+		String[] cmd = { S.ADB_BIN.getAbsolutePath(), "pull", "/system/build.prop", buildPropOut.getAbsolutePath() };
+		boolean copyprop = CmdUtils.runCommand(cmd) == 0;
+		if (!copyprop) {
+			logger.addLog(R.getString(S.LOG_ERROR) + R.getString("0000030"));
 			return false;
 		}
-		String[] cmd = { S.ADB_BIN.getAbsolutePath(), "kill-server" };
-		return CmdUtils.runCommand(cmd) == 0;
+		logger.addLog(R.getString(S.LOG_INFO) + R.getString("0000031"));
+
+		logger.addLog(R.getString(S.LOG_INFO) + R.getString("0000032"));
+		try {
+			sdk = Integer.parseInt(PropReader.getProp(S.SDK_LEVEL_PROP, buildPropOut));
+		} catch (Exception e) {
+			logger.addLog(R.getString(S.LOG_ERROR) + R.getString("0000033"));
+		}
+		logger.addLog(R.getString(S.LOG_INFO) + R.getString("0000034") + sdk);
+
+		if (sdk > 18) {
+			logger.addLog(R.getString(S.LOG_INFO) + R.getString("0000035"));
+			String[] privAppCmd = { S.ADB_BIN.getAbsolutePath(), "pull", "system/priv-app",
+					privAppOut.getAbsolutePath() };
+			boolean privAppStatus = CmdUtils.runCommand(privAppCmd) == 0;
+			if (!privAppStatus) {
+				logger.addLog(R.getString(S.LOG_WARNING + R.getString("0000036")));
+			}
+			logger.addLog(R.getString(S.LOG_INFO) + R.getString("0000037"));
+
+		}
+		// copy system app
+		logger.addLog(R.getString(S.LOG_INFO) + R.getString("0000038"));
+		String[] appCmd = { S.ADB_BIN.getAbsolutePath(), "pull", "/system/app", appOut.getAbsolutePath() };
+		boolean appStatus = CmdUtils.runCommand(appCmd) == 0;
+		if (!appStatus) {
+			logger.addLog(R.getString(S.LOG_WARNING + R.getString("0000039")));
+		}
+		logger.addLog(R.getString(S.LOG_INFO) + R.getString("0000040"));
+
+		// check for squash files
+		File appSquashOutput = new File(outputFolder.getAbsolutePath() + File.separator + "odex.app.sqsh");
+		File privAppSquashOutput = new File(outputFolder.getAbsolutePath() + File.separator + "odex.priv-app.sqsh");
+		String[] appSquashCmd = { S.ADB_BIN.getAbsolutePath(), "pull", "/system/odex.app.sqsh",
+				appSquashOutput.getAbsolutePath() };
+		String[] privAppSquashCmd = { S.ADB_BIN.getAbsolutePath(), "pull", "/system/odex.priv-app.sqsh",
+				privAppSquashOutput.getAbsolutePath() };
+		boolean squash = CmdUtils.runCommand(appSquashCmd) == 0;
+		CmdUtils.runCommand(privAppSquashCmd);
+		// TODO externalize this
+
+		if (squash)
+			logger.addLog(R.getString(S.LOG_INFO)
+					+ ".sqsh Files were detected it will be extracted no action needed from user... ");
+
+		// copy framwork
+		logger.addLog(R.getString(S.LOG_INFO) + R.getString("0000041"));
+		String[] framCmd = { S.ADB_BIN.getAbsolutePath(), "pull", "/system/framework", framworkOut.getAbsolutePath() };
+		boolean framStatus = CmdUtils.runCommand(framCmd) == 0;
+		if (framStatus)
+			logger.addLog(R.getString(S.LOG_INFO) + R.getString("0000042"));
+		else
+			logger.addLog(R.getString(S.LOG_INFO) + R.getString("0000043"));
+		return framStatus;
 	}
 
-	/**
-	 * 
-	 * @return serverStarted ?
-	 */
-	private static boolean startServer() {
-		// if we don't have adb binaries
-		if (Cfg.getOs().equals("null")) {
-			Logger.writLog("[AdbUtils][E]ADB is not supported by this OS");
-			return false;
+	private static String getDeviceName(String out) {
+		String tmp = "";
+		for (int i = 0; i < out.length(); i++) {
+			if (out.charAt(i) != '	') {
+				tmp = tmp + out.charAt(i);
+			} else {
+				break;
+			}
 		}
-		String[] cmd = { S.ADB_BIN.getAbsolutePath(), "start-server" };
-		return CmdUtils.runCommand(cmd) == 0;
+		return tmp;
 	}
 
 	/**
@@ -140,92 +196,22 @@ public class AdbUtils {
 		return formatedDevice;
 	}
 
-	private static String getDeviceName(String out) {
-		String tmp = "";
-		for (int i = 0; i < out.length(); i++) {
-			if (out.charAt(i) != '	') {
-				tmp = tmp + out.charAt(i);
-			} else {
-				break;
-			}
-		}
-		return tmp;
-	}
-
 	private static String getDeviceStatus(String out) {
 		return out.substring(out.lastIndexOf("	") + 1, out.length());
 	}
 
-	public static boolean extractSystem(File outputFolder, LoggerPan logger) {
-		AdbUtils.killServer();
-		AdbUtils.startServer();
-		int sdk = 999;
-		File buildPropOut = new File(outputFolder.getAbsolutePath() + "/build.prop");
-		File privAppOut = new File(outputFolder.getAbsolutePath() + "/priv-app");
-		File appOut = new File(outputFolder.getAbsolutePath() + "/app");
-		File framworkOut = new File(outputFolder.getAbsolutePath() + "/framework");
-
-		logger.addLog(R.getString(S.LOG_INFO) + R.getString("0000029"));
-		String[] cmd = { S.ADB_BIN.getAbsolutePath(), "pull", "/system/build.prop", buildPropOut.getAbsolutePath() };
-		boolean copyprop = CmdUtils.runCommand(cmd) == 0;
-		if (!copyprop) {
-			logger.addLog(R.getString(S.LOG_ERROR) + R.getString("0000030"));
+	/**
+	 * 
+	 * @return serverWasKilled ?
+	 */
+	private static boolean killServer() {
+		// if we have no adb binary dont bother
+		if (Cfg.getOs().equals("null")) {
+			Logger.writLog("[AdbUtils][E]ADB is not supported by this OS");
 			return false;
 		}
-		logger.addLog(R.getString(S.LOG_INFO) + R.getString("0000031"));
-
-		logger.addLog(R.getString(S.LOG_INFO) + R.getString("0000032"));
-		try {
-			sdk = Integer.parseInt(PropReader.getProp(S.SDK_LEVEL_PROP, buildPropOut));
-		} catch (Exception e) {
-			logger.addLog(R.getString(S.LOG_ERROR) + R.getString("0000033"));
-		}
-		logger.addLog(R.getString(S.LOG_INFO) + R.getString("0000034") + sdk);
-
-		if (sdk > 18) {
-			logger.addLog(R.getString(S.LOG_INFO) + R.getString("0000035"));
-			String[] privAppCmd = { S.ADB_BIN.getAbsolutePath(), "pull", "system/priv-app",
-					privAppOut.getAbsolutePath() };
-			boolean privAppStatus = CmdUtils.runCommand(privAppCmd) == 0;
-			if (!privAppStatus) {
-				logger.addLog(R.getString(S.LOG_WARNING + R.getString("0000036")));
-			}
-			logger.addLog(R.getString(S.LOG_INFO) + R.getString("0000037"));
-
-		}
-		// copy system app
-		logger.addLog(R.getString(S.LOG_INFO) + R.getString("0000038"));
-		String[] appCmd = { S.ADB_BIN.getAbsolutePath(), "pull", "/system/app", appOut.getAbsolutePath() };
-		boolean appStatus = CmdUtils.runCommand(appCmd) == 0;
-		if (!appStatus) {
-			logger.addLog(R.getString(S.LOG_WARNING + R.getString("0000039")));
-		}
-		logger.addLog(R.getString(S.LOG_INFO) + R.getString("0000040"));
-
-		// check for squash files
-		File appSquashOutput = new File(outputFolder.getAbsolutePath() + File.separator + "odex.app.sqsh");
-		File privAppSquashOutput = new File(outputFolder.getAbsolutePath() + File.separator + "odex.priv-app.sqsh");
-		String[] appSquashCmd = { S.ADB_BIN.getAbsolutePath(), "pull", "/system/odex.app.sqsh",
-				appSquashOutput.getAbsolutePath() };
-		String[] privAppSquashCmd = { S.ADB_BIN.getAbsolutePath(), "pull", "/system/odex.priv-app.sqsh",
-				privAppSquashOutput.getAbsolutePath() };
-		boolean squash = CmdUtils.runCommand(appSquashCmd) == 0;
-		CmdUtils.runCommand(privAppSquashCmd);
-		// TODO externalize this
-
-		if (squash)
-			logger.addLog(R.getString(S.LOG_INFO)
-					+ ".sqsh Files were detected it will be extracted no action needed from user... ");
-
-		// copy framwork
-		logger.addLog(R.getString(S.LOG_INFO) + R.getString("0000041"));
-		String[] framCmd = { S.ADB_BIN.getAbsolutePath(), "pull", "/system/framework", framworkOut.getAbsolutePath() };
-		boolean framStatus = CmdUtils.runCommand(framCmd) == 0;
-		if (framStatus)
-			logger.addLog(R.getString(S.LOG_INFO) + R.getString("0000042"));
-		else
-			logger.addLog(R.getString(S.LOG_INFO) + R.getString("0000043"));
-		return framStatus;
+		String[] cmd = { S.ADB_BIN.getAbsolutePath(), "kill-server" };
+		return CmdUtils.runCommand(cmd) == 0;
 	}
 
 	public static void main(String[] args) throws IOException, InterruptedException {
@@ -238,6 +224,20 @@ public class AdbUtils {
 		String args1[] = { "/tmp/test-pull2", "-z", "-s" };
 		Tester.main(args1);
 
+	}
+
+	/**
+	 * 
+	 * @return serverStarted ?
+	 */
+	private static boolean startServer() {
+		// if we don't have adb binaries
+		if (Cfg.getOs().equals("null")) {
+			Logger.writLog("[AdbUtils][E]ADB is not supported by this OS");
+			return false;
+		}
+		String[] cmd = { S.ADB_BIN.getAbsolutePath(), "start-server" };
+		return CmdUtils.runCommand(cmd) == 0;
 	}
 
 }

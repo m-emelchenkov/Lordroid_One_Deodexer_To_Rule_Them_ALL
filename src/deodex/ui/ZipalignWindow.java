@@ -30,6 +30,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.WindowConstants;
 
 import com.alee.laf.progressbar.WebProgressBar;
 
@@ -54,7 +55,7 @@ public class ZipalignWindow extends JFrame implements ThreadWatcher {
 				int apkCount = FilesUtils.searchrecursively(fileChooser.getSelectedFile(), ".apk").size();
 				if (apkCount == 0) {
 					logger.addLog(R.getString("log.no.apk.to.zipalign"));
-					//initProgress();
+					// initProgress();
 				} else {
 					logger.addLog(R.getString("log.there.is") + apkCount + R.getString("apk.to.be.zipaligned.log"));
 					zip = new ZipalignWorker(FilesUtils.searchrecursively(fileChooser.getSelectedFile(), ".apk"), bar,
@@ -132,7 +133,7 @@ public class ZipalignWindow extends JFrame implements ThreadWatcher {
 		this.setSize(500, 300);
 		this.setResizable(false);
 		this.setTitle("ODTRTA >> Batch Zipalign/Sign ");
-		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		this.add(rootPannel, BorderLayout.CENTER);
 
 		// backcolors
@@ -236,13 +237,13 @@ public class ZipalignWindow extends JFrame implements ThreadWatcher {
 	}
 
 	@Override
-	public void updateProgress() {
-		this.initProgress();
-	}
-
-	@Override
 	public void sendFailed(Runnable r) {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public void updateProgress() {
+		this.initProgress();
 	}
 }

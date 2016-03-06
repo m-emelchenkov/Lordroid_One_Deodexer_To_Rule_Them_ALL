@@ -26,6 +26,43 @@ import deodex.S;
 
 public class UnsquashUtils {
 
+	private static String[] getUnsquashCommand(File squashFile, File dest) {
+		String[] cmd = null;
+		String os = Cfg.getOs();
+		if (os.equals(S.WINDOWS)) {
+			String cmdwin[] = { S.UNSQUASH_WIN.getAbsolutePath(), "-no-xattrs", "-f", "-n", "-d",
+					dest.getAbsolutePath(), squashFile.getAbsolutePath() };
+			cmd = cmdwin;
+		} else if (os.equals(S.LINUX)) {
+			String cmdlinux[] = { "unsquashfs", "-no-xattrs", "-f", "-n", "-d", dest.getAbsolutePath(),
+					squashFile.getAbsolutePath() };
+			cmd = cmdlinux;
+		} else if (os.equals(S.MAC)) {
+			// FIXME : test on MAC
+			String cmdOsx[] = { "unsquashfs", "-no-xattrs", "-f", "-n", "-d", dest.getAbsolutePath(),
+					squashFile.getAbsolutePath() };
+			cmd = cmdOsx;
+		}
+		return cmd;
+	}
+
+	public static boolean haveUnsquash() {
+		String[] cmd = null;
+		String os = Cfg.getOs();
+		if (os.equals(S.WINDOWS)) {
+			String cmdwin[] = { S.UNSQUASH_WIN.getAbsolutePath(), "-h" };
+			cmd = cmdwin;
+		} else if (os.equals(S.LINUX)) {
+			String cmdlinux[] = { "unsquashfs", "-h" };
+			cmd = cmdlinux;
+		} else if (os.equals(S.MAC)) {
+			String cmdOsx[] = { "unsquashfs", "-h" };
+			cmd = cmdOsx;
+		}
+		int exitValue = CmdUtils.runCommand(cmd);
+		return exitValue == 0 || exitValue == 1;
+	}
+
 	public static boolean unsquash(File systemFolder) {
 		File appSquash = new File(systemFolder.getAbsolutePath() + File.separator + "odex.app.sqsh");
 		File privAppSquash = new File(systemFolder.getAbsolutePath() + File.separator + "odex.priv-app.sqsh");
@@ -69,42 +106,5 @@ public class UnsquashUtils {
 		}
 
 		return true;
-	}
-
-	private static String[] getUnsquashCommand(File squashFile, File dest) {
-		String[] cmd = null;
-		String os = Cfg.getOs();
-		if (os.equals(S.WINDOWS)) {
-			String cmdwin[] = { S.UNSQUASH_WIN.getAbsolutePath(), "-no-xattrs", "-f", "-n", "-d",
-					dest.getAbsolutePath(), squashFile.getAbsolutePath() };
-			cmd = cmdwin;
-		} else if (os.equals(S.LINUX)) {
-			String cmdlinux[] = { "unsquashfs", "-no-xattrs", "-f", "-n", "-d", dest.getAbsolutePath(),
-					squashFile.getAbsolutePath() };
-			cmd = cmdlinux;
-		} else if (os.equals(S.MAC)) {
-			// FIXME : test on MAC
-			String cmdOsx[] = { "unsquashfs", "-no-xattrs", "-f", "-n", "-d", dest.getAbsolutePath(),
-					squashFile.getAbsolutePath() };
-			cmd = cmdOsx;
-		}
-		return cmd;
-	}
-
-	public static boolean haveUnsquash() {
-		String[] cmd = null;
-		String os = Cfg.getOs();
-		if (os.equals(S.WINDOWS)) {
-			String cmdwin[] = { S.UNSQUASH_WIN.getAbsolutePath(), "-h" };
-			cmd = cmdwin;
-		} else if (os.equals(S.LINUX)) {
-			String cmdlinux[] = { "unsquashfs", "-h" };
-			cmd = cmdlinux;
-		} else if (os.equals(S.MAC)) {
-			String cmdOsx[] = { "unsquashfs", "-h" };
-			cmd = cmdOsx;
-		}
-		int exitValue = CmdUtils.runCommand(cmd);
-		return exitValue == 0 || exitValue == 1;
 	}
 }

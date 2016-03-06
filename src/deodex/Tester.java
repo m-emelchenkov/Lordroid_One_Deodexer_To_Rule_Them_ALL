@@ -37,105 +37,7 @@ import deodex.ui.Window;
 
 public class Tester {
 	public static CmdLogger logger = new CmdLogger();
-	// public static CommandLineWorker rootWorker = new CommandLineWorker();
 	public static final String[] OPTIONS = { "z", "s", "c" };
-
-	public static void main(String args[]) {
-//		 try {
-//			UIManager.setLookAndFeel(
-//			            UIManager.getSystemLookAndFeelClassName());
-//		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException
-//				| UnsupportedLookAndFeelException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-		WebLookAndFeel.install ();
-		
-		if (args == null || args.length == 0) {
-			PathUtils.logCallingProcessLocation();
-			logOsInfo();
-			HostInfo.logInfo();
-			if (Cfg.isFirstLaunch()) {
-				Cfg.setCurrentLang(S.ENGLISH);
-				R.initResources();
-				EventQueue.invokeLater(new Runnable() {
-
-					@Override
-					public void run() {
-						// TODO Auto-generated method stub
-
-						@SuppressWarnings("unused")
-						LangFrame win = new LangFrame();
-					}
-				});
-
-			} else {
-				Cfg.readCfg();
-				R.initResources();
-				S.initTempFolders();
-				@SuppressWarnings("unused")
-				Window win = new Window();
-			}
-
-		} else if (args.length > 2) {
-			Logger.logToStd = false;
-			printHelp();
-		} else if (args.length == 1 && args[0].equals("h")) {
-			Logger.logToStd = false;
-			R.initResources();
-			printHelp();
-		} else {
-			Logger.logToStd = false;
-			argsReader(args);
-		}
-	}
-
-	private static void printHelp() {
-		System.out.println("_____________________________________________________________");
-		System.out.println("|         Lordroid One Deodexer To Rule'em All v1.20        |");
-		System.out.println("|-----------------------------------------------------------|");
-		System.out.println("|                                                           |");
-		System.out.println("| USAGE :                                                   |");
-		System.out.println("| java -jar Launcher.jar <source> [OPTIONS]                 |");
-		System.out.println("|-----------------------------------------------------------|");
-		System.out.println("| <source> can be either                                    |");
-		System.out.println("|-----------------------------------------------------------|");
-		System.out.println("| PATH to System Folder exemple : /path/system              |");
-		System.out.println("|                   OR                                      |");
-		System.out.println("| e : to extract systemFolder directlly from device         |");
-		System.out.println("|-----------------------------------------------------------|");
-		System.out.println("|                                                           |");
-		System.out.println("| Options :                                                 |");
-		System.out.println("|-----------------------------------------------------------|");
-		System.out.println("| c : create a flashabe zip  after deodexing the rom        |");
-		System.out.println("| z : zipalign every apk after deodexing it                 |");
-		System.out.println("| s : sign every apk after deodexing                        |");
-		System.out.println("| h : print this help page                                  |");
-		System.out.println("| please note that options should'nt be separated by spaces |");
-		System.out.println("|                                                           |");
-		System.out.println("|-----------------------------------------------------------|");
-		System.out.println("| Exemple :                                                 |");
-		System.out.println("|-----------------------------------------------------------|");
-		System.out.println("| java -jar Launcher.jar /path/system zsc                   |");
-		System.out.println("| this command will deodex   and sign and zipalign          |\n"
-				+ "| and then creates a flashable zip file                     |");
-		System.out.println("| java -jar Launcher.jar e  zsc                             |");
-		System.out.println("| this command will extract and deodex                      |\n"
-				+ "| from connected device                                     |\n"
-				+ "| then sign and zipalign                                    |\n"
-				+ "| and then creates a flashable zip file                     |");
-		System.out.println("|                                                           |\n"
-				+ "|-----------------------------------------------------------|\n"
-				+ "| NOTE :                                                    |");
-		System.out.println("|-----------------------------------------------------------|");
-		System.out.println("|extracted systems will be under extracted_system_folders   |");
-		System.out.println("|create flashable zip will be under flashable_zips_out      |");
-		System.out.println("|-----------------------------------------------------------|");
-		System.out.println("|                 © Rachid Boudjelida 2016                  |");
-		System.out.println("|             Software distributed under GPL V3             |");
-		System.out.println("|___________________________________________________________|");
-
-	}
 
 	private static void argsReader(String[] args) {
 		R.initResources();
@@ -223,6 +125,105 @@ public class Tester {
 
 	}
 
+	private static void logOsInfo() {
+		// lets log SystemInfos
+		Logger.logToStdIO("[Tester][I]" + Cfg.getCurrentLang());
+		Logger.writLog("[Tester][I]User Os is " + Cfg.getOs());
+		Logger.writLog("[Tester][I]Os name : " + Os.getOsName());
+		Logger.writLog("[Tester][I]User Platform is : " + Os.platform());
+		Logger.writLog("[Tester][I]JAVA version : " + System.getProperty("java.version"));
+	}
+
+	public static void main(String args[]) {
+
+		WebLookAndFeel.install();
+
+		if (args == null || args.length == 0) {
+			PathUtils.logCallingProcessLocation();
+			logOsInfo();
+			HostInfo.logInfo();
+			if (Cfg.isFirstLaunch()) {
+				Cfg.setCurrentLang(S.ENGLISH);
+				R.initResources();
+				EventQueue.invokeLater(new Runnable() {
+
+					@Override
+					public void run() {
+						// TODO Auto-generated method stub
+
+						@SuppressWarnings("unused")
+						LangFrame win = new LangFrame();
+					}
+				});
+
+			} else {
+				Cfg.readCfg();
+				R.initResources();
+				S.initTempFolders();
+				@SuppressWarnings("unused")
+				Window win = new Window();
+			}
+
+		} else if (args.length > 2) {
+			Logger.logToStd = false;
+			printHelp();
+		} else if (args.length == 1 && args[0].equals("h")) {
+			Logger.logToStd = false;
+			R.initResources();
+			printHelp();
+		} else {
+			Logger.logToStd = false;
+			argsReader(args);
+		}
+	}
+
+	private static void printHelp() {
+		System.out.println("_____________________________________________________________");
+		System.out.println("|         Lordroid One Deodexer To Rule'em All v1.20        |");
+		System.out.println("|-----------------------------------------------------------|");
+		System.out.println("|                                                           |");
+		System.out.println("| USAGE :                                                   |");
+		System.out.println("| java -jar Launcher.jar <source> [OPTIONS]                 |");
+		System.out.println("|-----------------------------------------------------------|");
+		System.out.println("| <source> can be either                                    |");
+		System.out.println("|-----------------------------------------------------------|");
+		System.out.println("| PATH to System Folder exemple : /path/system              |");
+		System.out.println("|                   OR                                      |");
+		System.out.println("| e : to extract systemFolder directlly from device         |");
+		System.out.println("|-----------------------------------------------------------|");
+		System.out.println("|                                                           |");
+		System.out.println("| Options :                                                 |");
+		System.out.println("|-----------------------------------------------------------|");
+		System.out.println("| c : create a flashabe zip  after deodexing the rom        |");
+		System.out.println("| z : zipalign every apk after deodexing it                 |");
+		System.out.println("| s : sign every apk after deodexing                        |");
+		System.out.println("| h : print this help page                                  |");
+		System.out.println("| please note that options should'nt be separated by spaces |");
+		System.out.println("|                                                           |");
+		System.out.println("|-----------------------------------------------------------|");
+		System.out.println("| Exemple :                                                 |");
+		System.out.println("|-----------------------------------------------------------|");
+		System.out.println("| java -jar Launcher.jar /path/system zsc                   |");
+		System.out.println("| this command will deodex   and sign and zipalign          |\n"
+				+ "| and then creates a flashable zip file                     |");
+		System.out.println("| java -jar Launcher.jar e  zsc                             |");
+		System.out.println("| this command will extract and deodex                      |\n"
+				+ "| from connected device                                     |\n"
+				+ "| then sign and zipalign                                    |\n"
+				+ "| and then creates a flashable zip file                     |");
+		System.out.println("|                                                           |\n"
+				+ "|-----------------------------------------------------------|\n"
+				+ "| NOTE :                                                    |");
+		System.out.println("|-----------------------------------------------------------|");
+		System.out.println("|extracted systems will be under extracted_system_folders   |");
+		System.out.println("|create flashable zip will be under flashable_zips_out      |");
+		System.out.println("|-----------------------------------------------------------|");
+		System.out.println("|                 © Rachid Boudjelida 2016                  |");
+		System.out.println("|             Software distributed under GPL V3             |");
+		System.out.println("|___________________________________________________________|");
+
+	}
+
 	private static void proseedWithNoGui(File systemFolder, boolean sign, boolean zipalign, boolean createZip,
 			boolean fromdevice) {
 		// lets check if system folder is a valid one
@@ -239,15 +240,6 @@ public class Tester {
 		mainWorker.addThreadWatcher(new CommandLineWorker(createZip));
 		Thread t = new Thread(mainWorker);
 		t.start();
-	}
-
-	private static void logOsInfo() {
-		// lets log SystemInfos
-		Logger.logToStdIO("[Tester][I]" + Cfg.getCurrentLang());
-		Logger.writLog("[Tester][I]User Os is " + Cfg.getOs());
-		Logger.writLog("[Tester][I]Os name : " + Os.getOsName());
-		Logger.writLog("[Tester][I]User Platform is : " + Os.platform());
-		Logger.writLog("[Tester][I]JAVA version : " + System.getProperty("java.version"));
 	}
 
 }

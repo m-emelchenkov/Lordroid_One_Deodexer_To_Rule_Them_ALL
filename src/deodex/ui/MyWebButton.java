@@ -22,22 +22,24 @@ import java.awt.Color;
 
 import com.alee.laf.button.WebButton;
 
-public class MyWebButton extends WebButton{
+public class MyWebButton extends WebButton {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	public MyWebButton(String title){
-		super(title);
-		defaultLooks();
-	}
-	
-	public MyWebButton(){
+
+	public MyWebButton() {
 		super();
 		defaultLooks();
 	}
-	private void defaultLooks(){
+
+	public MyWebButton(String title) {
+		super(title);
+		defaultLooks();
+	}
+
+	private void defaultLooks() {
 		this.setRolloverShine(true);
 		this.setShineColor(new Color(52, 152, 219));
 	}

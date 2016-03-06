@@ -32,6 +32,7 @@ import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.WindowConstants;
 
 import com.alee.laf.progressbar.WebProgressBar;
 
@@ -67,7 +68,7 @@ public class FlashableZipCreater extends JFrame implements Runnable, MouseMotion
 	public FlashableZipCreater(File systemFolderp, File zipFilep, Component c) {
 		this.setLocationRelativeTo(c);
 		this.setSize(405, 115);
-		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		this.setTitle(R.getString("0000001"));
 
 		this.systemFolder = systemFolderp;
@@ -85,13 +86,13 @@ public class FlashableZipCreater extends JFrame implements Runnable, MouseMotion
 		okBtn.setBackground(R.BUTTONS_BACK_COLOR);
 		openContainingFolder.setBackground(R.BUTTONS_BACK_COLOR);
 		bar.setForeground(Color.BLACK);
-		
+
 		bar.setBackground(Color.WHITE);
 		bar.setBgBottom(new Color(236, 240, 241));
 		bar.setBgTop(new Color(189, 195, 199));
 		bar.setProgressTopColor(new Color(46, 204, 113));
 		bar.setProgressBottomColor(new Color(39, 174, 96));
-		
+
 		okBtn.setFont(R.COURIER_NORMAL);
 		openContainingFolder.setFont(R.COURIER_NORMAL);
 		bar.setFont(R.COURIER_NORMAL);

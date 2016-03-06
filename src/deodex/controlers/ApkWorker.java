@@ -132,11 +132,11 @@ public class ApkWorker implements Runnable {
 
 		// phase 04 renamming (FIXME: why copy instead of rename? is it relly
 		// safer ?)
-		boolean rename = apk.getTempDex().renameTo(apk.getTempClasses1());// FilesUtils.copyFile(apk.getTempDex(),
-																			// apk.getTempClasses1());
+		boolean rename = apk.getTempDex().renameTo(apk.getTempClasses1());
+
 		if (apk.getTempDex2().exists()) {
-			rename = rename && apk.getTempDex2().renameTo(apk.getTempClasses2()); // FilesUtils.copyFile(apk.getTempDex2(),
-																					// apk.getTempClasses2());
+			rename = rename && apk.getTempDex2().renameTo(apk.getTempClasses2());
+
 		}
 		if (apk.getTempDex3().exists()) {
 			rename = rename && apk.getTempDex3().renameTo(apk.getTempClasses3());
@@ -172,7 +172,6 @@ public class ApkWorker implements Runnable {
 		if (!addClassesToApkStatus) {
 			logPan.addLog(R.getString(S.LOG_WARNING) + " [" + apk.getOrigApk().getName() + "]"
 					+ R.getString("log.add.classes.failed"));
-			// FilesUtils.deleteRecursively(apk.getTempApk().getParentFile());
 			return false;
 		}
 		progressBar.setValue(progressBar.getValue() + 1);
@@ -191,9 +190,7 @@ public class ApkWorker implements Runnable {
 				Logger.writLog("[ApkWorker][EX]" + e.getStackTrace());
 			}
 		} else {
-			// FilesUtils.copyFile(apk.getTempApk(), apk.getTempApkSigned());
 			apk.getTempApk().renameTo(apk.getTempApkSigned());
-
 		}
 		progressBar.setValue(progressBar.getValue() + 1);
 		progressBar.setString(R.getString("progress.apks") + " (" + this.getPercent() + "%)");
@@ -244,11 +241,8 @@ public class ApkWorker implements Runnable {
 	}
 
 	private int getPercent() {
-		// max ===> 100
-		// value ===> ?
-		// ? = value*100/max;
-		return (this.progressBar.getValue() * 100) / this.progressBar.getMaximum();
 
+		return (this.progressBar.getValue() * 100) / this.progressBar.getMaximum();
 	}
 
 	/**

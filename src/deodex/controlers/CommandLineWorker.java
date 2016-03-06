@@ -37,29 +37,6 @@ public class CommandLineWorker implements ThreadWatcher {
 		this.createZip = createZip;
 	}
 
-	@Override
-	public void done(Runnable r) {
-		// TODO Auto-generated method stub
-		if (createZip) {
-			// TODO do create the zip
-			System.out.println("Creating zip File ");
-			createFlashableZip();
-		}
-		System.out.println("ALL Threads Terminated !");
-	}
-
-	@Override
-	public void updateProgress() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void sendFailed(Runnable r) {
-		// TODO Auto-generated method stub
-
-	}
-
 	private void createFlashableZip() {
 		initFilesList();
 		S.ZIP_OUTPUT.mkdirs();
@@ -77,6 +54,17 @@ public class CommandLineWorker implements ThreadWatcher {
 		}
 	}
 
+	@Override
+	public void done(Runnable r) {
+		// TODO Auto-generated method stub
+		if (createZip) {
+			// TODO do create the zip
+			System.out.println("Creating zip File ");
+			createFlashableZip();
+		}
+		System.out.println("ALL Threads Terminated !");
+	}
+
 	private void initFilesList() {
 		ArrayList<File> list0 = FilesUtils
 				.listAllFiles(new File(systemFolder.getAbsolutePath() + File.separator + S.SYSTEM_APP));
@@ -90,6 +78,18 @@ public class CommandLineWorker implements ThreadWatcher {
 			this.fileToAdd.add(f);
 		for (File f : list2)
 			this.fileToAdd.add(f);
+	}
+
+	@Override
+	public void sendFailed(Runnable r) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void updateProgress() {
+		// TODO Auto-generated method stub
+
 	}
 
 }

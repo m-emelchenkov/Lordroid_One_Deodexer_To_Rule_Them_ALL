@@ -20,7 +20,6 @@ package deodex.ui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Graphics;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -59,6 +58,47 @@ import deodex.tools.AdbUtils;
 import deodex.tools.FilesUtils;
 
 public class Window extends JFrame implements ThreadWatcher, ChangeListener {
+
+	class AdbWorker implements Runnable, Watchable {
+		File systemFolder;
+		ThreadWatcher watcher;
+
+		public AdbWorker(File folder) {
+			this.systemFolder = folder;
+		}
+
+		@Override
+		public void addThreadWatcher(ThreadWatcher watcher) {
+			this.watcher = watcher;
+		}
+
+		@Override
+		public void run() {
+
+			boolean extractStatus = AdbUtils.extractSystem(systemFolder, logger);
+			if (!extractStatus) {
+				logger.addLog(R.getString(S.LOG_ERROR)
+						+ "Couldn't extract system please check your cable and your phone before trying again !");
+				this.updateWatcherFail();
+				return;
+			}
+			boolean deodexable = FilesUtils.isAValideSystemDir(systemFolder, logger);
+			if (!deodexable) {
+				this.updateWatcherFail();
+				return;
+			}
+			this.updateWatcherSuccess();
+		}
+
+		public void updateWatcherFail() {
+			watcher.updateProgress();
+		}
+
+		public void updateWatcherSuccess() {
+			watcher.done(this);
+		}
+
+	}
 
 	class BrowseAction implements ActionListener {
 
@@ -123,7 +163,6 @@ public class Window extends JFrame implements ThreadWatcher, ChangeListener {
 	}
 
 	public static final int W_WIDTH = 802;
-
 	public static final int W_HEIGHT = 630;
 	/**
 	 * 
@@ -139,23 +178,9 @@ public class Window extends JFrame implements ThreadWatcher, ChangeListener {
 	File systemFolder;
 	int maxJobs;
 	MainWorker mainWorker;
-	JPanel rootPanel = new JPanel() {
-		/**
-		 * 
-		 */
-		private static final long serialVersionUID = 1L;
 
-		public void paintComponent(Graphics g) {
-
-			super.paintComponent(g);
-			//g.setColor(new Color(206, 194, 229));
-			//g.fillRect(0, 0, this.getWidth(), this.getHeight());
-			//g.drawImage(R.borderLeft, 0, 90, this);
-			//g.drawImage(R.borderRight, 802 - 1, 90, this);
-		}
-	};
+	JPanel rootPanel = new JPanel();
 	// fields BrowseView
-	// LogoPane logo = new LogoPane();
 	JTextField browseField = new JTextField(R.getString(S.BROWSE_FEILD));
 	MyWebButton browseBtn = new MyWebButton(R.getString("browseBtn"));
 	JPanel optionalPan = new JPanel();
@@ -169,32 +194,33 @@ public class Window extends JFrame implements ThreadWatcher, ChangeListener {
 	ImageIcon icon;
 	JTabbedPane inputPan = new JTabbedPane();
 	JPanel fromDevicePanel = new JPanel();
-	JPanel fromFolderPanel = new JPanel();
 
+	JPanel fromFolderPanel = new JPanel();
 	JLabel deviceName = new JLabel(R.getString("0000044"));
 	JLabel deviceStatus = new JLabel(R.getString("0000045"));
 	JTextField devieNameField = new JTextField();
 	JTextField devieStatusField = new JTextField();
 	MyWebButton refreshDevices = new MyWebButton(R.getString("0000046"));
+
 	// JMuneBar & MenuItems
 	JMenuBar menuBar = new JMenuBar();
-
 	// File Menu
 	JMenu fichierMenu = new JMenu(R.getString("file"));
 	JMenuItem exitMenuItem = new JMenuItem(R.getString("exit"));
-	JMenuItem settingsItem = new JMenuItem(R.getString("0000052"));
 
+	JMenuItem settingsItem = new JMenuItem(R.getString("0000052"));
 	// Tools Menu
 	JMenu toolsMenu = new JMenu(R.getString("tools"));
-	JMenuItem batchZipalignSignMenuItem = new JMenuItem(R.getString("batch.zipalign.sign.menu.items"));
 
+	JMenuItem batchZipalignSignMenuItem = new JMenuItem(R.getString("batch.zipalign.sign.menu.items"));
 	// About
 	JMenu aboutMenu = new JMenu(R.getString("about.menu"));
 	JMenuItem aboutThisMenu = new JMenuItem(R.getString("About.this.program"));
 	int currentSelectedtab = 0;
 	boolean workInProgress = false;
+
 	JRadioButton focusStealer = new JRadioButton();
-	
+
 	public Window() {
 		this.setResizable(false);
 		this.setIconImage(R.icon);
@@ -226,8 +252,92 @@ public class Window extends JFrame implements ThreadWatcher, ChangeListener {
 		initBrowseView();
 	}
 
+	private void adbDeodexNow() {
+		deodexNow.setEnabled(false);
+		this.workInProgress = true;
+		String name = JOptionPane.showInputDialog(zipIt, R.getString("0000050") + "\n" + R.getString("0000051"));
+		File outPutFolder;
+		boolean valid = false;
+		if (name != null) {
+
+			try {
+				new File(S.TMP + File.separator + name).getParentFile().mkdirs();
+				valid = new File(S.TMP + File.separator + name).createNewFile();
+				new File(name).delete();
+			} catch (InvalidPathException | IOException ex) {
+				ex.printStackTrace();
+				valid = false;
+			}
+		}
+		if (valid) {
+			outPutFolder = new File(S.EXTRACTED_SYSTEMS.getAbsolutePath() + File.separator + name);
+
+			AdbWorker adbworker = new AdbWorker(outPutFolder);
+			adbworker.addThreadWatcher(new ThreadWatcher() {
+
+				@Override
+				public void done(Runnable r) {
+					deodexNow.setEnabled(true);
+					deodexNow();
+				}
+
+				@Override
+				public void sendFailed(Runnable r) {
+					// TODO Auto-generated method stub
+
+				}
+
+				@Override
+				public void updateProgress() {
+
+					workInProgress = false;
+				}
+
+			});
+			new Thread(adbworker).start();
+
+		} else {
+			JOptionPane.showMessageDialog(deodexNow, "The chosen name is not valid for a file name ! try again");
+			deodexNow.setEnabled(true);
+			this.workInProgress = false;
+		}
+
+	}
+
 	public void addThreadWatcher() {
 		mainWorker.addThreadWatcher(this);
+	}
+
+	private void deodexNow() {
+		boolean yes;
+		if (inputPan.getSelectedIndex() == 0)
+			yes = Alerts.showDeodexNowAlert(rootPanel);
+		else
+			yes = true;
+		if (yes) {
+			if (inputPan.getSelectedIndex() == 0)
+				maxJobs = Alerts.showThreadDialog(rootPanel);
+			else
+				maxJobs = Cfg.getMaxJobs();
+
+			deodexNow.setEnabled(false);
+			initwaiting();
+			SessionCfg.setSign(signCheck.isSelected());
+			SessionCfg.setZipalign(zipalignCheck.isSelected());
+			new Thread(new Runnable() {
+
+				@Override
+				public void run() {
+
+					mainWorker = new MainWorker(SessionCfg.getSystemFolder(), logger, maxJobs);
+					addThreadWatcher();
+					Thread t = new Thread(mainWorker);
+					t.start();
+				}
+
+			}).start();
+			this.workInProgress = true;
+		}
 	}
 
 	@Override
@@ -252,7 +362,7 @@ public class Window extends JFrame implements ThreadWatcher, ChangeListener {
 		rootPanel.setLayout(null);
 		rootPanel.setOpaque(true);
 		rootPanel.setBackground(new Color(189, 195, 199));
-		
+
 		// fonts
 		// from folder tab
 		browseField.setFont(R.COURIER_LOGGER);
@@ -284,8 +394,6 @@ public class Window extends JFrame implements ThreadWatcher, ChangeListener {
 		signCheck.setBackground(new Color(206, 194, 229));
 		deodexNow.setBackground(new Color(89, 195, 216));
 		logger.setBackground(Color.WHITE);
-		//fromFolderPanel.setBackground(new Color(184, 207, 229));
-		//fromDevicePanel.setBackground(new Color(184, 207, 229));
 
 		// colors Forground
 
@@ -300,7 +408,6 @@ public class Window extends JFrame implements ThreadWatcher, ChangeListener {
 		devieStatusField.setEditable(false);
 
 		// Components bounds
-		// logo.setBounds(0, 0, 802, 100);
 		inputPan.setBounds(10, 0, 780, 140);
 		browseField.setBounds(15, 35, 620, 40);
 		browseBtn.setBounds(635, 35, 130, 40);
@@ -316,13 +423,12 @@ public class Window extends JFrame implements ThreadWatcher, ChangeListener {
 		deodexNow.setBounds(500, 170, 290, 60);
 		logger.setBounds(1, 270, 798, 300);
 
-		focusStealer.setBounds(-5,-5,1,1);
-		
+		focusStealer.setBounds(-5, -5, 1, 1);
+
 		// borders
-		optionalPan.setBorder(BorderFactory.
-				createTitledBorder(
-				BorderFactory.createBevelBorder(2), R.getString("optionalPan")));
-	
+		optionalPan.setBorder(
+				BorderFactory.createTitledBorder(BorderFactory.createBevelBorder(2), R.getString("optionalPan")));
+
 		// toolTips
 		zipalignCheck.setToolTipText(R.getString("zipalignCheck.ToolTip"));
 		signCheck.setToolTipText(R.getString("signCheck.ToolTip"));
@@ -374,8 +480,36 @@ public class Window extends JFrame implements ThreadWatcher, ChangeListener {
 		});
 	}
 
+	private void initFatalError() {
+		rootPanel.removeAll();
+		rootPanel.setLayout(null);
+		rootPanel.setBackground(R.PANELS_BACK_COLOR);
+		rootPanel.setOpaque(true);
+		// TODO : externalize those
+		JLabel errorLab = new JLabel("<HTML><p>Oops ... we couldn't initialize the working environement "
+				+ " please make sure that you have followed all the guide lines if you think this is a bug please send a bug report along with the full log to rachidboudjelida@gmail.com or post it on XDA </p></HTML>");
+		MyWebButton exit = new MyWebButton("Back");
+		exit.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				initBrowseView();
+			}
+
+		});
+		errorLab.setFont(R.COURIER_NORMAL);
+		errorLab.setBounds(50, 10, 700, 100);
+		exit.setBounds(100, 150, 600, 60);
+		rootPanel.add(errorLab);
+		rootPanel.add(exit);
+		rootPanel.add(logger);
+		rootPanel.revalidate();
+		this.repaint();
+	}
+
 	private void initMenuBar() {
-		//menuBar.setBackground(Color.WHITE);
+
 		menuBar.setVisible(true);
 		// attach menus to the bar
 		menuBar.add(fichierMenu);
@@ -412,13 +546,12 @@ public class Window extends JFrame implements ThreadWatcher, ChangeListener {
 		rootPanel.setLayout(null);
 		rootPanel.setBackground(R.PANELS_BACK_COLOR);
 		rootPanel.setOpaque(true);
-		
+
 		quitbtn = new MyWebButton(R.getString("window.exitbtn"));
 		restart = new MyWebButton(R.getString("window.restartbtn"));
 		zipIt = new MyWebButton(R.getString("create.zip.btn"));
 		//
 		mainWorker.mainPannel.setBounds(0, 5, 795, 224);
-		// logo.setBounds(0, 0, 802, 100);
 		logger.setBounds(1, 270, 798, 300);
 
 		quitbtn.setBounds(690, 235, 100, 30);
@@ -515,14 +648,13 @@ public class Window extends JFrame implements ThreadWatcher, ChangeListener {
 	private void initwaiting() {
 		rootPanel.removeAll();
 		rootPanel.setLayout(null);
-		rootPanel.setBackground(new Color(26,135,197));
+		rootPanel.setBackground(new Color(26, 135, 197));
 		rootPanel.setOpaque(true);
 
 		JLabel waiting = new JLabel("De-Optimizing boot.oat this may take a minute...");
 		waiting.setFont(R.COURIER_NORMAL.deriveFont(25.0f));
 		waiting.setBounds(10, 25, 748, 50);
 		waiting.setBackground(new Color(0, 0, 0, 0));
-		// logo.setBounds(0, 0, 802, 100);
 		logger.setBounds(1, 270, 798, 300);
 
 		int min = 0;
@@ -534,37 +666,7 @@ public class Window extends JFrame implements ThreadWatcher, ChangeListener {
 		progLAb.setBounds(2, 95, 798, this.getHeight() - 2);
 
 		rootPanel.add(progLAb);
-		// rootPane.add(logger);
-		// rootPanel.add(logo);
 		rootPanel.add(waiting);
-		rootPanel.revalidate();
-		this.repaint();
-	}
-
-	private void initFatalError() {
-		rootPanel.removeAll();
-		rootPanel.setLayout(null);
-		rootPanel.setBackground(R.PANELS_BACK_COLOR);
-		rootPanel.setOpaque(true);
-		// TODO : externalize those
-		JLabel errorLab = new JLabel("<HTML><p>Oops ... we couldn't initialize the working environement "
-				+ " please make sure that you have followed all the guide lines if you think this is a bug please send a bug report along with the full log to rachidboudjelida@gmail.com or post it on XDA </p></HTML>");
-		MyWebButton exit = new MyWebButton("Back");
-		exit.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
-				initBrowseView();
-			}
-
-		});
-		errorLab.setFont(R.COURIER_NORMAL);
-		errorLab.setBounds(50, 10, 700, 100);
-		exit.setBounds(100, 150, 600, 60);
-		rootPanel.add(errorLab);
-		rootPanel.add(exit);
-		rootPanel.add(logger);
 		rootPanel.revalidate();
 		this.repaint();
 	}
@@ -587,135 +689,11 @@ public class Window extends JFrame implements ThreadWatcher, ChangeListener {
 		}
 	}
 
-	private void adbDeodexNow() {
-		deodexNow.setEnabled(false);
-		this.workInProgress = true;
-		String name = JOptionPane.showInputDialog(zipIt, R.getString("0000050") + "\n" + R.getString("0000051"));
-		File outPutFolder;
-		boolean valid = false;
-		if (name != null) {
-
-			try {
-				new File(S.TMP + File.separator + name).getParentFile().mkdirs();
-				valid = new File(S.TMP + File.separator + name).createNewFile();
-				new File(name).delete();
-			} catch (InvalidPathException | IOException ex) {
-				ex.printStackTrace();
-				valid = false;
-			}
-		}
-		if (valid) {
-			outPutFolder = new File(S.EXTRACTED_SYSTEMS.getAbsolutePath() + File.separator + name);
-
-			AdbWorker adbworker = new AdbWorker(outPutFolder);
-			adbworker.addThreadWatcher(new ThreadWatcher() {
-
-				@Override
-				public void done(Runnable r) {
-					deodexNow.setEnabled(true);
-					deodexNow();
-				}
-
-				@Override
-				public void updateProgress() {
-
-					workInProgress = false;
-				}
-
-				@Override
-				public void sendFailed(Runnable r) {
-					// TODO Auto-generated method stub
-
-				}
-
-			});
-			new Thread(adbworker).start();
-
-		} else {
-			JOptionPane.showMessageDialog(deodexNow, "The chosen name is not valid for a file name ! try again");
-			deodexNow.setEnabled(true);
-			this.workInProgress = false;
-		}
-
-	}
-
-	class AdbWorker implements Runnable, Watchable {
-		File systemFolder;
-		ThreadWatcher watcher;
-
-		public AdbWorker(File folder) {
-			this.systemFolder = folder;
-		}
-
-		@Override
-		public void addThreadWatcher(ThreadWatcher watcher) {
-			this.watcher = watcher;
-		}
-
-		public void updateWatcherSuccess() {
-			watcher.done(this);
-		}
-
-		public void updateWatcherFail() {
-			watcher.updateProgress();
-		}
-
-		@Override
-		public void run() {
-
-			boolean extractStatus = AdbUtils.extractSystem(systemFolder, logger);
-			if (!extractStatus) {
-				logger.addLog(R.getString(S.LOG_ERROR)
-						+ "Couldn't extract system please check your cable and your phone before trying again !");
-				this.updateWatcherFail();
-				return;
-			}
-			boolean deodexable = FilesUtils.isAValideSystemDir(systemFolder, logger);
-			if (!deodexable) {
-				this.updateWatcherFail();
-				return;
-			}
-			this.updateWatcherSuccess();
-		}
-
-	}
-
-	private void deodexNow() {
-		boolean yes;
-		if (inputPan.getSelectedIndex() == 0)
-			yes = Alerts.showDeodexNowAlert(rootPanel);
-		else
-			yes = true;
-		if (yes) {
-			if (inputPan.getSelectedIndex() == 0)
-				maxJobs = Alerts.showThreadDialog(rootPanel);
-			else
-				maxJobs = Cfg.getMaxJobs();
-
-			deodexNow.setEnabled(false);
-			initwaiting();
-			SessionCfg.setSign(signCheck.isSelected());
-			SessionCfg.setZipalign(zipalignCheck.isSelected());
-			new Thread(new Runnable() {
-
-				@Override
-				public void run() {
-
-					mainWorker = new MainWorker(SessionCfg.getSystemFolder(), logger, maxJobs);
-					addThreadWatcher();
-					Thread t = new Thread(mainWorker);
-					t.start();
-				}
-
-			}).start();
-			this.workInProgress = true;
-		}
-	}
-
 	@Override
-	public void updateProgress() {
-
-		initProgress();
+	public void sendFailed(Runnable r) {
+		// TODO Auto-generated method stub
+		initFatalError();
+		this.workInProgress = false;
 	}
 
 	@Override
@@ -744,9 +722,8 @@ public class Window extends JFrame implements ThreadWatcher, ChangeListener {
 	}
 
 	@Override
-	public void sendFailed(Runnable r) {
-		// TODO Auto-generated method stub
-		initFatalError();
-		this.workInProgress = false;
+	public void updateProgress() {
+
+		initProgress();
 	}
 }

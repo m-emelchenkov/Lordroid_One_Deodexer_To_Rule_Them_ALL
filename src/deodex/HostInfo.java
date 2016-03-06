@@ -30,7 +30,6 @@ public class HostInfo {
 		try {
 			File f = new File(PathUtils.getExcutionPath() + File.separator + "logs/system_info.txt");
 			f.getParentFile().mkdirs();
-			// f.createNewFile();
 			BufferedWriter out = new BufferedWriter(new FileWriter(f.getAbsolutePath(), false));
 			System.getProperties().store(out, "System informations ");
 			;

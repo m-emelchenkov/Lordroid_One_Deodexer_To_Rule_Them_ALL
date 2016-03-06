@@ -21,11 +21,18 @@ package deodex.ui;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
+import javax.swing.WindowConstants;
 
 import deodex.Cfg;
 import deodex.R;
 
 public class Alerts {
+
+	public static void main(String args[]) {
+		Cfg.readCfg();
+		R.initResources();
+		showSettingsDialog(null);
+	}
 
 	public static boolean showDeodexNowAlert(JComponent comp) {
 		int i = 1;
@@ -33,7 +40,7 @@ public class Alerts {
 			DeodexAlertPanel alertPane = new DeodexAlertPanel();
 			JOptionPane pane = new JOptionPane(alertPane, JOptionPane.PLAIN_MESSAGE, JOptionPane.YES_NO_OPTION, null);
 			JDialog dialog = pane.createDialog(comp, R.getString("alert.deodex.now.title"));
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+			dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 			dialog.setSize(450, 200);
 			dialog.setVisible(true);
 			try {
@@ -50,34 +57,11 @@ public class Alerts {
 		return i == 0;
 	}
 
-	public static int showThreadDialog(JComponent comp) {
-		if (Cfg.doShowThreadAlert()) {
-			ThreadAlertPanel alertPane = new ThreadAlertPanel();
-			JOptionPane pane = new JOptionPane(alertPane, JOptionPane.PLAIN_MESSAGE);
-			JDialog dialog =  pane.createDialog(comp, R.getString("box.jobs"));
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setSize(500, 260);
-			dialog.setVisible(true);
-			int status = 8;
-			try {
-				status = (int) pane.getValue();
-			} catch (Exception e) {
-
-			}
-			if (status == 0) {
-				Cfg.setShowThreadAlert(!alertPane.box.isSelected());
-				Cfg.setMaxJobs((int) alertPane.count.getSelectedItem());
-			}
-		}
-
-		return Cfg.getMaxJobs();
-	}
-
 	public static void showSettingsDialog(JComponent com) {
 		SettingsPanel setings = new SettingsPanel();
 		JOptionPane pane = new JOptionPane(setings, JOptionPane.PLAIN_MESSAGE, JOptionPane.OK_CANCEL_OPTION);
 		JDialog dialog = pane.createDialog(com, R.getString("0000052"));
-		dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		dialog.setSize(500, 220);
 		dialog.setVisible(true);
 		int status = 10;
@@ -93,9 +77,26 @@ public class Alerts {
 		}
 	}
 
-	public static void main(String args[]) {
-		Cfg.readCfg();
-		R.initResources();
-		showSettingsDialog(null);
+	public static int showThreadDialog(JComponent comp) {
+		if (Cfg.doShowThreadAlert()) {
+			ThreadAlertPanel alertPane = new ThreadAlertPanel();
+			JOptionPane pane = new JOptionPane(alertPane, JOptionPane.PLAIN_MESSAGE);
+			JDialog dialog = pane.createDialog(comp, R.getString("box.jobs"));
+			dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+			dialog.setSize(500, 260);
+			dialog.setVisible(true);
+			int status = 8;
+			try {
+				status = (int) pane.getValue();
+			} catch (Exception e) {
+
+			}
+			if (status == 0) {
+				Cfg.setShowThreadAlert(!alertPane.box.isSelected());
+				Cfg.setMaxJobs((int) alertPane.count.getSelectedItem());
+			}
+		}
+
+		return Cfg.getMaxJobs();
 	}
 }
