@@ -34,9 +34,21 @@ import java.io.OutputStreamWriter;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 
+/**
+ * 
+ * @author lord-ralf-adolf
+ *
+ */
 public class PropReader {
-	// private static final String LOG_HEADER = "[PropReader]";
 
+	/**
+	 * saves a list of string to a file with UTF-8 encoding
+	 * 
+	 * @param lines
+	 *            a list of string to be saved to the given File
+	 * @param propFile
+	 *            prop File to save
+	 */
 	public static void ArrayToProp(ArrayList<String> lines, File propFile) {
 		BufferedWriter bw = null;
 		propFile.delete();
@@ -45,22 +57,25 @@ public class PropReader {
 			DataOutputStream dos = new DataOutputStream(new FileOutputStream(propFile));
 			bw = new BufferedWriter(new OutputStreamWriter(new BufferedOutputStream(dos), "UTF-8"));
 			for (String str : lines) {
-				// Logger.logToStdIO(LOG_HEADER + Logger.INFO + " String is
-				// lines " + str);
-
 				bw.write(str);
 				bw.newLine();
-
 			}
 			bw.flush();
 			bw.close();
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 	}
 
+	/**
+	 * 
+	 * @param prop
+	 *            String property to search
+	 * @param propFile
+	 *            the pro file
+	 * @return the property value
+	 */
 	public static String getProp(String prop, File propFile) {
 		BufferedReader br = null;
 		String value = null;
@@ -96,6 +111,12 @@ public class PropReader {
 
 	}
 
+	/**
+	 * 
+	 * @param propFile
+	 *            text file encode in UTF-8
+	 * @return the lines count
+	 */
 	public static int linesCont(File propFile) {
 		ArrayList<String> lines = new ArrayList<String>();
 		BufferedReader br = null;
@@ -119,6 +140,13 @@ public class PropReader {
 		return lines.size();
 	}
 
+	/**
+	 * get an array with all the line from a given propfile
+	 * 
+	 * @param propFile
+	 *            the propFile
+	 * @return the list of all the properties
+	 */
 	public static ArrayList<String> propToArray(File propFile) {
 		ArrayList<String> lines = new ArrayList<String>();
 		BufferedReader br = null;
@@ -144,6 +172,17 @@ public class PropReader {
 		return lines;
 	}
 
+	/**
+	 * this will write of change the current value of the given property if it
+	 * was found if not found a new line will be created
+	 * 
+	 * @param prop
+	 *            the property to write
+	 * @param value
+	 *            the value of the property to write
+	 * @param propFile
+	 *            the prop file
+	 */
 	public static void writeProp(String prop, String value, File propFile) {
 		ArrayList<String> lines;
 

@@ -21,7 +21,7 @@
         <javac includeantruntime="false" srcdir="src" destdir="bin" classpathref="project-classpath"/>
         <jar destfile="${dir.jarfile}/Launcher.jar">
             <manifest>
-                <attribute name="Main-Class" value="deodex.Tester"/>
+                <attribute name="Main-Class" value="deodex.Main"/>
                 <attribute name="Class-Path" value=". libs/commons-compress-1.10.jar libs/zip4j_1.3.2.jar libs/xz.jar libs/weblaf-1.28.jar bins/oat2dex/oat2dex.jar"/>
             </manifest>
             <fileset dir="${dir.jarfile}/bin"/>

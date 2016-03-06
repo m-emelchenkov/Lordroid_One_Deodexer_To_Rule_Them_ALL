@@ -40,6 +40,15 @@ public class JarWorkerLegacy implements Watchable, Runnable {
 	WebProgressBar progressBar = new WebProgressBar();
 	ThreadWatcher threadWatcher;
 
+	/**
+	 * 
+	 * @param jarList
+	 *            the list of jar files to be deodexed
+	 * @param logPan
+	 *            the logger pan where all the logs will be sent
+	 * @param tempFolder
+	 *            : the scratch folder where this instance can scratch
+	 */
 	public JarWorkerLegacy(ArrayList<File> jarList, LoggerPan logPan, File tempFolder) {
 		this.jarList = jarList;
 		this.logPan = logPan;
@@ -60,6 +69,12 @@ public class JarWorkerLegacy implements Watchable, Runnable {
 		threadWatcher = watcher;
 	}
 
+	/**
+	 * 
+	 * @param jar
+	 *            the jar file to be deodexed
+	 * @return true only if the jar file was deodexed
+	 */
 	private boolean deodexJar(JarLegacy jar) {
 		Logger.writLog("[JarWorkerLegacy][I][" + jar.getOrigJar().getName() + "]"
 				+ " about to copy needed files to working dir ");
@@ -123,9 +138,11 @@ public class JarWorkerLegacy implements Watchable, Runnable {
 		return progressBar;
 	}
 
+	/**
+	 * 
+	 * @return percentage of the current progress
+	 */
 	private String percent() {
-		// ? >>> value
-		// 100 >>>> max
 		return (this.progressBar.getValue() * 100 / this.progressBar.getMaximum()) + "%";
 	}
 

@@ -40,9 +40,12 @@ public class Zip {
 	/**
 	 * 
 	 * @param zipFile
+	 *            zip file in which files will be addeed
 	 * @param files
-	 * @return Success
+	 *            the list of files to add
+	 * @return Success only if all files were added
 	 * @throws IOException
+	 *             well we are going to write files IO can throw exceptions
 	 */
 	public static boolean addFilesToExistingZip(File zipFile, ArrayList<File> files) throws IOException {
 		// lets log the files to be put in the jar file
@@ -126,7 +129,13 @@ public class Zip {
 	}
 
 	/**
-	 * @param args
+	 * add files from a system folder to a zip used to create flashable zip only
+	 * app priv-app and framwork will be added
+	 * 
+	 * @param systemFolder
+	 *            the system folder to be added
+	 * @param zipFile
+	 *            the zip file to be created
 	 */
 	public static void AddFilesToFolderInZip(File systemFolder, ZipFile zipFile) {
 
@@ -148,6 +157,15 @@ public class Zip {
 			Zip.AddFileToFolderInZip(systemFolder, f, zipFile);
 	}
 
+	/**
+	 * 
+	 * @param pathToIgnore
+	 *            the path that will be ignored when putting in the zip
+	 * @param fileToAdd
+	 *            a File to add to the given zip
+	 * @param zipFile
+	 *            a zip file
+	 */
 	public static void AddFileToFolderInZip(File pathToIgnore, File fileToAdd, ZipFile zipFile) {
 		try {
 
@@ -179,16 +197,22 @@ public class Zip {
 
 	}
 
-	public static boolean zipAlignAPk(File in, File out) throws IOException, InterruptedException {
+	/**
+	 * zipalign a given apk
+	 * 
+	 * @param in
+	 *            the input apk
+	 * @param out
+	 *            the output apk
+	 * @return true only if the apk was zipaligned
+	 */
+	public static boolean zipAlignAPk(File in, File out) {
 		if (out.exists()) {
 			return true;
 		}
 		String[] cmd = { new File(S.ZIPALIGN_BIN + File.separator + Cfg.getOs()).getAbsolutePath(), "4",
 				in.getAbsolutePath(), out.getAbsolutePath() };
-		Process p;
-		p = Runtime.getRuntime().exec(cmd);
-
-		p.waitFor();
+		CmdUtils.runCommand(cmd);
 
 		return out.exists();
 	}

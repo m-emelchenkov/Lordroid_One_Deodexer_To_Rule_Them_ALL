@@ -43,6 +43,10 @@ public class JarObj {
 	File tmpJar;
 	String absoluteName;
 
+	/**
+	 * 
+	 * @param odexFile
+	 */
 	public JarObj(File odexFile) {
 		this.odexFile = odexFile;
 
@@ -60,6 +64,11 @@ public class JarObj {
 		}
 	}
 
+	/**
+	 * 
+	 * @param tmpFolder
+	 * @return true only if the files were copied successfully
+	 */
 	public boolean copyNeedFiles(File tmpFolder) {
 		this.tmpFolder = new File(tmpFolder.getAbsolutePath() + File.separator + this.absoluteName);
 		tmpFolder.mkdirs();

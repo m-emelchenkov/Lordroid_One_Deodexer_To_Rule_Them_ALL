@@ -19,7 +19,6 @@
 package deodex.controlers;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 
 import com.alee.laf.progressbar.WebProgressBar;
@@ -27,6 +26,11 @@ import com.alee.laf.progressbar.WebProgressBar;
 import deodex.tools.Deodexer;
 import deodex.tools.Zip;
 
+/**
+ * 
+ * @author lord-ralf-adolf
+ *
+ */
 public class ZipalignWorker implements Runnable, Watchable {
 	ArrayList<ThreadWatcher> watchers = new ArrayList<ThreadWatcher>();
 	WebProgressBar bar;
@@ -35,6 +39,15 @@ public class ZipalignWorker implements Runnable, Watchable {
 	private boolean doZipalign = true;
 	private boolean doSign = false;
 
+	/**
+	 * 
+	 * @param apks
+	 *            list of apks to be zipaligned
+	 * @param bar
+	 *            the progressBar in which we will display the progress
+	 * @param log
+	 *            the LoggerPan where all the logs will be sent
+	 */
 	public ZipalignWorker(ArrayList<File> apks, WebProgressBar bar, LoggerPan log) {
 		this.bar = bar;
 		this.apks = apks;
@@ -65,10 +78,11 @@ public class ZipalignWorker implements Runnable, Watchable {
 		return doZipalign;
 	}
 
+	/**
+	 * 
+	 * @return the percentage of the current progress
+	 */
 	private String percent() {
-		// max ====> 100%
-		// value ====> ?
-		// ? = (value*100)/max
 		return "" + ((bar.getValue() * 100) / bar.getMaximum()) + "%";
 	}
 
@@ -141,30 +155,34 @@ public class ZipalignWorker implements Runnable, Watchable {
 		this.doZipalign = doZipalign;
 	}
 
+	/**
+	 * 
+	 * @param apk
+	 *            the apkFile to be signed
+	 * @return true only if the apk was signed
+	 */
 	private boolean signApk(File apk) {
 		File signedApk = new File(apk.getAbsolutePath() + "_signed.apk");
 		boolean signed = false;
-		try {
-			signed = Deodexer.signApk(apk, signedApk);
-		} catch (IOException | InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+
+		signed = Deodexer.signApk(apk, signedApk);
 		boolean delete = apk.delete();
 		boolean rename = signedApk.renameTo(apk);
 
 		return signed && delete && rename;
-
 	}
 
+	/**
+	 * 
+	 * @param apk
+	 *            the apkFile to be zipaligned
+	 * @return true only if the apk was zipaligned
+	 */
 	private boolean zipalignApk(File apk) {
 		File zipApk = new File(apk.getAbsolutePath() + "_zipaligned.apk");
 		boolean success = false;
-		try {
-			success = Zip.zipAlignAPk(apk, zipApk);
-		} catch (IOException | InterruptedException e) {
-			e.printStackTrace();
-		}
+
+		success = Zip.zipAlignAPk(apk, zipApk);
 
 		boolean delete = apk.delete();
 		boolean rename = zipApk.renameTo(apk);

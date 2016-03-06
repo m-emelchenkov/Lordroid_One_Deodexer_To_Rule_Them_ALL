@@ -65,6 +65,16 @@ public class FlashableZipCreater extends JFrame implements Runnable, MouseMotion
 	File systemFolder;
 	ZipFile zipFile;
 
+	/**
+	 * 
+	 * @param systemFolderp
+	 *            the system folder from which the flashable zip will be made
+	 * @param zipFilep
+	 *            the flashable zip FILE
+	 * @param c
+	 *            the component to which this frame will be positionned
+	 *            relatively to it
+	 */
 	public FlashableZipCreater(File systemFolderp, File zipFilep, Component c) {
 		this.setLocationRelativeTo(c);
 		this.setSize(405, 115);
@@ -111,7 +121,7 @@ public class FlashableZipCreater extends JFrame implements Runnable, MouseMotion
 			}
 
 		});
-
+		// FIXME : me this out of here
 		openContainingFolder.addActionListener(new ActionListener() {
 
 			@Override
@@ -120,7 +130,6 @@ public class FlashableZipCreater extends JFrame implements Runnable, MouseMotion
 					java.awt.Desktop.getDesktop().open(zipFile.getFile().getParentFile());
 					getThisFram().dispose();
 				} catch (IOException e1) {
-					// TODO Auto-generated catch block
 					Logger.writLog("[FlashableZipCreater][EX]" + e1.getStackTrace());
 					e1.printStackTrace();
 				}
@@ -150,10 +159,18 @@ public class FlashableZipCreater extends JFrame implements Runnable, MouseMotion
 		new Thread(this).start();
 	}
 
+	/**
+	 * 
+	 * @return this very instance of JFrame to make a reference to this object
+	 *         it self
+	 */
 	private JFrame getThisFram() {
 		return this;
 	}
 
+	/**
+	 * lists all files that will be added to the flashable zip
+	 */
 	private void initFilesList() {
 		ArrayList<File> list0 = FilesUtils
 				.listAllFiles(new File(systemFolder.getAbsolutePath() + File.separator + S.SYSTEM_APP));
@@ -215,6 +232,10 @@ public class FlashableZipCreater extends JFrame implements Runnable, MouseMotion
 
 	}
 
+	/**
+	 * 
+	 * @return the percentage of the current progress
+	 */
 	private String perCent() {
 		// 100 ==> max
 		// ? ==> value

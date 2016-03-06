@@ -31,15 +31,46 @@ public class ApkLegacy implements Serializable {
 	 */
 	private static final long serialVersionUID = 5797950843030193904L;
 
+	/**
+	 * the original apk location in the system folder
+	 */
 	public File origApk;
+	/**
+	 * the temp apk location on the working folder
+	 */
 	public File tempApk;
+	/**
+	 * the smaliFolder location it will be created when calling smali tool on
+	 * this apk
+	 */
 	public File smaliFolder;
+	/**
+	 * the classes.dex file location
+	 */
 	public File classes;
+	/**
+	 * the odex file location on the working folder
+	 */
 	public File tempOdex;
+	/**
+	 * the original OdexFile location in the system folder
+	 */
 	public File origOdex;
+	/**
+	 * the location of the zipaligned apk on the working folder
+	 */
 	public File tempZipaligned;
+	/**
+	 * the location of the signed apk on the working folder
+	 */
 	public File tempSigned;
 
+	/**
+	 * this object will create a serie of usefull File object to ease track all
+	 * the files
+	 * 
+	 * @param odexFile
+	 */
 	public ApkLegacy(File odexFile) {
 		this.origOdex = odexFile;
 		this.origApk = new File(
@@ -47,6 +78,13 @@ public class ApkLegacy implements Serializable {
 
 	}
 
+	/**
+	 * typically this will copy odex and apk files to the working directory
+	 * 
+	 * @param tempFolder1
+	 *            : the temp folder where to copy the files
+	 * @return true only if the copy was sucessful
+	 */
 	public boolean copyNeededFiles(File tempFolder1) {
 		String pureName = this.origApk.getName().substring(0, this.origApk.getName().lastIndexOf("."));
 		File tempFolder = new File(tempFolder1.getAbsolutePath() + File.separator

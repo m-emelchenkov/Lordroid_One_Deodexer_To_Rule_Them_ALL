@@ -35,8 +35,21 @@ import deodex.S;
 import deodex.SessionCfg;
 import deodex.controlers.LoggerPan;
 
+/**
+ * 
+ * @author lord-ralf-adolf
+ *
+ */
 public class FilesUtils {
 
+	/**
+	 * 
+	 * @param input
+	 *            the input file to be copied
+	 * @param dest
+	 *            the destination file
+	 * @return true only if the file was copied
+	 */
 	public static boolean copyFile(File input, File dest) {
 		// making sure the path is there and writable !
 		dest.getParentFile().mkdirs();
@@ -60,11 +73,9 @@ public class FilesUtils {
 				out.close();
 
 			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 				Logger.writLog("[FilesUtils][EX]" + e.getStackTrace());
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 				Logger.writLog("[FilesUtils][EX]" + e.getStackTrace());
 			}
@@ -76,6 +87,14 @@ public class FilesUtils {
 		return dest.exists();
 	}
 
+	/**
+	 * 
+	 * @param in
+	 *            InputStream
+	 * @param dest
+	 *            destination file
+	 * @return true if the inputStream was saved to the file
+	 */
 	public static boolean copyFile(InputStream in, File dest) {
 		dest.mkdirs();
 		dest.delete();
@@ -91,11 +110,9 @@ public class FilesUtils {
 				out.close();
 
 			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 				Logger.writLog("[FilesUtils][EX]" + e.getStackTrace());
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 				Logger.writLog("[FilesUtils][EX]" + e.getStackTrace());
 			}
@@ -137,6 +154,13 @@ public class FilesUtils {
 
 	}
 
+	/**
+	 * deletes recursively a folder (USE WITH CARE)
+	 * 
+	 * @param f
+	 *            folder to be deleted
+	 * @return true only if the folder and all it's content was deleted
+	 */
 	public static boolean deleteRecursively(File f) {
 		boolean done = false;
 		if (f.isFile()) {
@@ -161,6 +185,12 @@ public class FilesUtils {
 		return done;
 	}
 
+	/**
+	 * cleans the given folder from all it's unpty folders
+	 * 
+	 * @param folder
+	 *            the folder to be cleaned
+	 */
 	public static void deleteUmptyFoldersInFolder(File folder) {
 		if (folder.isFile())
 			return;
@@ -178,6 +208,12 @@ public class FilesUtils {
 		}
 	}
 
+	/**
+	 * 
+	 * @param folder
+	 *            the folder to be searched
+	 * @return the count of odex files
+	 */
 	public static int getOdexCount(File folder) {
 		int x = 0;
 		if (folder.exists()) {
@@ -187,6 +223,12 @@ public class FilesUtils {
 		return x;
 	}
 
+	/**
+	 * receives a systemFolder and determines it's arch
+	 * 
+	 * @param systemFolder
+	 * @return a string with the arch name
+	 */
 	public static String getRomArch(File systemFolder) {
 		File frameworkFolder = new File(systemFolder.getAbsolutePath() + File.separator + S.SYSTEM_FRAMEWORK);
 		File[] list = frameworkFolder.listFiles();
@@ -204,6 +246,15 @@ public class FilesUtils {
 		return "null";
 	}
 
+	/**
+	 * Tests if the given folder is a valid system folder
+	 * 
+	 * @param systemFolder
+	 *            the system folder to be tested
+	 * @param log
+	 *            the LoggerPan were all the logs will be sent
+	 * @return true only if the system folder is a valid one
+	 */
 	public static boolean isAValideSystemDir(File systemFolder, LoggerPan log) {
 
 		// first we check if the build.prop exists if not we can't determine sdk
@@ -347,9 +398,13 @@ public class FilesUtils {
 		return true;
 	}
 
-	// be very very carefull when using this ! it will delete folder and all
-	// it's subfolder's and files !
-
+	/**
+	 * lists all files in a given folder
+	 * 
+	 * @param folder
+	 *            the folder to list files from
+	 * @return a list of all the files
+	 */
 	public static ArrayList<File> listAllFiles(File folder) {
 		ArrayList<File> list = new ArrayList<File>();
 		if (!folder.exists() || folder.listFiles() == null || folder.listFiles().length <= 0 || !folder.canRead()) {
@@ -369,6 +424,13 @@ public class FilesUtils {
 		return list;
 	}
 
+	/**
+	 * logs all the files from a given folder to stdIO and to the full main log
+	 * file
+	 * 
+	 * @param folder
+	 *            the folder to be logged
+	 */
 	public static void LogFilesListToFile(File folder) {
 		String str = "System folder Files list :\n";
 		File app = new File(folder.getAbsolutePath() + File.separator + "app");
@@ -401,10 +463,13 @@ public class FilesUtils {
 	}
 
 	/**
+	 * search a folder for files with a given Name (full name match)
 	 * 
 	 * @param folder
+	 *            the folder to be searched
 	 * @param ext
-	 * @return
+	 *            the file name to be searched
+	 * @return a list of all the matching files
 	 */
 	public static ArrayList<File> searchExactFileNames(File folder, String ext) {
 		Logger.writLog(
@@ -433,10 +498,13 @@ public class FilesUtils {
 	}
 
 	/**
+	 * search a folder for files with a given file extension
 	 * 
 	 * @param folder
+	 *            the folder to be searched
 	 * @param ext
-	 * @return ArrayfilesList
+	 *            the extension query
+	 * @return ArrayfilesList list of all the matching files
 	 */
 	public static ArrayList<File> searchrecursively(File folder, String ext) {
 		Logger.writLog("[FileUtils][I] searching  for *." + ext + " in " + folder.getAbsolutePath());

@@ -31,6 +31,11 @@ import deodex.tools.FilesUtils;
 import deodex.tools.Logger;
 import deodex.tools.Zip;
 
+/**
+ * 
+ * @author lord-ralf-adolf
+ *
+ */
 public class BootWorker implements Runnable, Watchable {
 	ArrayList<File> bootFiles;
 	File tmpFolder;
@@ -38,6 +43,16 @@ public class BootWorker implements Runnable, Watchable {
 	LoggerPan log;
 	WebProgressBar progressBar;
 
+	/**
+	 * 
+	 * @param bootList
+	 *            : a list of boot dex files to be deodexed
+	 * @param tmpFolder
+	 *            : a folder where this instance can scratch (will be cleaned
+	 *            when all jobs are done)
+	 * @param log
+	 *            : the LoggerPan where this instance will log it's operations
+	 */
 	public BootWorker(ArrayList<File> bootList, File tmpFolder, LoggerPan log) {
 		bootFiles = bootList;
 		this.tmpFolder = tmpFolder;
@@ -51,10 +66,16 @@ public class BootWorker implements Runnable, Watchable {
 
 	@Override
 	public void addThreadWatcher(ThreadWatcher watcher) {
-		// TODO Auto-generated method stub
 		this.threadWatcher = watcher;
 	}
 
+	/**
+	 * method that deodex a boot file by performing multiple operations to it
+	 * 
+	 * @param file
+	 *            the .dex file to be de-optimized
+	 * @return true only if all operations ware successful
+	 */
 	private boolean deoDexBootFile(File file) {
 		File tmpClasses = new File(tmpFolder.getAbsolutePath() + File.separator + S.CLASSES);
 		File tmpClasses2 = new File(tmpFolder.getAbsolutePath() + File.separator + S.CLASSES_2);
@@ -124,15 +145,16 @@ public class BootWorker implements Runnable, Watchable {
 
 	}
 
+	/**
+	 * 
+	 * @return the percentage (%) of the current progress
+	 */
 	private String percent() {
-		// ? >>> value
-		// 100 >>>> max
 		return (this.progressBar.getValue() * 100 / this.progressBar.getMaximum()) + "%";
 	}
 
 	@Override
 	public void run() {
-		// TODO Auto-generated method stub
 		for (File file : bootFiles) {
 			Logger.writLog("[BootWorker][I] processing " + file.getName().substring(0, file.getName().lastIndexOf("."))
 					+ ".jar ");

@@ -22,11 +22,24 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+/**
+ * use this to empty the stream
+ * 
+ * @author lord-ralf-adolf
+ *
+ */
 public class StreamReader implements Runnable {
 	String name;
 	InputStream is;
 	Thread thread;
 
+	/**
+	 * 
+	 * @param name
+	 *            name of the stream optional
+	 * @param is
+	 *            the InputStream to read
+	 */
 	public StreamReader(String name, InputStream is) {
 		this.name = name;
 		this.is = is;
@@ -50,6 +63,9 @@ public class StreamReader implements Runnable {
 		}
 	}
 
+	/**
+	 * launch the thread of this Runnable
+	 */
 	public void start() {
 		thread = new Thread(this);
 		thread.start();

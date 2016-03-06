@@ -16,6 +16,11 @@
 package deodex.controlers;
 
 public interface LoggerPan {
+	/**
+	 * 
+	 * @param str
+	 *            the log message
+	 */
 	public void addLog(String str);
 
 	public void saveToFile();

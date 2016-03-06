@@ -77,6 +77,14 @@ public class ApkWorker implements Runnable {
 		this.threadWatcher = threadWatcher;
 	}
 
+	/**
+	 * this method will deodex the apkFile parameter
+	 * 
+	 * @param apkFolder
+	 * @return true only and only if the apk was deodexed and put back to it's
+	 *         place
+	 * 
+	 */
 	private boolean deodexApk(File apkFolder) {
 		ApkObj apk = new ApkObj(apkFolder);
 		Logger.writLog("[ApkWorker][I]Processing " + apk.getOrigApk().getName() + " ...");
@@ -99,7 +107,6 @@ public class ApkWorker implements Runnable {
 		try {
 			extraxtStatus = ZipTools.extractOdex(apk.getTempCompOdex());
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			Logger.writLog("[ApkWorker][EX]" + e.getStackTrace());
 		}
@@ -180,15 +187,9 @@ public class ApkWorker implements Runnable {
 
 		// phase 6
 		if (this.doSign) {
-			// TODO sign !
-			try {
-				this.signStatus = Deodexer.signApk(apk.getTempApk(), apk.getTempApkSigned());
-				if (!this.signStatus)
-					apk.getTempApk().renameTo(apk.getTempApkSigned());
-			} catch (IOException | InterruptedException e) {
+			this.signStatus = Deodexer.signApk(apk.getTempApk(), apk.getTempApkSigned());
+			if (!this.signStatus)
 				apk.getTempApk().renameTo(apk.getTempApkSigned());
-				Logger.writLog("[ApkWorker][EX]" + e.getStackTrace());
-			}
 		} else {
 			apk.getTempApk().renameTo(apk.getTempApkSigned());
 		}
@@ -198,14 +199,9 @@ public class ApkWorker implements Runnable {
 
 		// phase 7
 		if (this.doZipalign) {
-			try {
-				this.zipAlignStatus = Zip.zipAlignAPk(apk.getTempApkSigned(), apk.getTempApkZipalign());
-				if (!this.zipAlignStatus)
-					apk.getTempApkSigned().renameTo(apk.getTempApkZipalign());
-			} catch (IOException | InterruptedException e) {
-				Logger.writLog("[ApkWorker][EX]" + e.getStackTrace());
+			this.zipAlignStatus = Zip.zipAlignAPk(apk.getTempApkSigned(), apk.getTempApkZipalign());
+			if (!this.zipAlignStatus)
 				apk.getTempApkSigned().renameTo(apk.getTempApkZipalign());
-			}
 		} else {
 			apk.getTempApkSigned().renameTo(apk.getTempApkZipalign());
 		}
@@ -231,6 +227,9 @@ public class ApkWorker implements Runnable {
 		return true;
 	}
 
+	/**
+	 * when all tasks are done we call this to tell the watcher that we are done
+	 */
 	private void finalMove() {
 		FilesUtils.deleteRecursively(tmpFolder);
 		progressBar.setValue(progressBar.getMaximum());
@@ -240,6 +239,10 @@ public class ApkWorker implements Runnable {
 		this.threadWatcher.done(this);
 	}
 
+	/**
+	 * 
+	 * @return the percentage of the progress to show it on the progressbar
+	 */
 	private int getPercent() {
 
 		return (this.progressBar.getValue() * 100) / this.progressBar.getMaximum();
@@ -261,7 +264,6 @@ public class ApkWorker implements Runnable {
 
 	@Override
 	public void run() {
-		// TODO Auto-generated method stub
 		if (apkList != null && apkList.size() > 0) {
 			for (File apk : apkList) {
 
@@ -288,7 +290,6 @@ public class ApkWorker implements Runnable {
 		try {
 			Thread.sleep(2000);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			Logger.writLog("[ApkWorker][EX]" + e.getStackTrace());
 			finalMove();

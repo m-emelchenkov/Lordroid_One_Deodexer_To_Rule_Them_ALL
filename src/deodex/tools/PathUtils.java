@@ -23,6 +23,10 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 
 public class PathUtils {
+	/**
+	 * 
+	 * @return our current location on the fileSystem
+	 */
 	public static String getExcutionPath() {
 		String path = "";
 		try {
@@ -35,6 +39,9 @@ public class PathUtils {
 		return path.substring(0, path.lastIndexOf("/"));
 	}
 
+	/**
+	 * log the call location and our location to the log file
+	 */
 	public static void logCallingProcessLocation() {
 		File f = new File("testFile11");
 

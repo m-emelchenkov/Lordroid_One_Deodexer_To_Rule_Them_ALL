@@ -23,6 +23,14 @@ import java.util.ArrayList;
 
 public class ArrayUtils {
 
+	/**
+	 * search and delete the files with the same file name (the full path
+	 * doesn't matter)
+	 * 
+	 * @param list
+	 *            list of files
+	 * @return the list of files with no duplicates
+	 */
 	public static ArrayList<File> deletedupricates(ArrayList<File> list) {
 
 		int[] index = getDuplicatesindex(list);
@@ -32,6 +40,12 @@ public class ArrayUtils {
 		return list;
 	}
 
+	/**
+	 * 
+	 * @param list
+	 *            a list of files
+	 * @return the number of duplicated file name even with different paths
+	 */
 	public static int duplicateCount(ArrayList<File> list) {
 		int x = 0;
 		ArrayList<File> tempList = new ArrayList<File>();
@@ -50,6 +64,12 @@ public class ArrayUtils {
 		return x;
 	}
 
+	/**
+	 * 
+	 * @param list
+	 *            a list of files
+	 * @return an array with the duplicated files index on the given list
+	 */
 	public static int[] getDuplicatesindex(ArrayList<File> list) {
 		int index[] = new int[duplicateCount(list)];
 		for (int ii = 0, y = 0; ii < list.size() - 1; ii++) {

@@ -69,6 +69,15 @@ public class MainWorker implements Runnable, ThreadWatcher, Watchable {
 	WebProgressBar progressBar;
 	ArrayList<Runnable> tasks = new ArrayList<Runnable>();
 
+	/**
+	 * 
+	 * @param folder
+	 *            : the system folder of the rom to be deodexed
+	 * @param logPane
+	 *            : the LoggerPan where all the logs will be sent
+	 * @param maxThreads
+	 *            : an int with the maximum Threads to use default (2)
+	 */
 	public MainWorker(File folder, LoggerPan logPane, int maxThreads) {
 		maxThreading = maxThreads;
 		this.logPan = logPane;
@@ -119,6 +128,12 @@ public class MainWorker implements Runnable, ThreadWatcher, Watchable {
 		}
 	}
 
+	/**
+	 * will search recursively for odex files that have a matching apk file
+	 * under app and priv app folders
+	 * 
+	 * @return the list of apk's odex files in the systemFolder
+	 */
 	private ArrayList<File> getapkOdexFiles() {
 		ArrayList<File> global = new ArrayList<File>();
 		ArrayList<File> list1 = null;
@@ -167,21 +182,19 @@ public class MainWorker implements Runnable, ThreadWatcher, Watchable {
 		return ArrayUtils.deletedupricates(global);
 	}
 
+	/**
+	 * 
+	 * @return the percentage of the current progress
+	 */
 	private int getPercent() {
-		// max ===> 100
-		// value ===> ?
-		// ? = value*100/max;
 		return (this.progressBar.getValue() * 100) / this.progressBar.getMaximum();
-
 	}
 
+	/**
+	 * this one will be called to initialize the worker for roms with sdk > 20
+	 */
 	private void init() {
 
-		// XXX: you may wanna rethink this the boot.oat can be somewhere else in
-		// the future
-		// may be searching for it recursively in all framework folder is better
-		// ?
-		// yes more code but it will be more compatible
 		try {
 			isinitialized = FilesUtils.copyFile(SessionCfg.getBootOatFile(), S.bootTmp);
 			if (!isinitialized)
@@ -302,6 +315,9 @@ public class MainWorker implements Runnable, ThreadWatcher, Watchable {
 		this.initPannel();
 	}
 
+	/**
+	 * this one will be called to initialize the worker for roms with sdk < 21
+	 */
 	private void initLegacy() {
 		File framwork = new File(folder.getAbsolutePath() + File.separator + S.SYSTEM_FRAMEWORK);
 		File app = new File(folder.getAbsolutePath() + File.separator + S.SYSTEM_APP);
@@ -377,7 +393,12 @@ public class MainWorker implements Runnable, ThreadWatcher, Watchable {
 		this.initPannelLegacy();
 	}
 
-	public void initPannel() {
+	/**
+	 * the panel containing all the progress bares of this and all the child
+	 * threads private because you don't need to call it outside of this this
+	 * one is called from init() when rom's sdk is > 20
+	 */
+	private void initPannel() {
 		progressBar = new WebProgressBar();
 		progressBar.setFont(R.COURIER_NORMAL);
 		progressBar.setStringPainted(true);
@@ -442,6 +463,11 @@ public class MainWorker implements Runnable, ThreadWatcher, Watchable {
 		mainPannel.add(progressBar);
 	}
 
+	/**
+	 * the panel containing all the progress bares of this and all the child
+	 * threads private because you don't need to call it outside of this this
+	 * one is called from initLegacy() when rom's sdk is <= 20
+	 */
 	public void initPannelLegacy() {
 		progressBar = new WebProgressBar();
 		progressBar.setFont(R.COURIER_NORMAL);
@@ -504,6 +530,9 @@ public class MainWorker implements Runnable, ThreadWatcher, Watchable {
 		mainPannel.add(progressBar);
 	}
 
+	/**
+	 * will log all external tools versions to the main log file
+	 */
 	private void logToolsversions() {
 		String[] oat2dex = { "java", "-jar", new File(S.OAT2DEX_JAR).getAbsolutePath(), "-v" };
 		String[] smali = { "java", "-jar", new File(S.SMALI_JAR).getAbsolutePath(), "-v" };

@@ -25,6 +25,12 @@ import java.util.Date;
 
 import deodex.controlers.LoggerPan;
 
+/**
+ * simple implementation of the LoggerPan interface for cmd line usage
+ * 
+ * @author lord-ralf-adolf
+ *
+ */
 public class CmdLogger implements LoggerPan {
 	ArrayList<String> logs = new ArrayList<String>();
 

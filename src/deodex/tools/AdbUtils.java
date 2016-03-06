@@ -27,12 +27,29 @@ import java.util.ArrayList;
 import deodex.Cfg;
 import deodex.R;
 import deodex.S;
-import deodex.Tester;
 import deodex.controlers.LoggerPan;
 
 public class AdbUtils {
+	/**
+	 * the null device to be used when no device was found
+	 */
 	public static final String NULL_DEVICE = "null|null";
 
+	/**
+	 * will extract /system/app ,/system/priv-app ,/system/framework
+	 * ,/system/*.sqsh files and build.prop of course system/framwork needs to
+	 * be extracted so the only case this returns false is when it can't extract
+	 * build.prop or framework folder or on a non zero adb exit code.
+	 * 
+	 * @param outputFolder
+	 *            the folder in which the extracted files will be stored (needs
+	 *            to be a directory) the directory will be created make sure you
+	 *            have write acess
+	 * @param logger
+	 *            : the logger who will handle the logs and show them to the
+	 *            user do not send null
+	 * @return boolean : true only if build.prop and framework were extracted
+	 */
 	public static boolean extractSystem(File outputFolder, LoggerPan logger) {
 		AdbUtils.killServer();
 		AdbUtils.startServer();
@@ -105,6 +122,13 @@ public class AdbUtils {
 		return framStatus;
 	}
 
+	/**
+	 * will return only the device name from the output of "adb devices"
+	 * 
+	 * @param out
+	 *            : must be the output on "adb devices" command
+	 * @return deviceName the device name parsed from the out parameter
+	 */
 	private static String getDeviceName(String out) {
 		String tmp = "";
 		for (int i = 0; i < out.length(); i++) {
@@ -118,7 +142,11 @@ public class AdbUtils {
 	}
 
 	/**
-	 * 
+	 * @param logger
+	 *            : a LoggerPan to write the logging outputs (can't be null ! )
+	 *            to by pass this if you wanna use a null parameter create a
+	 *            blank LoggerPan implementation that does nothing on the
+	 *            implemented methods
 	 * @return device with status formated like this device|status
 	 */
 	public static String getDevices(LoggerPan logger) {
@@ -162,7 +190,6 @@ public class AdbUtils {
 
 			int exitValue = p.waitFor();
 			if (exitValue != 0) {
-				// TODO : ADD logging for this
 				logger.addLog(R.getString(S.LOG_ERROR) + R.getString("0000021"));
 				Logger.writLog("[AdbUtils][E]" + "adb exited with no zero code error=" + exitValue);
 				return NULL_DEVICE;
@@ -196,11 +223,22 @@ public class AdbUtils {
 		return formatedDevice;
 	}
 
+	/**
+	 * will read the device status from the "adb devices" command output
+	 * received as a parameter and return only the status value
+	 * 
+	 * @param out
+	 *            : must be the output of the command adb devices as a
+	 *            string @see : AdbUtils.getDevices(LoggerPan logger)
+	 * @return status : the Device Status
+	 */
 	private static String getDeviceStatus(String out) {
 		return out.substring(out.lastIndexOf("	") + 1, out.length());
 	}
 
 	/**
+	 * this will run "adb kill-server" and gets it's output returns true only if
+	 * the adb exit code was 0
 	 * 
 	 * @return serverWasKilled ?
 	 */
@@ -214,19 +252,9 @@ public class AdbUtils {
 		return CmdUtils.runCommand(cmd) == 0;
 	}
 
-	public static void main(String[] args) throws IOException, InterruptedException {
-		R.initResources();
-		CmdLogger logger = new CmdLogger();
-		if (getDevices(logger) != NULL_DEVICE
-				&& (getDevices(logger).endsWith("device") || getDevices(logger).endsWith("online"))) {
-			AdbUtils.extractSystem(new File("/tmp/test-pull2"), logger);
-		}
-		String args1[] = { "/tmp/test-pull2", "-z", "-s" };
-		Tester.main(args1);
-
-	}
-
 	/**
+	 * this will run "adb start-server" and gets it's output returns true only
+	 * if the adb exit code was 0
 	 * 
 	 * @return serverStarted ?
 	 */

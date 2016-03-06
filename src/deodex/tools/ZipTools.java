@@ -35,11 +35,13 @@ import net.lingala.zip4j.model.FileHeader;
 public class ZipTools {
 
 	/**
-	 * @returns success
-	 * @param odex
-	 * @return success
+	 * extract an odex file from .xz file
 	 * 
+	 * @returns success only if an odex file was extracted
+	 * @param odex
+	 *            the odex file to decompress
 	 * @throws IOException
+	 *             well we are using IOs Exception might be thrown
 	 */
 	public static boolean extractOdex(File odex) throws IOException {
 		File Decomdex;

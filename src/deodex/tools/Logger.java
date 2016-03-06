@@ -25,6 +25,11 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/**
+ * 
+ * @author lord-ralf-adolf
+ *
+ */
 public class Logger {
 	private static final boolean LOG = false;
 	public static final String INFO = "[INFO]";
@@ -36,6 +41,12 @@ public class Logger {
 
 	public static boolean logToStd = true;
 
+	/**
+	 * this one will generate a file name formated as yyyy-MM-dd_HH.mm.ss the
+	 * file will only be generated once
+	 * 
+	 * @return the path to the log file
+	 */
 	public static String getlogFileName() {
 		if (init == 0) {
 			long yourmilliseconds = System.currentTimeMillis();
@@ -51,6 +62,12 @@ public class Logger {
 		return LOG_FILE.getAbsolutePath();
 	}
 
+	/**
+	 * logs to the stdio
+	 * 
+	 * @param str
+	 *            the log to log
+	 */
 	public static void logToStdIO(String str) {
 		long yourmilliseconds = System.currentTimeMillis();
 		SimpleDateFormat sdf = new SimpleDateFormat("[HH:mm:ss]"); // dd/MMM/yyyy
@@ -59,6 +76,12 @@ public class Logger {
 			System.out.println(sdf.format(resultdate) + str);
 	}
 
+	/**
+	 * write the given String to a new line in the log file
+	 * 
+	 * @param str
+	 *            the log to be saved
+	 */
 	public static synchronized void writLog(String str) {
 		getlogFileName();
 		long yourmilliseconds = System.currentTimeMillis();

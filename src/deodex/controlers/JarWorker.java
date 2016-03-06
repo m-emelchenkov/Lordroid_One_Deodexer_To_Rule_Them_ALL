@@ -43,6 +43,15 @@ public class JarWorker implements Runnable, Watchable {
 	WebProgressBar progressBar;
 	private ThreadWatcher threadWatcher;
 
+	/**
+	 * 
+	 * @param odexList
+	 *            the odex list of files to be deodexed
+	 * @param logPan
+	 *            : the LoggerPan where all the logs will be
+	 * @param tmpFolder
+	 *            : the workingfolder (scratch folder) a temps locations
+	 */
 	public JarWorker(ArrayList<File> odexList, LoggerPan logPan, File tmpFolder) {
 		this.odexFiles = odexList;
 		this.logPan = logPan;
@@ -61,6 +70,13 @@ public class JarWorker implements Runnable, Watchable {
 
 	}
 
+	/**
+	 * 
+	 * @param odex
+	 *            odex file to be deodexed
+	 * @return true only if all operations went successful and the odex file was
+	 *         deodexed
+	 */
 	private boolean deodexJar(File odex) {
 		JarObj jar = new JarObj(odex);
 		// phase 1
@@ -208,10 +224,11 @@ public class JarWorker implements Runnable, Watchable {
 		return true;
 	}
 
+	/**
+	 * 
+	 * @return the percentage of the current progress
+	 */
 	private int getPercent() {
-		// max ===> 100
-		// value ===> ?
-		// ? = value*100/max;
 		return (this.progressBar.getValue() * 100) / this.progressBar.getMaximum();
 
 	}

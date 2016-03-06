@@ -117,7 +117,7 @@ public class ApkObj implements Serializable {
 
 	/**
 	 * 
-	 * @return
+	 * @return the OdexFile location
 	 */
 	public File getOdexFile() {
 		return odexFile;
@@ -125,58 +125,66 @@ public class ApkObj implements Serializable {
 
 	/**
 	 * 
-	 * @return
+	 * @return the original apkLocation
 	 */
 	public File getOrigApk() {
 		return origApk;
 	}
 
 	/**
-	 * @return the pureName
+	 * @return the pureName (without the extention)
 	 */
 	public String getPureName() {
 		return pureName;
 	}
 
+	/**
+	 * 
+	 * @return the temp apk location in the working folder
+	 */
 	public File getTempApk() {
 		return tempApk;
 	}
 
 	/**
 	 * 
-	 * @return
+	 * @return the temp signed apk location in the working folder
 	 */
 	public File getTempApkSigned() {
 		return tempApkSigned;
 	}
 
+	/**
+	 * 
+	 * @return the temp z aipaligned apk location in the working folder
+	 */
 	public File getTempApkZipalign() {
 		return tempApkZipalign;
 	}
 
 	/**
-	 * @return the tempClasses1
+	 * @return the tempClasses1 in the working folder
 	 */
 	public File getTempClasses1() {
 		return tempClasses1;
 	}
 
 	/**
-	 * @return the tempClasses2
+	 * @return the tempClasses2 in the working folder
 	 */
 	public File getTempClasses2() {
 		return tempClasses2;
 	}
 
 	/**
-	 * @return the tempClasses3
+	 * @return the tempClasses3 in the working folder
 	 */
 	public File getTempClasses3() {
 		return tempClasses3;
 	}
 
 	/**
-	 * @return the tempCompOdex
+	 * @return the tempCompOdex in the working folder
 	 */
 	public File getTempCompOdex() {
 		return tempCompOdex;
@@ -184,22 +192,27 @@ public class ApkObj implements Serializable {
 
 	/**
 	 * 
-	 * @return
+	 * @return the temps dex file created by oat2dex location
 	 */
 	public File getTempDex() {
 		return tempDex;
 	}
 
 	/**
+	 * some apks and jars have multiple classes.dex this is the location of the
+	 * appName-classes2.dex
 	 * 
-	 * @return
+	 * @return he temps dex file 2 created by oat2dex location
 	 */
 	public File getTempDex2() {
 		return tempDex2;
 	}
 
 	/**
-	 * @return the tempDex3
+	 * some apks and jars have multiple classes.dex this is the location of the
+	 * appName-classes3.dex
+	 * 
+	 * @return the tempDex3 he temps dex file 3 created by oat2dex location
 	 */
 	public File getTempDex3() {
 		return tempDex3;
@@ -207,7 +220,7 @@ public class ApkObj implements Serializable {
 
 	/**
 	 * 
-	 * @return
+	 * @return the odex file location on the working folder
 	 */
 	public File getTempOdex() {
 		return tempOdex;
@@ -215,7 +228,7 @@ public class ApkObj implements Serializable {
 
 	/**
 	 * 
-	 * @return
+	 * @return the location of the working folder of this apk
 	 */
 	public File getTmpWorkingFolder() {
 		return tmpWorkingFolder;
@@ -224,6 +237,7 @@ public class ApkObj implements Serializable {
 	/**
 	 * 
 	 * @param odexFile
+	 *            to set the OdexFile
 	 */
 	public void setOdexFile(File odexFile) {
 		this.odexFile = odexFile;

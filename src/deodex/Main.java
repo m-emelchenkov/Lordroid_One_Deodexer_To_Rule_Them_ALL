@@ -35,10 +35,24 @@ import deodex.tools.PathUtils;
 import deodex.ui.LangFrame;
 import deodex.ui.Window;
 
-public class Tester {
+public class Main {
+	/**
+	 * the command line logger used by the program to log progress to the user
+	 */
 	public static CmdLogger logger = new CmdLogger();
+	/**
+	 * the available options
+	 */
 	public static final String[] OPTIONS = { "z", "s", "c" };
 
+	/**
+	 * this is where all the command line tool magic happens
+	 * 
+	 * @param args
+	 *            the main method arguments
+	 * @return this method returns on all tasks terminated if errors were faced
+	 *         it will call System.exit(int code) to exit with the proper code
+	 */
 	private static void argsReader(String[] args) {
 		R.initResources();
 		S.initTempFolders();
@@ -67,7 +81,6 @@ public class Tester {
 					canWrite = writeTest.createNewFile();
 					writeTest.delete();
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				if (!canWrite) {
@@ -97,7 +110,7 @@ public class Tester {
 			zipalign = options.contains("z");
 			sign = options.contains("s");
 			createZip = options.contains("c");
-			Tester.proseedWithNoGui(systemFolder, sign, zipalign, createZip, adbExtracted);
+			Main.proseedWithNoGui(systemFolder, sign, zipalign, createZip, adbExtracted);
 		} else {
 			String source = args[0];
 			systemFolder = new File(source);
@@ -112,7 +125,6 @@ public class Tester {
 				canWrite = writeTest.createNewFile();
 				writeTest.delete();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			if (!canWrite) {
@@ -120,11 +132,15 @@ public class Tester {
 						+ "\n please make sure that the system folder is read-write before trying again !");
 				System.exit(3);
 			}
-			Tester.proseedWithNoGui(systemFolder, sign, zipalign, createZip, adbExtracted);
+			Main.proseedWithNoGui(systemFolder, sign, zipalign, createZip, adbExtracted);
 		}
 
 	}
 
+	/**
+	 * Log system informations to the log file this have no effect on the
+	 * software it's here for logging purpose
+	 */
 	private static void logOsInfo() {
 		// lets log SystemInfos
 		Logger.logToStdIO("[Tester][I]" + Cfg.getCurrentLang());
@@ -134,6 +150,11 @@ public class Tester {
 		Logger.writLog("[Tester][I]JAVA version : " + System.getProperty("java.version"));
 	}
 
+	/**
+	 * The entring point
+	 * 
+	 * @param args
+	 */
 	public static void main(String args[]) {
 
 		WebLookAndFeel.install();
@@ -149,8 +170,6 @@ public class Tester {
 
 					@Override
 					public void run() {
-						// TODO Auto-generated method stub
-
 						@SuppressWarnings("unused")
 						LangFrame win = new LangFrame();
 					}
@@ -160,8 +179,15 @@ public class Tester {
 				Cfg.readCfg();
 				R.initResources();
 				S.initTempFolders();
-				@SuppressWarnings("unused")
-				Window win = new Window();
+				EventQueue.invokeLater(new Runnable() {
+
+					@Override
+					public void run() {
+						@SuppressWarnings("unused")
+						Window win = new Window();
+					}
+				});
+
 			}
 
 		} else if (args.length > 2) {
@@ -177,6 +203,9 @@ public class Tester {
 		}
 	}
 
+	/**
+	 * Prints the help to the command line
+	 */
 	private static void printHelp() {
 		System.out.println("_____________________________________________________________");
 		System.out.println("|         Lordroid One Deodexer To Rule'em All v1.20        |");
@@ -224,6 +253,16 @@ public class Tester {
 
 	}
 
+	/**
+	 * this is used when the program is called from the command line with
+	 * arguments
+	 * 
+	 * @param systemFolder
+	 * @param sign
+	 * @param zipalign
+	 * @param createZip
+	 * @param fromdevice
+	 */
 	private static void proseedWithNoGui(File systemFolder, boolean sign, boolean zipalign, boolean createZip,
 			boolean fromdevice) {
 		// lets check if system folder is a valid one

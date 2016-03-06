@@ -24,8 +24,22 @@ import java.util.ArrayList;
 import deodex.Cfg;
 import deodex.S;
 
+/**
+ * 
+ * @author lord-ralf-adolf
+ *
+ */
 public class UnsquashUtils {
 
+	/**
+	 * 
+	 * @param squashFile
+	 *            squashfs file to get the command for it
+	 * @param dest
+	 *            the output destination of the extraction command
+	 * @return a Sting Array with the command to extract the given file to the
+	 *         given destination
+	 */
 	private static String[] getUnsquashCommand(File squashFile, File dest) {
 		String[] cmd = null;
 		String os = Cfg.getOs();
@@ -46,6 +60,10 @@ public class UnsquashUtils {
 		return cmd;
 	}
 
+	/**
+	 * 
+	 * @return return if the squashfs tool is available
+	 */
 	public static boolean haveUnsquash() {
 		String[] cmd = null;
 		String os = Cfg.getOs();
@@ -63,6 +81,13 @@ public class UnsquashUtils {
 		return exitValue == 0 || exitValue == 1;
 	}
 
+	/**
+	 * unsquash the .sqsh file under the given folder
+	 * 
+	 * @param systemFolder
+	 *            the system folder where we will search for the squash files
+	 * @return true only if the extraction was successful
+	 */
 	public static boolean unsquash(File systemFolder) {
 		File appSquash = new File(systemFolder.getAbsolutePath() + File.separator + "odex.app.sqsh");
 		File privAppSquash = new File(systemFolder.getAbsolutePath() + File.separator + "odex.priv-app.sqsh");

@@ -33,10 +33,19 @@ public class CommandLineWorker implements ThreadWatcher {
 	File systemFolder = SessionCfg.getSystemFolder();
 	ArrayList<File> fileToAdd = new ArrayList<File>();
 
+	/**
+	 * 
+	 * @param createZip
+	 *            : true if you want this watcher to create a flashable zip when
+	 *            all tasks are done
+	 */
 	public CommandLineWorker(boolean createZip) {
 		this.createZip = createZip;
 	}
 
+	/**
+	 * this will create the flashable zip
+	 */
 	private void createFlashableZip() {
 		initFilesList();
 		S.ZIP_OUTPUT.mkdirs();
@@ -48,7 +57,6 @@ public class CommandLineWorker implements ThreadWatcher {
 			try {
 				Zip.AddFileToFolderInZip(systemFolder, f, new ZipFile(zipFile));
 			} catch (ZipException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -56,15 +64,17 @@ public class CommandLineWorker implements ThreadWatcher {
 
 	@Override
 	public void done(Runnable r) {
-		// TODO Auto-generated method stub
 		if (createZip) {
-			// TODO do create the zip
 			System.out.println("Creating zip File ");
 			createFlashableZip();
 		}
 		System.out.println("ALL Threads Terminated !");
 	}
 
+	/**
+	 * list all the files in the system folder that will be added to the
+	 * flashable zip
+	 */
 	private void initFilesList() {
 		ArrayList<File> list0 = FilesUtils
 				.listAllFiles(new File(systemFolder.getAbsolutePath() + File.separator + S.SYSTEM_APP));

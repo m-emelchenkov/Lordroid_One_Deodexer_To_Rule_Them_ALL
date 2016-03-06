@@ -19,13 +19,26 @@
 package deodex.tools;
 
 import java.io.File;
-import java.io.IOException;
 
 import deodex.S;
 import deodex.SessionCfg;
 
+/**
+ * 
+ * @author lord-ralf-adolf
+ *
+ */
 public class Deodexer {
 
+	/**
+	 * will run the oat2dex tool on the given odex file
+	 * 
+	 * @param odexFile
+	 *            odex File to be deodexed
+	 * @param dexFile
+	 *            the output dex file name
+	 * @return true only if the odex was deodexed
+	 */
 	public static boolean deodexApk(File odexFile, File dexFile) {
 		String cmd[] = { "java", "-jar", new File(S.OAT2DEX_JAR).getAbsolutePath(), odexFile.getAbsolutePath(),
 				S.bootTmpDex.getAbsolutePath() };
@@ -34,6 +47,15 @@ public class Deodexer {
 		return dexFile.exists();
 	}
 
+	/**
+	 * will run the smali baksmali tool on the given odex file
+	 * 
+	 * @param odexFile
+	 *            odex file to be deodexed
+	 * @param dexFile
+	 *            output dex file
+	 * @return true only if the odex was deodexed
+	 */
 	public static boolean deodexApkFailSafe(File odexFile, File dexFile) {
 		File smaliFolder = new File(dexFile.getParentFile().getAbsolutePath() + File.separator
 				+ dexFile.getName().substring(0, dexFile.getName().lastIndexOf(".")));
@@ -58,6 +80,16 @@ public class Deodexer {
 		return dexFile.exists();
 	}
 
+	/**
+	 * the legacy smali/backsmali deodexing command will be run on the given
+	 * odex file
+	 * 
+	 * @param odexFile
+	 *            odex file to be deodexed
+	 * @param classesFile
+	 *            the output dex file
+	 * @return true only if the odex was deodexed
+	 */
 	public static boolean deoDexApkLegacy(File odexFile, File classesFile) {
 		classesFile.getParentFile().mkdirs();
 		File tempSmali = new File(odexFile.getParentFile().getAbsolutePath() + File.separator
@@ -78,12 +110,15 @@ public class Deodexer {
 		return classesFile.exists();
 	}
 
+	/**
+	 * will run the oat2dex on the given boot.oat file
+	 * 
+	 * @param bootOat
+	 *            the boot.oat file to be de-optimized
+	 * @return true only if the boot.oat was deoptimized
+	 */
 	public static boolean oat2dexBoot(File bootOat) {
-		String[] cmd = { /**
-							 * "java", "-jar", new
-							 * File(S.OAT2DEX_JAR).getAbsolutePath(),
-							 */
-				"boot", bootOat.getAbsolutePath() };
+		String[] cmd = { "boot", bootOat.getAbsolutePath() };
 		try {
 			Logger.writLog("[Deodexer][I] trying to de-optimize boot.oat using oat2dex as library ....");
 			org.rh.smaliex.Main.main(cmd);
@@ -98,7 +133,15 @@ public class Deodexer {
 		return S.bootTmpDex.exists();
 	}
 
-	public static boolean signApk(File in, File out) throws IOException, InterruptedException {
+	/**
+	 * 
+	 * @param in
+	 *            apk to be signed
+	 * @param out
+	 *            the output signed apk
+	 * @return true only if the sign was successful
+	 */
+	public static boolean signApk(File in, File out) {
 		String[] cmd = { "java", "-jar", new File(S.SIGN_APK).getAbsolutePath(),
 				new File(S.TEST_KEY_X509).getAbsolutePath(), new File(S.TEST_KEY_PK8).getAbsolutePath(),
 				in.getAbsolutePath(), out.getAbsolutePath() };

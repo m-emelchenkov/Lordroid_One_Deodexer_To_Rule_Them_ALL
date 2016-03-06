@@ -24,6 +24,11 @@ import deodex.S;
 import deodex.tools.FilesUtils;
 import deodex.tools.Logger;
 
+/**
+ * 
+ * @author lord-ralf-adolf
+ *
+ */
 public class JarLegacy {
 	public File origJar;
 	public File tempJar;
@@ -32,6 +37,10 @@ public class JarLegacy {
 	public File tempOdex;
 	public File origOdex;
 
+	/**
+	 * 
+	 * @param odexFile
+	 */
 	public JarLegacy(File odexFile) {
 		this.origOdex = odexFile;
 		this.origJar = new File(
@@ -39,6 +48,14 @@ public class JarLegacy {
 
 	}
 
+	/**
+	 * will copy the jar and the odex file to the working folder (scratch
+	 * folder)
+	 * 
+	 * @param tempFolder1
+	 *            the location of the scratch folder
+	 * @return true only if the copy was successful
+	 */
 	public boolean copyNeededFiles(File tempFolder1) {
 		String pure = this.origJar.getName().substring(0, this.origJar.getName().lastIndexOf("."));
 		File tempFolder = new File(tempFolder1.getAbsolutePath() + File.separator + pure);

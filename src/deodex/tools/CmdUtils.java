@@ -20,8 +20,20 @@ package deodex.tools;
 
 import java.io.IOException;
 
+/**
+ * 
+ * @author lord-ralf-adolf
+ *
+ */
 public class CmdUtils {
 
+	/**
+	 * runs a command (Runtime) and returns the exit value all the streams are
+	 * handled and printed to the stdio
+	 * 
+	 * @param cmd
+	 * @return
+	 */
 	public static int runCommand(String[] cmd) {
 		String strCmd = "running command : ";
 

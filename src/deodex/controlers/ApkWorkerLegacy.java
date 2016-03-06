@@ -44,6 +44,22 @@ public class ApkWorkerLegacy implements Watchable, Runnable {
 	private boolean signStatus = false;
 	private boolean zipAlignStatus = false;
 
+	/**
+	 * the constructor of a Legacy apk deodexer
+	 * 
+	 * @param apkList
+	 *            : list of apks to be deodexed
+	 * @param logPan
+	 *            : a LoggerPan in which it will log all operations
+	 * @param tempFolder
+	 *            : the tempFolder that will be used for scratch Note : make
+	 *            sure this folder is only used by this instance to avoid any
+	 *            conflicts
+	 * @param doSign
+	 *            : if true the apk will be resigned
+	 * @param doZipalign
+	 *            : if true the apk will be zipaligned
+	 */
 	public ApkWorkerLegacy(ArrayList<File> apkList, LoggerPan logPan, File tempFolder, boolean doSign,
 			boolean doZipalign) {
 		this.apkList = apkList;
@@ -57,19 +73,30 @@ public class ApkWorkerLegacy implements Watchable, Runnable {
 		progressBar.setStringPainted(true);
 	}
 
+	// FIXME change this to setThreadWatcher() to avoid confusion
+	/**
+	 * @param watcher
+	 *            : the watcher to set this instance only accept one watcher if
+	 *            you set a new one the previews one will be forgoten
+	 */
 	@Override
 	public void addThreadWatcher(ThreadWatcher watcher) {
 		this.threadWatcher = watcher;
 	}
 
+	/**
+	 * will make a serie of actions to deodex the parameter File apk will return
+	 * true only if all tasks are successful all the failed tasks will be sent
+	 * to the logger
+	 * 
+	 * @param apk
+	 * @return true only if the apk was deodexed
+	 */
 	private boolean deodexApk(ApkLegacy apk) {
 		boolean copyStatus = false;
 		copyStatus = apk.copyNeededFiles(tempFolder);
 
 		if (!copyStatus) {
-			// TODO add loggin for this
-			// Logger.logToStdIO("[" + apk.origApk.getName() + "]
-			// failedTocopy");
 			this.logPan.addLog(R.getString(S.LOG_ERROR) + "[" + apk.origApk.getName() + "]"
 					+ R.getString("log.copy.to.tmp.failed"));
 			return false;
@@ -77,13 +104,8 @@ public class ApkWorkerLegacy implements Watchable, Runnable {
 			// we deodex now !
 			boolean deodexStatus = false;
 			deodexStatus = Deodexer.deoDexApkLegacy(apk.tempOdex, apk.classes);
-			// Logger.logToStdIO(apk.tempOdex.getAbsolutePath());
-			// Logger.logToStdIO(apk.classes.getAbsolutePath());
+
 			if (!deodexStatus) {
-				// Logger.logToStdIO("[" + apk.origApk.getName() + "] failed to
-				// deodex aborting");
-				// Logger.logToStdIO(apk.tempOdex.getAbsolutePath());
-				// Logger.logToStdIO(apk.classes.getAbsolutePath());
 				this.logPan.addLog(R.getString(S.LOG_ERROR) + "[" + apk.origApk.getName() + "]"
 						+ R.getString("log.deodex.failed"));
 				return false;
@@ -102,28 +124,16 @@ public class ApkWorkerLegacy implements Watchable, Runnable {
 							+ R.getString("log.add.classes.failed"));
 				} else {
 					if (this.doSign) {
-						try {
-							signStatus = Deodexer.signApk(apk.tempApk, apk.tempSigned);
-							if (!signStatus)
-								apk.tempApk.renameTo(apk.tempSigned);
-						} catch (IOException | InterruptedException e) {
-							e.printStackTrace();
+						signStatus = Deodexer.signApk(apk.tempApk, apk.tempSigned);
+						if (!signStatus)
 							apk.tempApk.renameTo(apk.tempSigned);
-							Logger.writLog("[ApkWorkerLegacy][EX]" + e.getStackTrace());
-						}
 					} else {
 						apk.tempApk.renameTo(apk.tempSigned);
 					}
 					if (this.doZipalign) {
-						try {
-							this.zipAlignStatus = Zip.zipAlignAPk(apk.tempSigned, apk.tempZipaligned);
-							if (!this.zipAlignStatus)
-								apk.tempSigned.renameTo(apk.tempZipaligned);
-						} catch (IOException | InterruptedException e) {
-							e.printStackTrace();
+						this.zipAlignStatus = Zip.zipAlignAPk(apk.tempSigned, apk.tempZipaligned);
+						if (!this.zipAlignStatus)
 							apk.tempSigned.renameTo(apk.tempZipaligned);
-							Logger.writLog("[ApkWorkerLegacy][EX]" + e.getStackTrace());
-						}
 					} else {
 						apk.tempSigned.renameTo(apk.tempZipaligned);
 					}
@@ -154,6 +164,9 @@ public class ApkWorkerLegacy implements Watchable, Runnable {
 		return true;
 	}
 
+	/**
+	 * when all tasks are done we call this one to tell the watcher we are done
+	 */
 	private void finalMove() {
 		progressBar.setValue(progressBar.getMaximum());
 		progressBar.setString(R.getString("progress.done"));
@@ -169,15 +182,16 @@ public class ApkWorkerLegacy implements Watchable, Runnable {
 		return progressBar;
 	}
 
+	/**
+	 * 
+	 * @return int 0<=i=> 100 percentage of the current progress
+	 */
 	private String percent() {
-		// ? >>> value
-		// 100 >>>> max
 		return (this.progressBar.getValue() * 100 / this.progressBar.getMaximum()) + "%";
 	}
 
 	@Override
 	public void run() {
-		// TODO Auto-generated method stub
 		if (apkList != null && apkList.size() > 0) {
 			for (File f : this.apkList) {
 				ApkLegacy apk = new ApkLegacy(f);
@@ -203,7 +217,6 @@ public class ApkWorkerLegacy implements Watchable, Runnable {
 				Thread.sleep(2000);
 			} catch (InterruptedException e) {
 				Logger.writLog("[ApkWorkerLegacy][EX]" + e.getStackTrace());
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 				// lets make sure the whatcher is always updated even when an
 				// Exception is thrown
@@ -214,6 +227,8 @@ public class ApkWorkerLegacy implements Watchable, Runnable {
 	}
 
 	/**
+	 * Note : only one watcher can watch this class
+	 * 
 	 * @param progressBar
 	 *            the progressBar to set
 	 */
