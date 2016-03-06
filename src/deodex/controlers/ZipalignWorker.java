@@ -22,20 +22,20 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import javax.swing.JProgressBar;
+import com.alee.laf.progressbar.WebProgressBar;
 
 import deodex.tools.Deodexer;
 import deodex.tools.Zip;
 
 public class ZipalignWorker implements Runnable, Watchable {
 	ArrayList<ThreadWatcher> watchers = new ArrayList<ThreadWatcher>();
-	JProgressBar bar;
+	WebProgressBar bar;
 	ArrayList<File> apks;
 	LoggerPan log;
 	private boolean doZipalign = true;
 	private boolean doSign = false;
 
-	public ZipalignWorker(ArrayList<File> apks, JProgressBar bar, LoggerPan log) {
+	public ZipalignWorker(ArrayList<File> apks, WebProgressBar bar, LoggerPan log) {
 		this.bar = bar;
 		this.apks = apks;
 		this.log = log;

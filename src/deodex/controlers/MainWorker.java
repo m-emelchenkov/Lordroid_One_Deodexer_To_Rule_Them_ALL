@@ -23,7 +23,8 @@ import java.io.File;
 import java.util.ArrayList;
 
 import javax.swing.JPanel;
-import javax.swing.JProgressBar;
+
+import com.alee.laf.progressbar.WebProgressBar;
 
 import deodex.Cfg;
 import deodex.R;
@@ -65,7 +66,7 @@ public class MainWorker implements Runnable, ThreadWatcher, Watchable {
 	boolean isinitialized = false;
 	int maxThreading = 2;
 	public JPanel mainPannel = new JPanel();
-	JProgressBar progressBar;
+	WebProgressBar progressBar;
 	ArrayList<Runnable> tasks = new ArrayList<Runnable>();
 
 	public MainWorker(File folder, LoggerPan logPane, int maxThreads) {
@@ -113,6 +114,7 @@ public class MainWorker implements Runnable, ThreadWatcher, Watchable {
 			// logPan.addLog(R.getString(S.LOG_INFO)+R.getString("mainworker.finallog"));
 			progressBar.setValue(progressBar.getMaximum());
 			progressBar.setString(R.getString("progress.done"));
+			progressBar.setEnabled(false);
 			updateWatcher();
 		}
 	}
@@ -376,40 +378,65 @@ public class MainWorker implements Runnable, ThreadWatcher, Watchable {
 	}
 
 	public void initPannel() {
-		progressBar = new JProgressBar();
+		progressBar = new WebProgressBar();
 		progressBar.setFont(R.COURIER_NORMAL);
 		progressBar.setStringPainted(true);
 
+
+
 		mainPannel.setSize(798, 224);
 		mainPannel.setLayout(null);
-		mainPannel.setBackground(new Color(206, 194, 229));
+		mainPannel.setBackground(R.PANELS_BACK_COLOR);
 		apk1.getProgressBar().setBounds(10, 5, 780, 40);
 		apk1.getProgressBar().setFont(R.COURIER_NORMAL);
 		apk1.getProgressBar().setBackground(Color.white);
-		apk1.getProgressBar().setForeground(new Color(0, 183, 92));
+
+		apk1.getProgressBar().setBgBottom(new Color(236, 240, 241));
+		apk1.getProgressBar().setBgTop(new Color(189, 195, 199));
+		apk1.getProgressBar().setProgressTopColor(new Color(46, 204, 113));
+		apk1.getProgressBar().setProgressBottomColor(new Color(39, 174, 96));
+		//apk1.getProgressBar().setProgressTopColor(););
+		//apk1.getProgressBar().setForeground(Color.BLACK);
 
 		apk2.getProgressBar().setBounds(10, 49, 780, 40);
 		apk2.getProgressBar().setFont(R.COURIER_NORMAL);
 		apk2.getProgressBar().setBackground(Color.white);
-		apk2.getProgressBar().setForeground(new Color(0, 183, 92));
-
+		//apk2.getProgressBar().setForeground(Color.BLACK);
+		apk2.getProgressBar().setBgBottom(new Color(236, 240, 241));
+		apk2.getProgressBar().setBgTop(new Color(189, 195, 199));
+		apk2.getProgressBar().setProgressTopColor(new Color(46, 204, 113));
+		apk2.getProgressBar().setProgressBottomColor(new Color(39, 174, 96));
 		jar.getProgressBar().setBounds(10, 93, 780, 40);
 		jar.getProgressBar().setFont(R.COURIER_NORMAL);
 		jar.getProgressBar().setBackground(Color.white);
-		jar.getProgressBar().setForeground(new Color(0, 183, 92));
-
+		//jar.getProgressBar().setForeground(new Color(0, 183, 92));
+		jar.getProgressBar().setBgBottom(new Color(236, 240, 241));
+		jar.getProgressBar().setBgTop(new Color(189, 195, 199));
+		jar.getProgressBar().setProgressTopColor(new Color(46, 204, 113));
+		jar.getProgressBar().setProgressBottomColor(new Color(39, 174, 96));
+		
 		boot.progressBar.setBounds(10, 137, 780, 40);
 		boot.progressBar.setFont(R.COURIER_NORMAL);
 		boot.progressBar.setBackground(Color.white);
-		boot.progressBar.setForeground(new Color(0, 183, 92));
-
+		//boot.progressBar.setForeground(new Color(0, 183, 92));
+		boot.progressBar.setBgBottom(new Color(236, 240, 241));
+		boot.progressBar.setBgTop(new Color(189, 195, 199));
+		boot.progressBar.setProgressTopColor(new Color(46, 204, 113));
+		boot.progressBar.setProgressBottomColor(new Color(39, 174, 96));
+		
 		progressBar.setBounds(10, 181, 780, 40);
 		progressBar.setMinimum(0);
 		progressBar.setMaximum(apk1.getProgressBar().getMaximum() + apk2.getProgressBar().getMaximum()
 				+ jar.getProgressBar().getMaximum() + boot.progressBar.getMaximum());
-		progressBar.setForeground(new Color(175, 122, 197));
+		//progressBar.setForeground(new Color(175, 122, 197));
 		progressBar.setBackground(Color.WHITE);
-
+		
+		progressBar.setBgBottom(new Color(236, 240, 241));
+		progressBar.setBgTop(new Color(189, 195, 199));
+		progressBar.setProgressTopColor(new Color(155, 89, 182));
+		progressBar.setProgressBottomColor(new Color(142, 68, 173));
+		
+		
 		mainPannel.add(apk1.getProgressBar());
 		mainPannel.add(apk2.getProgressBar());
 		mainPannel.add(jar.getProgressBar());
@@ -419,40 +446,60 @@ public class MainWorker implements Runnable, ThreadWatcher, Watchable {
 	}
 
 	public void initPannelLegacy() {
-		progressBar = new JProgressBar();
+		progressBar = new WebProgressBar();
 		progressBar.setFont(R.COURIER_NORMAL);
 		progressBar.setStringPainted(true);
 
 		mainPannel.setSize(798, 224);
 		mainPannel.setLayout(null);
-		mainPannel.setBackground(new Color(206, 194, 229));
+		mainPannel.setBackground(R.PANELS_BACK_COLOR);
 		apk1l.getProgressBar().setBounds(10, 5, 780, 40);
 		apk1l.getProgressBar().setFont(R.COURIER_NORMAL);
 		apk1l.getProgressBar().setBackground(Color.white);
-		apk1l.getProgressBar().setForeground(new Color(0, 183, 92));
-
+		//apk1l.getProgressBar().setForeground(new Color(0, 183, 92));
+		apk1l.getProgressBar().setBgBottom(new Color(236, 240, 241));
+		apk1l.getProgressBar().setBgTop(new Color(189, 195, 199));
+		apk1l.getProgressBar().setProgressTopColor(new Color(46, 204, 113));
+		apk1l.getProgressBar().setProgressBottomColor(new Color(39, 174, 96));
+		
+		
 		apk2l.getProgressBar().setBounds(10, 49, 780, 40);
 		apk2l.getProgressBar().setFont(R.COURIER_NORMAL);
 		apk2l.getProgressBar().setBackground(Color.white);
-		apk2l.getProgressBar().setForeground(new Color(0, 183, 92));
-
+		//apk2l.getProgressBar().setForeground(new Color(0, 183, 92));
+		apk2l.getProgressBar().setBgBottom(new Color(236, 240, 241));
+		apk2l.getProgressBar().setBgTop(new Color(189, 195, 199));
+		apk2l.getProgressBar().setProgressTopColor(new Color(46, 204, 113));
+		apk2l.getProgressBar().setProgressBottomColor(new Color(39, 174, 96));
+		
 		jar1l.getProgressBar().setBounds(10, 93, 780, 40);
 		jar1l.getProgressBar().setFont(R.COURIER_NORMAL);
 		jar1l.getProgressBar().setBackground(Color.white);
-		jar1l.getProgressBar().setForeground(new Color(0, 183, 92));
-
+		//jar1l.getProgressBar().setForeground(new Color(0, 183, 92));
+		jar1l.getProgressBar().setBgBottom(new Color(236, 240, 241));
+		jar1l.getProgressBar().setBgTop(new Color(189, 195, 199));
+		jar1l.getProgressBar().setProgressTopColor(new Color(46, 204, 113));
+		jar1l.getProgressBar().setProgressBottomColor(new Color(39, 174, 96));
+		
 		jar2l.progressBar.setBounds(10, 137, 780, 40);
 		jar2l.progressBar.setFont(R.COURIER_NORMAL);
 		jar2l.progressBar.setBackground(Color.white);
-		jar2l.progressBar.setForeground(new Color(0, 183, 92));
-
+		//jar2l.progressBar.setForeground(new Color(0, 183, 92));
+		jar2l.getProgressBar().setBgBottom(new Color(236, 240, 241));
+		jar2l.getProgressBar().setBgTop(new Color(189, 195, 199));
+		jar2l.getProgressBar().setProgressTopColor(new Color(46, 204, 113));
+		jar2l.getProgressBar().setProgressBottomColor(new Color(39, 174, 96));
+		
 		progressBar.setBounds(10, 181, 780, 40);
 		progressBar.setMinimum(0);
 		progressBar.setMaximum(
 				this.worker1List.size() + this.worker2List.size() + this.worker3List.size() + this.worker4List.size());
-		progressBar.setForeground(new Color(175, 122, 197));
+		//progressBar.setForeground(new Color(175, 122, 197));
 		progressBar.setBackground(Color.WHITE);
-
+		progressBar.setBgBottom(new Color(236, 240, 241));
+		progressBar.setBgTop(new Color(189, 195, 199));
+		progressBar.setProgressTopColor(new Color(155, 89, 182));
+		progressBar.setProgressBottomColor(new Color(142, 68, 173));
 		mainPannel.add(apk1l.getProgressBar());
 		mainPannel.add(apk2l.getProgressBar());
 		mainPannel.add(jar1l.getProgressBar());

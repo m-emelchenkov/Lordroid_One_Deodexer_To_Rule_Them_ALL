@@ -24,14 +24,14 @@ import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JProgressBar;
 import javax.swing.JTextField;
+
+import com.alee.laf.progressbar.WebProgressBar;
 
 import deodex.R;
 import deodex.S;
@@ -54,7 +54,7 @@ public class ZipalignWindow extends JFrame implements ThreadWatcher {
 				int apkCount = FilesUtils.searchrecursively(fileChooser.getSelectedFile(), ".apk").size();
 				if (apkCount == 0) {
 					logger.addLog(R.getString("log.no.apk.to.zipalign"));
-					initProgress();
+					//initProgress();
 				} else {
 					logger.addLog(R.getString("log.there.is") + apkCount + R.getString("apk.to.be.zipaligned.log"));
 					zip = new ZipalignWorker(FilesUtils.searchrecursively(fileChooser.getSelectedFile(), ".apk"), bar,
@@ -115,12 +115,12 @@ public class ZipalignWindow extends JFrame implements ThreadWatcher {
 
 	ZipalignWorker zip;
 	JTextField browseField = new JTextField(R.getString(S.BROWSE_FEILD));
-	JButton browseBtn = new JButton("...");
-	JButton zipalignBtn = new JButton(R.getString("zipalign.now.btn"));
-	JProgressBar bar = new JProgressBar();
+	MyWebButton browseBtn = new MyWebButton("...");
+	MyWebButton zipalignBtn = new MyWebButton(R.getString("zipalign.now.btn"));
+	WebProgressBar bar = new WebProgressBar();
 	JPanel rootPannel = new JPanel();
 	LoggerPane logger = new LoggerPane("");
-	JButton okBtn = new JButton("OK");
+	MyWebButton okBtn = new MyWebButton("OK");
 	JCheckBox zipalignChk = new JCheckBox("zipalign");
 	JCheckBox signChk = new JCheckBox("sign");
 

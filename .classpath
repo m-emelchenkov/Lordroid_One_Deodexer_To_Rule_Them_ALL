@@ -7,5 +7,6 @@
 	<classpathentry exported="true" kind="lib" path="libs/zip4j_1.3.2.jar"/>
 	<classpathentry exported="true" kind="lib" path="libs/xz.jar"/>
 	<classpathentry exported="true" kind="lib" path="bins/oat2dex/oat2dex.jar"/>
+	<classpathentry kind="lib" path="libs/weblaf-1.28.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

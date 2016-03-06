@@ -30,7 +30,6 @@ import java.nio.file.InvalidPathException;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -40,11 +39,13 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JProgressBar;
+import javax.swing.JRadioButton;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+
+import com.alee.laf.progressbar.WebProgressBar;
 
 import deodex.Cfg;
 import deodex.R;
@@ -135,7 +136,6 @@ public class Window extends JFrame implements ThreadWatcher, ChangeListener {
 	//
 	boolean sign = false;
 	boolean zipalign = true;
-
 	File systemFolder;
 	int maxJobs;
 	MainWorker mainWorker;
@@ -148,24 +148,24 @@ public class Window extends JFrame implements ThreadWatcher, ChangeListener {
 		public void paintComponent(Graphics g) {
 
 			super.paintComponent(g);
-			g.setColor(new Color(206, 194, 229));
-			g.fillRect(0, 0, this.getWidth(), this.getHeight());
-			g.drawImage(R.borderLeft, 0, 90, this);
-			g.drawImage(R.borderRight, 802 - 1, 90, this);
+			//g.setColor(new Color(206, 194, 229));
+			//g.fillRect(0, 0, this.getWidth(), this.getHeight());
+			//g.drawImage(R.borderLeft, 0, 90, this);
+			//g.drawImage(R.borderRight, 802 - 1, 90, this);
 		}
 	};
 	// fields BrowseView
 	// LogoPane logo = new LogoPane();
 	JTextField browseField = new JTextField(R.getString(S.BROWSE_FEILD));
-	JButton browseBtn = new JButton(R.getString("browseBtn"));
+	MyWebButton browseBtn = new MyWebButton(R.getString("browseBtn"));
 	JPanel optionalPan = new JPanel();
 	JCheckBox zipalignCheck = new JCheckBox(R.getString("zipalignCheck"));
 	JCheckBox signCheck = new JCheckBox(R.getString("signCheck"));
-	JButton deodexNow = new JButton(R.getString("deodexNow"));
+	MyWebButton deodexNow = new MyWebButton(R.getString("deodexNow"));
 	LoggerPane logger = new LoggerPane();
-	JButton quitbtn = new JButton(R.getString("window.exitbtn"));
-	JButton restart = new JButton(R.getString("window.restartbtn"));
-	JButton zipIt;
+	MyWebButton quitbtn = new MyWebButton(R.getString("window.exitbtn"));
+	MyWebButton restart = new MyWebButton(R.getString("window.restartbtn"));
+	MyWebButton zipIt;
 	ImageIcon icon;
 	JTabbedPane inputPan = new JTabbedPane();
 	JPanel fromDevicePanel = new JPanel();
@@ -175,7 +175,7 @@ public class Window extends JFrame implements ThreadWatcher, ChangeListener {
 	JLabel deviceStatus = new JLabel(R.getString("0000045"));
 	JTextField devieNameField = new JTextField();
 	JTextField devieStatusField = new JTextField();
-	JButton refreshDevices = new JButton(R.getString("0000046"));
+	MyWebButton refreshDevices = new MyWebButton(R.getString("0000046"));
 	// JMuneBar & MenuItems
 	JMenuBar menuBar = new JMenuBar();
 
@@ -193,7 +193,8 @@ public class Window extends JFrame implements ThreadWatcher, ChangeListener {
 	JMenuItem aboutThisMenu = new JMenuItem(R.getString("About.this.program"));
 	int currentSelectedtab = 0;
 	boolean workInProgress = false;
-
+	JRadioButton focusStealer = new JRadioButton();
+	
 	public Window() {
 		this.setResizable(false);
 		this.setIconImage(R.icon);
@@ -204,7 +205,6 @@ public class Window extends JFrame implements ThreadWatcher, ChangeListener {
 		this.setSize(W_WIDTH, W_HEIGHT);
 		this.setJMenuBar(menuBar);
 		rootPanel.setSize(W_WIDTH, W_HEIGHT);
-		// this.setContentPane(rootPanel);
 		this.add(rootPanel, BorderLayout.CENTER);
 		icon = new ImageIcon(Window.this.getClass().getResource("/loading.gif"));
 		browseBtn.addActionListener(new BrowseAction());
@@ -250,9 +250,9 @@ public class Window extends JFrame implements ThreadWatcher, ChangeListener {
 		JLabel boxsLabel = new JLabel(R.getString("box.jobs"));
 		rootPanel.removeAll();
 		rootPanel.setLayout(null);
-		rootPanel.setBackground(new Color(206, 194, 229));
 		rootPanel.setOpaque(true);
-
+		rootPanel.setBackground(new Color(189, 195, 199));
+		
 		// fonts
 		// from folder tab
 		browseField.setFont(R.COURIER_LOGGER);
@@ -270,9 +270,6 @@ public class Window extends JFrame implements ThreadWatcher, ChangeListener {
 		this.refreshDevices.setFont(R.COURIER_LOGGER);
 
 		// colors Backgrounds
-		inputPan.setBackground(R.PANELS_BACK_COLOR);
-		inputPan.setBackgroundAt(0, new Color(184, 207, 229));
-		inputPan.setBackgroundAt(1, new Color(184, 207, 229));
 		deviceName.setBackground(new Color(184, 207, 229));
 		deviceStatus.setBackground(new Color(184, 207, 229));
 		devieStatusField.setBackground(R.FIELDS_BACK_COLOR);
@@ -287,8 +284,8 @@ public class Window extends JFrame implements ThreadWatcher, ChangeListener {
 		signCheck.setBackground(new Color(206, 194, 229));
 		deodexNow.setBackground(new Color(89, 195, 216));
 		logger.setBackground(Color.WHITE);
-		fromFolderPanel.setBackground(new Color(184, 207, 229));
-		fromDevicePanel.setBackground(new Color(184, 207, 229));
+		//fromFolderPanel.setBackground(new Color(184, 207, 229));
+		//fromDevicePanel.setBackground(new Color(184, 207, 229));
 
 		// colors Forground
 
@@ -307,11 +304,11 @@ public class Window extends JFrame implements ThreadWatcher, ChangeListener {
 		inputPan.setBounds(10, 0, 780, 140);
 		browseField.setBounds(15, 35, 620, 40);
 		browseBtn.setBounds(635, 35, 130, 40);
-		deviceName.setBounds(10, 20, 300, 40);
-		this.deviceStatus.setBounds(315, 20, 300, 40);
-		this.devieNameField.setBounds(10, 70, 300, 40);
-		this.devieStatusField.setBounds(315, 70, 300, 40);
-		this.refreshDevices.setBounds(620, 70, 150, 40);
+		deviceName.setBounds(10, 5, 300, 35);
+		this.deviceStatus.setBounds(315, 5, 300, 35);
+		this.devieNameField.setBounds(10, 50, 300, 35);
+		this.devieStatusField.setBounds(315, 50, 300, 35);
+		this.refreshDevices.setBounds(620, 50, 145, 35);
 
 		optionalPan.setBounds(10, 150, 440, 100);
 		zipalignCheck.setBounds(5, 20, 115, 35);
@@ -319,13 +316,13 @@ public class Window extends JFrame implements ThreadWatcher, ChangeListener {
 		deodexNow.setBounds(500, 170, 290, 60);
 		logger.setBounds(1, 270, 798, 300);
 
+		focusStealer.setBounds(-5,-5,1,1);
+		
 		// borders
-		browseField.setBorder(BorderFactory.createLineBorder(new Color(89, 195, 216)));
-		this.devieNameField.setBorder(BorderFactory.createLineBorder(new Color(89, 195, 216)));
-		this.devieStatusField.setBorder(BorderFactory.createLineBorder(new Color(89, 195, 216)));
-		optionalPan.setBorder(BorderFactory.createTitledBorder(
-				BorderFactory.createLineBorder(new Color(89, 195, 216), 2), R.getString("optionalPan")));
-
+		optionalPan.setBorder(BorderFactory.
+				createTitledBorder(
+				BorderFactory.createBevelBorder(2), R.getString("optionalPan")));
+	
 		// toolTips
 		zipalignCheck.setToolTipText(R.getString("zipalignCheck.ToolTip"));
 		signCheck.setToolTipText(R.getString("signCheck.ToolTip"));
@@ -349,7 +346,7 @@ public class Window extends JFrame implements ThreadWatcher, ChangeListener {
 		optionalPan.add(this.signCheck);
 		optionalPan.add(this.zipalignCheck);
 		// rootPane.add(jobs);
-		// rootPane.add(boxsLabel);
+		rootPane.add(focusStealer);
 		fromFolderPanel.add(browseField);
 		fromFolderPanel.add(browseBtn);
 		rootPanel.add(inputPan);
@@ -378,7 +375,7 @@ public class Window extends JFrame implements ThreadWatcher, ChangeListener {
 	}
 
 	private void initMenuBar() {
-		menuBar.setBackground(Color.WHITE);
+		//menuBar.setBackground(Color.WHITE);
 		menuBar.setVisible(true);
 		// attach menus to the bar
 		menuBar.add(fichierMenu);
@@ -413,12 +410,12 @@ public class Window extends JFrame implements ThreadWatcher, ChangeListener {
 	public void initProgress() {
 		rootPanel.removeAll();
 		rootPanel.setLayout(null);
-		rootPanel.setBackground(new Color(206, 194, 229));
+		rootPanel.setBackground(R.PANELS_BACK_COLOR);
 		rootPanel.setOpaque(true);
-
-		quitbtn = new JButton(R.getString("window.exitbtn"));
-		restart = new JButton(R.getString("window.restartbtn"));
-		zipIt = new JButton(R.getString("create.zip.btn"));
+		
+		quitbtn = new MyWebButton(R.getString("window.exitbtn"));
+		restart = new MyWebButton(R.getString("window.restartbtn"));
+		zipIt = new MyWebButton(R.getString("create.zip.btn"));
 		//
 		mainWorker.mainPannel.setBounds(0, 5, 795, 224);
 		// logo.setBounds(0, 0, 802, 100);
@@ -518,7 +515,7 @@ public class Window extends JFrame implements ThreadWatcher, ChangeListener {
 	private void initwaiting() {
 		rootPanel.removeAll();
 		rootPanel.setLayout(null);
-		rootPanel.setBackground(new Color(206, 194, 229));
+		rootPanel.setBackground(new Color(26,135,197));
 		rootPanel.setOpaque(true);
 
 		JLabel waiting = new JLabel("De-Optimizing boot.oat this may take a minute...");
@@ -530,7 +527,7 @@ public class Window extends JFrame implements ThreadWatcher, ChangeListener {
 
 		int min = 0;
 		int max = 100;
-		JProgressBar progress = new JProgressBar(min, max);
+		WebProgressBar progress = new WebProgressBar(min, max);
 		JLabel progLAb = new JLabel(icon);
 		// Play animation
 		progress.setIndeterminate(true);
@@ -547,12 +544,12 @@ public class Window extends JFrame implements ThreadWatcher, ChangeListener {
 	private void initFatalError() {
 		rootPanel.removeAll();
 		rootPanel.setLayout(null);
-		rootPanel.setBackground(new Color(206, 194, 229));
+		rootPanel.setBackground(R.PANELS_BACK_COLOR);
 		rootPanel.setOpaque(true);
 		// TODO : externalize those
 		JLabel errorLab = new JLabel("<HTML><p>Oops ... we couldn't initialize the working environement "
 				+ " please make sure that you have followed all the guide lines if you think this is a bug please send a bug report along with the full log to rachidboudjelida@gmail.com or post it on XDA </p></HTML>");
-		JButton exit = new JButton("Back");
+		MyWebButton exit = new MyWebButton("Back");
 		exit.addActionListener(new ActionListener() {
 
 			@Override

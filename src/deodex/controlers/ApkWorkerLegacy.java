@@ -22,7 +22,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import javax.swing.JProgressBar;
+import com.alee.laf.progressbar.WebProgressBar;
 
 import deodex.R;
 import deodex.S;
@@ -34,7 +34,7 @@ import deodex.tools.Zip;
 
 public class ApkWorkerLegacy implements Watchable, Runnable {
 
-	public JProgressBar progressBar = new JProgressBar();
+	public WebProgressBar progressBar = new WebProgressBar();
 	ArrayList<File> apkList;
 	LoggerPan logPan;
 	boolean doSign;
@@ -157,6 +157,7 @@ public class ApkWorkerLegacy implements Watchable, Runnable {
 	private void finalMove() {
 		progressBar.setValue(progressBar.getMaximum());
 		progressBar.setString(R.getString("progress.done"));
+		progressBar.setEnabled(false);
 		this.threadWatcher.updateProgress();
 		threadWatcher.done(this);
 	}
@@ -164,7 +165,7 @@ public class ApkWorkerLegacy implements Watchable, Runnable {
 	/**
 	 * @return the progressBar
 	 */
-	public JProgressBar getProgressBar() {
+	public WebProgressBar getProgressBar() {
 		return progressBar;
 	}
 
@@ -216,7 +217,7 @@ public class ApkWorkerLegacy implements Watchable, Runnable {
 	 * @param progressBar
 	 *            the progressBar to set
 	 */
-	public void setProgressBar(JProgressBar progressBar) {
+	public void setProgressBar(WebProgressBar progressBar) {
 		this.progressBar = progressBar;
 	}
 

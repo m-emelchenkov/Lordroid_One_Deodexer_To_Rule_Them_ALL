@@ -22,6 +22,8 @@ import java.awt.EventQueue;
 import java.io.File;
 import java.io.IOException;
 
+import com.alee.laf.WebLookAndFeel;
+
 import deodex.controlers.CommandLineWorker;
 import deodex.controlers.MainWorker;
 import deodex.tools.AdbUtils;
@@ -39,6 +41,16 @@ public class Tester {
 	public static final String[] OPTIONS = { "z", "s", "c" };
 
 	public static void main(String args[]) {
+//		 try {
+//			UIManager.setLookAndFeel(
+//			            UIManager.getSystemLookAndFeelClassName());
+//		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException
+//				| UnsupportedLookAndFeelException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+		WebLookAndFeel.install ();
+		
 		if (args == null || args.length == 0) {
 			PathUtils.logCallingProcessLocation();
 			logOsInfo();
@@ -54,7 +66,6 @@ public class Tester {
 
 						@SuppressWarnings("unused")
 						LangFrame win = new LangFrame();
-
 					}
 				});
 

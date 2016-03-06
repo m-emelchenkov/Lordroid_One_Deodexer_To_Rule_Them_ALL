@@ -34,7 +34,7 @@ public class Alerts {
 			JOptionPane pane = new JOptionPane(alertPane, JOptionPane.PLAIN_MESSAGE, JOptionPane.YES_NO_OPTION, null);
 			JDialog dialog = pane.createDialog(comp, R.getString("alert.deodex.now.title"));
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setSize(450, 180);
+			dialog.setSize(450, 200);
 			dialog.setVisible(true);
 			try {
 				i = (int) pane.getValue();
@@ -54,9 +54,9 @@ public class Alerts {
 		if (Cfg.doShowThreadAlert()) {
 			ThreadAlertPanel alertPane = new ThreadAlertPanel();
 			JOptionPane pane = new JOptionPane(alertPane, JOptionPane.PLAIN_MESSAGE);
-			JDialog dialog = pane.createDialog(comp, R.getString("box.jobs"));
+			JDialog dialog =  pane.createDialog(comp, R.getString("box.jobs"));
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setSize(500, 250);
+			dialog.setSize(500, 260);
 			dialog.setVisible(true);
 			int status = 8;
 			try {
@@ -78,7 +78,7 @@ public class Alerts {
 		JOptionPane pane = new JOptionPane(setings, JOptionPane.PLAIN_MESSAGE, JOptionPane.OK_CANCEL_OPTION);
 		JDialog dialog = pane.createDialog(com, R.getString("0000052"));
 		dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-		dialog.setSize(500, 200);
+		dialog.setSize(500, 220);
 		dialog.setVisible(true);
 		int status = 10;
 		try {

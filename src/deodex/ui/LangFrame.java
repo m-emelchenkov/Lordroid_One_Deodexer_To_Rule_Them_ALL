@@ -25,7 +25,6 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
-import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -78,7 +77,7 @@ public class LangFrame extends JFrame {
 
 	JLabel langLab = new JLabel(R.getString(S.APP_LANG_BOX_LAB));
 
-	JButton next = new JButton(R.getString(S.APP_NEXT_BTN));
+	MyWebButton next = new MyWebButton(R.getString(S.APP_NEXT_BTN));
 
 	public LangFrame() {
 

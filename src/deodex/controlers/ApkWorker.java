@@ -22,7 +22,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import javax.swing.JProgressBar;
+import com.alee.laf.progressbar.WebProgressBar;
 
 import deodex.R;
 import deodex.S;
@@ -40,7 +40,7 @@ public class ApkWorker implements Runnable {
 	File tmpFolder;
 	boolean doSign;
 	boolean doZipalign;
-	public JProgressBar progressBar;
+	public WebProgressBar progressBar;
 	ThreadWatcher threadWatcher;
 	private boolean signStatus = false;
 	private boolean zipAlignStatus = false;
@@ -59,7 +59,7 @@ public class ApkWorker implements Runnable {
 		this.doSign = doSign;
 		this.doZipalign = doZipalign;
 
-		progressBar = new JProgressBar();
+		progressBar = new WebProgressBar();
 		progressBar.setMinimum(0);
 		if (apkList != null && apkList.size() > 0)
 			progressBar.setMaximum(apkList.size() <= 0 ? 2 : apkList.size() * 8);
@@ -238,6 +238,7 @@ public class ApkWorker implements Runnable {
 		FilesUtils.deleteRecursively(tmpFolder);
 		progressBar.setValue(progressBar.getMaximum());
 		progressBar.setString(R.getString("progress.done"));
+		progressBar.setEnabled(false);
 		this.threadWatcher.updateProgress();
 		this.threadWatcher.done(this);
 	}
@@ -253,7 +254,7 @@ public class ApkWorker implements Runnable {
 	/**
 	 * @return the progressBar
 	 */
-	public JProgressBar getProgressBar() {
+	public WebProgressBar getProgressBar() {
 		return progressBar;
 	}
 
@@ -305,7 +306,7 @@ public class ApkWorker implements Runnable {
 	 * @param progressBar
 	 *            the progressBar to set
 	 */
-	public void setProgressBar(JProgressBar progressBar) {
+	public void setProgressBar(WebProgressBar progressBar) {
 		this.progressBar = progressBar;
 	}
 }

@@ -22,7 +22,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import javax.swing.JProgressBar;
+import com.alee.laf.progressbar.WebProgressBar;
 
 import deodex.R;
 import deodex.S;
@@ -40,14 +40,14 @@ public class JarWorker implements Runnable, Watchable {
 
 	LoggerPan logPan;
 	File tmpFolder;
-	JProgressBar progressBar;
+	WebProgressBar progressBar;
 	private ThreadWatcher threadWatcher;
 
 	public JarWorker(ArrayList<File> odexList, LoggerPan logPan, File tmpFolder) {
 		this.odexFiles = odexList;
 		this.logPan = logPan;
 		this.tmpFolder = tmpFolder;
-		this.progressBar = new JProgressBar();
+		this.progressBar = new WebProgressBar();
 		progressBar.setMinimum(0);
 		progressBar.setMaximum(odexList.size() * 6);
 		progressBar.setStringPainted(true);
@@ -219,7 +219,7 @@ public class JarWorker implements Runnable, Watchable {
 	/**
 	 * @return the progressBar
 	 */
-	public JProgressBar getProgressBar() {
+	public WebProgressBar getProgressBar() {
 		return progressBar;
 	}
 
@@ -254,6 +254,7 @@ public class JarWorker implements Runnable, Watchable {
 		FilesUtils.deleteRecursively(tmpFolder);
 		this.progressBar.setValue(this.progressBar.getMaximum());
 		progressBar.setString(R.getString("progress.done"));
+		progressBar.setEnabled(false);
 		this.threadWatcher.updateProgress();
 		this.threadWatcher.done(this);
 	}

@@ -30,16 +30,17 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JProgressBar;
+
+import com.alee.laf.progressbar.WebProgressBar;
 
 import deodex.R;
 import deodex.S;
 import deodex.tools.FilesUtils;
 import deodex.tools.Logger;
 import deodex.tools.Zip;
+import deodex.ui.MyWebButton;
 import net.lingala.zip4j.core.ZipFile;
 import net.lingala.zip4j.exception.ZipException;
 
@@ -54,10 +55,10 @@ public class FlashableZipCreater extends JFrame implements Runnable, MouseMotion
 
 	JPanel rootPanel = new JPanel();
 
-	JButton okBtn = new JButton("Ok");
-	JButton openContainingFolder = new JButton(R.getString("0000000"));
+	MyWebButton okBtn = new MyWebButton("Ok");
+	MyWebButton openContainingFolder = new MyWebButton(R.getString("0000000"));
 
-	JProgressBar bar = new JProgressBar();
+	WebProgressBar bar = new WebProgressBar();
 
 	ArrayList<File> fileToAdd = new ArrayList<File>();
 	File systemFolder;
@@ -83,9 +84,14 @@ public class FlashableZipCreater extends JFrame implements Runnable, MouseMotion
 		rootPanel.setBackground(R.PANELS_BACK_COLOR);
 		okBtn.setBackground(R.BUTTONS_BACK_COLOR);
 		openContainingFolder.setBackground(R.BUTTONS_BACK_COLOR);
-		bar.setForeground(new Color(0, 183, 92));
+		bar.setForeground(Color.BLACK);
+		
 		bar.setBackground(Color.WHITE);
-
+		bar.setBgBottom(new Color(236, 240, 241));
+		bar.setBgTop(new Color(189, 195, 199));
+		bar.setProgressTopColor(new Color(46, 204, 113));
+		bar.setProgressBottomColor(new Color(39, 174, 96));
+		
 		okBtn.setFont(R.COURIER_NORMAL);
 		openContainingFolder.setFont(R.COURIER_NORMAL);
 		bar.setFont(R.COURIER_NORMAL);

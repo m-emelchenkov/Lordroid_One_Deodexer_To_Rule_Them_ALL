@@ -22,7 +22,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import javax.swing.JProgressBar;
+import com.alee.laf.progressbar.WebProgressBar;
 
 import deodex.R;
 import deodex.S;
@@ -37,7 +37,7 @@ public class JarWorkerLegacy implements Watchable, Runnable {
 	ArrayList<File> jarList;
 	File tempFolder;
 	LoggerPan logPan;
-	JProgressBar progressBar = new JProgressBar();
+	WebProgressBar progressBar = new WebProgressBar();
 	ThreadWatcher threadWatcher;
 
 	public JarWorkerLegacy(ArrayList<File> jarList, LoggerPan logPan, File tempFolder) {
@@ -119,7 +119,7 @@ public class JarWorkerLegacy implements Watchable, Runnable {
 	/**
 	 * @return the progressBar
 	 */
-	public JProgressBar getProgressBar() {
+	public WebProgressBar getProgressBar() {
 		return progressBar;
 	}
 
@@ -152,6 +152,7 @@ public class JarWorkerLegacy implements Watchable, Runnable {
 			FilesUtils.deleteRecursively(tempFolder);
 			progressBar.setValue(progressBar.getMaximum());
 			progressBar.setString(R.getString("progress.done"));
+			progressBar.setEnabled(false);
 			threadWatcher.updateProgress();
 			threadWatcher.done(this);
 		} else {
@@ -163,6 +164,7 @@ public class JarWorkerLegacy implements Watchable, Runnable {
 				Logger.writLog("[JarWorkerLegacy][EX]" + e.getStackTrace());
 				FilesUtils.deleteRecursively(tempFolder);
 				progressBar.setValue(progressBar.getMaximum());
+				progressBar.setEnabled(false);
 				progressBar.setString(R.getString("progress.done"));
 				threadWatcher.updateProgress();
 				threadWatcher.done(this);
@@ -175,7 +177,7 @@ public class JarWorkerLegacy implements Watchable, Runnable {
 	 * @param progressBar
 	 *            the progressBar to set
 	 */
-	public void setProgressBar(JProgressBar progressBar) {
+	public void setProgressBar(WebProgressBar progressBar) {
 		this.progressBar = progressBar;
 	}
 }

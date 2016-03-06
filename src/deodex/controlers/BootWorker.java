@@ -22,7 +22,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import javax.swing.JProgressBar;
+import com.alee.laf.progressbar.WebProgressBar;
 
 import deodex.R;
 import deodex.S;
@@ -36,14 +36,14 @@ public class BootWorker implements Runnable, Watchable {
 	File tmpFolder;
 	ThreadWatcher threadWatcher;
 	LoggerPan log;
-	JProgressBar progressBar;
+	WebProgressBar progressBar;
 
 	public BootWorker(ArrayList<File> bootList, File tmpFolder, LoggerPan log) {
 		bootFiles = bootList;
 		this.tmpFolder = tmpFolder;
 		tmpFolder.mkdirs();
 		this.log = log;
-		progressBar = new JProgressBar();
+		progressBar = new WebProgressBar();
 		progressBar.setMinimum(0);
 		progressBar.setMaximum(bootList.size());
 		progressBar.setStringPainted(true);
@@ -152,6 +152,7 @@ public class BootWorker implements Runnable, Watchable {
 		FilesUtils.deleteRecursively(tmpFolder);
 		progressBar.setValue(progressBar.getMaximum());
 		progressBar.setString(R.getString("progress.done"));
+		progressBar.setEnabled(false);
 		this.threadWatcher.updateProgress();
 		this.threadWatcher.done(this);
 	}

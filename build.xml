@@ -22,7 +22,7 @@
         <jar destfile="${dir.jarfile}/Launcher.jar">
             <manifest>
                 <attribute name="Main-Class" value="deodex.Tester"/>
-                <attribute name="Class-Path" value=". libs/commons-compress-1.10.jar libs/zip4j_1.3.2.jar libs/xz.jar bins/oat2dex/oat2dex.jar"/>
+                <attribute name="Class-Path" value=". libs/commons-compress-1.10.jar libs/zip4j_1.3.2.jar libs/xz.jar libs/weblaf-1.28.jar bins/oat2dex/oat2dex.jar"/>
             </manifest>
             <fileset dir="${dir.jarfile}/bin"/>
         </jar>
@@ -32,6 +32,7 @@
 	<target name = "release" depends="clean,build">
 		<tar destfile="${dir.jarfile}/re-dist/lordroid_ODTRTA_${app.version}_ALL.tar.gz" longfile="gnu" compression="gzip">
         		<tarfileset dir="${dir.jarfile}" filemode="755" >
+					<exclude name="libs/commons-io-2.4.jar"/>
         		    <include name="bins/**"/>
         		    <include name="libs/**"/>
         		    <include name="lang/**"/>
