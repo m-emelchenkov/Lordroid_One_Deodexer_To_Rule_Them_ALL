@@ -1,25 +1,37 @@
 <!DOCTYPE html>
-<html lang="en-us">
-  <head>
-    <meta charset="UTF-8">
-    <title>Lordroid One Deodexer To Rule Them All by lord-ralf-adolf</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
-    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
-    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
-  </head>
-  <body>
-    <section class="page-header">
-      <h1 class="project-name">Lordroid One Deodexer To Rule Them All</h1>
-      <h2 class="project-tagline">Deodex any rom under any Operating system !</h2>
-      <a href="https://github.com/lord-ralf-adolf/Lordroid_One_Deodexer_To_Rule_Them_ALL" class="btn">View on GitHub</a>
-      <a href="https://github.com/lord-ralf-adolf/Lordroid_One_Deodexer_To_Rule_Them_ALL/zipball/master" class="btn">Download .zip</a>
-      <a href="https://github.com/lord-ralf-adolf/Lordroid_One_Deodexer_To_Rule_Them_ALL/tarball/master" class="btn">Download .tar.gz</a>
-    </section>
+<html>
 
-    <section class="main-content">
-      <p><img src="https://github.com/lord-ralf-adolf/Lordroid_Universal_Batch_deodexer/blob/master/res/images/logo.png?raw=true" alt="logo"></p>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="description" content="Lordroid One Deodexer To Rule Them All : Deodex any rom under any Operating system !">
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Lordroid One Deodexer To Rule Them All</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/lord-ralf-adolf/Lordroid_One_Deodexer_To_Rule_Them_ALL">View on GitHub</a>
+
+          <h1 id="project_title">Lordroid One Deodexer To Rule Them All</h1>
+          <h2 id="project_tagline">Deodex any rom under any Operating system !</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/lord-ralf-adolf/Lordroid_One_Deodexer_To_Rule_Them_ALL/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/lord-ralf-adolf/Lordroid_One_Deodexer_To_Rule_Them_ALL/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <p><img src="https://github.com/lord-ralf-adolf/Lordroid_Universal_Batch_deodexer/blob/master/res/images/logo.png?raw=true" alt="logo"></p>
 
 <h1>
 <a id="lordroid_universal_batch_deodexer" class="anchor" href="#lordroid_universal_batch_deodexer" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Lordroid_Universal_Batch_deodexer</h1>
@@ -53,9 +65,9 @@
 <a id="how-to-use-gui-" class="anchor" href="#how-to-use-gui-" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>How to use (GUI) :</h3>
 
 <ol>
-<li>Under linux/mac extract the archive with the command <code>tar xzvf lordroid_ODTRTA_v0.5_beta-1_ALL.tar.gz</code>
+<li>Under <code>linux/mac</code> extract the archive with the command <code>tar xzvf lordroid_ODTRTA_v0.5_beta-1_ALL.tar.gz</code>
 </li>
-<li>Under windows open the archive with 7zip GUI and extract it.</li>
+<li>Under <code>windows</code> open the archive with <code>7zip</code> GUI and extract it.</li>
 <li>If the default file association of <code>.jar</code> files is not <code>JAVA SE</code> right click then open with <code>JAVA SE</code>
 </li>
 <li>Click the browse button and choose the ROM's <code>system</code> folder or drag and drop a folder to the <code>Text Field</code>
@@ -69,13 +81,83 @@
 <h3>
 <a id="how-to-use-command-line-" class="anchor" href="#how-to-use-command-line-" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>How to use (Command line) :</h3>
 
-<ol>
-<li>Usage  <code>java -jar lordroid-ODTRTA.jar &lt;System_Folder&gt; [Options]</code>
-</li>
-<li>Options :<code>-z</code> to zipalign after deodexing , <code>-s</code> to resign apps apfter deodexing is done.</li>
-<li>
-<code>java -jar lordroid-ODTRTA.jar  -h</code>  to display help.</li>
-</ol>
+<table>
+<thead>
+<tr>
+<th><strong>Lordroid One Deodexer To Rule'em All</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>USAGE :</strong></td>
+</tr>
+<tr>
+<td><code>java -jar Launcher.jar &lt;source&gt; [OPTIONS]</code></td>
+</tr>
+<tr>
+<td><strong><code>&lt;source&gt;</code> can be either</strong></td>
+</tr>
+<tr>
+<td>PATH to System Folder exemple : <code>/path/system</code>
+</td>
+</tr>
+<tr>
+<td>OR</td>
+</tr>
+<tr>
+<td>
+<code>e</code> : to extract systemFolder directlly from device</td>
+</tr>
+<tr>
+<td><strong>Options :</strong></td>
+</tr>
+<tr>
+<td>
+<code>c</code> : create a flashabe zip  after deodexing the rom</td>
+</tr>
+<tr>
+<td>
+<code>z</code> : zipalign every apk after deodexing it</td>
+</tr>
+<tr>
+<td>
+<code>s</code> : sign every apk after deodexing</td>
+</tr>
+<tr>
+<td>
+<code>h</code> : print this help page</td>
+</tr>
+<tr>
+<td>please note that options should'nt be separated by spaces</td>
+</tr>
+<tr>
+<td><strong>Exemple :</strong></td>
+</tr>
+<tr>
+<td><code>java -jar Launcher.jar /path/system zsc</code></td>
+</tr>
+<tr>
+<td>this command will deodex   and sign and zipalign and then creates a flashable zip file</td>
+</tr>
+<tr>
+<td><code>java -jar Launcher.jar e  zsc</code></td>
+</tr>
+<tr>
+<td>this command will extract and deodex from connected device then sign and zipalign and then creates a flashable zip file</td>
+</tr>
+<tr>
+<td><strong>NOTE :</strong></td>
+</tr>
+<tr>
+<td>extracted systems will be under <code>extracted_system_folders</code>
+</td>
+</tr>
+<tr>
+<td>create flashable zip will be under <code>flashable_zips_out</code>
+</td>
+</tr>
+</tbody>
+</table>
 
 <h4>
 <a id="guide-lines--troubleshooting-" class="anchor" href="#guide-lines--troubleshooting-" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Guide lines &amp; troubleshooting :</h4>
@@ -84,24 +166,24 @@
 <li>make sure the is a build.prop file in the selected folder </li>
 <li>make sure the is a framwork folder under the selected folder.</li>
 <li>make sure the rom is odexed ! make a search in system folder with the request ".odex" if no results are there then your rom is deodexed and you don't need to run this tool on it.</li>
-<li>make sure JRE 8 is the default JRE see the output of java -version you should see 1.8.x if 1.7.x or lower the tool will not work for roms &gt; sdk 20 lollipop and above !</li>
+<li>make sure <code>JRE 7</code> or higher is the default JRE see the output of java -version you should see <code>1.8.x</code> or <code>1.7.x</code> if <code>1.6.x</code> or lower the tool will not work for roms &gt; sdk 20 lollipop and above !</li>
 <li>make sur the system folder you chose is writable (means you have the right to write inside it) otherwise the tool will not work.</li>
-<li>if your rom is sdk &gt; 20 make sure you have a boot.oat file under framework/<em>arch</em> other wise the tool will not work.</li>
-<li>if you followed all those instructions and you are still having trouble send me a link to your rom or list me the all files under /system/framework ,/system/app and /system/priv-app.</li>
+<li>if your rom is sdk &gt; 20 make sure you have a <code>boot.oat</code> file under <code>framework/**</code> other wise the tool will not work.</li>
+<li>if you followed all those instructions and you are still having trouble send me a link to your rom or list me the all files under <code>/system/framework</code> ,<code>/system/app</code> and <code>/system/priv-app</code>.</li>
 </ol>
 
 <h3>
 <a id="build" class="anchor" href="#build" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Build</h3>
 
 <h4>
-<a id="using-ant-17-or-higher" class="anchor" href="#using-ant-17-or-higher" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>using ant 1.7 or higher</h4>
+<a id="using-ant-17-or-higher" class="anchor" href="#using-ant-17-or-higher" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>using <code>ant 1.7</code> or higher</h4>
 
 <pre><code> mkdir deodexer
  git clone https://github.com/lord-ralf-adolf/Lordroid_One_Deodexer_To_Rule_Them_ALL.git deodexer
  cd deodexer  
 </code></pre>
 
-<p>to build a for test type the command   </p>
+<p>to build a for testing type the command   </p>
 
 <pre><code>ant
 </code></pre>
@@ -125,15 +207,18 @@
 
 <h4>
 <a id="all-tm-noted-in-any-location-of-the-software-are-there-for-reference-purpuse-only-none-of-them-are-associated-with-this-project" class="anchor" href="#all-tm-noted-in-any-location-of-the-software-are-there-for-reference-purpuse-only-none-of-them-are-associated-with-this-project" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>All (TM) noted in any location of the software are there for reference purpuse only none of them are associated with this project</h4>
+      </section>
+    </div>
 
-      <footer class="site-footer">
-        <span class="site-footer-owner"><a href="https://github.com/lord-ralf-adolf/Lordroid_One_Deodexer_To_Rule_Them_ALL">Lordroid One Deodexer To Rule Them All</a> is maintained by <a href="https://github.com/lord-ralf-adolf">lord-ralf-adolf</a>.</span>
-
-        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Lordroid One Deodexer To Rule Them All maintained by <a href="https://github.com/lord-ralf-adolf">lord-ralf-adolf</a></p>
+        <p>Published with <a href="https://pages.github.com">GitHub Pages</a></p>
       </footer>
+    </div>
 
-    </section>
+    
 
-  
   </body>
 </html>
