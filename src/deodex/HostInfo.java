@@ -22,6 +22,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.lang.management.ManagementFactory;
 
 import deodex.tools.PathUtils;
 
@@ -29,14 +30,31 @@ public class HostInfo {
 	public static void logInfo() {
 		try {
 			File f = new File(PathUtils.getExcutionPath() + File.separator + "logs/system_info.txt");
+			if(f.exists()){
+				f.delete();
+			}
 			f.getParentFile().mkdirs();
-			BufferedWriter out = new BufferedWriter(new FileWriter(f.getAbsolutePath(), false));
+			BufferedWriter out = new BufferedWriter(new FileWriter(f.getAbsolutePath(), true));
 			System.getProperties().store(out, "System informations ");
-			;
 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	/**
+	 * 
+	 * @return NumberOfCores the number of available cpus (cores)
+	 */
+	public static final int availableCpus() {
+		return ManagementFactory.getOperatingSystemMXBean().getAvailableProcessors();
+	}
+	/**
+	 * 
+	 * @return the maxMemory
+	 */
+	public static long getMaxMemory(){
+		return Runtime.getRuntime().maxMemory();
 	}
 }
