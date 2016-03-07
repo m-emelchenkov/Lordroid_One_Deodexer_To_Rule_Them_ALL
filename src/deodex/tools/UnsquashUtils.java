@@ -97,7 +97,7 @@ public class UnsquashUtils {
 		String[] cmd2 = getUnsquashCommand(privAppSquash, destFile);
 		if (appSquash.exists()) {
 			// unsquash app
-			boolean sucess = CmdUtils.runCommand(cmd1) == 0;
+			boolean sucess = (CmdUtils.runCommand(cmd1) == 0);
 			if (sucess) {
 				ArrayList<File> files = FilesUtils.listAllFiles(destFile);
 				if (!destFile.exists() || files == null || files.size() == 0) {
@@ -109,13 +109,16 @@ public class UnsquashUtils {
 					if (!copied)
 						return false;
 				}
+			} else {
+				Logger.writLog("[UnsquashUtils][E]failed to unsquash "+appSquash.getAbsolutePath());
+				return false;
 			}
 
 		}
 
 		if (privAppSquash.exists()) {
 			// unsquash priv-app
-			boolean sucess = CmdUtils.runCommand(cmd2) == 0;
+			boolean sucess = (CmdUtils.runCommand(cmd2) == 0);
 			if (sucess) {
 				ArrayList<File> files = FilesUtils.listAllFiles(destFile);
 				if (!destFile.exists() || files == null || files.size() == 0) {
@@ -127,6 +130,9 @@ public class UnsquashUtils {
 					if (!copied)
 						return false;
 				}
+			} else {
+				Logger.writLog("[UnsquashUtils][E]failed to unsquash "+privAppSquash.getAbsolutePath());
+				return false;
 			}
 		}
 

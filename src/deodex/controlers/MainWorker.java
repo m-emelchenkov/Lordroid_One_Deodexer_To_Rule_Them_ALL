@@ -205,14 +205,14 @@ public class MainWorker implements Runnable, ThreadWatcher, Watchable {
 		isinitialized = isinitialized && Deodexer.oat2dexBoot(S.bootTmp);
 		if (!isinitialized) {
 			this.logPan.addLog(R.getString(S.LOG_ERROR) + "couldn't deodex boot.oat aborting ...");
-			return;
 		}
 		// lets unsquash this bitch !
 		if (SessionCfg.isSquash) {
 			boolean unsquash = UnsquashUtils.unsquash(folder);
-			if (!unsquash)
+			if (!unsquash){
+				this.logPan.addLog(R.getString(S.LOG_ERROR)+"Failed to unsquash the squash file we can't continue ...");
 				isinitialized = false;
-			else {
+			} else {
 				new File(folder.getAbsolutePath() + File.separator + "odex.app.sqsh").delete();
 				new File(folder.getAbsolutePath() + File.separator + "odex.priv-app.sqsh").delete();
 			}
@@ -549,16 +549,19 @@ public class MainWorker implements Runnable, ThreadWatcher, Watchable {
 	@Override
 	public void run() {
 		logToolsversions();
-		if (this.isinitialized)
+		if (this.isinitialized){
 			this.threadWatcher.updateProgress();
-		else
-			this.threadWatcher.sendFailed(this);
-		for (int i = 0; i < this.maxThreading; i++) {
-			if (tasks.size() > 0) {
-				new Thread(tasks.get(0)).start();
-				tasks.remove(0);
+			for (int i = 0; i < this.maxThreading; i++) {
+				if (tasks.size() > 0) {
+					new Thread(tasks.get(0)).start();
+					tasks.remove(0);
+				}
 			}
+		} else{
+			this.threadWatcher.sendFailed(this);
+			return;
 		}
+
 	}
 
 	@Override
