@@ -23,6 +23,7 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import deodex.Cfg;
 import deodex.R;
 
 public class ThreadAlertPanel extends JPanel {
@@ -44,7 +45,7 @@ public class ThreadAlertPanel extends JPanel {
 		jobsLab.setBounds(5, 110, 120, 20);
 		count.setBounds(130, 110, 100, 20);
 		box.setBounds(5, 140, 400, 20);
-		count.setSelectedIndex(1);
+		count.setSelectedItem(Cfg.getIdealMaxThread());
 
 		this.setSize(450, 130);
 		this.setLayout(null);
@@ -53,7 +54,6 @@ public class ThreadAlertPanel extends JPanel {
 		this.add(jobsLab);
 		this.add(count);
 		this.add(box);
-
 	}
 
 }

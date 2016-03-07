@@ -42,9 +42,10 @@ public class LangFrame extends JFrame {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
-			Logger.logToStdIO(
+			Logger.writLog(
 					LOG_HEADER + Logger.INFO + "User choose " + (String) langs.getSelectedItem() + " As language");
 			Cfg.setCurrentLang((String) langs.getSelectedItem());
+			Cfg.readCfg();
 			R.initResources();
 			reloadStrings();
 		}
@@ -56,6 +57,7 @@ public class LangFrame extends JFrame {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
+			R.initResources();
 			Cfg.writeCfgFile();
 			disposeThis();
 			@SuppressWarnings("unused")

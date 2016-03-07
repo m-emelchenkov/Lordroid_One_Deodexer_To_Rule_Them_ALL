@@ -44,7 +44,7 @@ public class Cfg {
 	private static int showDeodexAlert = 1;
 	private static int showExitAlert = 1;
 	private static int showThreadAlert = 1;
-	private static int maxJobs = 2;
+	private static int maxJobs = Cfg.getIdealMaxThread();
 
 	private static ArrayList<File> langFiles = new ArrayList<File>();
 	private static ArrayList<String> availableLang = new ArrayList<String>();
@@ -67,10 +67,18 @@ public class Cfg {
 		return showExitAlert == 1;
 	}
 
+	/**
+	 * 
+	 * @return doShowThreadAlert 
+	 */
 	public static boolean doShowThreadAlert() {
 		return showThreadAlert == 1;
 	}
 
+	/**
+	 * 
+	 * @return availableLangs the available language files 
+	 */
 	public static ArrayList<String> getAvailableLaunguages() {
 		File langFolder = new File(LANG_FOLDER);
 		File lang[] = langFolder.listFiles();
@@ -97,12 +105,16 @@ public class Cfg {
 	}
 
 	/**
-	 * @return the currentLang
+	 * @return currentLang the String of the name of the current Language
 	 */
 	public static String getCurrentLang() {
 		return currentLang;
 	}
 
+	/**
+	 * 
+	 * @return langFile the lang file to use for strings 
+	 */
 	public static File getLangFile() {
 		File langFolder = new File(LANG_FOLDER);
 		File lang[] = langFolder.listFiles();
@@ -135,10 +147,18 @@ public class Cfg {
 		return tmp;
 	}
 
+	/**
+	 * 
+	 * @return maxJobs the max jobs to use
+	 */
 	public static int getMaxJobs() {
 		return Cfg.maxJobs;
 	}
 
+	/**
+	 * 
+	 * @return OsName os name 
+	 */
 	public static String getOs() {
 		if (Os.isLinux()) {
 			return S.LINUX;
@@ -150,6 +170,11 @@ public class Cfg {
 		return null;
 	}
 
+	/**
+	 * 
+	 * @return isfirstLaunch
+	 * 						  returns the logical value of this question : is the application launching for the first time ?
+	 */
 	public static boolean isFirstLaunch() {
 		return !new File(CFG_PATH).exists();
 	}
@@ -183,7 +208,7 @@ public class Cfg {
 		try {
 			Cfg.maxJobs = Integer.parseInt(PropReader.getProp(MAX_JOBS_PROP, new File(CFG_PATH)));
 		} catch (Exception e) {
-			Cfg.setMaxJobs(2);
+			Cfg.setMaxJobs(Cfg.getIdealMaxThread());
 			Logger.writLog("[Cfg][EX]" + e.getStackTrace());
 		}
 	}
@@ -246,13 +271,36 @@ public class Cfg {
 
 	/**
 	 * 
-	 * @return
+	 * writes the cfg file to disque 
 	 */
 
 	public static void writeCfgFile() {
 		PropReader.writeProp(S.CFG_CUR_LANG, currentLang, new File(CFG_PATH));
 		PropReader.writeProp(S.CFG_HOST_OS, Cfg.getOs(), new File(CFG_PATH));
 		PropReader.writeProp(SHOW_DEODEX_ALERT, "" + showDeodexAlert, new File(Cfg.CFG_PATH));
+		PropReader.writeProp(MAX_JOBS_PROP, ""+Cfg.getMaxJobs(), new File(Cfg.CFG_PATH));
 	}
 
+	/**
+	 * 
+	 * @return defaultMaxThread max thread count 
+	 */
+	public static int getIdealMaxThread(){
+		int max = 2;
+		int cpu = 2;
+		try {
+			cpu = HostInfo.availableCpus();
+		} catch (Exception e){
+			cpu = 2;
+		}
+		
+		if( cpu == 1){
+			max = 1;
+		} else if (cpu == 2){
+			max = 2;
+		} else if(cpu > 2){
+			max = 4;
+		}
+		return max;
+	}
 }
