@@ -129,10 +129,11 @@ public class ZipalignWindow extends JFrame implements ThreadWatcher {
 	 * 
 	 */
 	public ZipalignWindow(Component c) {
+		this.setIconImage(R.icon);
 		this.setLocationRelativeTo(c);
 		this.setSize(500, 300);
 		this.setResizable(false);
-		this.setTitle("ODTRTA >> Batch Zipalign/Sign ");
+		this.setTitle("Batch Zipalign/Sign ");
 		this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		this.add(rootPannel, BorderLayout.CENTER);
 
