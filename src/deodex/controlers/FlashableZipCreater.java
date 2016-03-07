@@ -169,22 +169,30 @@ public class FlashableZipCreater extends JFrame implements Runnable, MouseMotion
 	}
 
 	/**
-	 * lists all files that will be added to the flashable zip
+	 * lists all files that will be added to the flashable zip ony .apk and .jar files will be added here 
 	 */
 	private void initFilesList() {
 		ArrayList<File> list0 = FilesUtils
-				.listAllFiles(new File(systemFolder.getAbsolutePath() + File.separator + S.SYSTEM_APP));
+				.searchrecursively(new File(systemFolder.getAbsolutePath() + File.separator + S.SYSTEM_APP), ".apk");
+
 		ArrayList<File> list1 = FilesUtils
-				.listAllFiles(new File(systemFolder.getAbsolutePath() + File.separator + S.SYSTEM_PRIV_APP));
+				.searchrecursively(new File(systemFolder.getAbsolutePath() + File.separator + S.SYSTEM_PRIV_APP), ".apk");
+
 		ArrayList<File> list2 = FilesUtils
-				.listAllFiles(new File(systemFolder.getAbsolutePath() + File.separator + S.SYSTEM_FRAMEWORK));
+				.searchrecursively(new File(systemFolder.getAbsolutePath() + File.separator + S.SYSTEM_FRAMEWORK), ".apk");
+
+
+		ArrayList<File> list3 = FilesUtils
+				.searchrecursively(new File(systemFolder.getAbsolutePath() + File.separator + S.SYSTEM_FRAMEWORK), ".jar");
+
 		for (File f : list0)
 			this.fileToAdd.add(f);
 		for (File f : list1)
 			this.fileToAdd.add(f);
 		for (File f : list2)
 			this.fileToAdd.add(f);
-
+		for (File f : list3)
+			this.fileToAdd.add(f);
 		bar.setMinimum(0);
 		bar.setMaximum(this.fileToAdd.size());
 
