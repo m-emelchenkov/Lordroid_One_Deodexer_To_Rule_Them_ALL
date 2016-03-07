@@ -82,7 +82,7 @@ public class JarWorkerLegacy implements Watchable, Runnable {
 		if (!copyStatus) {
 			Logger.writLog("[JarWorkerLegacy][E][" + jar.getOrigJar().getName() + "] failed to copy to working dir ");
 			this.logPan.addLog(
-					R.getString(S.LOG_ERROR) + "[" + jar.getOrigJar() + "]" + R.getString("log.copy.to.tmp.failed"));
+					R.getString(S.LOG_WARNING) + "[" + jar.getOrigJar() + "]" + R.getString("log.copy.to.tmp.failed"));
 			return false;
 		}
 		// deodexing
@@ -91,7 +91,7 @@ public class JarWorkerLegacy implements Watchable, Runnable {
 		if (!deodexStatus) {
 			Logger.writLog("[JarWorkerLegacy][E][" + jar.getOrigJar().getName() + "] deodex odex file FAILED");
 			this.logPan
-					.addLog(R.getString(S.LOG_ERROR) + "[" + jar.getOrigJar() + "]" + R.getString("log.deodex.failed"));
+					.addLog(R.getString(S.LOG_WARNING) + "[" + jar.getOrigJar() + "]" + R.getString("log.deodex.failed"));
 			return false;
 		}
 		// putback
@@ -111,7 +111,7 @@ public class JarWorkerLegacy implements Watchable, Runnable {
 			Logger.writLog("[JarWorkerLegacy][I][" + jar.getOrigJar().getName() + "] put "
 					+ jar.classes.getAbsolutePath() + "back in failed");
 			this.logPan.addLog(
-					R.getString(S.LOG_ERROR) + "[" + jar.getOrigJar() + "]" + R.getString("log.add.classes.failed"));
+					R.getString(S.LOG_WARNING) + "[" + jar.getOrigJar() + "]" + R.getString("log.add.classes.failed"));
 			return false;
 		}
 
@@ -120,7 +120,7 @@ public class JarWorkerLegacy implements Watchable, Runnable {
 		pushBack = FilesUtils.copyFile(jar.tempJar, jar.origJar);
 		if (!pushBack) {
 			this.logPan.addLog(
-					R.getString(S.LOG_ERROR) + "[" + jar.getOrigJar() + "]" + R.getString("log.putback.apk.failed"));
+					R.getString(S.LOG_WARNING) + "[" + jar.getOrigJar() + "]" + R.getString("log.putback.apk.failed"));
 			return false;
 		}
 
@@ -160,7 +160,7 @@ public class JarWorkerLegacy implements Watchable, Runnable {
 							R.getString(S.LOG_INFO) + "[" + jar.origJar.getName() + "]" + R.getString(S.LOG_SUCCESS));
 				} else {
 					logPan.addLog(
-							R.getString(S.LOG_WARNING) + "[" + jar.origJar.getName() + "]" + R.getString(S.LOG_FAIL));
+							R.getString(S.LOG_ERROR) + "[" + jar.origJar.getName() + "]" + R.getString(S.LOG_FAIL));
 				}
 				progressBar.setValue(progressBar.getValue() + 1);
 				progressBar.setString(R.getString("progress.jar") + " " + this.percent());

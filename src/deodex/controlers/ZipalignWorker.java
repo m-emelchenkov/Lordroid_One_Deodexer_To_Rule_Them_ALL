@@ -23,6 +23,8 @@ import java.util.ArrayList;
 
 import com.alee.laf.progressbar.WebProgressBar;
 
+import deodex.R;
+import deodex.S;
 import deodex.tools.Deodexer;
 import deodex.tools.Zip;
 
@@ -99,9 +101,9 @@ public class ZipalignWorker implements Runnable, Watchable {
 				boolean success = signApk(apk);
 
 				if (success) {
-					log.addLog("[INFO][" + apk.getName() + "]" + "[SIGNED]");
+					log.addLog(R.getString(S.LOG_INFO)+"[" + apk.getName() + "]" + "[SUCCESS][SIGNED]");
 				} else {
-					log.addLog("[INFO][" + apk.getName() + "]" + "[FAILED TO SIGN]");
+					log.addLog(R.getString(S.LOG_ERROR)+"[" + apk.getName() + "]" + "[FAILED TO SIGN]");
 				}
 				bar.setValue(bar.getValue() + 1);
 				bar.setString("Zipaligning apks " + this.percent());
@@ -117,9 +119,9 @@ public class ZipalignWorker implements Runnable, Watchable {
 
 				boolean success = zipalignApk(apk);
 				if (success) {
-					log.addLog("[INFO][" + apk.getName() + "]" + "[ZIPALIGNED]");
+					log.addLog(R.getString(S.LOG_INFO)+"[" + apk.getName() + "]" + "[SUCCESS][ZIPALIGNED]");
 				} else {
-					log.addLog("[INFO][" + apk.getName() + "]" + "[FAILED TO ZIPALIGN]");
+					log.addLog(R.getString(S.LOG_ERROR)+"[" + apk.getName() + "]" + "[FAILED TO ZIPALIGN]");
 				}
 				bar.setValue(bar.getValue() + 1);
 				bar.setString("Zipaligning apks " + this.percent());

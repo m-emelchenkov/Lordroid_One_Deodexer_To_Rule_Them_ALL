@@ -95,7 +95,7 @@ public class BootWorker implements Runnable, Watchable {
 		copyStatus = FilesUtils.copyFile(origJar, tmpJar);
 		if (!copyStatus) {
 			this.log.addLog(
-					R.getString(S.LOG_ERROR) + "[" + absoluteName + ".jar]" + R.getString("log.copy.to.tmp.failed"));
+					R.getString(S.LOG_WARNING) + "[" + absoluteName + ".jar]" + R.getString("log.copy.to.tmp.failed"));
 			return false;
 		}
 
@@ -114,7 +114,7 @@ public class BootWorker implements Runnable, Watchable {
 
 		if (!copyStatus) {
 			this.log.addLog(
-					R.getString(S.LOG_ERROR) + "[" + absoluteName + ".jar]" + R.getString("log.classes.failed"));
+					R.getString(S.LOG_WARNING) + "[" + absoluteName + ".jar]" + R.getString("log.classes.failed"));
 			return false;
 		}
 
@@ -136,7 +136,7 @@ public class BootWorker implements Runnable, Watchable {
 
 		if (!addStatus) {
 			this.log.addLog(
-					R.getString(S.LOG_ERROR) + "[" + absoluteName + ".jar]" + R.getString("log.add.classes.failed"));
+					R.getString(S.LOG_WARNING) + "[" + absoluteName + ".jar]" + R.getString("log.add.classes.failed"));
 			return false;
 		}
 		copyStatus = FilesUtils.copyFile(tmpJar, origJar);
@@ -163,7 +163,7 @@ public class BootWorker implements Runnable, Watchable {
 				log.addLog(R.getString(S.LOG_INFO) + "[" + file.getName().substring(0, file.getName().lastIndexOf("."))
 						+ ".jar]" + " [SUCCESS]");
 			} else {
-				log.addLog(R.getString(S.LOG_WARNING) + "["
+				log.addLog(R.getString(S.LOG_ERROR) + "["
 						+ file.getName().substring(0, file.getName().lastIndexOf(".")) + ".jar]" + " [FAILED ]");
 
 			}

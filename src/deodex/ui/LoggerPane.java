@@ -18,6 +18,8 @@
  */
 package deodex.ui;
 
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.io.File;
@@ -32,7 +34,11 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import com.alee.laf.list.WebListCellRenderer;
+import com.alee.laf.list.WebListElement;
+
 import deodex.R;
+import deodex.S;
 import deodex.controlers.LoggerPan;
 import deodex.tools.PathUtils;
 import deodex.tools.PropReader;
@@ -48,6 +54,7 @@ public class LoggerPane extends JPanel implements LoggerPan {
 	DefaultListModel<String> model = new DefaultListModel<String>();
 	JScrollPane scroll;
 
+	@SuppressWarnings("unchecked")
 	public LoggerPane() {
 		super();
 		this.setSize(798, 300);
@@ -62,6 +69,7 @@ public class LoggerPane extends JPanel implements LoggerPan {
 		logs = new JList<String>(model);
 		logs.setFont(R.COURIER_LOGGER);
 		logs.setAutoscrolls(true);
+		logs.setCellRenderer(new WhiteYellowCellRenderer());
 		this.setLayout(null);
 		scroll = new JScrollPane(logs);
 		scroll.setBounds(0, 0, this.getWidth(), this.getHeight() - 0);
@@ -162,5 +170,24 @@ public class LoggerPane extends JPanel implements LoggerPan {
 		PropReader.ArrayToProp(logs, logFile);
 		this.repaint();
 	}
+    class WhiteYellowCellRenderer extends WebListCellRenderer {
+        /**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
 
+		@Override
+		public Component getListCellRendererComponent( @SuppressWarnings("rawtypes") JList list, Object value, int index, boolean isSelected, boolean cellHasFocus ) {
+        	WebListElement c =(WebListElement) super.getListCellRendererComponent( list, value, index, isSelected, cellHasFocus );
+        	if ( ((String)value).contains(R.getString(S.LOG_ERROR)) ) {
+            	c.setForeground(new Color(169, 50, 38));
+            } else if (((String)value).contains(R.getString(S.LOG_WARNING))) {
+            	c.setForeground(new Color( 241, 196, 15));
+            } else if (((String)value).contains("[SUCCESS]")){
+            	c.setForeground(new Color(20, 90, 50));
+            } 
+            return c;
+        }
+    }
+     
 }

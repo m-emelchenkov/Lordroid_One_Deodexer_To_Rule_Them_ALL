@@ -97,7 +97,7 @@ public class ApkWorkerLegacy implements Watchable, Runnable {
 		copyStatus = apk.copyNeededFiles(tempFolder);
 
 		if (!copyStatus) {
-			this.logPan.addLog(R.getString(S.LOG_ERROR) + "[" + apk.origApk.getName() + "]"
+			this.logPan.addLog(R.getString(S.LOG_WARNING) + "[" + apk.origApk.getName() + "]"
 					+ R.getString("log.copy.to.tmp.failed"));
 			return false;
 		} else {
@@ -106,7 +106,7 @@ public class ApkWorkerLegacy implements Watchable, Runnable {
 			deodexStatus = Deodexer.deoDexApkLegacy(apk.tempOdex, apk.classes);
 
 			if (!deodexStatus) {
-				this.logPan.addLog(R.getString(S.LOG_ERROR) + "[" + apk.origApk.getName() + "]"
+				this.logPan.addLog(R.getString(S.LOG_WARNING) + "[" + apk.origApk.getName() + "]"
 						+ R.getString("log.deodex.failed"));
 				return false;
 			} else {
@@ -120,7 +120,7 @@ public class ApkWorkerLegacy implements Watchable, Runnable {
 					e.printStackTrace();
 				}
 				if (!putBack) {
-					this.logPan.addLog(R.getString(S.LOG_ERROR) + "[" + apk.origApk.getName() + "]"
+					this.logPan.addLog(R.getString(S.LOG_WARNING) + "[" + apk.origApk.getName() + "]"
 							+ R.getString("log.add.classes.failed"));
 				} else {
 					if (this.doSign) {
@@ -205,7 +205,7 @@ public class ApkWorkerLegacy implements Watchable, Runnable {
 											: R.getString("log.zipalign.fail")) : ""));
 				} else {
 					logPan.addLog(
-							R.getString(S.LOG_WARNING) + "[" + apk.origApk.getName() + "]" + R.getString(S.LOG_FAIL));
+							R.getString(S.LOG_ERROR) + "[" + apk.origApk.getName() + "]" + R.getString(S.LOG_FAIL));
 				}
 				progressBar.setValue(progressBar.getValue() + 1);
 				progressBar.setString(R.getString("progress.apks") + " " + this.percent());

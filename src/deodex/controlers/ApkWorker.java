@@ -269,7 +269,7 @@ public class ApkWorker implements Runnable {
 
 				boolean sucess = deodexApk(apk);
 				if (!sucess) {
-					logPan.addLog(R.getString(S.LOG_WARNING) + "[" + new ApkObj(apk).getOrigApk().getName() + "]"
+					logPan.addLog(R.getString(S.LOG_ERROR) + "[" + new ApkObj(apk).getOrigApk().getName() + "]"
 							+ R.getString(S.LOG_FAIL));
 				} else {
 					logPan.addLog(

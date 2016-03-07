@@ -23,6 +23,9 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 
 import javax.swing.JCheckBox;
 import javax.swing.JFileChooser;
@@ -40,7 +43,7 @@ import deodex.controlers.ThreadWatcher;
 import deodex.controlers.ZipalignWorker;
 import deodex.tools.FilesUtils;
 
-public class ZipalignWindow extends JFrame implements ThreadWatcher {
+public class ZipalignWindow extends JFrame implements ThreadWatcher ,MouseListener , MouseMotionListener{
 
 	class BrowseAction implements ActionListener {
 
@@ -113,7 +116,10 @@ public class ZipalignWindow extends JFrame implements ThreadWatcher {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
+	
+	protected int posX = 0;
+	protected int posY = 0;
+	
 	ZipalignWorker zip;
 	JTextField browseField = new JTextField(R.getString(S.BROWSE_FEILD));
 	MyWebButton browseBtn = new MyWebButton("...");
@@ -136,7 +142,9 @@ public class ZipalignWindow extends JFrame implements ThreadWatcher {
 		this.setTitle("Batch Zipalign/Sign ");
 		this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		this.add(rootPannel, BorderLayout.CENTER);
-
+		// FIXME : set this undecorated and handlee the closing oprations 
+		//         because right now when closed it get disposed but the process keeps running in the background !
+		//this.setUndecorated(true);
 		// backcolors
 		rootPannel.setBackground(R.PANELS_BACK_COLOR);
 		browseBtn.setBackground(R.BUTTONS_BACK_COLOR);
@@ -166,6 +174,8 @@ public class ZipalignWindow extends JFrame implements ThreadWatcher {
 		zipalignChk.addActionListener(new checkAction());
 		signChk.addActionListener(new checkAction());
 
+		rootPannel.addMouseListener(this);
+		rootPannel.addMouseMotionListener(this);
 		this.setVisible(true);
 		initBrowse();
 	}
@@ -246,5 +256,51 @@ public class ZipalignWindow extends JFrame implements ThreadWatcher {
 	@Override
 	public void updateProgress() {
 		this.initProgress();
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		this.posX = e.getXOnScreen();
+		this.posY = e.getYOnScreen();
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseDragged(MouseEvent ev) {
+		int oldX = ev.getXOnScreen();
+		int oldY = ev.getYOnScreen();
+
+		this.setLocation(this.getLocation().x + (oldX - this.posX), this.getLocation().y + (oldY - this.posY));
+		this.posX = ev.getXOnScreen();
+		this.posY = ev.getYOnScreen();
+	}
+
+	@Override
+	public void mouseMoved(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
 	}
 }
