@@ -56,6 +56,7 @@
         		<tarfileset dir="${dir.jarfile}" filemode="755" >
 					<exclude name="libs/commons-io-2.4.jar"/>
         		    <include name="bins/**"/>
+        		    <include name="tools/**"/>
         		    <include name="libs/**"/>
         		    <include name="lang/**"/>
         		    <include name="blanks/**"/>
