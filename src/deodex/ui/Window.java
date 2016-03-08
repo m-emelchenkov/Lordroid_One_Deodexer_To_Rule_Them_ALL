@@ -55,6 +55,7 @@ import deodex.controlers.MainWorker;
 import deodex.controlers.ThreadWatcher;
 import deodex.controlers.Watchable;
 import deodex.tools.AdbUtils;
+import deodex.tools.CmdUtils;
 import deodex.tools.FilesUtils;
 
 public class Window extends JFrame implements ThreadWatcher, ChangeListener {
@@ -143,7 +144,16 @@ public class Window extends JFrame implements ThreadWatcher, ChangeListener {
 		public void actionPerformed(ActionEvent arg0) {
 			Object source = arg0.getSource();
 			if (source.equals(batchZipalignSignMenuItem)) {
-				new ZipalignWindow(getThisFram());
+				new Thread(new Runnable(){
+					@Override
+					public void run() {
+						String[] cmd = {"java","-jar",S.TOOLS_JAR.getAbsolutePath(),"BZW"};
+						// TODO Auto-generated method stub
+						CmdUtils.runCommand(cmd);
+					}
+				}).start();
+
+				//new ZipalignWindow(getThisFram());
 			} else if (source.equals(exitMenuItem)) {
 				int i = JOptionPane.showConfirmDialog(getThisFram(), R.getString("dialog.sure.exit.message"),
 						R.getString("dialog.sure.exit"), JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);

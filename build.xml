@@ -12,6 +12,28 @@
 		<fileset dir="${dir.jarfile}/bins/oat2dex" includes="*.jar" />
 	</path>
 
+	<path id="tools-classpath">
+		<fileset dir="${dir.jarfile}/libs" includes="*.jar" />
+		<fileset dir="${dir.jarfile}/bins/oat2dex" includes="*.jar" />
+		<fileset file="${dir.jarfile}/Launcher.jar" />
+	</path>
+
+   <target name="build-tools" depends="build">
+	
+      	<mkdir dir="bin-tools"/>
+        <javac includeantruntime="false" srcdir="src-tools" destdir="bin-tools" classpathref="tools-classpath"/>
+        <jar destfile="${dir.jarfile}/tools/tools.jar">
+            <manifest>
+                <attribute name="Main-Class" value="batchtools.Main"/>
+                <attribute name="Class-Path" value=". ../libs/commons-compress-1.10.jar ../libs/zip4j_1.3.2.jar ../libs/xz.jar ../libs/weblaf-1.28.jar ../bins/oat2dex/oat2dex.jar ../Launcher.jar"/>
+            </manifest>
+            <fileset dir="${dir.jarfile}/bin-tools"/>
+        </jar>
+
+ 	</target>
+
+
+
     <target name="build" depends="small-clean">
 	
       	<mkdir dir="bin"/>
@@ -50,6 +72,8 @@
 	<!-- SMALL CLEAN  -->
 	<target name = "small-clean">
 		<delete dir="${dir.jarfile}/bin" />
+		<delete dir="${dir.jarfile}/bin-tools" />
+		
 	</target>
 
 	<!--  CLEAN  -->

@@ -101,6 +101,9 @@ public class R {
 
 	private static String legalize(String str) {
 		String tmp = "";
+		if(str == null){
+			return null;
+		}
 		for (int i = 0; i < str.length() - 1; i++) {
 			String spec = "" + str.charAt(i) + str.charAt(i + 1);
 			if (spec.equals("<>")) {

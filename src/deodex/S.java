@@ -100,6 +100,7 @@ public class S {
 	public static final File ZIP_OUTPUT = new File(PathUtils.getExcutionPath() + File.separator + "flashable_zips_out");
 	public static final File EXTRACTED_SYSTEMS = new File(
 			PathUtils.getExcutionPath() + File.separator + "extracted_system_folders");
+	public static final File TOOLS_JAR = new File(PathUtils.getExcutionPath()+"/tools/tools.jar");
 	// temporary folders
 	public static File worker1Folder = new File(TMP + File.separator + WORKER1);
 	public static File worker2Folder = new File(TMP + File.separator + WORKER2);

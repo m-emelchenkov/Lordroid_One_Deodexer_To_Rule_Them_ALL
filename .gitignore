@@ -12,3 +12,5 @@ extracted_system_folders
 Launcher.jar
 build
 re-dist
+tools
+bin-tools
