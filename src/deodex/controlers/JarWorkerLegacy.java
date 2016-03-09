@@ -19,7 +19,6 @@
 package deodex.controlers;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 
 import com.alee.laf.progressbar.WebProgressBar;
@@ -100,13 +99,7 @@ public class JarWorkerLegacy implements Watchable, Runnable {
 		Logger.writLog("[JarWorkerLegacy][I][" + jar.getOrigJar().getName() + "] about to put "
 				+ jar.classes.getAbsolutePath() + "back in ");
 		boolean putBack = false;
-		try {
-			putBack = Zip.addFilesToExistingZip(jar.tempJar, classes);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			Logger.writLog("[JarWorkerLegacy][EX]" + e.getStackTrace());
-		}
+		putBack = Zip.addFilesToExistingZip(jar.tempJar, classes);
 		if (!putBack) {
 			Logger.writLog("[JarWorkerLegacy][I][" + jar.getOrigJar().getName() + "] put "
 					+ jar.classes.getAbsolutePath() + "back in failed");

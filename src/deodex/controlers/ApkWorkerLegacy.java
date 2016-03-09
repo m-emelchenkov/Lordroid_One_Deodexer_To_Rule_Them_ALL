@@ -19,7 +19,6 @@
 package deodex.controlers;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 
 import com.alee.laf.progressbar.WebProgressBar;
@@ -113,12 +112,7 @@ public class ApkWorkerLegacy implements Watchable, Runnable {
 				ArrayList<File> classes = new ArrayList<File>();
 				classes.add(apk.classes);
 				boolean putBack = false;
-				try {
-					putBack = Zip.addFilesToExistingZip(apk.tempApk, classes);
-				} catch (IOException e) {
-					Logger.writLog("[ApkWorkerLegacy][EX]" + e.getStackTrace());
-					e.printStackTrace();
-				}
+				putBack = Zip.addFilesToExistingZip(apk.tempApk, classes);
 				if (!putBack) {
 					this.logPan.addLog(R.getString(S.LOG_WARNING) + "[" + apk.origApk.getName() + "]"
 							+ R.getString("log.add.classes.failed"));

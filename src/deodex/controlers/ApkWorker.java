@@ -170,12 +170,7 @@ public class ApkWorker implements Runnable {
 			classesFiles.add(apk.getTempClasses3());
 
 		boolean addClassesToApkStatus = false;
-		try {
-			addClassesToApkStatus = Zip.addFilesToExistingZip(apk.getTempApk(), classesFiles);
-		} catch (IOException e) {
-			e.printStackTrace();
-			Logger.writLog("[ApkWorker][EX]" + e.getStackTrace());
-		}
+		addClassesToApkStatus = Zip.addFilesToExistingZip(apk.getTempApk(), classesFiles);
 		if (!addClassesToApkStatus) {
 			logPan.addLog(R.getString(S.LOG_WARNING) + " [" + apk.getOrigApk().getName() + "]"
 					+ R.getString("log.add.classes.failed"));

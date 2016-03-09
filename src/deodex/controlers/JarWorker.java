@@ -187,12 +187,7 @@ public class JarWorker implements Runnable, Watchable {
 		}
 		Logger.writLog("[JarWorker][I][" + jar.getAbsoluteName() + "] files to be added : " + classesFiles);
 		boolean addstatus = false;
-		try {
-			addstatus = Zip.addFilesToExistingZip(jar.getTmpJar(), list);
-		} catch (IOException e1) {
-			e1.printStackTrace();
-			Logger.writLog("[JarWorker][EX]" + e1.getStackTrace());
-		}
+		addstatus = Zip.addFilesToExistingZip(jar.getTmpJar(), list);
 		if (!addstatus) {
 			Logger.writLog(
 					"[JarWorker][E][" + jar.getAbsoluteName() + "] failed to put classes file(s) back in jar file");

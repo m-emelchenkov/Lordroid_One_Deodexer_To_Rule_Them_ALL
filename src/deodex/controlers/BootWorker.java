@@ -19,7 +19,6 @@
 package deodex.controlers;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 
 import com.alee.laf.progressbar.WebProgressBar;
@@ -127,12 +126,7 @@ public class BootWorker implements Runnable, Watchable {
 		if (tmpClasses3.exists()) {
 			list.add(tmpClasses3);
 		}
-		try {
-			addStatus = Zip.addFilesToExistingZip(tmpJar, list);
-		} catch (IOException e) {
-			e.printStackTrace();
-			Logger.writLog("[MainWorker][EX]" + e.getStackTrace());
-		}
+		addStatus = Zip.addFilesToExistingZip(tmpJar, list);
 
 		if (!addStatus) {
 			this.log.addLog(

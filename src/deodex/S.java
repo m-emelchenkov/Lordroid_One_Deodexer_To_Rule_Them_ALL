@@ -80,8 +80,10 @@ public class S {
 	public static final String MAC = "osx";
 
 	public static final File ADB_BIN = new File(
-			PathUtils.getExcutionPath() + File.separator + "bins/native/adb/" + Cfg.getOs() + "/adb"); // XXX
-																										// here!
+			PathUtils.getExcutionPath() + File.separator + "bins/native/adb/" + Cfg.getOs() + "/adb"); 
+	public static final File AAPT_BIN = new File(
+			PathUtils.getExcutionPath()+"/"+ "bins/native/adb/" + Cfg.getOs() + "/aapt");
+																										
 	public static final String OAT2DEX_JAR = PathUtils.getExcutionPath() + File.separator + "bins/oat2dex/oat2dex.jar";
 	public static final String BACKSMALI_JAR = PathUtils.getExcutionPath() + File.separator
 			+ "bins/smali_backsmali/baksmali.jar";
