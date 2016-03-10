@@ -139,7 +139,7 @@ public class ApkWorkerLegacy implements Watchable, Runnable {
 		}
 
 		// if we got here all things are right put stuffBack
-		boolean pushBack = FilesUtils.copyFile(apk.tempZipaligned, apk.origApk);
+		boolean pushBack = apk.tempZipaligned.renameTo(apk.origApk);
 		if (pushBack)
 			FilesUtils.deleteRecursively(apk.origOdex);
 		else {
@@ -198,6 +198,7 @@ public class ApkWorkerLegacy implements Watchable, Runnable {
 									+ (this.doZipalign ? (this.zipAlignStatus ? R.getString("log.zipalign.ok")
 											: R.getString("log.zipalign.fail")) : ""));
 				} else {
+					apk.reverseMove();
 					logPan.addLog(
 							R.getString(S.LOG_ERROR) + "[" + apk.origApk.getName() + "]" + R.getString(S.LOG_FAIL));
 				}

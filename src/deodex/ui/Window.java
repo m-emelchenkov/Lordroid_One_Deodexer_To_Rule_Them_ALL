@@ -271,8 +271,8 @@ public class Window extends JFrame implements ThreadWatcher, ChangeListener {
 		if (name != null) {
 
 			try {
-				new File(S.TMP + File.separator + name).getParentFile().mkdirs();
-				valid = new File(S.TMP + File.separator + name).createNewFile();
+				new File(System.getProperty("java.io.tmpdir") + File.separator + name).getParentFile().mkdirs();
+				valid = new File(System.getProperty("java.io.tmpdir") + File.separator + name).createNewFile();
 				new File(name).delete();
 			} catch (InvalidPathException | IOException ex) {
 				ex.printStackTrace();
@@ -621,8 +621,8 @@ public class Window extends JFrame implements ThreadWatcher, ChangeListener {
 					if (name != null) {
 						boolean valid = false;
 						try {
-							new File(S.TMP + File.separator + name).getParentFile().mkdirs();
-							valid = new File(S.TMP + File.separator + name).createNewFile();
+							new File(System.getProperty("java.io.tmpdir") + File.separator + name).getParentFile().mkdirs();
+							valid = new File(System.getProperty("java.io.tmpdir") + File.separator + name).createNewFile();
 
 						} catch (InvalidPathException | IOException ex) {
 							ex.printStackTrace();

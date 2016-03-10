@@ -22,7 +22,6 @@ import java.io.File;
 import java.io.Serializable;
 
 import deodex.S;
-import deodex.tools.FilesUtils;
 
 public class ApkLegacy implements Serializable {
 
@@ -89,6 +88,7 @@ public class ApkLegacy implements Serializable {
 		String pureName = this.origApk.getName().substring(0, this.origApk.getName().lastIndexOf("."));
 		File tempFolder = new File(tempFolder1.getAbsolutePath() + File.separator
 				+ this.origApk.getName().substring(0, origApk.getName().lastIndexOf(".")));
+		tempFolder.mkdirs();
 		this.tempApk = new File(tempFolder.getAbsolutePath() + File.separator + origApk.getName());
 		this.tempOdex = new File(tempFolder.getAbsolutePath() + File.separator + origOdex.getName());
 		smaliFolder = new File(tempFolder.getAbsolutePath() + File.separator
@@ -96,10 +96,17 @@ public class ApkLegacy implements Serializable {
 		classes = new File(tempFolder.getAbsolutePath() + File.separator + S.CLASSES);
 		this.tempZipaligned = new File(tempFolder.getAbsolutePath() + File.separator + pureName + "_zipaligned.apk");
 		this.tempSigned = new File(tempFolder.getAbsolutePath() + File.separator + pureName + "_signed.apk");
-		FilesUtils.copyFileRecurcively(origApk, tempApk);
-		FilesUtils.copyFileRecurcively(origOdex, tempOdex);
-
+		
+		//FilesUtils.copyFileRecurcively(origApk, tempApk);
+		//FilesUtils.copyFileRecurcively(origOdex, tempOdex);
+		origApk.renameTo(tempApk);
+		origOdex.renameTo(tempOdex);
+		
 		return tempApk.exists() && tempOdex.exists();
 	}
-
+	
+	public void reverseMove(){
+		tempApk.renameTo(origApk);
+		tempOdex.renameTo(origOdex);
+	}
 }

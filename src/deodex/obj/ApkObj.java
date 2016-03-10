@@ -22,7 +22,6 @@ import java.io.File;
 import java.io.Serializable;
 
 import deodex.S;
-import deodex.tools.FilesUtils;
 import deodex.tools.Logger;
 
 public class ApkObj implements Serializable {
@@ -105,12 +104,19 @@ public class ApkObj implements Serializable {
 
 		Logger.writLog("[ApkObj]" + this.origApk.getName() + "copying " + this.origApk.getAbsolutePath() + " to "
 				+ tempApk.getAbsolutePath());
-		FilesUtils.copyFile(this.origApk, tempApk);
+		//FilesUtils.copyFile(this.origApk, tempApk); lets use rename instead
+		this.origApk.renameTo(tempApk);
 		Logger.writLog("[ApkObj]" + "copying " + odexFile.getAbsolutePath() + " to " + tempCompOdex.getAbsolutePath());
-		FilesUtils.copyFile(odexFile, tempCompOdex);
+		//FilesUtils.copyFile(odexFile, tempCompOdex); 
+		odexFile.renameTo(tempCompOdex);
 		return tempApk.exists() && tempCompOdex.exists();
 	}
 
+	public void reverseMove(){
+		tempApk.renameTo(origApk);
+		tempCompOdex.renameTo(odexFile);
+	}
+	
 	public File getFolder() {
 		return folder;
 	}

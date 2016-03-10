@@ -116,7 +116,8 @@ public class MainWorker implements Runnable, ThreadWatcher, Watchable {
 			FilesUtils.deleteUmptyFoldersInFolder(
 					new File(folder.getAbsolutePath() + File.separator + S.SYSTEM_FRAMEWORK));
 
-			FilesUtils.deleteRecursively(S.bootTmp.getParentFile().getParentFile());
+			FilesUtils.deleteRecursively(S.getBootTmp().getParentFile().getParentFile());
+			S.setTempDir(System.getProperty("java.io.tmpdir"));
 			// TODO remove this
 			Logger.writLog("[MainWorker][I]" + "ALL JOBS THERMINATED ");
 			// logPan.addLog(R.getString(S.LOG_INFO)+R.getString("mainWorker.alljobsDone"));
@@ -196,13 +197,13 @@ public class MainWorker implements Runnable, ThreadWatcher, Watchable {
 	private void init() {
 
 		try {
-			isinitialized = FilesUtils.copyFile(SessionCfg.getBootOatFile(), S.bootTmp);
+			isinitialized = FilesUtils.copyFile(SessionCfg.getBootOatFile(), S.getBootTmp());
 			if (!isinitialized)
 				this.logPan.addLog(R.getString(S.LOG_ERROR) + "couldn't copy boot.oat to working folder aborting ...");
 		} catch (Exception e) {
 			Logger.writLog("[MainWorker][EX]" + e.getStackTrace());
 		}
-		isinitialized = isinitialized && Deodexer.oat2dexBoot(S.bootTmp);
+		isinitialized = isinitialized && Deodexer.oat2dexBoot(S.getBootTmp());
 		if (!isinitialized) {
 			this.logPan.addLog(R.getString(S.LOG_ERROR) + "couldn't deodex boot.oat aborting ...");
 		}
@@ -218,7 +219,7 @@ public class MainWorker implements Runnable, ThreadWatcher, Watchable {
 			}
 		}
 
-		File bootFiles = new File(S.bootTmpDex.getAbsolutePath());
+		File bootFiles = new File(S.getBootTmpDex().getAbsolutePath());
 
 		// TODO init apklist here
 		worker1List = this.getapkOdexFiles();
@@ -271,9 +272,9 @@ public class MainWorker implements Runnable, ThreadWatcher, Watchable {
 			this.worker3List.remove(f);
 		}
 
-		apk1 = new ApkWorker(worker1List, logPan, S.worker1Folder, SessionCfg.isSign(), SessionCfg.isZipalign());
-		apk2 = new ApkWorker(worker2List, logPan, S.worker2Folder, SessionCfg.isSign(), SessionCfg.isZipalign());
-		jar = new JarWorker(worker3List, logPan, S.worker3Folder);
+		apk1 = new ApkWorker(worker1List, logPan, S.getWorker1Folder(), SessionCfg.isSign(), SessionCfg.isZipalign());
+		apk2 = new ApkWorker(worker2List, logPan, S.getWorker2Folder(), SessionCfg.isSign(), SessionCfg.isZipalign());
+		jar = new JarWorker(worker3List, logPan, S.getWorker3Folder());
 
 		// bootFile
 		File[] boots = bootFiles.listFiles();
@@ -285,7 +286,7 @@ public class MainWorker implements Runnable, ThreadWatcher, Watchable {
 				}
 			}
 		}
-		boot = new BootWorker(worker4List, S.worker4Folder, this.logPan);
+		boot = new BootWorker(worker4List, S.getWorker4Folder(), this.logPan);
 
 		Logger.writLog("[MainWorker][I]" + "APK list 1");
 		for (File f : this.worker1List) {
@@ -334,11 +335,11 @@ public class MainWorker implements Runnable, ThreadWatcher, Watchable {
 			privList = privApp.listFiles();
 
 		File framworkList[] = framwork.listFiles();
-		S.bootTmpDex.mkdirs();
+		S.getBootTmpDex().mkdirs();
 		for (File f : framworkList) {
 			if (f.getName().endsWith(".odex")) {
 				worker3List.add(f);
-				FilesUtils.copyFile(f, new File(S.bootTmpDex.getAbsolutePath() + File.separator + f.getName()));
+				FilesUtils.copyFile(f, new File(S.getBootTmpDex().getAbsolutePath() + File.separator + f.getName()));
 			}
 		}
 		// FIXME: check this before
@@ -376,10 +377,10 @@ public class MainWorker implements Runnable, ThreadWatcher, Watchable {
 		worker3List = ArrayUtils.deletedupricates(worker3List);
 		worker4List = ArrayUtils.deletedupricates(worker4List);
 		// initialize workers
-		apk1l = new ApkWorkerLegacy(worker1List, logPan, S.worker1Folder, SessionCfg.sign, SessionCfg.zipalign);
-		apk2l = new ApkWorkerLegacy(worker2List, logPan, S.worker2Folder, SessionCfg.sign, SessionCfg.zipalign);
-		jar1l = new JarWorkerLegacy(worker3List, logPan, S.worker3Folder);
-		jar2l = new JarWorkerLegacy(worker4List, logPan, S.worker4Folder);
+		apk1l = new ApkWorkerLegacy(worker1List, logPan, S.getWorker1Folder(), SessionCfg.sign, SessionCfg.zipalign);
+		apk2l = new ApkWorkerLegacy(worker2List, logPan, S.getWorker2Folder(), SessionCfg.sign, SessionCfg.zipalign);
+		jar1l = new JarWorkerLegacy(worker3List, logPan, S.getWorker3Folder());
+		jar2l = new JarWorkerLegacy(worker4List, logPan, S.getWorker4Folder());
 		apk1l.addThreadWatcher(this);
 		apk2l.addThreadWatcher(this);
 		jar1l.addThreadWatcher(this);
@@ -558,6 +559,8 @@ public class MainWorker implements Runnable, ThreadWatcher, Watchable {
 				}
 			}
 		} else{
+			FilesUtils.deleteRecursively(S.getWorker1Folder().getParentFile());
+			S.setTempDir(System.getProperty("java.io.tmpdir"));
 			this.threadWatcher.sendFailed(this);
 			return;
 		}

@@ -382,6 +382,11 @@ public class FilesUtils {
 			log.addLog(R.getString(S.LOG_INFO) + R.getString("log.detected.arch") + arch);
 
 		SessionCfg.setSystemFolder(systemFolder);
+		// lets change the temp folder to the same location ,this way we can use rename instead of copy/delete 
+		// means less IOs and less time NOTE: ROMs can have up to 2GO all apks have to be copied from systemFolder 
+		// to temp and then copied back so that's 4GO at least lets assume average users disque speed is 50mb
+		// 4*1024/50/60 =  1.365333333 minutes  that's alot of time ! 
+		S.setTempDir(systemFolder);
 		log.addLog(R.getString(S.LOG_INFO) + R.getString("log.chosen.folder") + systemFolder);
 		int apkCount = getOdexCount(new File(systemFolder.getAbsolutePath() + File.separator + S.SYSTEM_APP))
 				+ getOdexCount(new File(systemFolder.getAbsolutePath() + File.separator + S.SYSTEM_PRIV_APP));

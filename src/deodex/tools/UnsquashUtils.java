@@ -91,7 +91,9 @@ public class UnsquashUtils {
 	public static boolean unsquash(File systemFolder) {
 		File appSquash = new File(systemFolder.getAbsolutePath() + File.separator + "odex.app.sqsh");
 		File privAppSquash = new File(systemFolder.getAbsolutePath() + File.separator + "odex.priv-app.sqsh");
-		File destFile = new File(S.TMP + File.separator + "unsquash");
+		File destFile = S.getUnsquash();
+		// make sure the destFile is not there 
+		FilesUtils.deleteRecursively(destFile);
 		// get the commands
 		String[] cmd1 = getUnsquashCommand(appSquash, destFile);
 		String[] cmd2 = getUnsquashCommand(privAppSquash, destFile);

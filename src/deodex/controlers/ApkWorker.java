@@ -85,8 +85,7 @@ public class ApkWorker implements Runnable {
 	 *         place
 	 * 
 	 */
-	private boolean deodexApk(File apkFolder) {
-		ApkObj apk = new ApkObj(apkFolder);
+	private boolean deodexApk(ApkObj apk) {
 		Logger.writLog("[ApkWorker][I]Processing " + apk.getOrigApk().getName() + " ...");
 		// phase 01 copying to temp forlder
 		Logger.writLog("[ApkWorker][I]" + apk.getOrigApk().getName() + " Copying needed Files to working folder ...");
@@ -113,7 +112,6 @@ public class ApkWorker implements Runnable {
 		if (!extraxtStatus) {
 			logPan.addLog(R.getString(S.LOG_WARNING) + " [" + apk.getOrigApk().getName() + "]"
 					+ R.getString("log.extract.to.tmp.failed"));
-			FilesUtils.deleteRecursively(apk.getTempApk().getParentFile());
 			return false;
 		}
 		progressBar.setValue(progressBar.getValue() + 1);
@@ -129,7 +127,6 @@ public class ApkWorker implements Runnable {
 				Logger.writLog("[Apkworker][E]" + apk.getOrigApk().getName() + " Failed to deodex ");
 				logPan.addLog(R.getString(S.LOG_WARNING) + " [" + apk.getOrigApk().getName() + "]"
 						+ R.getString("log.deodex.failed"));
-				FilesUtils.deleteRecursively(apk.getTempApk().getParentFile());
 				return false;
 			}
 		}
@@ -206,7 +203,7 @@ public class ApkWorker implements Runnable {
 
 		// phase 08
 		// the process is successful now copy and clean !
-		boolean putBackStatus = FilesUtils.copyFile(apk.getTempApkZipalign(), apk.getOrigApk());
+		boolean putBackStatus = apk.getTempApkZipalign().renameTo(apk.getOrigApk()); //FilesUtils.copyFile(apk.getTempApkZipalign(), apk.getOrigApk());
 		if (!putBackStatus) {
 			Logger.writLog("[ApkWorker][E]Failed to copy back " + apk.getPureName());
 			return false;
@@ -261,12 +258,13 @@ public class ApkWorker implements Runnable {
 	public void run() {
 		if (apkList != null && apkList.size() > 0) {
 			for (File apk : apkList) {
-
-				boolean sucess = deodexApk(apk);
+				ApkObj apkObj = new ApkObj(apk);
+				boolean sucess = deodexApk(apkObj);
 				if (!sucess) {
 					logPan.addLog(R.getString(S.LOG_ERROR) + "[" + new ApkObj(apk).getOrigApk().getName() + "]"
 							+ R.getString(S.LOG_FAIL));
 				} else {
+					apkObj.reverseMove();
 					logPan.addLog(
 							R.getString(S.LOG_INFO) + "[" + new ApkObj(apk).getOrigApk().getName() + "]"
 									+ R.getString(S.LOG_SUCCESS)

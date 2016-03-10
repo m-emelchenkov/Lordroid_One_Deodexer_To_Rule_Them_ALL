@@ -77,8 +77,7 @@ public class JarWorker implements Runnable, Watchable {
 	 * @return true only if all operations went successful and the odex file was
 	 *         deodexed
 	 */
-	private boolean deodexJar(File odex) {
-		JarObj jar = new JarObj(odex);
+	private boolean deodexJar(JarObj jar) {
 		// phase 1
 		Logger.writLog("[JarWorker][I] about to copy needed files for " + jar.getAbsoluteName());
 		boolean copyStatus = jar.copyNeedFiles(tmpFolder);
@@ -202,7 +201,7 @@ public class JarWorker implements Runnable, Watchable {
 		// phase 6
 		boolean putBack = false;
 		Logger.writLog("[JarWorker][I][" + jar.getAbsoluteName() + "] about to copy file back to it's original folder");
-		putBack = FilesUtils.copyFile(jar.getTmpJar(), jar.getOrigJar());
+		putBack = jar.getTmpJar().renameTo(jar.getOrigJar()); //FilesUtils.copyFile(jar.getTmpJar(), jar.getOrigJar());
 		if (!putBack) {
 			Logger.writLog("[JarWorker][E][" + jar.getAbsoluteName()
 					+ "] about to copy file back to it's original folder failed ");
@@ -239,13 +238,15 @@ public class JarWorker implements Runnable, Watchable {
 	public void run() {
 		if (this.odexFiles != null && this.odexFiles.size() > 0) {
 			for (File jar : odexFiles) {
+				JarObj jarObj = new JarObj(jar);
 				Logger.writLog("[JarWorker][I] processing " + new JarObj(jar).getAbsoluteName() + ".jar ...");
-				boolean success = deodexJar(jar);
+				boolean success = deodexJar(jarObj);
 				if (success) {
 					Logger.writLog("[JarWorker][I] " + new JarObj(jar).getAbsoluteName() + ".jar [SUCCESS]");
 					logPan.addLog(
 							R.getString(S.LOG_INFO) + "[" + new JarObj(jar).getAbsoluteName() + ".jar]" + " [SUCCESS]");
 				} else {
+					jarObj.reverseMove();
 					Logger.writLog("[JarWorker][E] " + new JarObj(jar).getAbsoluteName() + ".jar [FAILED]");
 					logPan.addLog(R.getString(S.LOG_WARNING) + "[" + new JarObj(jar).getAbsoluteName() + ".jar]"
 							+ " [FAILED]");

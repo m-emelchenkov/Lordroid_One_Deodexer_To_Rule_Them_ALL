@@ -22,6 +22,7 @@ package deodex;
 import java.io.File;
 import java.io.IOException;
 
+import deodex.tools.FilesUtils;
 import deodex.tools.Logger;
 import deodex.tools.PathUtils;
 
@@ -48,7 +49,7 @@ public class S {
 	public static final String WORKER2 = "worker2";
 	public static final String WORKER3 = "worker3";
 	public static final String WORKER4 = "worker4";
-	public static final String TMP = System.getProperty("java.io.tmpdir") + File.separator + "L U B D";
+	private static final String TMP = System.getProperty("java.io.tmpdir") + File.separator + "L U B D";
 
 	public static final String LANGUAGE_PROP = "file.launguage";
 	public static final String APP_NAME = "app.name";
@@ -104,15 +105,42 @@ public class S {
 			PathUtils.getExcutionPath() + File.separator + "extracted_system_folders");
 	public static final File TOOLS_JAR = new File(PathUtils.getExcutionPath()+"/tools/tools.jar");
 	// temporary folders
-	public static File worker1Folder = new File(TMP + File.separator + WORKER1);
-	public static File worker2Folder = new File(TMP + File.separator + WORKER2);
-	public static File worker3Folder = new File(TMP + File.separator + WORKER3);
-	public static File worker4Folder = new File(TMP + File.separator + WORKER4);
-	public static File bootTmp = new File(TMP + File.separator + File.separator + "boot" + File.separator + "boot.oat");
-	public static File bootTmpDex = new File(TMP + File.separator + File.separator + "boot" + File.separator + "dex");
-
+	private static File worker1Folder ;
+	private static File worker2Folder ;
+	private static File worker3Folder ;
+	private static File worker4Folder ;
+	private static File bootTmp ;
+	private static File bootTmpDex ;
+	private static File unsquash ;
+	
+	public static final String TMP_SFX = "LOBDTRTA";
+	
 	public static final String[] ARCH = { "arm64", "arm", "mips64", "mips", "x86_64", "x86" };
 
+	/**
+	 * 
+	 * @param tempFolder the tempFOlder to use for rom deodexing 
+	 */
+	public static void setTempDir(File tempFolder){
+		worker1Folder = new File(tempFolder.getAbsolutePath()+ File.separator +TMP_SFX + File.separator + WORKER1);
+		worker2Folder = new File(tempFolder.getAbsolutePath()+ File.separator +TMP_SFX + File.separator + WORKER2);
+		worker3Folder = new File(tempFolder.getAbsolutePath()+ File.separator +TMP_SFX + File.separator + WORKER3);
+		worker4Folder = new File(tempFolder.getAbsolutePath()+ File.separator +TMP_SFX + File.separator + WORKER4);
+		bootTmp = new File(tempFolder.getAbsolutePath()+ File.separator +TMP_SFX + File.separator +  "boot" + File.separator + "boot.oat");
+		bootTmpDex = new File(tempFolder.getAbsolutePath()+ File.separator +TMP_SFX + File.separator + "boot" + File.separator + "dex");
+		unsquash = new File(tempFolder.getAbsolutePath()+ File.separator +TMP_SFX + File.separator + "unsquash");
+		File temp = worker1Folder.getParentFile();
+		if(temp.exists()){
+			FilesUtils.deleteRecursively(temp);
+		}
+		worker1Folder.mkdirs();
+		worker2Folder.mkdirs();
+		worker3Folder.mkdirs();
+		worker4Folder.mkdirs();
+		bootTmp.getParentFile().mkdirs();
+
+	}
+	
 	public static String getPathExemple() {
 		String path = "/something/otherthing/mysystemFolder";
 		if (Cfg.getOs().equals(S.WINDOWS)) {
@@ -145,5 +173,58 @@ public class S {
 		boolean b = new File(TMP + File.separator + "boot").mkdirs();
 		Logger.writLog("[S] worker1 created ? " + w1 + " worker2 created ? " + w2 + " worker3 created ? " + w3
 				+ " worker4 created ? " + w4 + " boot created ? " + b);
+	}
+
+	/**
+	 * @return the worker1Folder
+	 */
+	public static File getWorker1Folder() {
+		return worker1Folder;
+	}
+
+	/**
+	 * @return the worker2Folder
+	 */
+	public static File getWorker2Folder() {
+		return worker2Folder;
+	}
+
+	/**
+	 * @return the worker3Folder
+	 */
+	public static File getWorker3Folder() {
+		return worker3Folder;
+	}
+
+	/**
+	 * @return the worker4Folder
+	 */
+	public static File getWorker4Folder() {
+		return worker4Folder;
+	}
+
+	/**
+	 * @return the bootTmp
+	 */
+	public static File getBootTmp() {
+		return bootTmp;
+	}
+
+	/**
+	 * @return the bootTmpDex
+	 */
+	public static File getBootTmpDex() {
+		return bootTmpDex;
+	}
+
+	/**
+	 * @return the unsquash
+	 */
+	public static File getUnsquash() {
+		return unsquash;
+	}
+
+	public static void setTempDir(String path) {
+		S.setTempDir(new File(path));
 	}
 }
