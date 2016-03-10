@@ -1,0 +1,168 @@
+#
+# 
+# 
+# Copyright 2016 Rachid Boudjelida <rachidboudjelida@gmail.com>
+# 
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+# 
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+#   Language resources file for LUBD
+#   this file will be read with a line reader so no multi-line allowed !
+#	for translation use UTF-8 encoding spaces in the right end of '=' count !
+#   
+#   this file was last edited by Raphael Mangini Portugues translator big Thanks to him 
+file.launguage=Português (BR)
+#
+#
+app.version=v1.21
+app.name=Lordroid One Dedodexer To Rule Them All v1.21
+#
+# first window first launch !
+app.welcome=Bem-vindo ao LODTRTA!
+app.welcome.message=Essa é a primeira vez que você executa esse aplicativo <> por favor, selecione seu idioma :
+app.langBoxLab=escolha um idioma : 
+app.buttonNext=Próximo >>
+#
+# path to system choose 
+browse.Field= Arraste e solte aqui ou clique em navegar para selecionar a pasta no sistema
+browseBtn=navegar
+optionalPan=Opcional
+zipalignCheck=zipalign
+zipalignCheck.ToolTip=zipalign APK's após deodexing 
+signCheck=re-Sign APK's
+signCheck.ToolTip=resign apk's após deodexing (pode ser necessário em algumas Roms & aparelhos)
+deodexNow=Deodex agora !
+log.warning=[AVISO] 
+log.error=[ ERRO ] 
+log.info=[ INFO  ] 
+log.success=[SUCESSO] 
+log.fail=[FALHOU] 
+log.no.build.prop=nenhum arquivo build.prop na pasta selecionada !
+log.could.not.read.sdk_level=não foi possível ler o nível sdk no build.prop 
+log.app.found=/system/app pasta encontrada ...  [OK]
+log.app.not.found=/system/app pasta NÃO encontrada ! [IGNORAR] 
+log.not.a.system.folder=nenhuma [app] [priv-app] [framework] pastas encontradas ! você tem certeza que escolheu a pasta certa ?
+log.privapp.found=/system/priv-app pasta encontada ... [OK] 
+log.privapp.not.found=/system/priv-app pasta NÃO encontrada !  
+log.framework.found=/system/framework pasta encontada ... [OK]
+log.framwork.not.found=/system/framework pasta NÃO encontrada ! 
+log.framwork.not.found.error=/system/framework pasta NÃO encontrada ! não é possível deodex sem ela ! skd > 20 !
+log.no.arch.detected=Não foi possível determinar seu arch ! arch não suportado ou Rom já deodexed  
+log.no.boot.oat=Não foi possível encontrar boot.oat ! não é possível deodex sem ele ! skd > 20 !
+log.ok=[OK]
+log.rom.arch=Rom arch detectado ===>  
+log.build.prop.found=/system/build.prop encontado ... [OK]
+log.copy.to.tmp.failed=[Não foi possível copiar para pasta de trabalho! não é possível deodex !][IGNORADO]
+log.extract.to.tmp.failed=[Não foi possível extrair arquivo odex comprimido! não é possível deodex !][IGNORADO]
+log.deodex.failed=[Não foi possível deodex arquivo odex! não é possível deodex isso !][IGNORADO]
+log.classes.failed=[Não foi possível criar classes.dex][APK IGNORADO]
+log.add.classes.failed=[Não foi possível add classes.dex ao arquivo][IGNORADO]
+log.already.deodex= Já deodexed ! [SUCESSO]
+log.putback.apk.failed=[Falha so copiar arquivo de volta a sua pasta original][IGNORADO]
+window.exitbtn=Sair
+window.restartbtn=Voltar
+mainworker.finallog=arquivo log salvo em /logs/yyyy-MM-dd|hh:mm:ss.log
+mainWorker.alljobsDone=TODOS AS TAREFAS TERMINADAS !
+progress.done=Pronto
+progress.bootFiles=Deodexing arquivos boot
+progress.apks=Deodexing Apks
+progress.jar=Deodexing Jars
+overal.progress=Progresso geral
+dialog.sure.exit=Você tem certeza ?
+dialog.sure.exit.message=Por favor, confirme sua ação você tem certeza que quer sair ?
+box.jobs=Max Tarefas
+log.resign.ok=[signed]
+log.resign.fail=[sign falhou!]
+log.zipalign.ok=[zipaligned]
+log.zipalign.fail=[zipalign falhou]
+alert.deodexNow=Deodexing é um processo que consome muito recurso
+alert.deodexNow1=esse processo pode levar até uma hora em alguns casos
+alert.deodexNow.areyousure=você tem certeza que quer continuar ?
+alert.deodex.now.title=Confirme sua ação
+log.detected.sdk= Nível Sdk detectado : 
+log.detected.arch= ARCH Detectado : 
+log.chosen.folder= pasta do sistema escolhida : 
+log.there.is=Há 
+log.to.be.deodexed=para ser deodexed
+no.odexFiles.wereFound=Nenhum arquivo odex foi encontrado não é possível deodex ou a rom já foi deodexed ?
+dont.show.this.again=Não mostrar isto novamente
+alert.thread.line1=Nós podemos usar vários núcleos para deodex todos apks e jars 
+alert.thread.line2=isto pode reduzir o tempo de processamento à custa de recursos
+alert.thread.line3=NOTA : se você não sabe o que é isso ou qual é a capacidade do
+alert.thread.line4=       seu hardware deixe esse valor no padrão que é '2' 
+alert.thread.box.dont.ask.again=Tornar este valor o padrão e não perguntar novamente
+zipalign.now.btn=Zipalign Agora
+log.no.apk.to.zipalign=Nenhum apks na pasta selecionada você tem certeza que selecionou a pasta certa ?
+apk.to.be.zipaligned.log= apks para serem zipaligned ...
+zipalign.fram.file.chooser.title=Escolha uma pasta contendo apks !
+no.job.selected.zipalign.frame=<HTML><p>Você precisa selecionar ao menos uma tarefa <b>zipalign/sign</b> caso contrário isso é inútil !</p></HTML>
+you.shall.not.pass=Você não passará !
+file= Arquivo 
+exit= Sair 
+tools= Ferramentas 
+batch.zipalign.sign.menu.items=Batch sign/zipalign
+about.menu= Sobre 
+About.this.program=Sobre esse programa
+create.zip.btn=Criar flashable zip
+0000000=Abrir pasta contendo
+0000001=ODTRTA >> Criador Zip
+0000002=Lordroid batch deodex ODTRTA 
+0000003=Copyright Rachid Boudjelida 2016
+0000004=Este software está licenciado sob GPLV3
+0000005=Sobre
+0000006=Por favor escolha um nome para o seu zip
+0000007=(Exemplo : myDeodexedRom.zip)
+0000008=O nome escolhido é inválido ! Tente novamente
+0000009=Por favor Note :
+0000010=1 - Este zip não irá conter sua Rom completa
+0000011=2 - Para que este zip funcione você precisa ter a mesma Rom instalada no seu telefone !
+0000012=3 - esse zip irá flash /system/app & /system/priv-app & /system/framework pastas e irá
+0000013=    excluir todos arquivos odex,oat,art,odex.xz,art.xz então só é seguro se o zip deodexed combinar
+0000014=    com a Rom Odexed instalada
+0000015=4 - como sempre FLASH POR SUA CONTA E RISCO 
+0000016=5 - Sempre faça um backup antes de flashing qualquer coisa no seu telefone !
+0000017=Você concorda ?
+0000018=CUIDADO !
+0000019=adb server não pôde ser terminado abortando ...
+0000020=adb server não pôde ser iniciado abortando ...
+0000021=adb comando returnou código de erro non zero ! abortando !
+0000022= Vários dispositivos foram detectados por favor conecte apenas um aparelho no PC! 
+0000023= Nenhum aparelho foi encontrado !
+0000024=Verifique se o dispositivo está conectado e drivers estão instalados 
+0000025=Verifique se o dispositivo está conectado e as regras udev estão definidas corretamente 
+0000026=Verifique se o dispositivo está conectado Osx detecta adb out-of-the-box nenhum drivers necessário 
+0000027= aparelho detectado ! Nome : 
+0000028= seu Status é : 
+0000029=Extraindo build.prop do aparelho ...
+0000030=Não foi possível extrair build.prop abortando ...[FALHA]
+0000031=build.prop foi extraído com sucesso do aparelho ...
+0000032=Tentando detreminar o nível sdk ...
+0000033=Não foi possível detectar seu nível sdk [FALHA]
+0000034=Nível Sdk detectado é 
+0000035=Extraindo /system/priv-app ... (não feche esta janela o processo pode demorar algum tempo)
+0000036= pasta priv-app não pôde ser copiada,TENHA CUIDADO  nós vamos ignorá-la !
+0000037=/system/priv-app foi extraída com sucesso...
+0000038=extraindo system/app do aparelho ...  (não feche esta janela o processo pode demorar algum tempo)
+0000039= pasta app ão pôde ser copiada,TENHA CUIDADO  nós vamos ignorá-la !
+0000040=/system/app foi extraída com sucesso...
+0000041=Extraindo /system/framework do aparelho...  (não feche esta janela o processo pode demorar algum tempo)
+0000042=/system/framework foi extraída com sucesso...
+0000043=/system/framework falhou ao extrair... 
+0000044=Device Serial
+0000045=Device Status
+0000046=Atualizar
+0000047=Da Pasta
+0000048=Do Aparelho
+0000049=Uma operação está em andamento você não pode trocar de guia até que a operação esteja concluída !
+0000050=Por favor, escolha um nome para a pasta extraída
+0000051=(Exemplo : myOdexRom)
+0000052= Configurações
+0000053=Idioma (estará disponível ao reiniciar o programa)
+0000054=Max Núcleos usados 
