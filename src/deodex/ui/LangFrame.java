@@ -45,7 +45,6 @@ public class LangFrame extends JFrame {
 			Logger.writLog(
 					LOG_HEADER + Logger.INFO + "User choose " + (String) langs.getSelectedItem() + " As language");
 			Cfg.setCurrentLang((String) langs.getSelectedItem());
-			Cfg.readCfg();
 			R.initResources();
 			reloadStrings();
 		}
