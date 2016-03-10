@@ -11,7 +11,7 @@ Lordroid batch deodexer **ODTRTA** One Deodexer To Rule Them All ,is a free soft
 3. JAVA PATH needs to be set folow those links for more informations[Windows](https://www.java.com/en/download/help/path.xml)| [Linux](http://ask.xmodulo.com/change-default-java-version-linux.html)| [Mac](https://docs.oracle.com/javase/8/docs/technotes/guides/install/mac_jre.html)
 
 ### Download :  
-1. Download the [Latest version](https://github.com/lord-ralf-adolf/Lordroid_One_Deodexer_To_Rule_Them_ALL/releases)
+1. Download the [Latest version](https://goo.gl/H2WrfZ)
  
 
 ### How to use (GUI) :
