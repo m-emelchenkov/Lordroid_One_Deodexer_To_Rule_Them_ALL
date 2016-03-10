@@ -19,8 +19,8 @@
 file.launguage=Français
 #
 #
-app.version=v1.20
-app.name=Lordroid One Dedodexer To Rule Them All v1.20
+app.version=v1.21
+app.name=Lordroid One Dedodexer To Rule Them All v1.21
 #
 # first window first launch !
 app.welcome=Bienvenue dans LODTRTA!
@@ -31,7 +31,7 @@ app.buttonNext=Suivant >>
 # path to system choose 
 browse.Field= Glisser / deposer ici ou cliquer sur "Dossier"
 browseBtn=Dossier
-optionalPan=Optionel (ça marchera pas sur certain OS)
+optionalPan=Optionel
 zipalignCheck=zipalign
 zipalignCheck.ToolTip=zipalign APK's après deodexage 
 signCheck=re-Sign APK's
