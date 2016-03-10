@@ -6,7 +6,7 @@
     <property name="dir.buildfile" value="."/>
     <property name="dir.workspace" value="${dir.buildfile}/.."/>
     <property name="dir.jarfile" value="${dir.buildfile}"/>
-	<property name="app.version" value="v1.20"/>
+	<property name="app.version" value="v1.21"/>
 	<path id="project-classpath">
 		<fileset dir="${dir.jarfile}/libs" includes="*.jar" />
 		<fileset dir="${dir.jarfile}/bins/oat2dex" includes="*.jar" />
@@ -18,7 +18,7 @@
 		<fileset file="${dir.jarfile}/Launcher.jar" />
 	</path>
 
-   <target name="build-tools" depends="build">
+   <target name="build" depends="build-Launcher">
 	
       	<mkdir dir="bin-tools"/>
         <javac includeantruntime="false" srcdir="src-tools" destdir="bin-tools" classpathref="tools-classpath"/>
@@ -34,7 +34,7 @@
 
 
 
-    <target name="build" depends="small-clean">
+    <target name="build-Launcher" depends="small-clean">
 	
       	<mkdir dir="bin"/>
         <copy todir="${dir.jarfile}/bin" >  
@@ -79,6 +79,7 @@
 
 	<!--  CLEAN  -->
 	<target name = "clean">
+		<delete file="${dir.jarfile}/tools/tools.jar"/>
 		<delete file ="${dir.jarfile}/Launcher.jar"/>
 		<delete dir="${dir.jarfile}/build"/>
 		<delete dir="${dir.jarfile}/re-dist"/>
@@ -88,5 +89,6 @@
 		<delete dir="${dir.jarfile}/bin"/>
 		<delete dir="${dir.jarfile}/extracted_system_folders"/>
 		<delete dir="${dir.jarfile}/flashable_zips_out"/>
+		<delete dir="${dir.jarfile}/bin-tools" />
 	</target>
 </project>
