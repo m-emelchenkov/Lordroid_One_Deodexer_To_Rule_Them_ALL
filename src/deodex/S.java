@@ -27,6 +27,7 @@ import deodex.tools.Logger;
 import deodex.tools.PathUtils;
 
 public class S {
+	public static final long SAFE_HEAP_SIZE = 754974720L;
 	public static final String APK_EXT = ".apk";
 	public static final String ODEX_EXT = ".odex";
 	public static final String COMP_ODEX_EXT = ".odex.xz";

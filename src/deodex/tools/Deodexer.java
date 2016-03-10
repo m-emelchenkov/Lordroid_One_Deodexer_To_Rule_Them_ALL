@@ -20,6 +20,7 @@ package deodex.tools;
 
 import java.io.File;
 
+import deodex.HostInfo;
 import deodex.S;
 import deodex.SessionCfg;
 
@@ -40,8 +41,8 @@ public class Deodexer {
 	 * @return true only if the odex was deodexed
 	 */
 	public static boolean deodexApk(File odexFile, File dexFile) {
-		String cmd[] = { "java", "-Xmx512m" ,"-jar", new File(S.OAT2DEX_JAR).getAbsolutePath(), odexFile.getAbsolutePath(),
-				S.getBootTmpDex().getAbsolutePath() };
+		String cmd[] = { "java", "-Xmx512m", "-jar", new File(S.OAT2DEX_JAR).getAbsolutePath(),
+				odexFile.getAbsolutePath(), S.getBootTmpDex().getAbsolutePath() };
 		CmdUtils.runCommand(cmd);
 
 		return dexFile.exists();
@@ -61,13 +62,13 @@ public class Deodexer {
 				+ dexFile.getName().substring(0, dexFile.getName().lastIndexOf(".")));
 		smaliFolder.getParentFile().mkdirs();
 		// baksmali command
-		String[] cmd = { "java", "-Xmx512m" , "-jar", new File(S.BACKSMALI_JAR).getAbsolutePath(), "-x", "-c", "boot.oat", "-d",
-				S.getBootTmp().getParentFile().getAbsolutePath(), odexFile.getAbsolutePath(), "-o",
+		String[] cmd = { "java", "-Xmx512m", "-jar", new File(S.BACKSMALI_JAR).getAbsolutePath(), "-x", "-c",
+				"boot.oat", "-d", S.getBootTmp().getParentFile().getAbsolutePath(), odexFile.getAbsolutePath(), "-o",
 				smaliFolder.getAbsolutePath() };
 
 		// smalicommand
-		String[] cmd2 = { "java", "-Xmx512m" , "-jar", new File(S.SMALI_JAR).getAbsolutePath(), "-a", "" + SessionCfg.getSdk(), "-o",
-				dexFile.getAbsolutePath(), smaliFolder.getAbsolutePath() };
+		String[] cmd2 = { "java", "-Xmx512m", "-jar", new File(S.SMALI_JAR).getAbsolutePath(), "-a",
+				"" + SessionCfg.getSdk(), "-o", dexFile.getAbsolutePath(), smaliFolder.getAbsolutePath() };
 
 		CmdUtils.runCommand(cmd);
 
@@ -95,11 +96,11 @@ public class Deodexer {
 		File tempSmali = new File(odexFile.getParentFile().getAbsolutePath() + File.separator
 				+ odexFile.getName().substring(0, odexFile.getName().lastIndexOf(".odex")));
 		tempSmali.getParentFile().mkdirs();
-		String[] cmd = { "java", "-Xmx512m" , "-jar", new File(S.BACKSMALI_JAR).getAbsolutePath(), "-a", "" + SessionCfg.getSdk(),
-				"-d", S.getBootTmpDex().getAbsolutePath(), "-x", odexFile.getAbsolutePath(), "-o",
-				tempSmali.getAbsolutePath() };
-		String[] cmd2 = { "java", "-Xmx512m" , "-jar", new File(S.SMALI_JAR).getAbsolutePath(), "-a", "" + SessionCfg.getSdk(), "-o",
-				classesFile.getAbsolutePath(), tempSmali.getAbsolutePath() };
+		String[] cmd = { "java", "-Xmx512m", "-jar", new File(S.BACKSMALI_JAR).getAbsolutePath(), "-a",
+				"" + SessionCfg.getSdk(), "-d", S.getBootTmpDex().getAbsolutePath(), "-x", odexFile.getAbsolutePath(),
+				"-o", tempSmali.getAbsolutePath() };
+		String[] cmd2 = { "java", "-Xmx512m", "-jar", new File(S.SMALI_JAR).getAbsolutePath(), "-a",
+				"" + SessionCfg.getSdk(), "-o", classesFile.getAbsolutePath(), tempSmali.getAbsolutePath() };
 		// TODO search further info (can apks here have 2 classes.dex ? if so
 		// what should we do here ?) XXX: there is none that I know about !
 
@@ -118,18 +119,33 @@ public class Deodexer {
 	 * @return true only if the boot.oat was deoptimized
 	 */
 	public static boolean oat2dexBoot(File bootOat) {
-		String[] cmd = { "boot", bootOat.getAbsolutePath() };
-		try {
-			Logger.writLog("[Deodexer][I] trying to de-optimize boot.oat using oat2dex as library ....");
-			org.rh.smaliex.Main.main(cmd);
-		} catch (Exception e) {
-			Logger.writLog("[Deodexer][E] de-optimize boot.oat using oat2dex as library ...." + "[failed]");
-			Logger.writLog("[Deodexer][I] trying to de-optimize boot.oat using oat2dex as binary ....");
-			String[] cmd1 = { "java", "-Xmx512m" , "-jar", new File(S.OAT2DEX_JAR).getAbsolutePath(), "boot",
-					bootOat.getAbsolutePath() };
-			CmdUtils.runCommand(cmd1);
-
+		if (HostInfo.getMaxMemory() > S.SAFE_HEAP_SIZE) {
+			String[] cmd = { "boot", bootOat.getAbsolutePath() };
+			try {
+				Logger.writLog("[Deodexer][I] trying to de-optimize boot.oat using oat2dex as library ....");
+				org.rh.smaliex.Main.main(cmd);
+			} catch (Exception e) {
+				return oat2dexBootCmdWay(bootOat);
+			}
+		} else {
+			Logger.writLog("[Deodexer][W] detected heap size is too low running oat2dex in a separate process ...");
+			return oat2dexBootCmdWay(bootOat);
 		}
+		return S.getBootTmpDex().exists();
+	}
+
+	/**
+	 * 
+	 * @param bootOat
+	 * @return true only id the dex boot folder was created
+	 */
+	public static boolean oat2dexBootCmdWay(File bootOat) {
+		Logger.writLog("[Deodexer][E] de-optimize boot.oat using oat2dex as library ...." + "[failed]");
+		Logger.writLog("[Deodexer][I] trying to de-optimize boot.oat using oat2dex as binary ....");
+		String[] cmd1 = { "java", "-Xmx512m", "-jar", new File(S.OAT2DEX_JAR).getAbsolutePath(), "boot",
+				bootOat.getAbsolutePath() };
+		CmdUtils.runCommand(cmd1);
+
 		return S.getBootTmpDex().exists();
 	}
 
