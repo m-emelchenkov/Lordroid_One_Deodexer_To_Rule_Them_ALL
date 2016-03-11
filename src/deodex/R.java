@@ -99,11 +99,11 @@ public class R {
 
 	}
 
-	private static String legalize(String str) {
+	private static String legalize(String str) throws NullPointerException {
 		String tmp = "";
-		if(str == null){
-			return null;
-		}
+//		if(str == null){
+//			return null;
+//		}
 		for (int i = 0; i < str.length() - 1; i++) {
 			String spec = "" + str.charAt(i) + str.charAt(i + 1);
 			if (spec.equals("<>")) {
