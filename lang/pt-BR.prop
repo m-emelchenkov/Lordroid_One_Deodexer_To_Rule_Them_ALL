@@ -21,8 +21,8 @@
 file.launguage=Português (BR)
 #
 #
-app.version=v1.21
-app.name=Lordroid One Dedodexer To Rule Them All v1.21
+app.version=v1.22
+app.name=Lordroid One Dedodexer To Rule Them All v1.22
 #
 # first window first launch !
 app.welcome=Bem-vindo ao LODTRTA!
@@ -165,4 +165,4 @@ create.zip.btn=Criar flashable zip
 0000051=(Exemplo : myOdexRom)
 0000052= Configurações
 0000053=Idioma (estará disponível ao reiniciar o programa)
-0000054=Max Núcleos usados 
+0000054=Max Núcleos usados
