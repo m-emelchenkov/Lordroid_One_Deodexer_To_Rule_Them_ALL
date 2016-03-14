@@ -27,6 +27,16 @@ import deodex.tools.Logger;
 import deodex.tools.PathUtils;
 
 public class S {
+	/**
+	 * the safe heap size allocated to use if it is more than this
+	 * we will use oat2dex as library rather than a binary if it is 
+	 * less than this we will call oat2dex as binary with specific 
+	 * heap size set by the user him self this is the only way to 
+	 * avoid OutofMemory exception because I can't determine the host 
+	 * available ram memory and I can't change heap size after Launch 
+	 * and not all users know the -Xmx JVM arg so lets do it for them 
+	 * 
+	 */
 	public static final long SAFE_HEAP_SIZE = 754974720L;
 	public static final String DEFAULT_HEAP_SIZE = "512m (default)";
 	public static final String[] HEAP_SIZES = { "128m", "256m", "512m (default)", "1024m", "2048m" };
@@ -81,6 +91,7 @@ public class S {
 	public static final String FRENCH = "Français";
 	public static final String ARABIC = "العربية";
 
+	
 	public static final String CFG_CUR_LANG = "cfg.current.language";
 	public static final String CFG_HOST_OS = "cfg.host.os";
 

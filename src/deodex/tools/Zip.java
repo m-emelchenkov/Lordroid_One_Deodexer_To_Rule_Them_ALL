@@ -38,13 +38,20 @@ import net.lingala.zip4j.util.Zip4jConstants;
 public class Zip {
 
 	/**
+	 * this method will add the given files to the root of the given archive
+	 * using the method the user choose in settings
 	 * 
 	 * @param tempApk
+	 *            the apk/jar or zip in which the files will be added
 	 * @param classesFiles
+	 *            the files to add including but not limited to classes.dex all
+	 *            files will be added in the root of the archive
 	 * @return success true only is the files were added
 	 */
 	public static boolean addFilesToExistingZip(File tempApk, ArrayList<File> classesFiles) {
-		// TODO read zip method
+		// TODO Add fail safe if a method fail we use the other
+		// with priority to the chosen method by the user then the safer then
+		// less safe
 		boolean success = false;
 		if (Cfg.getCompresionMathod() == 0) {
 			success = Zip.addFilesToExistingZipAapt(tempApk, classesFiles);
@@ -263,6 +270,8 @@ public class Zip {
 	 * 
 	 * @param pathToIgnore
 	 *            the path that will be ignored when putting in the zip
+	 *            exemple /system/app/blabla.apk with ignored path /system
+	 *            will be is /app/blabla.apk in zip
 	 * @param fileToAdd
 	 *            a File to add to the given zip
 	 * @param zipFile

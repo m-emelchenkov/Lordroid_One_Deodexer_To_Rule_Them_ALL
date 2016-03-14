@@ -26,22 +26,16 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.WindowConstants;
 
-import com.alee.laf.WebLookAndFeel;
-
 import deodex.Cfg;
 import deodex.R;
 import deodex.tools.FilesUtils;
 
 public class Alerts {
 
-	public static void main(String args[]) {
-		Cfg.readCfg();
-		R.initResources();
-		WebLookAndFeel.install();
-		showAdvancedSettingsDialog(null);
-
-	}
-
+	/**
+	 * show the advanced settings dialog 
+	 * @param jFrame the Jframe which the dialog's Location will be relative to
+	 */
 	public static void showAdvancedSettingsDialog(JFrame jFrame) {
 		FilesUtils.copyFile(new File(Cfg.CFG_PATH), new File(Cfg.CFG_PATH + ".bak"));
 		AdvancedSettings setings = new AdvancedSettings();
@@ -49,7 +43,6 @@ public class Alerts {
 		JDialog dialog = pane.createDialog(jFrame, R.getString("0000052"));
 		dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		dialog.setSize(840, 430);
-		// dialog.setLocation(jFrame.getLocation());
 		dialog.setLocationRelativeTo(jFrame);
 		dialog.setVisible(true);
 
@@ -62,10 +55,20 @@ public class Alerts {
 		if (status != 0) {
 			FilesUtils.copyFile(new File(Cfg.CFG_PATH + ".bak"), new File(Cfg.CFG_PATH));
 			Cfg.readCfg();
+			
+		} else {
+			Cfg.writeCfgFile();
+			Cfg.readCfg();
+			R.initResources();
 		}
-		new File(Cfg.CFG_PATH + ".bak");
+		new File(Cfg.CFG_PATH + ".bak").delete();
 	}
 
+	/**
+	 * 
+	 * @param comp
+	 * @return agree the user agreed and wanna proceed ?
+	 */
 	public static boolean showDeodexNowAlert(JComponent comp) {
 		int i = 1;
 		if (Cfg.doShowDeodexAlert()) {
@@ -90,6 +93,10 @@ public class Alerts {
 		return i == 0;
 	}
 
+	/**
+	 * @deprecated use Advanced settings instead this is here just for reference 
+	 * @param com
+	 */
 	public static void showSettingsDialog(JComponent com) {
 		SettingsPanel setings = new SettingsPanel();
 		JOptionPane pane = new JOptionPane(setings, JOptionPane.PLAIN_MESSAGE, JOptionPane.OK_CANCEL_OPTION);
@@ -110,6 +117,11 @@ public class Alerts {
 		}
 	}
 
+	/**
+	 * 
+	 * @param comp
+	 * @return dialogExitValue the exit value of the dialog
+	 */
 	public static int showThreadDialog(JComponent comp) {
 		if (Cfg.doShowThreadAlert()) {
 			ThreadAlertPanel alertPane = new ThreadAlertPanel();

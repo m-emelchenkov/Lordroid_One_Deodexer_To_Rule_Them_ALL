@@ -38,8 +38,18 @@ import deodex.Cfg;
 import deodex.R;
 import deodex.S;
 
+/**
+ * 
+ * @author lord-ralf-adolf
+ *
+ */
 public class AdvancedSettings extends JPanel {
 
+	/**
+	 * 
+	 * @author lord-ralf-adolf
+	 *
+	 */
 	class Listener implements ActionListener {
 
 		@Override
@@ -83,6 +93,11 @@ public class AdvancedSettings extends JPanel {
 		}
 
 	}
+	/**
+	 * 
+	 * @author lord-ralf-adolf
+	 *
+	 */
 	class WhiteYellowCellRenderer extends WebListCellRenderer {
 		/**
 		 * 
@@ -140,6 +155,9 @@ public class AdvancedSettings extends JPanel {
 
 	public JLabel compresion = new JLabel("Compression Method");
 
+	/**
+	 * Constructor no arguments 
+	 */
 	@SuppressWarnings("unchecked")
 	public AdvancedSettings() {
 		// this props
@@ -259,6 +277,9 @@ public class AdvancedSettings extends JPanel {
 		setFonts();
 	}
 
+	/**
+	 * call this one to update the used font after user changes it
+	 */
 	private void setFonts() {
 		this.fontsLab.setFont(R.getNormalFont());
 		this.threadLab.setFont(R.getNormalFont());

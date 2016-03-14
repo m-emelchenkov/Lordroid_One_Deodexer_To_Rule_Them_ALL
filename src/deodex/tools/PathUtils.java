@@ -27,7 +27,9 @@ import deodex.S;
 
 public class PathUtils {
 	/**
-	 * 
+	 * call this method to get where are we located on the file system
+	 * don't abuse on it's use call it once on every execution and save 
+	 * the value because this will not change 
 	 * @return our current location on the fileSystem
 	 */
 	public static String getExcutionPath() {
@@ -42,6 +44,10 @@ public class PathUtils {
 		return path.substring(0, path.lastIndexOf("/"));
 	}
 
+	/**
+	 * 
+	 * @return 7z the 7z binary path of string if 7z is in the system PATH
+	 */
 	public static String getSevenZBinPath() {
 		String SevenZ = null;
 		if (Cfg.getOs().equals(S.WINDOWS)) {

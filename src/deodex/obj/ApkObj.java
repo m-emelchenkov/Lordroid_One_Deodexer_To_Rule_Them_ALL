@@ -78,7 +78,7 @@ public class ApkObj implements Serializable {
 	}
 
 	/**
-	 * 
+	 * move origApk to tempApk and origOdex to tempOdex (note : move and not copy no IO involved) 
 	 * @param tmpFolder
 	 * @return true only if the copy succes
 	 */

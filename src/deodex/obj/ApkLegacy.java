@@ -105,6 +105,10 @@ public class ApkLegacy implements Serializable {
 		return tempApk.exists() && tempOdex.exists();
 	}
 
+	/**
+	 * will move back the tmpApk and tmpOdex to their original location 
+	 * call this on apk deodexing failure
+	 */
 	public void reverseMove() {
 		tempApk.renameTo(origApk);
 		tempOdex.renameTo(origOdex);

@@ -81,8 +81,8 @@ public class ZipalignWorker implements Runnable, Watchable {
 	}
 
 	/**
-	 * 
-	 * @return the percentage of the current progress
+	 * get the percentage % of the current progress as String like 66%
+	 * @return percent the percentage of the current progress
 	 */
 	private String percent() {
 		return "" + ((bar.getValue() * 100) / bar.getMaximum()) + "%";
