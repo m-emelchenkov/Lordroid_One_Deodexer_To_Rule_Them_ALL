@@ -18,20 +18,28 @@
  */
 package deodex.ui;
 
+import java.io.File;
+
 import javax.swing.JComponent;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.WindowConstants;
 
+import com.alee.laf.WebLookAndFeel;
+
 import deodex.Cfg;
 import deodex.R;
+import deodex.tools.FilesUtils;
 
 public class Alerts {
 
 	public static void main(String args[]) {
 		Cfg.readCfg();
 		R.initResources();
-		showSettingsDialog(null);
+		WebLookAndFeel.install();
+		showAdvancedSettingsDialog(null);
+
 	}
 
 	public static boolean showDeodexNowAlert(JComponent comp) {
@@ -42,6 +50,7 @@ public class Alerts {
 			JDialog dialog = pane.createDialog(comp, R.getString("alert.deodex.now.title"));
 			dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 			dialog.setSize(450, 200);
+			dialog.setLocationRelativeTo(comp);
 			dialog.setVisible(true);
 			try {
 				i = (int) pane.getValue();
@@ -77,6 +86,32 @@ public class Alerts {
 		}
 	}
 
+	public static void showAdvancedSettingsDialog(JFrame jFrame) {
+		FilesUtils.copyFile(new File(Cfg.CFG_PATH), new File(Cfg.CFG_PATH+".bak"));
+		AdvancedSettings setings = new AdvancedSettings();
+		JOptionPane pane = new JOptionPane(setings, JOptionPane.PLAIN_MESSAGE, JOptionPane.OK_CANCEL_OPTION);
+		JDialog dialog = pane.createDialog(jFrame, R.getString("0000052"));
+		dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+		dialog.setSize(840, 430);
+		//dialog.setLocation(jFrame.getLocation());
+		dialog.setLocationRelativeTo(jFrame);
+		dialog.setVisible(true);
+
+		int status = 10;
+		try {
+			status = (int) pane.getValue();
+		} catch (Exception e) {
+			FilesUtils.copyFile( new File(Cfg.CFG_PATH+".bak") , new File(Cfg.CFG_PATH));
+		}
+		if (status != 0) {
+			FilesUtils.copyFile( new File(Cfg.CFG_PATH+".bak") , new File(Cfg.CFG_PATH));
+			Cfg.readCfg();
+		}
+		new File(Cfg.CFG_PATH+".bak");
+	}
+
+	
+	
 	public static int showThreadDialog(JComponent comp) {
 		if (Cfg.doShowThreadAlert()) {
 			ThreadAlertPanel alertPane = new ThreadAlertPanel();
@@ -84,6 +119,7 @@ public class Alerts {
 			JDialog dialog = pane.createDialog(comp, R.getString("box.jobs"));
 			dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 			dialog.setSize(500, 260);
+			dialog.setLocationRelativeTo(comp);
 			dialog.setVisible(true);
 			int status = 8;
 			try {

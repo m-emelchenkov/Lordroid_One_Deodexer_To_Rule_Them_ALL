@@ -401,14 +401,14 @@ public class MainWorker implements Runnable, ThreadWatcher, Watchable {
 	 */
 	private void initPannel() {
 		progressBar = new WebProgressBar();
-		progressBar.setFont(R.COURIER_NORMAL);
+		progressBar.setFont(R.getCouriernormal());
 		progressBar.setStringPainted(true);
 
 		mainPannel.setSize(798, 224);
 		mainPannel.setLayout(null);
 		mainPannel.setBackground(R.PANELS_BACK_COLOR);
 		apk1.getProgressBar().setBounds(10, 5, 780, 40);
-		apk1.getProgressBar().setFont(R.COURIER_NORMAL);
+		apk1.getProgressBar().setFont(R.getCouriernormal());
 		apk1.getProgressBar().setBackground(Color.white);
 
 		apk1.getProgressBar().setBgBottom(new Color(236, 240, 241));
@@ -419,7 +419,7 @@ public class MainWorker implements Runnable, ThreadWatcher, Watchable {
 		// apk1.getProgressBar().setForeground(Color.BLACK);
 
 		apk2.getProgressBar().setBounds(10, 49, 780, 40);
-		apk2.getProgressBar().setFont(R.COURIER_NORMAL);
+		apk2.getProgressBar().setFont(R.getCouriernormal());
 		apk2.getProgressBar().setBackground(Color.white);
 		// apk2.getProgressBar().setForeground(Color.BLACK);
 		apk2.getProgressBar().setBgBottom(new Color(236, 240, 241));
@@ -427,7 +427,7 @@ public class MainWorker implements Runnable, ThreadWatcher, Watchable {
 		apk2.getProgressBar().setProgressTopColor(new Color(46, 204, 113));
 		apk2.getProgressBar().setProgressBottomColor(new Color(39, 174, 96));
 		jar.getProgressBar().setBounds(10, 93, 780, 40);
-		jar.getProgressBar().setFont(R.COURIER_NORMAL);
+		jar.getProgressBar().setFont(R.getCouriernormal());
 		jar.getProgressBar().setBackground(Color.white);
 		// jar.getProgressBar().setForeground(new Color(0, 183, 92));
 		jar.getProgressBar().setBgBottom(new Color(236, 240, 241));
@@ -436,7 +436,7 @@ public class MainWorker implements Runnable, ThreadWatcher, Watchable {
 		jar.getProgressBar().setProgressBottomColor(new Color(39, 174, 96));
 
 		boot.progressBar.setBounds(10, 137, 780, 40);
-		boot.progressBar.setFont(R.COURIER_NORMAL);
+		boot.progressBar.setFont(R.getCouriernormal());
 		boot.progressBar.setBackground(Color.white);
 		// boot.progressBar.setForeground(new Color(0, 183, 92));
 		boot.progressBar.setBgBottom(new Color(236, 240, 241));
@@ -471,14 +471,14 @@ public class MainWorker implements Runnable, ThreadWatcher, Watchable {
 	 */
 	public void initPannelLegacy() {
 		progressBar = new WebProgressBar();
-		progressBar.setFont(R.COURIER_NORMAL);
+		progressBar.setFont(R.getCouriernormal());
 		progressBar.setStringPainted(true);
 
 		mainPannel.setSize(798, 224);
 		mainPannel.setLayout(null);
 		mainPannel.setBackground(R.PANELS_BACK_COLOR);
 		apk1l.getProgressBar().setBounds(10, 5, 780, 40);
-		apk1l.getProgressBar().setFont(R.COURIER_NORMAL);
+		apk1l.getProgressBar().setFont(R.getCouriernormal());
 		apk1l.getProgressBar().setBackground(Color.white);
 		// apk1l.getProgressBar().setForeground(new Color(0, 183, 92));
 		apk1l.getProgressBar().setBgBottom(new Color(236, 240, 241));
@@ -487,7 +487,7 @@ public class MainWorker implements Runnable, ThreadWatcher, Watchable {
 		apk1l.getProgressBar().setProgressBottomColor(new Color(39, 174, 96));
 
 		apk2l.getProgressBar().setBounds(10, 49, 780, 40);
-		apk2l.getProgressBar().setFont(R.COURIER_NORMAL);
+		apk2l.getProgressBar().setFont(R.getCouriernormal());
 		apk2l.getProgressBar().setBackground(Color.white);
 		// apk2l.getProgressBar().setForeground(new Color(0, 183, 92));
 		apk2l.getProgressBar().setBgBottom(new Color(236, 240, 241));
@@ -496,7 +496,7 @@ public class MainWorker implements Runnable, ThreadWatcher, Watchable {
 		apk2l.getProgressBar().setProgressBottomColor(new Color(39, 174, 96));
 
 		jar1l.getProgressBar().setBounds(10, 93, 780, 40);
-		jar1l.getProgressBar().setFont(R.COURIER_NORMAL);
+		jar1l.getProgressBar().setFont(R.getCouriernormal());
 		jar1l.getProgressBar().setBackground(Color.white);
 		// jar1l.getProgressBar().setForeground(new Color(0, 183, 92));
 		jar1l.getProgressBar().setBgBottom(new Color(236, 240, 241));
@@ -505,7 +505,7 @@ public class MainWorker implements Runnable, ThreadWatcher, Watchable {
 		jar1l.getProgressBar().setProgressBottomColor(new Color(39, 174, 96));
 
 		jar2l.progressBar.setBounds(10, 137, 780, 40);
-		jar2l.progressBar.setFont(R.COURIER_NORMAL);
+		jar2l.progressBar.setFont(R.getCouriernormal());
 		jar2l.progressBar.setBackground(Color.white);
 		// jar2l.progressBar.setForeground(new Color(0, 183, 92));
 		jar2l.getProgressBar().setBgBottom(new Color(236, 240, 241));
@@ -535,10 +535,11 @@ public class MainWorker implements Runnable, ThreadWatcher, Watchable {
 	 * will log all external tools versions to the main log file
 	 */
 	private void logToolsversions() {
-		String[] oat2dex = { "java", "-jar", new File(S.OAT2DEX_JAR).getAbsolutePath(), "-v" };
-		String[] smali = { "java", "-jar", new File(S.SMALI_JAR).getAbsolutePath(), "-v" };
-		String[] backsmali = { "java", "-jar", new File(S.BACKSMALI_JAR).getAbsolutePath(), "-v" };
-		String[] zupalign = { new File(S.ZIPALIGN_BIN + File.separator + Cfg.getOs()).getAbsolutePath(), "-v" };
+		
+		String[] oat2dex = { "java", "-jar", S.getAot2Dex(), "-v" };
+		String[] smali = { "java", "-jar", S.getSmali(), "-v" };
+		String[] backsmali = { "java", "-jar", S.getBaksmali(), "-v" };
+		String[] zupalign = { new File(S.getZipalign()+ File.separator + Cfg.getOs()).getAbsolutePath(), "-v" };
 
 		CmdUtils.runCommand(oat2dex);
 		CmdUtils.runCommand(smali);

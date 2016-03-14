@@ -103,9 +103,9 @@ public class FlashableZipCreater extends JFrame implements Runnable, MouseMotion
 		bar.setProgressTopColor(new Color(46, 204, 113));
 		bar.setProgressBottomColor(new Color(39, 174, 96));
 
-		okBtn.setFont(R.COURIER_NORMAL);
-		openContainingFolder.setFont(R.COURIER_NORMAL);
-		bar.setFont(R.COURIER_NORMAL);
+		okBtn.setFont(R.getCouriernormal());
+		openContainingFolder.setFont(R.getCouriernormal());
+		bar.setFont(R.getCouriernormal());
 		bar.setStringPainted(true);
 
 		this.okBtn.setEnabled(false);

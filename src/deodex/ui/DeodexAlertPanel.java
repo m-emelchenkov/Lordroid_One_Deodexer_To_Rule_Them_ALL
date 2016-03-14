@@ -36,7 +36,7 @@ public class DeodexAlertPanel extends JPanel {
 	JLabel textLab1 = new JLabel(R.getString("alert.deodexNow1"));
 	JLabel textLab2 = new JLabel(R.getString("alert.deodexNow.areyousure"));
 	public JCheckBox box = new JCheckBox(R.getString("dont.show.this.again"));
-	Font font = R.SMALL_FONT;
+	Font font = R.getSmallFont();
 
 	public DeodexAlertPanel() {
 		super();

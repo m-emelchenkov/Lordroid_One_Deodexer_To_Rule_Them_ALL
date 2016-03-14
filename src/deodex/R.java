@@ -37,13 +37,79 @@ import deodex.tools.Logger;
 import deodex.tools.StringUtils;
 
 public class R {
-	public static final Font TITLE_FONT = new Font("Arial", Font.BOLD, 40);
-	public static final Font NORMAL_FONT = new Font("Arial", Font.BOLD, 16);
-	public static final Font SMALL_FONT = new Font("Arial", Font.BOLD, 12);
+	private static final Font TITLE_FONT = new Font("Arial", Font.BOLD, 40);
+	private static final Font NORMAL_FONT = new Font("Arial", Font.BOLD, 16);
+	private static final Font SMALL_FONT = new Font("Arial", Font.BOLD, 12);
 
-	public static final Font COURIER_NORMAL = new Font("Arial", Font.BOLD, 18);
-	public static final Font COURIER_LOGGER = new Font("Arial", Font.BOLD, 16);
+	private static final Font COURIER_NORMAL = new Font("Arial", Font.BOLD, 18);
+	private static final Font COURIER_LOGGER = new Font("Arial", Font.BOLD, 16);
 
+	private static Font titleFont;
+	private static Font normalFont;
+	private static Font smallFont;
+	private static Font couriernormal;
+	private static Font courierLogger;
+	
+	/**
+	 * @return the titleFont
+	 */
+	public static Font getTitleFont() {
+		if(titleFont == null){
+			return R.TITLE_FONT;
+		}
+		return titleFont;
+	}
+
+	/**
+	 * @return the normalFont
+	 */
+	public static Font getNormalFont() {
+		if(normalFont == null)
+			return R.NORMAL_FONT;
+		return normalFont;
+	}
+
+	/**
+	 * @return the smallFont
+	 */
+	public static Font getSmallFont() {
+		if(R.smallFont == null )
+			return R.SMALL_FONT;
+		return smallFont;
+	}
+
+	/**
+	 * @return the couriernormal
+	 */
+	public static Font getCouriernormal() {
+		if(couriernormal == null)
+			return R.COURIER_NORMAL;
+		return couriernormal;
+	}
+
+	/**
+	 * @return the courierLogger
+	 */
+	public static Font getCourierLogger() 
+	{
+		if(courierLogger == null)
+		{
+			return R.COURIER_LOGGER;
+		}
+		return courierLogger;
+	}
+
+	public static void setFont(String fontName) 
+	{
+		titleFont =  new Font(fontName, Font.BOLD, 40);
+		normalFont = new Font(fontName, Font.BOLD, 16);
+		smallFont = new Font(fontName, Font.BOLD, 12);
+		couriernormal = new Font(fontName, Font.BOLD, 18);
+		courierLogger = new Font(fontName, Font.BOLD, 16);
+	}
+
+	
+	
 	// public static final LogoPane LOGO_PANE =
 	public static final String LOG_HEADER = "[R]";
 
@@ -117,4 +183,5 @@ public class R {
 		return tmp;
 	}
 
+	
 }

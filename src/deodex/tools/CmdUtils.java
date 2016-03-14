@@ -47,8 +47,9 @@ public class CmdUtils {
 			proc = rt.exec(cmd);
 
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			// We clearly didn't find the needed file 
 			e.printStackTrace();
+			return 2;
 		}
 
 		StreamReader stdInputReader = new StreamReader("stdIn", proc.getInputStream());

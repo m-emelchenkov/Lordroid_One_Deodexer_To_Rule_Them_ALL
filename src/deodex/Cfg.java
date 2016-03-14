@@ -22,6 +22,7 @@ package deodex;
 import java.io.File;
 import java.util.ArrayList;
 
+import deodex.tools.CmdUtils;
 import deodex.tools.Logger;
 import deodex.tools.Os;
 import deodex.tools.PathUtils;
@@ -33,22 +34,32 @@ import deodex.tools.StringUtils;
  *
  */
 public class Cfg {
-	private static final String CFG_PATH = PathUtils.getExcutionPath() + File.separator + "cfg/app_config.rsx";
+	public static final String CFG_PATH = PathUtils.getExcutionPath() + File.separator + "cfg/app_config.rsx";
 	private static final String LANG_FOLDER = PathUtils.getExcutionPath() + File.separator + "lang";
 	private static final String SHOW_DEODEX_ALERT = "show.deodex.alert";
 	private static final String SHOW_EXIT_ALERT = "show.exit.alert";
 	private static final String SHOW_THREAD_ALERT = "show.thread.alert";
 	private static final String MAX_JOBS_PROP = "max.job.prop";
-
+	private static final String FONT_NAME_PROP = "app.font";
+	private static final String HEAP_SIZE_PROP = "max.heap.size";
+	private static final String COMP_METHOD_PROP = "compression.method";
+	
+	
 	private static String currentLang;
+	private static String currentFont;
+
 	private static int showDeodexAlert = 1;
 	private static int showExitAlert = 1;
 	private static int showThreadAlert = 1;
 	private static int maxJobs = Cfg.getIdealMaxThread();
-
+	private static String maxHeadSize = S.DEFAULT_HEAP_SIZE;
+	private static int compresionMethod = S.AAPT_METHOD;
 	private static ArrayList<File> langFiles = new ArrayList<File>();
 	private static ArrayList<String> availableLang = new ArrayList<String>();
-
+	
+	
+	
+	
 	/**
 	 * returns weither or not show the dialog to the user
 	 * 
@@ -180,37 +191,92 @@ public class Cfg {
 	}
 
 	public static void readCfg() {
+		
+		// read current launguage 
+		try {
 		currentLang = PropReader.getProp(S.CFG_CUR_LANG, new File(CFG_PATH));
+		if (currentLang == null)
+			currentLang = S.ENGLISH;
+		} catch (Exception e){
+			e.printStackTrace();
+			Cfg.setCurrentLang(S.ENGLISH);
+		}
+		
 		/**
 		 * is previous version those values was not there don't force the user
 		 * to use a new configuration instead lets try to catch prop not Found
 		 * exception
 		 */
+		
+		// read showDeodexAlert
 		try {
 			showDeodexAlert = Integer.parseInt(PropReader.getProp(SHOW_DEODEX_ALERT, new File(CFG_PATH)));
 		} catch (Exception e) {
+			e.printStackTrace();
 			Cfg.setShowDeodexAlert(true);
 			Logger.writLog("[Cfg][EX]" + e.getStackTrace());
 		}
 
+		// read show ExitDialog ?
 		try {
 			showExitAlert = Integer.parseInt(PropReader.getProp(SHOW_EXIT_ALERT, new File(CFG_PATH)));
 		} catch (Exception e) {
+			e.printStackTrace();
 			Cfg.setShowExitAlert(true);
 			Logger.writLog("[Cfg][EX]" + e.getStackTrace());
 		}
+		
+		// read showallertdialog ?
 		try {
 			showThreadAlert = Integer.parseInt(PropReader.getProp(SHOW_THREAD_ALERT, new File(CFG_PATH)));
 		} catch (Exception e) {
+			e.printStackTrace();
 			Cfg.setShowThreadAlert(true);
 			Logger.writLog("[Cfg][EX]" + e.getStackTrace());
 		}
+		
+		// read max jobs
 		try {
 			Cfg.maxJobs = Integer.parseInt(PropReader.getProp(MAX_JOBS_PROP, new File(CFG_PATH)));
+			Cfg.setMaxJobs(maxJobs);
 		} catch (Exception e) {
+			e.printStackTrace();
 			Cfg.setMaxJobs(Cfg.getIdealMaxThread());
 			Logger.writLog("[Cfg][EX]" + e.getStackTrace());
 		}
+		
+		// read font 
+		try {
+			Cfg.currentFont = PropReader.getProp(Cfg.FONT_NAME_PROP, new File(Cfg.CFG_PATH));
+			if(currentFont != null)
+				R.setFont(currentFont);
+			else
+				R.setFont("Arial");
+		} catch (Exception e){
+			e.printStackTrace();
+			Cfg.currentFont = "Arial";
+			R.setFont("Arial");
+		}
+		
+		// read heapSize prop
+		 try {
+			 Cfg.maxHeadSize = PropReader.getProp(Cfg.HEAP_SIZE_PROP, new File(Cfg.CFG_PATH));
+			 if(Cfg.maxHeadSize == null){
+				 Cfg.maxHeadSize = S.DEFAULT_HEAP_SIZE;
+			 }
+		 } catch (Exception e){
+			 e.printStackTrace();
+			 Cfg.maxHeadSize = S.DEFAULT_HEAP_SIZE;
+		 }
+		 
+			// read compMethod
+			try {
+				Cfg.compresionMethod = Integer.parseInt(PropReader.getProp(Cfg.COMP_METHOD_PROP, new File(CFG_PATH)));
+			} catch (Exception e) {
+				e.printStackTrace();
+				Cfg.compresionMethod = 0;
+				Logger.writLog("[Cfg][EX]" + e.getStackTrace());
+			}
 	}
 
 	/**
@@ -219,6 +285,7 @@ public class Cfg {
 	 */
 	public static void setCurrentLang(String currentLang) {
 		Cfg.currentLang = currentLang;
+		PropReader.writeProp(S.CFG_CUR_LANG, currentLang, new File(CFG_PATH));
 	}
 
 	public static void setMaxJobs(int i) {
@@ -270,6 +337,22 @@ public class Cfg {
 	}
 
 	/**
+	 * @return the currentFont
+	 */
+	public static String getCurrentFont() {
+		return currentFont;
+	}
+
+	/**
+	 * @param currentFont the currentFont to set
+	 */
+	public static void setCurrentFont(String currentFont) {
+		Cfg.currentFont = currentFont;
+		R.setFont(currentFont);
+		PropReader.writeProp(Cfg.FONT_NAME_PROP, currentFont, new File(Cfg.CFG_PATH));
+	}
+
+	/**
 	 * 
 	 * writes the cfg file to disque 
 	 */
@@ -279,6 +362,9 @@ public class Cfg {
 		PropReader.writeProp(S.CFG_HOST_OS, Cfg.getOs(), new File(CFG_PATH));
 		PropReader.writeProp(SHOW_DEODEX_ALERT, "" + showDeodexAlert, new File(Cfg.CFG_PATH));
 		PropReader.writeProp(MAX_JOBS_PROP, ""+Cfg.getMaxJobs(), new File(Cfg.CFG_PATH));
+		PropReader.writeProp(Cfg.FONT_NAME_PROP, currentFont, new File(Cfg.CFG_PATH));
+		PropReader.writeProp(Cfg.HEAP_SIZE_PROP, Cfg.maxHeadSize, new File(Cfg.CFG_PATH));
+		PropReader.writeProp(Cfg.COMP_METHOD_PROP, ""+Cfg.compresionMethod, new File(Cfg.CFG_PATH));
 	}
 
 	/**
@@ -303,4 +389,62 @@ public class Cfg {
 		}
 		return max;
 	}
+	
+	public static String[] getAvailableCompMrthods(){
+
+		return null;
+	}
+	
+	/**
+	 * @return the maxHeadSize
+	 */
+	public static String getMaxHeadSize() {
+		return maxHeadSize;
+	}
+
+	public static String getMaxHeadSizeArg() {
+		String heapSizeArg = "";
+		for (int i = 0 ; i < S.HEAP_SIZES.length ; i++ ){
+			if(Cfg.maxHeadSize.equals(S.HEAP_SIZES[i])){
+				return S.HEAP_SIZES_ARG[i];
+			}
+		}
+		return heapSizeArg;
+	}
+	
+	/**
+	 * @return the maxHeadSize
+	 */
+	public static void setMaxHeadSize(String heapSize) {
+		 Cfg.maxHeadSize = heapSize;
+		 PropReader.writeProp(Cfg.HEAP_SIZE_PROP, Cfg.maxHeadSize, new File(Cfg.CFG_PATH));
+	}
+	
+	/**
+	 * @return the compresionMathod
+	 */
+	public static int getCompresionMathod() {
+		return compresionMethod;
+	}
+
+	/**
+	 * @param compresionMathod the compresionMathod to set
+	 */
+	public static void setCompresionMathod(int compresionMathod) {
+		Cfg.compresionMethod = compresionMathod;
+		PropReader.writeProp(Cfg.COMP_METHOD_PROP, ""+Cfg.compresionMethod, new File(Cfg.CFG_PATH));
+	}
+
+	public static boolean is7ZipAvailable(){
+		String SevenZipBin = PathUtils.getSevenZBinPath();
+		String cmd[] = {SevenZipBin,"-h"};
+		
+		return CmdUtils.runCommand(cmd) != 2;
+	}
+	
+	public static boolean isAaptAvailable(){
+		String[] cmd = {S.getAapt(),"v"};
+		return (CmdUtils.runCommand(cmd)!= 2);
+	}
+
 }

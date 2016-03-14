@@ -158,9 +158,8 @@ public class Main {
 	 */
 	public static void main(String args[]) {
 
-		WebLookAndFeel.install();
-
 		if (args == null || args.length == 0) {
+			WebLookAndFeel.install();
 			PathUtils.logCallingProcessLocation();
 			logOsInfo();
 			HostInfo.logInfo();

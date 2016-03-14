@@ -21,7 +21,6 @@ package deodex.tools;
 import java.io.File;
 import java.util.ArrayList;
 
-import deodex.Cfg;
 import deodex.S;
 
 /**
@@ -41,22 +40,9 @@ public class UnsquashUtils {
 	 *         given destination
 	 */
 	private static String[] getUnsquashCommand(File squashFile, File dest) {
-		String[] cmd = null;
-		String os = Cfg.getOs();
-		if (os.equals(S.WINDOWS)) {
-			String cmdwin[] = { S.UNSQUASH_WIN.getAbsolutePath(), "-no-xattrs", "-f", "-n", "-d",
-					dest.getAbsolutePath(), squashFile.getAbsolutePath() };
-			cmd = cmdwin;
-		} else if (os.equals(S.LINUX)) {
-			String cmdlinux[] = { "unsquashfs", "-no-xattrs", "-f", "-n", "-d", dest.getAbsolutePath(),
-					squashFile.getAbsolutePath() };
-			cmd = cmdlinux;
-		} else if (os.equals(S.MAC)) {
-			// FIXME : test on MAC
-			String cmdOsx[] = { "unsquashfs", "-no-xattrs", "-f", "-n", "-d", dest.getAbsolutePath(),
-					squashFile.getAbsolutePath() };
-			cmd = cmdOsx;
-		}
+		String cmd[] = { S.getUnsquashBinary(), "-no-xattrs", "-f", "-n", "-d", dest.getAbsolutePath(),
+				squashFile.getAbsolutePath() };
+
 		return cmd;
 	}
 
@@ -65,19 +51,10 @@ public class UnsquashUtils {
 	 * @return return if the squashfs tool is available
 	 */
 	public static boolean haveUnsquash() {
-		String[] cmd = null;
-		String os = Cfg.getOs();
-		if (os.equals(S.WINDOWS)) {
-			String cmdwin[] = { S.UNSQUASH_WIN.getAbsolutePath(), "-h" };
-			cmd = cmdwin;
-		} else if (os.equals(S.LINUX)) {
-			String cmdlinux[] = { "unsquashfs", "-h" };
-			cmd = cmdlinux;
-		} else if (os.equals(S.MAC)) {
-			String cmdOsx[] = { "unsquashfs", "-h" };
-			cmd = cmdOsx;
-		}
+		String cmd[] = { S.getUnsquashBinary(), "-h" };
+
 		int exitValue = CmdUtils.runCommand(cmd);
+		
 		return exitValue == 0 || exitValue == 1;
 	}
 
@@ -92,7 +69,7 @@ public class UnsquashUtils {
 		File appSquash = new File(systemFolder.getAbsolutePath() + File.separator + "odex.app.sqsh");
 		File privAppSquash = new File(systemFolder.getAbsolutePath() + File.separator + "odex.priv-app.sqsh");
 		File destFile = S.getUnsquash();
-		// make sure the destFile is not there 
+		// make sure the destFile is not there
 		FilesUtils.deleteRecursively(destFile);
 		// get the commands
 		String[] cmd1 = getUnsquashCommand(appSquash, destFile);
@@ -112,7 +89,7 @@ public class UnsquashUtils {
 						return false;
 				}
 			} else {
-				Logger.writLog("[UnsquashUtils][E]failed to unsquash "+appSquash.getAbsolutePath());
+				Logger.writLog("[UnsquashUtils][E]failed to unsquash " + appSquash.getAbsolutePath());
 				return false;
 			}
 
@@ -133,7 +110,7 @@ public class UnsquashUtils {
 						return false;
 				}
 			} else {
-				Logger.writLog("[UnsquashUtils][E]failed to unsquash "+privAppSquash.getAbsolutePath());
+				Logger.writLog("[UnsquashUtils][E]failed to unsquash " + privAppSquash.getAbsolutePath());
 				return false;
 			}
 		}

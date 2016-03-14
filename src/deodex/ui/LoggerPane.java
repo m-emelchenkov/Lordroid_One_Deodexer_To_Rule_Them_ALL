@@ -67,7 +67,7 @@ public class LoggerPane extends JPanel implements LoggerPan {
 		}
 
 		logs = new JList<String>(model);
-		logs.setFont(R.COURIER_LOGGER);
+		logs.setFont(R.getCourierLogger());
 		logs.setAutoscrolls(true);
 		logs.setCellRenderer(new WhiteYellowCellRenderer());
 		this.setLayout(null);
@@ -89,7 +89,7 @@ public class LoggerPane extends JPanel implements LoggerPan {
 		}
 
 		logs = new JList<String>(model);
-		logs.setFont(R.COURIER_LOGGER);
+		logs.setFont(R.getCourierLogger());
 		logs.setAutoscrolls(true);
 		this.setLayout(null);
 		scroll = new JScrollPane(logs);
