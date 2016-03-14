@@ -60,7 +60,7 @@ public class LoggerPane extends JPanel implements LoggerPan {
 				c.setForeground(new Color(169, 50, 38));
 			} else if (((String) value).contains(R.getString(S.LOG_WARNING))) {
 				c.setForeground(new Color(241, 196, 15));
-			} else if (((String) value).contains("[SUCCESS]")) {
+			} else if (((String) value).contains(R.getString("log.success"))) {
 				c.setForeground(new Color(20, 90, 50));
 			}
 			return c;
