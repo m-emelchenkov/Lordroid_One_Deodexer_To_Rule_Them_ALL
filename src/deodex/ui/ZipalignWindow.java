@@ -155,17 +155,17 @@ public class ZipalignWindow extends JFrame implements ThreadWatcher ,MouseListen
 		signChk.setBackground(R.PANELS_BACK_COLOR);
 
 		// font
-		browseBtn.setFont(R.SMALL_FONT);
-		browseField.setFont(R.SMALL_FONT);
-		zipalignBtn.setFont(R.COURIER_NORMAL);
-		okBtn.setFont(R.COURIER_NORMAL);
-		zipalignChk.setFont(R.COURIER_NORMAL);
-		signChk.setFont(R.COURIER_NORMAL);
+		browseBtn.setFont(R.getSmallFont());
+		browseField.setFont(R.getSmallFont());
+		zipalignBtn.setFont(R.getCouriernormal());
+		okBtn.setFont(R.getCouriernormal());
+		zipalignChk.setFont(R.getCouriernormal());
+		signChk.setFont(R.getCouriernormal());
 
 		//
 		bar.setBackground(Color.WHITE);
 		bar.setForeground(new Color(0, 183, 92));
-		bar.setFont(R.COURIER_NORMAL);
+		bar.setFont(R.getCouriernormal());
 
 		// actions
 		browseBtn.addActionListener(new BrowseAction());

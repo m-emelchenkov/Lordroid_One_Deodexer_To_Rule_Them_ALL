@@ -100,12 +100,12 @@ public class LangFrame extends JFrame {
 		this.setResizable(false);
 
 		// SET FONTS
-		title.setFont(R.TITLE_FONT);
-		text.setFont(R.NORMAL_FONT);
+		title.setFont(R.getTitleFont());
+		text.setFont(R.getNormalFont());
 		title.setForeground(Color.RED);
-		langLab.setFont(R.NORMAL_FONT);
-		langs.setFont(R.NORMAL_FONT);
-		next.setFont(R.NORMAL_FONT);
+		langLab.setFont(R.getNormalFont());
+		langs.setFont(R.getNormalFont());
+		next.setFont(R.getNormalFont());
 		// SET Bounds
 		logo.setBounds(0, 0, LogoPane.M_WIDTH, LogoPane.M_HEIGHT);
 		title.setBounds(10, 110, 790, 50);

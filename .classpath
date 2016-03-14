@@ -5,9 +5,9 @@
 	<classpathentry kind="src" path="src-tools"/>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
 	<classpathentry exported="true" kind="lib" path="libs/commons-compress-1.10.jar"/>
-	<classpathentry exported="true" kind="lib" path="libs/zip4j_1.3.2.jar"/>
 	<classpathentry exported="true" kind="lib" path="libs/xz.jar"/>
 	<classpathentry exported="true" kind="lib" path="bins/oat2dex/oat2dex.jar"/>
 	<classpathentry kind="lib" path="libs/weblaf-1.28.jar"/>
+	<classpathentry kind="lib" path="libs/zip4j_1.3.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

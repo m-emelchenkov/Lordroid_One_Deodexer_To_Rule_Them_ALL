@@ -28,6 +28,14 @@ import deodex.tools.PathUtils;
 
 public class S {
 	public static final long SAFE_HEAP_SIZE = 754974720L;
+	public static final String DEFAULT_HEAP_SIZE = "512m (default)";
+	public static final String[] HEAP_SIZES = {"128m","256m","512m (default)","1024m","2048m"};
+	public static final String[] HEAP_SIZES_ARG = {"-Xmx128m","-Xmx256m","-Xmx512m","-Xmx1024m","-Xmx2048m"};
+	public static final int SEVENZIP_METHOD = 2;
+	public static final int J4ZIP_METHOD = 1;
+	public static final int AAPT_METHOD = 0;
+
+	
 	public static final String APK_EXT = ".apk";
 	public static final String ODEX_EXT = ".odex";
 	public static final String COMP_ODEX_EXT = ".odex.xz";
@@ -81,19 +89,23 @@ public class S {
 	public static final String LINUX = "linux";
 	public static final String MAC = "osx";
 
-	public static final File ADB_BIN = new File(
+	private static final File ADB_BIN = new File(
 			PathUtils.getExcutionPath() + File.separator + "bins/native/adb/" + Cfg.getOs() + "/adb"); 
-	public static final File AAPT_BIN = new File(
+	private static final File AAPT_BIN = new File(
 			PathUtils.getExcutionPath()+"/"+ "bins/native/adb/" + Cfg.getOs() + "/aapt");
 																										
-	public static final String OAT2DEX_JAR = PathUtils.getExcutionPath() + File.separator + "bins/oat2dex/oat2dex.jar";
-	public static final String BACKSMALI_JAR = PathUtils.getExcutionPath() + File.separator
+	private static final String OAT2DEX_JAR = PathUtils.getExcutionPath() + File.separator + "bins/oat2dex/oat2dex.jar";
+	private static final String BACKSMALI_JAR = PathUtils.getExcutionPath() + File.separator
 			+ "bins/smali_backsmali/baksmali.jar";
-	public static final File UNSQUASH_WIN = new File(
-			PathUtils.getExcutionPath() + File.separator + "bins/native/squashfs/unsquashfs");
-	public static final String SMALI_JAR = PathUtils.getExcutionPath() + File.separator
+	
+	private static final String UNSQUASH_WIN = new File(
+			PathUtils.getExcutionPath() + File.separator + "bins/native/squashfs/unsquashfs").getAbsolutePath();
+	private static final String UNSQUASH_linux = "unsquashfs";
+	private static final String UNSQUASH_mac = "unsquashfs";
+	
+	private static final String SMALI_JAR = PathUtils.getExcutionPath() + File.separator
 			+ "bins/smali_backsmali/smali.jar";
-	public static final String ZIPALIGN_BIN = PathUtils.getExcutionPath() + File.separator + "bins/native/zipAlign";
+	private static final String ZIPALIGN_BIN = PathUtils.getExcutionPath() + File.separator + "bins/native/zipAlign/"+Cfg.getOs();
 	public static final String SIGN_APK = PathUtils.getExcutionPath() + File.separator + "bins/sign/signapk.jar";
 	public static final String TEST_KEY_PK8 = PathUtils.getExcutionPath() + File.separator + "bins/sign/testkey.pk8";
 	public static final String TEST_KEY_X509 = PathUtils.getExcutionPath() + File.separator
@@ -218,14 +230,77 @@ public class S {
 		return bootTmpDex;
 	}
 
+	public static void setTempDir(String path) {
+		S.setTempDir(new File(path));
+	}
+	
 	/**
-	 * @return the unsquash
+	 * @return the unsquash tmp folder
 	 */
 	public static File getUnsquash() {
 		return unsquash;
 	}
 
-	public static void setTempDir(String path) {
-		S.setTempDir(new File(path));
+	
+	/**
+	 * 
+	 * @return adbbinary the adb binary file to excute
+	 */
+	public static String getAdbBin(){
+		return S.ADB_BIN.getAbsolutePath();
+	}
+
+	/**
+	 * 
+	 * @return oat2dex.jar the oat2dex File to be excuted
+	 */
+	public static String getAot2Dex(){
+		return new File(S.OAT2DEX_JAR).getAbsolutePath();		
+	}
+	
+	/**
+	 * 
+	 * @return smali the smali jar to be excuted 
+	 */
+	public static String getSmali(){
+		return new File(S.SMALI_JAR).getAbsolutePath();
+	}
+	
+	/**
+	 * 
+	 * @return baksmaliFile the baksmali jar to excute
+	 */
+	public static String getBaksmali(){
+		return new File(S.BACKSMALI_JAR).getAbsolutePath();
+	}
+	
+
+	/**
+	 * 
+	 * @return ziplignBin the zipalign binary to excute
+	 */
+	public static String getZipalign(){
+		return new File(S.ZIPALIGN_BIN).getAbsolutePath();
+	}
+
+	/**
+	 * 
+	 * @return aaptBin to be used 
+	 */
+	public static String getAapt(){
+		return S.AAPT_BIN.getAbsolutePath();
+	}
+	
+	public static String getUnsquashBinary(){
+		String unsquashBin = null;
+		String os = Cfg.getOs();
+		if(os.equals(S.WINDOWS)){
+			unsquashBin = S.UNSQUASH_WIN;
+		} else if (os.equals(S.LINUX)){
+			unsquashBin = S.UNSQUASH_linux;
+		} else if (os.equals(S.MAC)){
+			unsquashBin = S.UNSQUASH_mac;
+		}
+		return unsquashBin;
 	}
 }

@@ -59,7 +59,6 @@ public class StreamReader implements Runnable {
 			is.close();
 		} catch (Exception ex) {
 			Logger.writLog("Problem reading stream " + name + "... :" + ex);
-			ex.printStackTrace();
 		}
 	}
 

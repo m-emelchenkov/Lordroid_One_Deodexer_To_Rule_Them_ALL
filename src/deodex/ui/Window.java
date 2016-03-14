@@ -165,7 +165,7 @@ public class Window extends JFrame implements ThreadWatcher, ChangeListener {
 						R.getString("0000002") + "\n" + R.getString("0000003") + "\n" + R.getString("0000004"),
 						R.getString("0000005"), JOptionPane.INFORMATION_MESSAGE);
 			} else if (source.equals(settingsItem)) {
-				Alerts.showSettingsDialog(settingsItem);
+				Alerts.showAdvancedSettingsDialog(getThisFram());
 			}
 
 		}
@@ -375,19 +375,19 @@ public class Window extends JFrame implements ThreadWatcher, ChangeListener {
 
 		// fonts
 		// from folder tab
-		browseField.setFont(R.COURIER_LOGGER);
-		browseBtn.setFont(R.COURIER_NORMAL);
+		browseField.setFont(R.getCourierLogger());
+		browseBtn.setFont(R.getNormalFont());
 		// optional
-		zipalignCheck.setFont(R.COURIER_NORMAL);
-		signCheck.setFont(R.COURIER_NORMAL);
-		optionalPan.setFont(R.COURIER_NORMAL);
-		deodexNow.setFont(R.COURIER_NORMAL);
+		zipalignCheck.setFont(R.getNormalFont());
+		signCheck.setFont(R.getNormalFont());
+		optionalPan.setFont(R.getNormalFont());
+		deodexNow.setFont(R.getNormalFont());
 		// from device
-		this.deviceName.setFont(R.SMALL_FONT);
-		this.deviceStatus.setFont(R.SMALL_FONT);
-		this.devieStatusField.setFont(R.COURIER_NORMAL);
-		this.devieNameField.setFont(R.COURIER_NORMAL);
-		this.refreshDevices.setFont(R.COURIER_LOGGER);
+		this.deviceName.setFont(R.getSmallFont());
+		this.deviceStatus.setFont(R.getSmallFont());
+		this.devieStatusField.setFont(R.getNormalFont());
+		this.devieNameField.setFont(R.getNormalFont());
+		this.refreshDevices.setFont(R.getCourierLogger());
 
 		// colors Backgrounds
 		deviceName.setBackground(new Color(184, 207, 229));
@@ -508,7 +508,7 @@ public class Window extends JFrame implements ThreadWatcher, ChangeListener {
 			}
 
 		});
-		errorLab.setFont(R.COURIER_NORMAL);
+		errorLab.setFont(R.getCouriernormal());
 		errorLab.setBounds(50, 10, 700, 100);
 		exit.setBounds(100, 150, 600, 60);
 		rootPanel.add(errorLab);
@@ -529,18 +529,18 @@ public class Window extends JFrame implements ThreadWatcher, ChangeListener {
 		// attach items to File menu
 		this.fichierMenu.add(this.settingsItem);
 		this.fichierMenu.add(exitMenuItem);
-		fichierMenu.setFont(R.COURIER_NORMAL);
-		settingsItem.setFont(R.COURIER_NORMAL);
-		exitMenuItem.setFont(R.COURIER_NORMAL);
+		fichierMenu.setFont(R.getCouriernormal());
+		settingsItem.setFont(R.getCouriernormal());
+		exitMenuItem.setFont(R.getCouriernormal());
 		// attach tools Items
 		this.toolsMenu.add(this.batchZipalignSignMenuItem);
-		toolsMenu.setFont(R.COURIER_NORMAL);
-		batchZipalignSignMenuItem.setFont(R.COURIER_NORMAL);
+		toolsMenu.setFont(R.getCouriernormal());
+		batchZipalignSignMenuItem.setFont(R.getCouriernormal());
 
 		// attach about Items
 		this.aboutMenu.add(this.aboutThisMenu);
-		aboutMenu.setFont(R.COURIER_NORMAL);
-		aboutThisMenu.setFont(R.COURIER_NORMAL);
+		aboutMenu.setFont(R.getCouriernormal());
+		aboutThisMenu.setFont(R.getCouriernormal());
 
 		/// les Action
 
@@ -568,9 +568,9 @@ public class Window extends JFrame implements ThreadWatcher, ChangeListener {
 		zipIt.setBounds(115, 235, 570, 30);
 		restart.setBounds(10, 235, 100, 30);
 
-		quitbtn.setFont(R.COURIER_NORMAL);
-		restart.setFont(R.COURIER_NORMAL);
-		zipIt.setFont(R.COURIER_NORMAL);
+		quitbtn.setFont(R.getCouriernormal());
+		restart.setFont(R.getCouriernormal());
+		zipIt.setFont(R.getCouriernormal());
 
 		quitbtn.setEnabled(false);
 		restart.setEnabled(false);
@@ -662,7 +662,7 @@ public class Window extends JFrame implements ThreadWatcher, ChangeListener {
 		rootPanel.setOpaque(true);
 
 		JLabel waiting = new JLabel("De-Optimizing boot.oat this may take a minute...");
-		waiting.setFont(R.COURIER_NORMAL.deriveFont(25.0f));
+		waiting.setFont(R.getCouriernormal().deriveFont(25.0f));
 		waiting.setBounds(10, 25, 748, 50);
 		waiting.setBackground(new Color(0, 0, 0, 0));
 		logger.setBounds(1, 270, 798, 300);

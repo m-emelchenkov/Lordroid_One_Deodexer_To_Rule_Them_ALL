@@ -22,6 +22,9 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 
+import deodex.Cfg;
+import deodex.S;
+
 public class PathUtils {
 	/**
 	 * 
@@ -56,5 +59,16 @@ public class PathUtils {
 		String calledfrom = f.getAbsolutePath().substring(0, f.getAbsolutePath().lastIndexOf(File.separator));
 		Logger.writLog("[PathUtils][I] we were called from " + calledfrom);
 		Logger.writLog("[PathUtils][I] we are located in : " + getExcutionPath());
+	}
+	public static String getSevenZBinPath(){
+		String SevenZ = null;
+		if (Cfg.getOs().equals(S.WINDOWS)){
+			SevenZ = new File(PathUtils.getExcutionPath()+"/bins/native/7z/windows/7za").getAbsolutePath();
+		} else if (Cfg.getOs().equals(S.LINUX)){
+			SevenZ = "7z";
+		} else if (Cfg.getOs().equals(S.MAC)){
+			SevenZ = "7z";
+		}
+		return SevenZ;
 	}
 }

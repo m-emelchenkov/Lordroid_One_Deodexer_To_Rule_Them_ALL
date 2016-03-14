@@ -76,11 +76,12 @@ public class BootWorker implements Runnable, Watchable {
 	 * @return true only if all operations ware successful
 	 */
 	private boolean deoDexBootFile(File file) {
+		String absoluteName = file.getName().substring(0, file.getName().lastIndexOf("."));
+
+		File tmpFolder = new File(this.tmpFolder.getAbsolutePath()+File.separator+absoluteName) ;
 		File tmpClasses = new File(tmpFolder.getAbsolutePath() + File.separator + S.CLASSES);
 		File tmpClasses2 = new File(tmpFolder.getAbsolutePath() + File.separator + S.CLASSES_2);
 		File tmpClasses3 = new File(tmpFolder.getAbsolutePath() + File.separator + S.CLASSES_3);
-
-		String absoluteName = file.getName().substring(0, file.getName().lastIndexOf("."));
 
 		File tmpJar = new File(tmpFolder.getAbsolutePath() + File.separator + absoluteName + ".jar");
 		File origJar = new File(SessionCfg.getSystemFolder().getAbsolutePath() + File.separator + S.SYSTEM_FRAMEWORK
@@ -134,7 +135,11 @@ public class BootWorker implements Runnable, Watchable {
 			return false;
 		}
 		copyStatus = FilesUtils.copyFile(tmpJar, origJar);
-
+		if(!copyStatus){
+			this.log.addLog(R.getString(S.LOG_WARNING)+"[" + absoluteName + ".jar]" + R.getString("log.putback.apk.failed"));
+			return false;
+		}
+		FilesUtils.deleteRecursively(tmpFolder);
 		return copyStatus;
 
 	}
