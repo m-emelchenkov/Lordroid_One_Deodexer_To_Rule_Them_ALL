@@ -125,14 +125,14 @@ public class AdvancedSettings extends JPanel {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public static final String[] COMPRESSION_METHODS = { "aapt (best compatibility)", "J4zip (smaller size)",
-	"7z (if you feel unlucky)" };
+	public static final String[] COMPRESSION_METHODS = { R.getString("0000058"), R.getString("0000059"),
+	R.getString("0000060") };
 	JTabbedPane p = new JTabbedPane();
 	// Strings
-	String tabbedTitleLang = "Launguage";
+	String tabbedTitleLang = R.getString("0000061");
 
-	String tabbedTitlePerf = "Performance";
-	String tabbedTitleTools = "Customize tools";
+	String tabbedTitlePerf = R.getString("0000062");
+	String tabbedTitleTools = R.getString("0000063");
 	// Pannels
 	JPanel langPan = new JPanel();
 
@@ -146,14 +146,14 @@ public class AdvancedSettings extends JPanel {
 	public JComboBox<String> HeapsizeCombo = new JComboBox<String>();
 	public JComboBox<String> compMethodCombo = new JComboBox<String>();
 	// JLAbels
-	public JLabel HeapsizeLab = new JLabel("Max Heap Size");
+	public JLabel HeapsizeLab = new JLabel(R.getString("0000064"));
 	public JLabel zipMethodLab = new JLabel(R.getString("0000053"));
 	public JLabel langsLab = new JLabel(R.getString("0000053"));
 	public JLabel threadLab = new JLabel(R.getString("0000054"));
 
-	public JLabel fontsLab = new JLabel("Font (will be availble next launch)");
+	public JLabel fontsLab = new JLabel(R.getString("0000065"));
 
-	public JLabel compresion = new JLabel("Compression Method");
+	public JLabel compresion = new JLabel(R.getString("0000067"));
 
 	/**
 	 * Constructor no arguments 
@@ -202,13 +202,12 @@ public class AdvancedSettings extends JPanel {
 
 		// tool tips
 		this.fontsCombo.setToolTipText(
-				"<HTML><p>The <b>font</b> to be used ,change this if you like an other font </p><p>\nor if you have trouble displaying some weird chars</p></HTML>");
+				R.getString("0000068"));
 		this.langsCombo.setToolTipText(
-				"<html><p>The Launguage to be used</p><p><b>Note:</b> </br>you need to restart the application in order for the changes to take effect</p></html>");
-		this.HeapsizeCombo.setToolTipText("<HTML><p>the max heap size to be used</p><p>"
-				+ "only change this if you are having OutOfMemoryExceptions</p>"
-				+ "<p>The default Value is <b>512m<b> </p></HTML>");
-
+				R.getString("0000069"));
+		this.HeapsizeCombo.setToolTipText(R.getString("0000070"));
+		this.compMethodCombo.setToolTipText(R.getString("0000071"));
+		
 		// cell rendrers
 		this.fontsCombo.setRenderer(new WhiteYellowCellRenderer());
 

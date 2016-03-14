@@ -212,10 +212,10 @@ public class ZipalignWindow extends JFrame implements ThreadWatcher, MouseListen
 		signChk.setBounds(150, 40, 95, 40);
 
 		// TOOL tip
-		zipalignChk.setToolTipText("Zipalign all apks in the selected folder ");
-		signChk.setToolTipText("Sign all apks in the selected folder ");
+		zipalignChk.setToolTipText(R.getString("0000055"));
+		signChk.setToolTipText(R.getString("0000056"));
 		browseBtn.setToolTipText(
-				"Click to choose the folder containing apks to be zipaligned/signed NOTE: the search for apks is recursive");
+				R.getString("0000057"));
 
 		// add components
 		rootPannel.add(browseField);
