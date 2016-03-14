@@ -42,8 +42,8 @@ public class Deodexer {
 	 * @return true only if the odex was deodexed
 	 */
 	public static boolean deodexApk(File odexFile, File dexFile) {
-		String cmd[] = { "java", Cfg.getMaxHeadSizeArg(), "-jar", S.getAot2Dex(),
-				odexFile.getAbsolutePath(), S.getBootTmpDex().getAbsolutePath() };
+		String cmd[] = { "java", Cfg.getMaxHeadSizeArg(), "-jar", S.getAot2Dex(), odexFile.getAbsolutePath(),
+				S.getBootTmpDex().getAbsolutePath() };
 		CmdUtils.runCommand(cmd);
 
 		return dexFile.exists();
@@ -63,13 +63,13 @@ public class Deodexer {
 				+ dexFile.getName().substring(0, dexFile.getName().lastIndexOf(".")));
 		smaliFolder.getParentFile().mkdirs();
 		// baksmali command
-		String[] cmd = { "java", Cfg.getMaxHeadSizeArg(), "-jar", S.getBaksmali(), "-x", "-c",
-				"boot.oat", "-d", S.getBootTmp().getParentFile().getAbsolutePath(), odexFile.getAbsolutePath(), "-o",
+		String[] cmd = { "java", Cfg.getMaxHeadSizeArg(), "-jar", S.getBaksmali(), "-x", "-c", "boot.oat", "-d",
+				S.getBootTmp().getParentFile().getAbsolutePath(), odexFile.getAbsolutePath(), "-o",
 				smaliFolder.getAbsolutePath() };
 
 		// smalicommand
-		String[] cmd2 = { "java", Cfg.getMaxHeadSizeArg(), "-jar", S.getSmali(), "-a",
-				"" + SessionCfg.getSdk(), "-o", dexFile.getAbsolutePath(), smaliFolder.getAbsolutePath() };
+		String[] cmd2 = { "java", Cfg.getMaxHeadSizeArg(), "-jar", S.getSmali(), "-a", "" + SessionCfg.getSdk(), "-o",
+				dexFile.getAbsolutePath(), smaliFolder.getAbsolutePath() };
 
 		CmdUtils.runCommand(cmd);
 
@@ -97,11 +97,11 @@ public class Deodexer {
 		File tempSmali = new File(odexFile.getParentFile().getAbsolutePath() + File.separator
 				+ odexFile.getName().substring(0, odexFile.getName().lastIndexOf(".odex")));
 		tempSmali.getParentFile().mkdirs();
-		String[] cmd = { "java", Cfg.getMaxHeadSizeArg(), "-jar", S.getBaksmali(), "-a",
-				"" + SessionCfg.getSdk(), "-d", S.getBootTmpDex().getAbsolutePath(), "-x", odexFile.getAbsolutePath(),
-				"-o", tempSmali.getAbsolutePath() };
-		String[] cmd2 = { "java", Cfg.getMaxHeadSizeArg(), "-jar", S.getSmali(), "-a",
-				"" + SessionCfg.getSdk(), "-o", classesFile.getAbsolutePath(), tempSmali.getAbsolutePath() };
+		String[] cmd = { "java", Cfg.getMaxHeadSizeArg(), "-jar", S.getBaksmali(), "-a", "" + SessionCfg.getSdk(), "-d",
+				S.getBootTmpDex().getAbsolutePath(), "-x", odexFile.getAbsolutePath(), "-o",
+				tempSmali.getAbsolutePath() };
+		String[] cmd2 = { "java", Cfg.getMaxHeadSizeArg(), "-jar", S.getSmali(), "-a", "" + SessionCfg.getSdk(), "-o",
+				classesFile.getAbsolutePath(), tempSmali.getAbsolutePath() };
 		// TODO search further info (can apks here have 2 classes.dex ? if so
 		// what should we do here ?) XXX: there is none that I know about !
 
@@ -143,8 +143,7 @@ public class Deodexer {
 	public static boolean oat2dexBootCmdWay(File bootOat) {
 		Logger.writLog("[Deodexer][E] de-optimize boot.oat using oat2dex as library ...." + "[failed]");
 		Logger.writLog("[Deodexer][I] trying to de-optimize boot.oat using oat2dex as binary ....");
-		String[] cmd1 = { "java", Cfg.getMaxHeadSizeArg(), "-jar", S.getAot2Dex(), "boot",
-				bootOat.getAbsolutePath() };
+		String[] cmd1 = { "java", Cfg.getMaxHeadSizeArg(), "-jar", S.getAot2Dex(), "boot", bootOat.getAbsolutePath() };
 		CmdUtils.runCommand(cmd1);
 
 		return S.getBootTmpDex().exists();

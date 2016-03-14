@@ -27,10 +27,26 @@ import java.lang.management.ManagementFactory;
 import deodex.tools.PathUtils;
 
 public class HostInfo {
+	/**
+	 * 
+	 * @return NumberOfCores the number of available cpus (cores)
+	 */
+	public static final int availableCpus() {
+		return ManagementFactory.getOperatingSystemMXBean().getAvailableProcessors();
+	}
+
+	/**
+	 * 
+	 * @return the maxMemory
+	 */
+	public static long getMaxMemory() {
+		return Runtime.getRuntime().maxMemory();
+	}
+
 	public static void logInfo() {
 		try {
 			File f = new File(PathUtils.getExcutionPath() + File.separator + "logs/system_info.txt");
-			if(f.exists()){
+			if (f.exists()) {
 				f.delete();
 			}
 			f.getParentFile().mkdirs();
@@ -41,20 +57,5 @@ public class HostInfo {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	}
-
-	/**
-	 * 
-	 * @return NumberOfCores the number of available cpus (cores)
-	 */
-	public static final int availableCpus() {
-		return ManagementFactory.getOperatingSystemMXBean().getAvailableProcessors();
-	}
-	/**
-	 * 
-	 * @return the maxMemory
-	 */
-	public static long getMaxMemory(){
-		return Runtime.getRuntime().maxMemory();
 	}
 }

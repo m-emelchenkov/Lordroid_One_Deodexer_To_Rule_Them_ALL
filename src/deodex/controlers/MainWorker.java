@@ -210,8 +210,9 @@ public class MainWorker implements Runnable, ThreadWatcher, Watchable {
 		// lets unsquash this bitch !
 		if (SessionCfg.isSquash) {
 			boolean unsquash = UnsquashUtils.unsquash(folder);
-			if (!unsquash){
-				this.logPan.addLog(R.getString(S.LOG_ERROR)+"Failed to unsquash the squash file we can't continue ...");
+			if (!unsquash) {
+				this.logPan
+				.addLog(R.getString(S.LOG_ERROR) + "Failed to unsquash the squash file we can't continue ...");
 				isinitialized = false;
 			} else {
 				new File(folder.getAbsolutePath() + File.separator + "odex.app.sqsh").delete();
@@ -255,7 +256,7 @@ public class MainWorker implements Runnable, ThreadWatcher, Watchable {
 									new File(folder.getAbsolutePath() + File.separator + S.SYSTEM_FRAMEWORK),
 									(f.getName().endsWith(".odex")
 											? f.getName().substring(0, f.getName().lastIndexOf("."))
-											: f.getName().substring(0, f.getName().lastIndexOf(".odex.xz"))) + ".apk"));
+													: f.getName().substring(0, f.getName().lastIndexOf(".odex.xz"))) + ".apk"));
 			Logger.writLog("[MainWorker][I]" + "Searching for "
 					+ (f.getName().endsWith(".odex") ? f.getName().substring(0, f.getName().lastIndexOf("."))
 							: f.getName().substring(0, f.getName().lastIndexOf(".odex.xz")))
@@ -535,11 +536,11 @@ public class MainWorker implements Runnable, ThreadWatcher, Watchable {
 	 * will log all external tools versions to the main log file
 	 */
 	private void logToolsversions() {
-		
+
 		String[] oat2dex = { "java", "-jar", S.getAot2Dex(), "-v" };
 		String[] smali = { "java", "-jar", S.getSmali(), "-v" };
 		String[] backsmali = { "java", "-jar", S.getBaksmali(), "-v" };
-		String[] zupalign = { new File(S.getZipalign()+ File.separator + Cfg.getOs()).getAbsolutePath(), "-v" };
+		String[] zupalign = { new File(S.getZipalign() + File.separator + Cfg.getOs()).getAbsolutePath(), "-v" };
 
 		CmdUtils.runCommand(oat2dex);
 		CmdUtils.runCommand(smali);
@@ -551,7 +552,7 @@ public class MainWorker implements Runnable, ThreadWatcher, Watchable {
 	@Override
 	public void run() {
 		logToolsversions();
-		if (this.isinitialized){
+		if (this.isinitialized) {
 			this.threadWatcher.updateProgress();
 			for (int i = 0; i < this.maxThreading; i++) {
 				if (tasks.size() > 0) {
@@ -559,7 +560,7 @@ public class MainWorker implements Runnable, ThreadWatcher, Watchable {
 					tasks.remove(0);
 				}
 			}
-		} else{
+		} else {
 			FilesUtils.deleteRecursively(S.getWorker1Folder().getParentFile());
 			S.setTempDir(System.getProperty("java.io.tmpdir"));
 			this.threadWatcher.sendFailed(this);

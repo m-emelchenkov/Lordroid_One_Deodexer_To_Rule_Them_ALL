@@ -201,7 +201,8 @@ public class JarWorker implements Runnable, Watchable {
 		// phase 6
 		boolean putBack = false;
 		Logger.writLog("[JarWorker][I][" + jar.getAbsoluteName() + "] about to copy file back to it's original folder");
-		putBack = jar.getTmpJar().renameTo(jar.getOrigJar()); //FilesUtils.copyFile(jar.getTmpJar(), jar.getOrigJar());
+		putBack = jar.getTmpJar().renameTo(jar.getOrigJar()); // FilesUtils.copyFile(jar.getTmpJar(),
+																// jar.getOrigJar());
 		if (!putBack) {
 			Logger.writLog("[JarWorker][E][" + jar.getAbsoluteName()
 					+ "] about to copy file back to it's original folder failed ");

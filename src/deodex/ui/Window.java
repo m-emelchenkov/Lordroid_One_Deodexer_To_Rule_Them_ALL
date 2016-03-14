@@ -144,16 +144,16 @@ public class Window extends JFrame implements ThreadWatcher, ChangeListener {
 		public void actionPerformed(ActionEvent arg0) {
 			Object source = arg0.getSource();
 			if (source.equals(batchZipalignSignMenuItem)) {
-				new Thread(new Runnable(){
+				new Thread(new Runnable() {
 					@Override
 					public void run() {
-						String[] cmd = {"java","-jar",S.TOOLS_JAR.getAbsolutePath(),"BZW"};
+						String[] cmd = { "java", "-jar", S.TOOLS_JAR.getAbsolutePath(), "BZW" };
 						// TODO Auto-generated method stub
 						CmdUtils.runCommand(cmd);
 					}
 				}).start();
 
-				//new ZipalignWindow(getThisFram());
+				// new ZipalignWindow(getThisFram());
 			} else if (source.equals(exitMenuItem)) {
 				int i = JOptionPane.showConfirmDialog(getThisFram(), R.getString("dialog.sure.exit.message"),
 						R.getString("dialog.sure.exit"), JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
@@ -614,15 +614,17 @@ public class Window extends JFrame implements ThreadWatcher, ChangeListener {
 								+ R.getString("0000012") + "\n" + R.getString("0000013") + "\n" + R.getString("0000014")
 								+ "\n" + R.getString("0000015") + "\n" + R.getString("0000016") + "\n\n"
 								+ R.getString("0000017"),
-						R.getString("0000018"), JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+								R.getString("0000018"), JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
 				if (agree == 0) {
 					String name = JOptionPane.showInputDialog(zipIt,
 							R.getString("0000006") + "\n" + R.getString("0000007"));
 					if (name != null) {
 						boolean valid = false;
 						try {
-							new File(System.getProperty("java.io.tmpdir") + File.separator + name).getParentFile().mkdirs();
-							valid = new File(System.getProperty("java.io.tmpdir") + File.separator + name).createNewFile();
+							new File(System.getProperty("java.io.tmpdir") + File.separator + name).getParentFile()
+							.mkdirs();
+							valid = new File(System.getProperty("java.io.tmpdir") + File.separator + name)
+									.createNewFile();
 
 						} catch (InvalidPathException | IOException ex) {
 							ex.printStackTrace();

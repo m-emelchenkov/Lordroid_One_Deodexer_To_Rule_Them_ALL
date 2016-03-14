@@ -26,41 +26,40 @@ import deodex.ui.Alerts;
 
 public class Test {
 
-	
-	public static void main(String[] args) throws InterruptedException, IOException{
-//		String[] cmd = {"aapt","v"};
-//		System.out.println(CmdUtils.runCommand(cmd));
-//		URL url = new URL("https://goo.gl/KdVKWi");
-//		URLConnection connection = url.openConnection();
-//		System.out.println(connection.getContentLengthLong());
-//		InputStream is = connection.getInputStream();
-//		FilesUtils.copyFile(is, new File("/tmp/a1.tar.gz"));
+	public static void main(String[] args) throws InterruptedException, IOException {
+		// String[] cmd = {"aapt","v"};
+		// System.out.println(CmdUtils.runCommand(cmd));
+		// URL url = new URL("https://goo.gl/KdVKWi");
+		// URLConnection connection = url.openConnection();
+		// System.out.println(connection.getContentLengthLong());
+		// InputStream is = connection.getInputStream();
+		// FilesUtils.copyFile(is, new File("/tmp/a1.tar.gz"));
 		System.out.println(Cfg.isAaptAvailable());
-//		if(cmd != null){
-//			Thread.sleep(100);
-//			return;
-//		}
+		// if(cmd != null){
+		// Thread.sleep(100);
+		// return;
+		// }
 		WebLookAndFeel.install();
-//	    String fonts[] = 
-//	    	      GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
-//
-//	    	    for ( int i = 0; i < fonts.length; i++ )
-//	    	    {
-//	    	      System.out.println(fonts[i]);
-//	    	    }
-	//	String[] cmd = {"aapt"};
-		//System.out.println(CmdUtils.runCommand(cmd));
+		// String fonts[] =
+		// GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
+		//
+		// for ( int i = 0; i < fonts.length; i++ )
+		// {
+		// System.out.println(fonts[i]);
+		// }
+		// String[] cmd = {"aapt"};
+		// System.out.println(CmdUtils.runCommand(cmd));
 		Cfg.readCfg();
 		R.initResources();
 		Cfg.writeCfgFile();
-		System.out.println("7z ? "+Cfg.is7ZipAvailable());
-//		JFrame win = new JFrame();
-//		win.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//		win.setSize(820, 350);
-//		win.setLayout(null);
-//		AdvancedSettings setings = new AdvancedSettings();
-//		win.add(setings);
-//		win.setVisible(true);
+		System.out.println("7z ? " + Cfg.is7ZipAvailable());
+		// JFrame win = new JFrame();
+		// win.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		// win.setSize(820, 350);
+		// win.setLayout(null);
+		// AdvancedSettings setings = new AdvancedSettings();
+		// win.add(setings);
+		// win.setVisible(true);
 		Alerts.showAdvancedSettingsDialog(null);
 	}
 }

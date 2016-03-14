@@ -29,8 +29,8 @@ public class CreateFlashableZip extends WebFrame {
 	/**
 	 * TODO create a flashable zip creater (GUI)
 	 */
-	public CreateFlashableZip(){
-		
+	public CreateFlashableZip() {
+
 	}
 
 }

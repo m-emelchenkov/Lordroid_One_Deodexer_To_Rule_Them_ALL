@@ -78,8 +78,7 @@ public class AdbUtils {
 
 		if (sdk > 18) {
 			logger.addLog(R.getString(S.LOG_INFO) + R.getString("0000035"));
-			String[] privAppCmd = { S.getAdbBin(), "pull", "system/priv-app",
-					privAppOut.getAbsolutePath() };
+			String[] privAppCmd = { S.getAdbBin(), "pull", "system/priv-app", privAppOut.getAbsolutePath() };
 			boolean privAppStatus = CmdUtils.runCommand(privAppCmd) == 0;
 			if (!privAppStatus) {
 				logger.addLog(R.getString(S.LOG_WARNING + R.getString("0000036")));
@@ -99,8 +98,7 @@ public class AdbUtils {
 		// check for squash files
 		File appSquashOutput = new File(outputFolder.getAbsolutePath() + File.separator + "odex.app.sqsh");
 		File privAppSquashOutput = new File(outputFolder.getAbsolutePath() + File.separator + "odex.priv-app.sqsh");
-		String[] appSquashCmd = { S.getAdbBin(), "pull", "/system/odex.app.sqsh",
-				appSquashOutput.getAbsolutePath() };
+		String[] appSquashCmd = { S.getAdbBin(), "pull", "/system/odex.app.sqsh", appSquashOutput.getAbsolutePath() };
 		String[] privAppSquashCmd = { S.getAdbBin(), "pull", "/system/odex.priv-app.sqsh",
 				privAppSquashOutput.getAbsolutePath() };
 		boolean squash = CmdUtils.runCommand(appSquashCmd) == 0;

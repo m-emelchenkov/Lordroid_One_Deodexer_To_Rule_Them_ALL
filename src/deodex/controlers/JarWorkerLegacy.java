@@ -89,8 +89,8 @@ public class JarWorkerLegacy implements Watchable, Runnable {
 		boolean deodexStatus = Deodexer.deoDexApkLegacy(jar.tempOdex, jar.classes);
 		if (!deodexStatus) {
 			Logger.writLog("[JarWorkerLegacy][E][" + jar.getOrigJar().getName() + "] deodex odex file FAILED");
-			this.logPan
-					.addLog(R.getString(S.LOG_WARNING) + "[" + jar.getOrigJar() + "]" + R.getString("log.deodex.failed"));
+			this.logPan.addLog(
+					R.getString(S.LOG_WARNING) + "[" + jar.getOrigJar() + "]" + R.getString("log.deodex.failed"));
 			return false;
 		}
 		// putback

@@ -71,7 +71,7 @@ public class JarObj {
 	 */
 	public boolean copyNeedFiles(File tmpFolder) {
 		this.tmpFolder = new File(tmpFolder.getAbsolutePath() + File.separator + this.absoluteName);
-		System.out.print("JArObj temp folder created ?"+this.tmpFolder.mkdirs()+tmpFolder.mkdirs());
+		System.out.print("JArObj temp folder created ?" + this.tmpFolder.mkdirs() + tmpFolder.mkdirs());
 		if (!this.tmpFolder.exists())
 			return false;
 		tmpCompodex = new File(this.tmpFolder.getAbsolutePath() + File.separator + this.odexFile.getName());
@@ -87,8 +87,7 @@ public class JarObj {
 
 		Logger.writLog("[JarObj][I] copying " + odexFile + " to " + tmpCompodex);
 		boolean copyStatus = this.odexFile.renameTo(this.tmpCompodex);
-		Logger.writLog(
-				"[JarObj][I] copy of " + odexFile + " to " + tmpCompodex + " success ? " + copyStatus);
+		Logger.writLog("[JarObj][I] copy of " + odexFile + " to " + tmpCompodex + " success ? " + copyStatus);
 		Logger.writLog("[JarObj][I] copying " + origJar.getAbsolutePath() + " to " + tmpJar);
 		boolean copyStatus2 = origJar.renameTo(tmpJar);
 		Logger.writLog(
@@ -98,14 +97,6 @@ public class JarObj {
 
 	}
 
-	/**
-	 * rename files to the way they were 
-	 */
-	public void reverseMove(){
-		tmpCompodex.renameTo(odexFile);
-		tmpJar.renameTo(origJar);
-		
-	}
 	/**
 	 * @return the absoluteName
 	 */
@@ -195,6 +186,15 @@ public class JarObj {
 	 */
 	public File getTmpodex() {
 		return tmpodex;
+	}
+
+	/**
+	 * rename files to the way they were
+	 */
+	public void reverseMove() {
+		tmpCompodex.renameTo(odexFile);
+		tmpJar.renameTo(origJar);
+
 	}
 
 	/**

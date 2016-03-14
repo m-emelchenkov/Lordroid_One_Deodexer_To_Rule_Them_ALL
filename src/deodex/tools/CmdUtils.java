@@ -47,7 +47,7 @@ public class CmdUtils {
 			proc = rt.exec(cmd);
 
 		} catch (IOException e) {
-			// We clearly didn't find the needed file 
+			// We clearly didn't find the needed file
 			e.printStackTrace();
 			return 2;
 		}

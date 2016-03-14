@@ -78,7 +78,7 @@ public class BootWorker implements Runnable, Watchable {
 	private boolean deoDexBootFile(File file) {
 		String absoluteName = file.getName().substring(0, file.getName().lastIndexOf("."));
 
-		File tmpFolder = new File(this.tmpFolder.getAbsolutePath()+File.separator+absoluteName) ;
+		File tmpFolder = new File(this.tmpFolder.getAbsolutePath() + File.separator + absoluteName);
 		File tmpClasses = new File(tmpFolder.getAbsolutePath() + File.separator + S.CLASSES);
 		File tmpClasses2 = new File(tmpFolder.getAbsolutePath() + File.separator + S.CLASSES_2);
 		File tmpClasses3 = new File(tmpFolder.getAbsolutePath() + File.separator + S.CLASSES_3);
@@ -135,8 +135,9 @@ public class BootWorker implements Runnable, Watchable {
 			return false;
 		}
 		copyStatus = FilesUtils.copyFile(tmpJar, origJar);
-		if(!copyStatus){
-			this.log.addLog(R.getString(S.LOG_WARNING)+"[" + absoluteName + ".jar]" + R.getString("log.putback.apk.failed"));
+		if (!copyStatus) {
+			this.log.addLog(
+					R.getString(S.LOG_WARNING) + "[" + absoluteName + ".jar]" + R.getString("log.putback.apk.failed"));
 			return false;
 		}
 		FilesUtils.deleteRecursively(tmpFolder);
@@ -162,8 +163,8 @@ public class BootWorker implements Runnable, Watchable {
 				log.addLog(R.getString(S.LOG_INFO) + "[" + file.getName().substring(0, file.getName().lastIndexOf("."))
 						+ ".jar]" + " [SUCCESS]");
 			} else {
-				log.addLog(R.getString(S.LOG_ERROR) + "["
-						+ file.getName().substring(0, file.getName().lastIndexOf(".")) + ".jar]" + " [FAILED ]");
+				log.addLog(R.getString(S.LOG_ERROR) + "[" + file.getName().substring(0, file.getName().lastIndexOf("."))
+						+ ".jar]" + " [FAILED ]");
 
 			}
 			progressBar.setValue(progressBar.getValue() + 1);

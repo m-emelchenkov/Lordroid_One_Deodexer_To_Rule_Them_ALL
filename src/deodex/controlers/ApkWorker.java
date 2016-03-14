@@ -203,7 +203,8 @@ public class ApkWorker implements Runnable {
 
 		// phase 08
 		// the process is successful now copy and clean !
-		boolean putBackStatus = apk.getTempApkZipalign().renameTo(apk.getOrigApk()); //FilesUtils.copyFile(apk.getTempApkZipalign(), apk.getOrigApk());
+		boolean putBackStatus = apk.getTempApkZipalign().renameTo(apk.getOrigApk()); // FilesUtils.copyFile(apk.getTempApkZipalign(),
+																						// apk.getOrigApk());
 		if (!putBackStatus) {
 			Logger.writLog("[ApkWorker][E]Failed to copy back " + apk.getPureName());
 			return false;

@@ -75,19 +75,19 @@ public class CommandLineWorker implements ThreadWatcher {
 	 * list all the files in the system folder that will be added to the
 	 * flashable zip
 	 */
-	private void initFilesList() {   // FIXME: Duplicated in FlachableZipCreater the GUI version move it somewhere else
+	private void initFilesList() { // FIXME: Duplicated in FlachableZipCreater
+									// the GUI version move it somewhere else
 		ArrayList<File> list0 = FilesUtils
 				.searchrecursively(new File(systemFolder.getAbsolutePath() + File.separator + S.SYSTEM_APP), ".apk");
 
-		ArrayList<File> list1 = FilesUtils
-				.searchrecursively(new File(systemFolder.getAbsolutePath() + File.separator + S.SYSTEM_PRIV_APP), ".apk");
+		ArrayList<File> list1 = FilesUtils.searchrecursively(
+				new File(systemFolder.getAbsolutePath() + File.separator + S.SYSTEM_PRIV_APP), ".apk");
 
-		ArrayList<File> list2 = FilesUtils
-				.searchrecursively(new File(systemFolder.getAbsolutePath() + File.separator + S.SYSTEM_FRAMEWORK), ".apk");
+		ArrayList<File> list2 = FilesUtils.searchrecursively(
+				new File(systemFolder.getAbsolutePath() + File.separator + S.SYSTEM_FRAMEWORK), ".apk");
 
-
-		ArrayList<File> list3 = FilesUtils
-				.searchrecursively(new File(systemFolder.getAbsolutePath() + File.separator + S.SYSTEM_FRAMEWORK), ".jar");
+		ArrayList<File> list3 = FilesUtils.searchrecursively(
+				new File(systemFolder.getAbsolutePath() + File.separator + S.SYSTEM_FRAMEWORK), ".jar");
 
 		for (File f : list0)
 			this.fileToAdd.add(f);

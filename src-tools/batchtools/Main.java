@@ -24,13 +24,13 @@ import deodex.Cfg;
 import deodex.R;
 
 public class Main {
-	public static void main(String[] args){
+	public static void main(String[] args) {
 		WebLookAndFeel.install();
 		Cfg.readCfg();
 		R.initResources();
 
-		if (args != null && args.length != 0 &&  args[0].equals("BZW")){
-		new ZipalignWindow(null);
+		if (args != null && args.length != 0 && args[0].equals("BZW")) {
+			new ZipalignWindow(null);
 		} else {
 			System.out.println("You are not supposed to run this jar file !");
 		}

@@ -38,105 +38,17 @@ import net.lingala.zip4j.util.Zip4jConstants;
 public class Zip {
 
 	/**
-	 * add files from a system folder to a zip used to create flashable zip only
-	 * app priv-app and framwork will be added
-	 * 
-	 * @param systemFolder
-	 *            the system folder to be added
-	 * @param zipFile
-	 *            the zip file to be created
-	 */
-	public static void AddFilesToFolderInZip(File systemFolder, ZipFile zipFile) {
-
-		ArrayList<File> list0 = FilesUtils
-				.listAllFiles(new File(systemFolder.getAbsolutePath() + File.separator + S.SYSTEM_APP));
-		ArrayList<File> list1 = FilesUtils
-				.listAllFiles(new File(systemFolder.getAbsolutePath() + File.separator + S.SYSTEM_PRIV_APP));
-		ArrayList<File> list2 = FilesUtils
-				.listAllFiles(new File(systemFolder.getAbsolutePath() + File.separator + S.SYSTEM_FRAMEWORK));
-		ArrayList<File> list = new ArrayList<File>();
-		for (File f : list0)
-			list.add(f);
-		for (File f : list1)
-			list.add(f);
-		for (File f : list2)
-			list.add(f);
-
-		for (File f : list)
-			Zip.AddFileToFolderInZip(systemFolder, f, zipFile);
-	}
-
-	/**
-	 * 
-	 * @param pathToIgnore
-	 *            the path that will be ignored when putting in the zip
-	 * @param fileToAdd
-	 *            a File to add to the given zip
-	 * @param zipFile
-	 *            a zip file
-	 */
-	public static void AddFileToFolderInZip(File pathToIgnore, File fileToAdd, ZipFile zipFile) {
-		try {
-
-			ArrayList<File> filesToAdd = new ArrayList<File>();
-			filesToAdd.add(fileToAdd);
-
-			ZipParameters parameters = new ZipParameters();
-			parameters.setCompressionMethod(Zip4jConstants.COMP_STORE); // set
-																		// compression
-																		// method
-																		// to
-																		// deflate
-																		// compression
-
-			parameters.setCompressionLevel(Zip4jConstants.DEFLATE_LEVEL_NORMAL);
-
-			String rootInZip = "system"
-					+ fileToAdd.getParentFile().getAbsolutePath().substring(pathToIgnore.getAbsolutePath().length());
-			Logger.writLog("[Zip][I]putting " + fileToAdd.getAbsolutePath() + " in "
-					+ zipFile.getFile().getAbsolutePath() + " >> " + rootInZip + File.separator + fileToAdd.getName());
-			parameters.setRootFolderInZip(rootInZip);
-
-			// Now add files to the zip file
-			zipFile.addFiles(filesToAdd, parameters);
-		} catch (ZipException e) {
-			e.printStackTrace();
-			Logger.writLog("[ZIP][EX]" + e.getStackTrace());
-		}
-
-	}
-
-	/**
-	 * zipalign a given apk
-	 * 
-	 * @param in
-	 *            the input apk
-	 * @param out
-	 *            the output apk
-	 * @return true only if the apk was zipaligned
-	 */
-	public static boolean zipAlignAPk(File in, File out) {
-		if (out.exists()) {
-			return true;
-		}
-		String[] cmd = { S.getZipalign(), "4", in.getAbsolutePath(), out.getAbsolutePath() };
-		CmdUtils.runCommand(cmd);
-
-		return out.exists();
-	}
-
-	/**
 	 * 
 	 * @param tempApk
 	 * @param classesFiles
-	 * @return success true only is the files were added 
+	 * @return success true only is the files were added
 	 */
 	public static boolean addFilesToExistingZip(File tempApk, ArrayList<File> classesFiles) {
-		// TODO read zip method 
+		// TODO read zip method
 		boolean success = false;
-		if(Cfg.getCompresionMathod() == 0){
+		if (Cfg.getCompresionMathod() == 0) {
 			success = Zip.addFilesToExistingZipAapt(tempApk, classesFiles);
-		} else if (Cfg.getCompresionMathod() == 1){
+		} else if (Cfg.getCompresionMathod() == 1) {
 			try {
 				success = Zip.addFilesToExistingZipJ4Zip(tempApk, classesFiles);
 			} catch (IOException e) {
@@ -144,13 +56,13 @@ public class Zip {
 				e.printStackTrace();
 				success = Zip.addFilesToExistingZipAapt(tempApk, classesFiles);
 			}
-		} else if (Cfg.getCompresionMathod() == 2){
+		} else if (Cfg.getCompresionMathod() == 2) {
 			success = Zip.addFilesToExistingZipSevenZip(tempApk, classesFiles);
 		}
-		
+
 		return success;
 	}
-	
+
 	/**
 	 * this method uses aapt to add classes files to the given apk/jar the junk
 	 * path are ignored (classes file will be added to the root of the apk/jar)
@@ -161,7 +73,7 @@ public class Zip {
 	 *            the list of classes files to add (not null nor size 0 safe )
 	 * @return added true only is files were added successfully
 	 */
-	public static boolean addFilesToExistingZipAapt(File tempApk, ArrayList<File> classesFiles){
+	public static boolean addFilesToExistingZipAapt(File tempApk, ArrayList<File> classesFiles) {
 		ArrayList<String> cmds = new ArrayList<String>();
 		cmds.add(S.getAapt());
 		cmds.add("a");
@@ -187,7 +99,7 @@ public class Zip {
 		}
 		return sucess;
 	}
-	
+
 	/**
 	 * 
 	 * @param zipFile
@@ -289,11 +201,11 @@ public class Zip {
 	 *            the list of classes files to add (not null nor size 0 safe )
 	 * @return added true only is files were added successfully
 	 */
-	
-	public static boolean addFilesToExistingZipSevenZip(File tempApk, ArrayList<File> classesFiles){
+
+	public static boolean addFilesToExistingZipSevenZip(File tempApk, ArrayList<File> classesFiles) {
 		ArrayList<String> cmds = new ArrayList<String>();
 		String seven[] = Zip.get7ZipCommand();
-		for (String str : seven){
+		for (String str : seven) {
 			cmds.add(str);
 		}
 		cmds.add(tempApk.getAbsolutePath());
@@ -317,12 +229,100 @@ public class Zip {
 		}
 		return sucess;
 	}
-	
+
+	/**
+	 * add files from a system folder to a zip used to create flashable zip only
+	 * app priv-app and framwork will be added
+	 * 
+	 * @param systemFolder
+	 *            the system folder to be added
+	 * @param zipFile
+	 *            the zip file to be created
+	 */
+	public static void AddFilesToFolderInZip(File systemFolder, ZipFile zipFile) {
+
+		ArrayList<File> list0 = FilesUtils
+				.listAllFiles(new File(systemFolder.getAbsolutePath() + File.separator + S.SYSTEM_APP));
+		ArrayList<File> list1 = FilesUtils
+				.listAllFiles(new File(systemFolder.getAbsolutePath() + File.separator + S.SYSTEM_PRIV_APP));
+		ArrayList<File> list2 = FilesUtils
+				.listAllFiles(new File(systemFolder.getAbsolutePath() + File.separator + S.SYSTEM_FRAMEWORK));
+		ArrayList<File> list = new ArrayList<File>();
+		for (File f : list0)
+			list.add(f);
+		for (File f : list1)
+			list.add(f);
+		for (File f : list2)
+			list.add(f);
+
+		for (File f : list)
+			Zip.AddFileToFolderInZip(systemFolder, f, zipFile);
+	}
+
+	/**
+	 * 
+	 * @param pathToIgnore
+	 *            the path that will be ignored when putting in the zip
+	 * @param fileToAdd
+	 *            a File to add to the given zip
+	 * @param zipFile
+	 *            a zip file
+	 */
+	public static void AddFileToFolderInZip(File pathToIgnore, File fileToAdd, ZipFile zipFile) {
+		try {
+
+			ArrayList<File> filesToAdd = new ArrayList<File>();
+			filesToAdd.add(fileToAdd);
+
+			ZipParameters parameters = new ZipParameters();
+			parameters.setCompressionMethod(Zip4jConstants.COMP_STORE); // set
+			// compression
+			// method
+			// to
+			// deflate
+			// compression
+
+			parameters.setCompressionLevel(Zip4jConstants.DEFLATE_LEVEL_NORMAL);
+
+			String rootInZip = "system"
+					+ fileToAdd.getParentFile().getAbsolutePath().substring(pathToIgnore.getAbsolutePath().length());
+			Logger.writLog("[Zip][I]putting " + fileToAdd.getAbsolutePath() + " in "
+					+ zipFile.getFile().getAbsolutePath() + " >> " + rootInZip + File.separator + fileToAdd.getName());
+			parameters.setRootFolderInZip(rootInZip);
+
+			// Now add files to the zip file
+			zipFile.addFiles(filesToAdd, parameters);
+		} catch (ZipException e) {
+			e.printStackTrace();
+			Logger.writLog("[ZIP][EX]" + e.getStackTrace());
+		}
+
+	}
+
 	public static String[] get7ZipCommand() {
 		String sevenZ = PathUtils.getSevenZBinPath();
-		String cmd[] = {sevenZ,"u","-tzip"} ;
+		String cmd[] = { sevenZ, "u", "-tzip" };
 		return cmd;
-		
+
+	}
+
+	/**
+	 * zipalign a given apk
+	 * 
+	 * @param in
+	 *            the input apk
+	 * @param out
+	 *            the output apk
+	 * @return true only if the apk was zipaligned
+	 */
+	public static boolean zipAlignAPk(File in, File out) {
+		if (out.exists()) {
+			return true;
+		}
+		String[] cmd = { S.getZipalign(), "4", in.getAbsolutePath(), out.getAbsolutePath() };
+		CmdUtils.runCommand(cmd);
+
+		return out.exists();
 	}
 
 }

@@ -49,76 +49,54 @@ public class R {
 	private static Font smallFont;
 	private static Font couriernormal;
 	private static Font courierLogger;
-	
+
+	// public static final LogoPane LOGO_PANE =
+	public static final String LOG_HEADER = "[R]";
+
+	public static final Color BUTTONS_BACK_COLOR = new Color(89, 195, 216);
+
+	public static final Color FIELDS_BACK_COLOR = new Color(220, 237, 193);
+
+	public static final Color PANELS_BACK_COLOR = new Color(189, 195, 199);
+
+	private static ArrayList<String> strings = new ArrayList<String>();
+
+	public static Image icon;
+
 	/**
-	 * @return the titleFont
+	 * @return the courierLogger
 	 */
-	public static Font getTitleFont() {
-		if(titleFont == null){
-			return R.TITLE_FONT;
+	public static Font getCourierLogger() {
+		if (courierLogger == null) {
+			return R.COURIER_LOGGER;
 		}
-		return titleFont;
-	}
-
-	/**
-	 * @return the normalFont
-	 */
-	public static Font getNormalFont() {
-		if(normalFont == null)
-			return R.NORMAL_FONT;
-		return normalFont;
-	}
-
-	/**
-	 * @return the smallFont
-	 */
-	public static Font getSmallFont() {
-		if(R.smallFont == null )
-			return R.SMALL_FONT;
-		return smallFont;
+		return courierLogger;
 	}
 
 	/**
 	 * @return the couriernormal
 	 */
 	public static Font getCouriernormal() {
-		if(couriernormal == null)
+		if (couriernormal == null)
 			return R.COURIER_NORMAL;
 		return couriernormal;
 	}
-
 	/**
-	 * @return the courierLogger
+	 * @return the normalFont
 	 */
-	public static Font getCourierLogger() 
-	{
-		if(courierLogger == null)
-		{
-			return R.COURIER_LOGGER;
-		}
-		return courierLogger;
+	public static Font getNormalFont() {
+		if (normalFont == null)
+			return R.NORMAL_FONT;
+		return normalFont;
 	}
-
-	public static void setFont(String fontName) 
-	{
-		titleFont =  new Font(fontName, Font.BOLD, 40);
-		normalFont = new Font(fontName, Font.BOLD, 16);
-		smallFont = new Font(fontName, Font.BOLD, 12);
-		couriernormal = new Font(fontName, Font.BOLD, 18);
-		courierLogger = new Font(fontName, Font.BOLD, 16);
+	/**
+	 * @return the smallFont
+	 */
+	public static Font getSmallFont() {
+		if (R.smallFont == null)
+			return R.SMALL_FONT;
+		return smallFont;
 	}
-
-	
-	
-	// public static final LogoPane LOGO_PANE =
-	public static final String LOG_HEADER = "[R]";
-
-	public static final Color BUTTONS_BACK_COLOR = new Color(89, 195, 216);
-	public static final Color FIELDS_BACK_COLOR = new Color(220, 237, 193);
-	public static final Color PANELS_BACK_COLOR = new Color(189, 195, 199);
-
-	private static ArrayList<String> strings = new ArrayList<String>();
-	public static Image icon;
 
 	public static String getString(String prop) {
 		String value = null;
@@ -133,6 +111,15 @@ public class R {
 		}
 
 		return legalize(value);
+	}
+	/**
+	 * @return the titleFont
+	 */
+	public static Font getTitleFont() {
+		if (titleFont == null) {
+			return R.TITLE_FONT;
+		}
+		return titleFont;
 	}
 
 	public static void initResources() {
@@ -167,9 +154,9 @@ public class R {
 
 	private static String legalize(String str) throws NullPointerException {
 		String tmp = "";
-//		if(str == null){
-//			return null;
-//		}
+		// if(str == null){
+		// return null;
+		// }
 		for (int i = 0; i < str.length() - 1; i++) {
 			String spec = "" + str.charAt(i) + str.charAt(i + 1);
 			if (spec.equals("<>")) {
@@ -183,5 +170,12 @@ public class R {
 		return tmp;
 	}
 
-	
+	public static void setFont(String fontName) {
+		titleFont = new Font(fontName, Font.BOLD, 40);
+		normalFont = new Font(fontName, Font.BOLD, 16);
+		smallFont = new Font(fontName, Font.BOLD, 12);
+		couriernormal = new Font(fontName, Font.BOLD, 18);
+		courierLogger = new Font(fontName, Font.BOLD, 16);
+	}
+
 }

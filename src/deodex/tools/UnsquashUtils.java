@@ -54,7 +54,7 @@ public class UnsquashUtils {
 		String cmd[] = { S.getUnsquashBinary(), "-h" };
 
 		int exitValue = CmdUtils.runCommand(cmd);
-		
+
 		return exitValue == 0 || exitValue == 1;
 	}
 

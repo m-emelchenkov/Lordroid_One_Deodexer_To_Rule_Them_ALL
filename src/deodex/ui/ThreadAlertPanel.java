@@ -33,7 +33,7 @@ public class ThreadAlertPanel extends JPanel {
 	 */
 	private static final long serialVersionUID = 1L;
 	JLabel text1 = new JLabel("<HTML><p>" + R.getString("alert.thread.line1") + R.getString("alert.thread.line2")
-			+ "</p><p><br>" + R.getString("alert.thread.line3") + R.getString("alert.thread.line4") + "</p></HTML>");
+	+ "</p><p><br>" + R.getString("alert.thread.line3") + R.getString("alert.thread.line4") + "</p></HTML>");
 	JCheckBox box = new JCheckBox(R.getString("alert.thread.box.dont.ask.again"));
 	Integer ints[] = { 1, 2, 3, 4 };
 	JLabel jobsLab = new JLabel(R.getString("box.jobs"));

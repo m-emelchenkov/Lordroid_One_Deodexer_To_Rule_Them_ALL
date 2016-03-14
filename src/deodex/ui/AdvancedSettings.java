@@ -40,38 +40,104 @@ import deodex.S;
 
 public class AdvancedSettings extends JPanel {
 
+	class Listener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+			// TODO Auto-generated method stub
+			if (arg0.getSource().equals(fontsCombo)) {
+
+				Cfg.setCurrentFont((String) fontsCombo.getSelectedItem());
+				setFonts();
+
+			} else if (arg0.getSource().equals(langsCombo)) {
+
+				Cfg.setCurrentLang((String) langsCombo.getSelectedItem());
+
+			} else if (arg0.getSource().equals(HeapsizeCombo)) {
+
+				Cfg.setMaxHeadSize((String) HeapsizeCombo.getSelectedItem());
+
+			} else if (arg0.getSource().equals(threadCombo)) {
+
+				Cfg.setMaxJobs((int) threadCombo.getSelectedItem());
+
+			} else if (arg0.getSource().equals(compMethodCombo)) {
+
+				for (int i = 0; i < AdvancedSettings.COMPRESSION_METHODS.length; i++) {
+
+					String method = COMPRESSION_METHODS[i];
+
+					if (method.equals(compMethodCombo.getSelectedItem())) {
+
+						Cfg.setCompresionMathod(i);
+
+						break;
+
+					}
+
+				}
+
+			}
+
+		}
+
+	}
+	class WhiteYellowCellRenderer extends WebListCellRenderer {
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+		@Override
+		public Component getListCellRendererComponent(@SuppressWarnings("rawtypes") JList list, Object value, int index,
+				boolean isSelected, boolean cellHasFocus) {
+			WebListElement c = (WebListElement) super.getListCellRendererComponent(list, value, index, isSelected,
+					cellHasFocus);
+			c.setFont(new Font((String) value, Font.BOLD, 22));
+			if (isSelected) {
+
+				c.setForeground(Color.RED);
+
+			}
+
+			return c;
+		}
+	}
+
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+
 	public static final String[] COMPRESSION_METHODS = { "aapt (best compatibility)", "J4zip (smaller size)",
-			"7z (if you feel unlucky)" };
-
+	"7z (if you feel unlucky)" };
 	JTabbedPane p = new JTabbedPane();
-
 	// Strings
 	String tabbedTitleLang = "Launguage";
+
 	String tabbedTitlePerf = "Performance";
 	String tabbedTitleTools = "Customize tools";
-
 	// Pannels
 	JPanel langPan = new JPanel();
+
 	JPanel performancePan = new JPanel();
 	JPanel toolsPan = new JPanel();
-
 	// JComboBoxes
 	JComboBox<String> fontsCombo = new JComboBox<String>();
 	public JComboBox<String> langsCombo = new JComboBox<String>();
 	public JComboBox<Integer> threadCombo = new JComboBox<Integer>();
+
 	public JComboBox<String> HeapsizeCombo = new JComboBox<String>();
 	public JComboBox<String> compMethodCombo = new JComboBox<String>();
-
 	// JLAbels
 	public JLabel HeapsizeLab = new JLabel("Max Heap Size");
 	public JLabel zipMethodLab = new JLabel(R.getString("0000053"));
 	public JLabel langsLab = new JLabel(R.getString("0000053"));
 	public JLabel threadLab = new JLabel(R.getString("0000054"));
+
 	public JLabel fontsLab = new JLabel("Font (will be availble next launch)");
+
 	public JLabel compresion = new JLabel("Compression Method");
 
 	@SuppressWarnings("unchecked")
@@ -115,7 +181,7 @@ public class AdvancedSettings extends JPanel {
 			this.compMethodCombo.addItem(COMPRESSION_METHODS[2]);
 		}
 		compMethodCombo.setSelectedItem(AdvancedSettings.COMPRESSION_METHODS[Cfg.getCompresionMathod()]);
-		
+
 		// tool tips
 		this.fontsCombo.setToolTipText(
 				"<HTML><p>The <b>font</b> to be used ,change this if you like an other font </p><p>\nor if you have trouble displaying some weird chars</p></HTML>");
@@ -206,72 +272,6 @@ public class AdvancedSettings extends JPanel {
 		this.compresion.setFont(R.getNormalFont());
 		p.setFont(R.getNormalFont());
 		this.repaint();
-
-	}
-
-	class WhiteYellowCellRenderer extends WebListCellRenderer {
-		/**
-		 * 
-		 */
-		private static final long serialVersionUID = 1L;
-
-		@Override
-		public Component getListCellRendererComponent(@SuppressWarnings("rawtypes") JList list, Object value, int index,
-			boolean isSelected, boolean cellHasFocus) {
-			WebListElement c = (WebListElement) super.getListCellRendererComponent(list, value, index, isSelected,
-					cellHasFocus);
-			c.setFont(new Font((String) value, Font.BOLD, 22));
-			if (isSelected) {
-				
-				c.setForeground(Color.RED);
-				
-			}
-			
-			return c;
-		}
-	}
-
-	class Listener implements ActionListener {
-
-		@Override
-		public void actionPerformed(ActionEvent arg0) {
-			// TODO Auto-generated method stub
-			if (arg0.getSource().equals(fontsCombo)) {
-
-				Cfg.setCurrentFont((String) fontsCombo.getSelectedItem());
-				setFonts();
-
-			} else if (arg0.getSource().equals(langsCombo)) {
-
-				Cfg.setCurrentLang((String) langsCombo.getSelectedItem());
-
-			} else if (arg0.getSource().equals(HeapsizeCombo)) {
-
-				Cfg.setMaxHeadSize((String) HeapsizeCombo.getSelectedItem());
-
-			} else if (arg0.getSource().equals(threadCombo)) {
-
-				Cfg.setMaxJobs((int) threadCombo.getSelectedItem());
-
-			} else if (arg0.getSource().equals(compMethodCombo)) {
-
-				for (int i = 0; i < AdvancedSettings.COMPRESSION_METHODS.length; i++) {
-
-					String method = COMPRESSION_METHODS[i];
-
-					if (method.equals(compMethodCombo.getSelectedItem())) {
-
-						Cfg.setCompresionMathod(i);
-
-						break;
-
-					}
-
-				}
-
-			}
-
-		}
 
 	}
 

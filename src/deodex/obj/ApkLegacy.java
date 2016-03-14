@@ -96,16 +96,16 @@ public class ApkLegacy implements Serializable {
 		classes = new File(tempFolder.getAbsolutePath() + File.separator + S.CLASSES);
 		this.tempZipaligned = new File(tempFolder.getAbsolutePath() + File.separator + pureName + "_zipaligned.apk");
 		this.tempSigned = new File(tempFolder.getAbsolutePath() + File.separator + pureName + "_signed.apk");
-		
-		//FilesUtils.copyFileRecurcively(origApk, tempApk);
-		//FilesUtils.copyFileRecurcively(origOdex, tempOdex);
+
+		// FilesUtils.copyFileRecurcively(origApk, tempApk);
+		// FilesUtils.copyFileRecurcively(origOdex, tempOdex);
 		origApk.renameTo(tempApk);
 		origOdex.renameTo(tempOdex);
-		
+
 		return tempApk.exists() && tempOdex.exists();
 	}
-	
-	public void reverseMove(){
+
+	public void reverseMove() {
 		tempApk.renameTo(origApk);
 		tempOdex.renameTo(origOdex);
 	}

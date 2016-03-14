@@ -45,6 +45,27 @@ import deodex.tools.PropReader;
 
 public class LoggerPane extends JPanel implements LoggerPan {
 
+	class WhiteYellowCellRenderer extends WebListCellRenderer {
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+		@Override
+		public Component getListCellRendererComponent(@SuppressWarnings("rawtypes") JList list, Object value, int index,
+				boolean isSelected, boolean cellHasFocus) {
+			WebListElement c = (WebListElement) super.getListCellRendererComponent(list, value, index, isSelected,
+					cellHasFocus);
+			if (((String) value).contains(R.getString(S.LOG_ERROR))) {
+				c.setForeground(new Color(169, 50, 38));
+			} else if (((String) value).contains(R.getString(S.LOG_WARNING))) {
+				c.setForeground(new Color(241, 196, 15));
+			} else if (((String) value).contains("[SUCCESS]")) {
+				c.setForeground(new Color(20, 90, 50));
+			}
+			return c;
+		}
+	}
 	/**
 	 * 
 	 */
@@ -52,6 +73,7 @@ public class LoggerPane extends JPanel implements LoggerPan {
 	Image bg;
 	JList<String> logs = new JList<String>();
 	DefaultListModel<String> model = new DefaultListModel<String>();
+
 	JScrollPane scroll;
 
 	@SuppressWarnings("unchecked")
@@ -170,24 +192,5 @@ public class LoggerPane extends JPanel implements LoggerPan {
 		PropReader.ArrayToProp(logs, logFile);
 		this.repaint();
 	}
-    class WhiteYellowCellRenderer extends WebListCellRenderer {
-        /**
-		 * 
-		 */
-		private static final long serialVersionUID = 1L;
 
-		@Override
-		public Component getListCellRendererComponent( @SuppressWarnings("rawtypes") JList list, Object value, int index, boolean isSelected, boolean cellHasFocus ) {
-        	WebListElement c =(WebListElement) super.getListCellRendererComponent( list, value, index, isSelected, cellHasFocus );
-        	if ( ((String)value).contains(R.getString(S.LOG_ERROR)) ) {
-            	c.setForeground(new Color(169, 50, 38));
-            } else if (((String)value).contains(R.getString(S.LOG_WARNING))) {
-            	c.setForeground(new Color( 241, 196, 15));
-            } else if (((String)value).contains("[SUCCESS]")){
-            	c.setForeground(new Color(20, 90, 50));
-            } 
-            return c;
-        }
-    }
-     
 }

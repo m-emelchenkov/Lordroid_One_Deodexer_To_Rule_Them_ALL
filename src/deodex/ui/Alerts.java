@@ -42,6 +42,30 @@ public class Alerts {
 
 	}
 
+	public static void showAdvancedSettingsDialog(JFrame jFrame) {
+		FilesUtils.copyFile(new File(Cfg.CFG_PATH), new File(Cfg.CFG_PATH + ".bak"));
+		AdvancedSettings setings = new AdvancedSettings();
+		JOptionPane pane = new JOptionPane(setings, JOptionPane.PLAIN_MESSAGE, JOptionPane.OK_CANCEL_OPTION);
+		JDialog dialog = pane.createDialog(jFrame, R.getString("0000052"));
+		dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+		dialog.setSize(840, 430);
+		// dialog.setLocation(jFrame.getLocation());
+		dialog.setLocationRelativeTo(jFrame);
+		dialog.setVisible(true);
+
+		int status = 10;
+		try {
+			status = (int) pane.getValue();
+		} catch (Exception e) {
+			FilesUtils.copyFile(new File(Cfg.CFG_PATH + ".bak"), new File(Cfg.CFG_PATH));
+		}
+		if (status != 0) {
+			FilesUtils.copyFile(new File(Cfg.CFG_PATH + ".bak"), new File(Cfg.CFG_PATH));
+			Cfg.readCfg();
+		}
+		new File(Cfg.CFG_PATH + ".bak");
+	}
+
 	public static boolean showDeodexNowAlert(JComponent comp) {
 		int i = 1;
 		if (Cfg.doShowDeodexAlert()) {
@@ -86,32 +110,6 @@ public class Alerts {
 		}
 	}
 
-	public static void showAdvancedSettingsDialog(JFrame jFrame) {
-		FilesUtils.copyFile(new File(Cfg.CFG_PATH), new File(Cfg.CFG_PATH+".bak"));
-		AdvancedSettings setings = new AdvancedSettings();
-		JOptionPane pane = new JOptionPane(setings, JOptionPane.PLAIN_MESSAGE, JOptionPane.OK_CANCEL_OPTION);
-		JDialog dialog = pane.createDialog(jFrame, R.getString("0000052"));
-		dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-		dialog.setSize(840, 430);
-		//dialog.setLocation(jFrame.getLocation());
-		dialog.setLocationRelativeTo(jFrame);
-		dialog.setVisible(true);
-
-		int status = 10;
-		try {
-			status = (int) pane.getValue();
-		} catch (Exception e) {
-			FilesUtils.copyFile( new File(Cfg.CFG_PATH+".bak") , new File(Cfg.CFG_PATH));
-		}
-		if (status != 0) {
-			FilesUtils.copyFile( new File(Cfg.CFG_PATH+".bak") , new File(Cfg.CFG_PATH));
-			Cfg.readCfg();
-		}
-		new File(Cfg.CFG_PATH+".bak");
-	}
-
-	
-	
 	public static int showThreadDialog(JComponent comp) {
 		if (Cfg.doShowThreadAlert()) {
 			ThreadAlertPanel alertPane = new ThreadAlertPanel();

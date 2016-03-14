@@ -43,7 +43,7 @@ import deodex.controlers.ThreadWatcher;
 import deodex.controlers.ZipalignWorker;
 import deodex.tools.FilesUtils;
 
-public class ZipalignWindow extends JFrame implements ThreadWatcher ,MouseListener , MouseMotionListener{
+public class ZipalignWindow extends JFrame implements ThreadWatcher, MouseListener, MouseMotionListener {
 
 	class BrowseAction implements ActionListener {
 
@@ -116,10 +116,10 @@ public class ZipalignWindow extends JFrame implements ThreadWatcher ,MouseListen
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	protected int posX = 0;
 	protected int posY = 0;
-	
+
 	ZipalignWorker zip;
 	JTextField browseField = new JTextField(R.getString(S.BROWSE_FEILD));
 	MyWebButton browseBtn = new MyWebButton("...");
@@ -142,9 +142,10 @@ public class ZipalignWindow extends JFrame implements ThreadWatcher ,MouseListen
 		this.setTitle("Batch Zipalign/Sign ");
 		this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		this.add(rootPannel, BorderLayout.CENTER);
-		// FIXME : set this undecorated and handlee the closing oprations 
-		//         because right now when closed it get disposed but the process keeps running in the background !
-		//this.setUndecorated(true);
+		// FIXME : set this undecorated and handlee the closing oprations
+		// because right now when closed it get disposed but the process keeps
+		// running in the background !
+		// this.setUndecorated(true);
 		// backcolors
 		rootPannel.setBackground(R.PANELS_BACK_COLOR);
 		browseBtn.setBackground(R.BUTTONS_BACK_COLOR);
@@ -248,44 +249,9 @@ public class ZipalignWindow extends JFrame implements ThreadWatcher ,MouseListen
 	}
 
 	@Override
-	public void sendFailed(Runnable r) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void updateProgress() {
-		this.initProgress();
-	}
-
-	@Override
 	public void mouseClicked(MouseEvent arg0) {
 		// TODO Auto-generated method stub
-		
-	}
 
-	@Override
-	public void mouseEntered(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mouseExited(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mousePressed(MouseEvent e) {
-		this.posX = e.getXOnScreen();
-		this.posY = e.getYOnScreen();
-	}
-
-	@Override
-	public void mouseReleased(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
@@ -299,8 +265,43 @@ public class ZipalignWindow extends JFrame implements ThreadWatcher ,MouseListen
 	}
 
 	@Override
+	public void mouseEntered(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void mouseExited(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
 	public void mouseMoved(MouseEvent arg0) {
 		// TODO Auto-generated method stub
-		
+
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		this.posX = e.getXOnScreen();
+		this.posY = e.getYOnScreen();
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void sendFailed(Runnable r) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void updateProgress() {
+		this.initProgress();
 	}
 }
