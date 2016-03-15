@@ -26,7 +26,6 @@ import javax.swing.JPanel;
 
 import com.alee.laf.progressbar.WebProgressBar;
 
-import deodex.Cfg;
 import deodex.R;
 import deodex.S;
 import deodex.SessionCfg;
@@ -540,12 +539,12 @@ public class MainWorker implements Runnable, ThreadWatcher, Watchable {
 		String[] oat2dex = { "java", "-jar", S.getAot2Dex(), "-v" };
 		String[] smali = { "java", "-jar", S.getSmali(), "-v" };
 		String[] backsmali = { "java", "-jar", S.getBaksmali(), "-v" };
-		String[] zupalign = { new File(S.getZipalign() + File.separator + Cfg.getOs()).getAbsolutePath(), "-v" };
+		String[] zipalign = { new File(S.getZipalign() ).getAbsolutePath(), "-v" };
 
 		CmdUtils.runCommand(oat2dex);
 		CmdUtils.runCommand(smali);
 		CmdUtils.runCommand(backsmali);
-		CmdUtils.runCommand(zupalign);
+		CmdUtils.runCommand(zipalign);
 
 	}
 
