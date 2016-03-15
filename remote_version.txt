@@ -1,3 +1,4 @@
 version.incrimental=13
 download.page=https://goo.gl/H2WrfZ
 download.link=https://goo.gl/BjfUjp
+version.name=v1.23
