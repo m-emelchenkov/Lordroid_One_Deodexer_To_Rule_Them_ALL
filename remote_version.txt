@@ -1,4 +1,4 @@
-version.incrimental=12
+version.incrimental=13
 download.page=https://goo.gl/H2WrfZ
-download.link=https://goo.gl/BjfUjp
+download.link=https://www.dropbox.com/s/dkn083okvzw11j6/lordroid_ODTRTA_v1.23_ALL.tar.gz?dl=1
 version.name=v1.23
