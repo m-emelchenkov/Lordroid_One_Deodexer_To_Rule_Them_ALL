@@ -86,16 +86,21 @@ public class ZipTools {
 			List fileHeaderList = zipFile.getFileHeaders();
 
 			// Loop through the file headers
-			for (int i = 0; i < fileHeaderList.size(); i++) {
-				FileHeader fileHeader = (FileHeader) fileHeaderList.get(i);
-				String name = fileHeader.getFileName();
-				if (name.contains("/")) {
-					name = name.substring(name.lastIndexOf("/"));
-				}
-				if (name.equals(fileName)) {
-					return true;
-				}
-
+			// TODO why some zips throw OutOfBoundsException ? weird zips ?
+			try {
+				for (int i = 0; i < fileHeaderList.size(); i++) {
+					FileHeader fileHeader = (FileHeader) fileHeaderList.get(i);
+					String name = fileHeader.getFileName();
+					if (name.contains("/")) {
+						name = name.substring(name.lastIndexOf("/"));
+					}
+					if (name.equals(fileName)) {
+						return true;
+					}
+				
+				} 
+			}	catch (Exception e){
+				return false;
 			}
 
 		} catch (ZipException e) {
