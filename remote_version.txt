@@ -1,2 +1,3 @@
 version.incrimental=13
-doanload.link=https://goo.gl/BjfUjp
+download.page=https://goo.gl/H2WrfZ
+download.link=https://goo.gl/BjfUjp
