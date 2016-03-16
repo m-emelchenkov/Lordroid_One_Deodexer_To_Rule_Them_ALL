@@ -59,7 +59,6 @@ public class Zip {
 			try {
 				success = Zip.addFilesToExistingZipJ4Zip(tempApk, classesFiles);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 				success = Zip.addFilesToExistingZipAapt(tempApk, classesFiles);
 			}
@@ -81,6 +80,21 @@ public class Zip {
 	 * @return added true only is files were added successfully
 	 */
 	public static boolean addFilesToExistingZipAapt(File tempApk, ArrayList<File> classesFiles) {
+		// lets make sure we delete the old classes files otherwise it will 
+		// 
+		ArrayList<String> rmCmd = new ArrayList<String>();
+		rmCmd.add(S.getAapt());
+		rmCmd.add("r");
+		rmCmd.add("-k");
+		rmCmd.add(tempApk.getAbsolutePath());
+		for (File f : classesFiles)
+			rmCmd.add(f.getAbsolutePath());
+
+		String[] cmdRm = new String[rmCmd.size()];
+		for (int i = 0; i < rmCmd.size(); i++)
+			cmdRm[i] = rmCmd.get(i);
+		CmdUtils.runCommand(cmdRm);
+		
 		ArrayList<String> cmds = new ArrayList<String>();
 		cmds.add(S.getAapt());
 		cmds.add("a");
