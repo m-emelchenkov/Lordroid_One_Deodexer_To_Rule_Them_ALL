@@ -18,6 +18,7 @@
  */
 package deodex.ui;
 
+import java.awt.Component;
 import java.io.File;
 
 import javax.swing.JComponent;
@@ -29,12 +30,43 @@ import javax.swing.WindowConstants;
 import deodex.Cfg;
 import deodex.R;
 import deodex.tools.FilesUtils;
+import deodex.tools.PathUtils;
+import deodex.ui.about.CheckUpdatePan;
 
 public class Alerts {
+	static JDialog updateDialog = new JDialog();
+	static CheckUpdatePan updatePan = new CheckUpdatePan(updateDialog);
+	
+	public static void showClosingdialog(Component c) {
+		JOptionPane.showMessageDialog(c, R.getString("0000073"));
+		FilesUtils.deleteRecursively(new File(PathUtils.getExcutionPath() + File.separator + "updates"));
+		System.exit(0);
+	}
+
+	public static void showUpdateAlertDialog(JFrame jFrame) {
+		updateDialog.dispose();
+		updateDialog = new JDialog();
+		updatePan = new CheckUpdatePan(updateDialog);
+		updateDialog.setAlwaysOnTop(true);
+		updateDialog.getContentPane().setLayout(null);
+		updateDialog.getContentPane().add(updatePan);
+		updateDialog.setSize(650, 250);
+		updateDialog.setLocationRelativeTo(jFrame);
+		updateDialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		updateDialog.setTitle("Update Manager");
+		updateDialog.setIconImage(R.icon);
+		updateDialog.setVisible(true);
+		if (updatePan.didUpdate) {
+			// prompt exit
+		}
+
+	}
 
 	/**
-	 * show the advanced settings dialog 
-	 * @param jFrame the Jframe which the dialog's Location will be relative to
+	 * show the advanced settings dialog
+	 * 
+	 * @param jFrame
+	 *            the Jframe which the dialog's Location will be relative to
 	 */
 	public static void showAdvancedSettingsDialog(JFrame jFrame) {
 		FilesUtils.copyFile(new File(Cfg.CFG_PATH), new File(Cfg.CFG_PATH + ".bak"));
@@ -55,7 +87,7 @@ public class Alerts {
 		if (status != 0) {
 			FilesUtils.copyFile(new File(Cfg.CFG_PATH + ".bak"), new File(Cfg.CFG_PATH));
 			Cfg.readCfg();
-			
+
 		} else {
 			Cfg.writeCfgFile();
 			Cfg.readCfg();
@@ -94,7 +126,7 @@ public class Alerts {
 	}
 
 	/**
-	 * @deprecated use Advanced settings instead this is here just for reference 
+	 * @deprecated use Advanced settings instead this is here just for reference
 	 * @param com
 	 */
 	public static void showSettingsDialog(JComponent com) {

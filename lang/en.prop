@@ -19,8 +19,8 @@
 file.launguage=English
 #
 #
-app.version=v1.22
-app.name=Lordroid One Dedodexer To Rule Them All v1.22
+app.version=v1.23
+app.name=Lordroid One Dedodexer To Rule Them All v1.23
 #
 # first window first launch !
 app.welcome=Welcome to LODTRTA!
@@ -180,3 +180,28 @@ create.zip.btn=Create flashable zip
 0000069=<HTML><p>The Launguage to be used</p><p><b>Note:</b> </br>you need to restart the application in order for the changes to take effect</p></html>
 0000070=<HTML><p>the max heap size to be used</p><p>only change this if you are having OutOfMemoryExceptions</p><p>The default Value is <b>512m<b> </p></HTML>
 0000071=<HTML><p>The tool to be used to put back classes.dex into apk</p><p>can affect various aspect of the rom it self choose wisely</p><p>if you have no idea what this is just leave it on aapt</p><p> because it is the most compatible if aapt is not shown to you here</p></p> it is not supported by tour OS use <b>J4zip</b> instead</p></HTML>
+0000072=Couldn't extract system please check your cable and your phone before trying again !
+0000073=<html><p>The software was update please re-Launch the software for the changes to take effects </p></html>
+0000074=Click check for update to check if there is a new version
+0000075=Check new update Now
+0000076=Open download page
+0000077=Download & Install
+0000078=Downloading new version ... 
+0000079=Downloading new version ... 
+0000080=Installing new version please wait ...
+0000081=Extracting content  ...
+0000082=An error has accured couldn't Download new version :(
+0000083=Extracting 
+0000084=Done !
+0000085=<html><p>Could not extract new version find update archive under /updates</p><p> please extract it manually  </p></html>
+0000086=New version Installed successfully
+0000087=An error has accured can't check for updates
+0000088=Preparing ... 
+0000089=Fetching data from server ... 
+0000090=Data was fetched from server ... 
+0000091=Comparing local and remote versions  ... 
+0000092=New Version found ! 
+0000093=Congrates ,You already have the latest version available !
+0000094=New version available go to  about > check for Update to update to latest !
+0000096=You have the latest version installed
+0000097=Check for updates on startup

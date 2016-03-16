@@ -240,7 +240,7 @@ public class AdbUtils {
 	 * 
 	 * @return serverWasKilled ?
 	 */
-	private static boolean killServer() {
+	public static boolean killServer() {
 		// if we have no adb binary dont bother
 		if (Cfg.getOs().equals("null")) {
 			Logger.writLog("[AdbUtils][E]ADB is not supported by this OS");

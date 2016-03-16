@@ -57,6 +57,7 @@ import deodex.controlers.Watchable;
 import deodex.tools.AdbUtils;
 import deodex.tools.CmdUtils;
 import deodex.tools.FilesUtils;
+import deodex.ui.about.CheckUpdatePan;
 
 public class Window extends JFrame implements ThreadWatcher, ChangeListener {
 
@@ -78,8 +79,7 @@ public class Window extends JFrame implements ThreadWatcher, ChangeListener {
 
 			boolean extractStatus = AdbUtils.extractSystem(systemFolder, logger);
 			if (!extractStatus) {
-				logger.addLog(R.getString(S.LOG_ERROR)
-						+ "Couldn't extract system please check your cable and your phone before trying again !");
+				logger.addLog(R.getString(S.LOG_ERROR) + R.getString("0000072"));
 				this.updateWatcherFail();
 				return;
 			}
@@ -166,6 +166,8 @@ public class Window extends JFrame implements ThreadWatcher, ChangeListener {
 						R.getString("0000005"), JOptionPane.INFORMATION_MESSAGE);
 			} else if (source.equals(settingsItem)) {
 				Alerts.showAdvancedSettingsDialog(getThisFram());
+			} else if (source.equals(checkUpdateMenu)) {
+				Alerts.showUpdateAlertDialog(getThisFram());
 			}
 
 		}
@@ -226,6 +228,7 @@ public class Window extends JFrame implements ThreadWatcher, ChangeListener {
 	// About
 	JMenu aboutMenu = new JMenu(R.getString("about.menu"));
 	JMenuItem aboutThisMenu = new JMenuItem(R.getString("About.this.program"));
+	JMenuItem checkUpdateMenu = new JMenuItem("Check for updates");
 	int currentSelectedtab = 0;
 	boolean workInProgress = false;
 
@@ -260,6 +263,9 @@ public class Window extends JFrame implements ThreadWatcher, ChangeListener {
 
 		initMenuBar();
 		initBrowseView();
+		if(Cfg.doCheckForUpdate()){
+			CheckUpdatePan.CheckForUpdate(logger);
+		}
 	}
 
 	private void adbDeodexNow() {
@@ -538,16 +544,18 @@ public class Window extends JFrame implements ThreadWatcher, ChangeListener {
 		batchZipalignSignMenuItem.setFont(R.getCouriernormal());
 
 		// attach about Items
+		this.aboutMenu.add(checkUpdateMenu);
 		this.aboutMenu.add(this.aboutThisMenu);
 		aboutMenu.setFont(R.getCouriernormal());
 		aboutThisMenu.setFont(R.getCouriernormal());
-
+		checkUpdateMenu.setFont(R.getCouriernormal());
 		/// les Action
 
 		this.setVisible(true);
 		batchZipalignSignMenuItem.addActionListener(new MenuItemsListener());
 		exitMenuItem.addActionListener(new MenuItemsListener());
 		aboutThisMenu.addActionListener(new MenuItemsListener());
+		checkUpdateMenu.addActionListener(new MenuItemsListener());
 		this.settingsItem.addActionListener(new MenuItemsListener());
 	}
 
@@ -614,7 +622,7 @@ public class Window extends JFrame implements ThreadWatcher, ChangeListener {
 								+ R.getString("0000012") + "\n" + R.getString("0000013") + "\n" + R.getString("0000014")
 								+ "\n" + R.getString("0000015") + "\n" + R.getString("0000016") + "\n\n"
 								+ R.getString("0000017"),
-								R.getString("0000018"), JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+						R.getString("0000018"), JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
 				if (agree == 0) {
 					String name = JOptionPane.showInputDialog(zipIt,
 							R.getString("0000006") + "\n" + R.getString("0000007"));
@@ -622,7 +630,7 @@ public class Window extends JFrame implements ThreadWatcher, ChangeListener {
 						boolean valid = false;
 						try {
 							new File(System.getProperty("java.io.tmpdir") + File.separator + name).getParentFile()
-							.mkdirs();
+									.mkdirs();
 							valid = new File(System.getProperty("java.io.tmpdir") + File.separator + name)
 									.createNewFile();
 

@@ -43,6 +43,7 @@ public class Cfg {
 	private static final String FONT_NAME_PROP = "app.font";
 	private static final String HEAP_SIZE_PROP = "max.heap.size";
 	private static final String COMP_METHOD_PROP = "compression.method";
+	private static final String CHECK_UPDATE_PROP = "check.update.startup";
 
 	private static String currentLang;
 	private static String currentFont;
@@ -55,7 +56,7 @@ public class Cfg {
 	private static int compresionMethod = S.AAPT_METHOD;
 	private static ArrayList<File> langFiles = new ArrayList<File>();
 	private static ArrayList<String> availableLang = new ArrayList<String>();
-
+	private static int checkForUpdate = 1;
 	/**
 	 * returns weither or not show the dialog to the user
 	 * 
@@ -63,6 +64,21 @@ public class Cfg {
 	 */
 	public static boolean doShowDeodexAlert() {
 		return showDeodexAlert == 1;
+	}
+
+	/**
+	 * @return the checkForUpdate
+	 */
+	public static boolean doCheckForUpdate() {
+		return checkForUpdate == 1;
+	}
+
+	/**
+	 * @param checkForUpdate the checkForUpdate to set
+	 */
+	public static void setCheckForUpdate(int checkForUpdate) {
+		Cfg.checkForUpdate = checkForUpdate;
+		PropReader.writeProp(Cfg.CHECK_UPDATE_PROP, "" + Cfg.checkForUpdate, new File(Cfg.CFG_PATH));
 	}
 
 	/**
@@ -344,6 +360,13 @@ public class Cfg {
 			Cfg.compresionMethod = 0;
 			Logger.writLog("[Cfg][EX]" + e.getStackTrace());
 		}
+		try {
+			//TODO
+			Cfg.checkForUpdate = Integer.parseInt(PropReader.getProp(Cfg.CHECK_UPDATE_PROP, new File(CFG_PATH)));
+		} catch (Exception e){
+			e.printStackTrace();
+			Cfg.setCheckForUpdate(1);
+		}
 	}
 
 	/**
@@ -443,6 +466,8 @@ public class Cfg {
 		PropReader.writeProp(Cfg.FONT_NAME_PROP, currentFont, new File(Cfg.CFG_PATH));
 		PropReader.writeProp(Cfg.HEAP_SIZE_PROP, Cfg.maxHeadSize, new File(Cfg.CFG_PATH));
 		PropReader.writeProp(Cfg.COMP_METHOD_PROP, "" + Cfg.compresionMethod, new File(Cfg.CFG_PATH));
+		PropReader.writeProp(Cfg.CHECK_UPDATE_PROP, "" + Cfg.checkForUpdate, new File(Cfg.CFG_PATH));
+
 	}
 
 }

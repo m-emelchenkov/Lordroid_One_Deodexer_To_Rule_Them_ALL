@@ -6,7 +6,7 @@
     <property name="dir.buildfile" value="."/>
     <property name="dir.workspace" value="${dir.buildfile}/.."/>
     <property name="dir.jarfile" value="${dir.buildfile}"/>
-	<property name="app.version" value="v1.22"/>
+	<property name="app.version" value="v1.23"/>
 	<path id="project-classpath">
 		<fileset dir="${dir.jarfile}/libs" includes="*.jar" />
 		<fileset dir="${dir.jarfile}/bins/oat2dex" includes="*.jar" />

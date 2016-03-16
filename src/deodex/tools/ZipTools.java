@@ -91,10 +91,10 @@ public class ZipTools {
 				for (int i = 0; i < fileHeaderList.size(); i++) {
 					FileHeader fileHeader = (FileHeader) fileHeaderList.get(i);
 					String name = fileHeader.getFileName();
-					if (name.contains("/")) {
-						name = name.substring(name.lastIndexOf("/"));
-					}
-					if (name.equals(fileName)) {
+//					if (name.contains("/")) {
+//						name = name.substring(name.lastIndexOf("/"));
+//					}
+					if (name.contains(fileName)) {
 						return true;
 					}
 				

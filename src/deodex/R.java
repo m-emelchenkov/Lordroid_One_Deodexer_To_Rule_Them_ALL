@@ -38,6 +38,7 @@ import deodex.tools.StringUtils;
 
 public class R {
 	private static final Font TITLE_FONT = new Font("Arial", Font.BOLD, 40);
+	public static final Font SMALL_TITLE_FONT = new Font("Arial", Font.BOLD, 18);
 	private static final Font NORMAL_FONT = new Font("Arial", Font.BOLD, 16);
 	private static final Font SMALL_FONT = new Font("Arial", Font.BOLD, 12);
 

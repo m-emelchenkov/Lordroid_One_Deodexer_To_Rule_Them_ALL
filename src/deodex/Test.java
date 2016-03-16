@@ -20,46 +20,27 @@ package deodex;
 
 import java.io.IOException;
 
-import com.alee.laf.WebLookAndFeel;
+import org.apache.commons.compress.archivers.ArchiveException;
 
-import deodex.ui.Alerts;
+import com.alee.laf.WebLookAndFeel;
 
 public class Test {
 
-	public static void main(String[] args) throws InterruptedException, IOException {
-		// String[] cmd = {"aapt","v"};
-		// System.out.println(CmdUtils.runCommand(cmd));
-		// URL url = new URL("https://goo.gl/KdVKWi");
-		// URLConnection connection = url.openConnection();
-		// System.out.println(connection.getContentLengthLong());
-		// InputStream is = connection.getInputStream();
-		// FilesUtils.copyFile(is, new File("/tmp/a1.tar.gz"));
-		System.out.println(Cfg.isAaptAvailable());
-		// if(cmd != null){
-		// Thread.sleep(100);
-		// return;
-		// }
+	public static void main(String[] args) throws InterruptedException, IOException, ArchiveException {
+//		File targz = new File("/tmp/test.tar.gz");
+//		File tar = new File("/tmp/test.tar");
+//		File outDir = new File("/tmp/out");
+//		TarGzUtils.unGzip(targz, new File("/tmp"));
+//		TarGzUtils.unTar(tar, outDir);
 		WebLookAndFeel.install();
-		// String fonts[] =
-		// GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
-		//
-		// for ( int i = 0; i < fonts.length; i++ )
-		// {
-		// System.out.println(fonts[i]);
-		// }
-		// String[] cmd = {"aapt"};
-		// System.out.println(CmdUtils.runCommand(cmd));
-		Cfg.readCfg();
 		R.initResources();
-		Cfg.writeCfgFile();
-		System.out.println("7z ? " + Cfg.is7ZipAvailable());
-		// JFrame win = new JFrame();
-		// win.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		// win.setSize(820, 350);
-		// win.setLayout(null);
-		// AdvancedSettings setings = new AdvancedSettings();
-		// win.add(setings);
-		// win.setVisible(true);
-		Alerts.showAdvancedSettingsDialog(null);
+		//JFrame win = new JFrame();
+		//win.setLocationRelativeTo(null);
+//		win.setSize(650, 250);
+//		win.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//		win.add(new CheckUpdatePan());
+//		win.setVisible(true);
+		//Alerts.showUpdateAlertDialog(win);
+		
 	}
 }

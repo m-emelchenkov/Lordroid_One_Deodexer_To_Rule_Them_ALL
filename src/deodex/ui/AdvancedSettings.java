@@ -25,6 +25,7 @@ import java.awt.GraphicsEnvironment;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -155,6 +156,7 @@ public class AdvancedSettings extends JPanel {
 
 	public JLabel compresion = new JLabel(R.getString("0000067"));
 
+	public JCheckBox checkUpdateOnStartup = new JCheckBox(R.getString("0000097"));
 	/**
 	 * Constructor no arguments 
 	 */
@@ -217,6 +219,15 @@ public class AdvancedSettings extends JPanel {
 		this.HeapsizeCombo.addActionListener(new Listener());
 		this.threadCombo.addActionListener(new Listener());
 		compMethodCombo.addActionListener(new Listener());
+		checkUpdateOnStartup.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				Cfg.setCheckForUpdate(checkUpdateOnStartup.isSelected() ? 1:0);
+			}
+			
+		});
 		// labels
 
 		// bounds combos and their labels
@@ -226,6 +237,9 @@ public class AdvancedSettings extends JPanel {
 		this.fontsLab.setBounds(20, 80, 350, 40);
 		this.fontsCombo.setBounds(370, 80, 300, 40);
 
+		checkUpdateOnStartup.setBounds(50, 140, 400, 40);
+
+		
 		this.threadLab.setBounds(20, 20, 350, 40);
 		this.threadCombo.setBounds(370, 20, 300, 40);
 
@@ -234,7 +248,6 @@ public class AdvancedSettings extends JPanel {
 
 		this.compresion.setBounds(20, 140, 350, 40);
 		this.compMethodCombo.setBounds(370, 140, 300, 40);
-
 		// fiead
 
 		// tabbed Pan props
@@ -263,7 +276,9 @@ public class AdvancedSettings extends JPanel {
 		this.langPan.add(fontsLab);
 		this.langPan.add(langsCombo);
 		this.langPan.add(langsLab);
-
+		this.langPan.add(checkUpdateOnStartup);
+		checkUpdateOnStartup.setSelected(Cfg.doCheckForUpdate());
+		
 		// add comp to performance pan
 		this.performancePan.add(HeapsizeCombo);
 		this.performancePan.add(this.HeapsizeLab);
@@ -271,6 +286,7 @@ public class AdvancedSettings extends JPanel {
 		this.performancePan.add(threadLab);
 		this.performancePan.add(compMethodCombo);
 		this.performancePan.add(compresion);
+
 		/// add components to this
 		this.add(p);
 		setFonts();
@@ -280,6 +296,7 @@ public class AdvancedSettings extends JPanel {
 	 * call this one to update the used font after user changes it
 	 */
 	private void setFonts() {
+		checkUpdateOnStartup.setFont(R.getNormalFont());
 		this.fontsLab.setFont(R.getNormalFont());
 		this.threadLab.setFont(R.getNormalFont());
 		this.langsLab.setFont(R.getNormalFont());
