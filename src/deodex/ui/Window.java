@@ -228,7 +228,7 @@ public class Window extends JFrame implements ThreadWatcher, ChangeListener {
 	// About
 	JMenu aboutMenu = new JMenu(R.getString("about.menu"));
 	JMenuItem aboutThisMenu = new JMenuItem(R.getString("About.this.program"));
-	JMenuItem checkUpdateMenu = new JMenuItem("Check for updates");
+	JMenuItem checkUpdateMenu = new JMenuItem(R.getString("0000098"));
 	int currentSelectedtab = 0;
 	boolean workInProgress = false;
 
