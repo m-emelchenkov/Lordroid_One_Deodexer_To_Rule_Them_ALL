@@ -62,6 +62,8 @@ public class ApkObj implements Serializable {
 		this.odexFile = odexFile;
 		if (odexFile.getName().endsWith(S.COMP_ODEX_EXT)) {
 			setPureName(odexFile.getName().substring(0, odexFile.getName().lastIndexOf(S.COMP_ODEX_EXT)));
+		} else if (odexFile.getName().endsWith(S.COMP_GZ_ODEX_EXT)){
+			setPureName(odexFile.getName().substring(0, odexFile.getName().lastIndexOf(S.COMP_GZ_ODEX_EXT)));	
 		} else {
 			setPureName(odexFile.getName().substring(0, odexFile.getName().lastIndexOf(S.ODEX_EXT)));
 		}

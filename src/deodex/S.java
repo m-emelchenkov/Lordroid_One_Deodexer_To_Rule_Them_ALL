@@ -48,6 +48,7 @@ public class S {
 	public static final String APK_EXT = ".apk";
 	public static final String ODEX_EXT = ".odex";
 	public static final String COMP_ODEX_EXT = ".odex.xz";
+	public static final String COMP_GZ_ODEX_EXT = ".odex.gz";	
 	public static final String SYSTEM_APP = "app";
 	public static final String SYSTEM_PRIV_APP = "priv-app";
 	public static final String SYSTEM_BUILD_PROP = "build.prop";

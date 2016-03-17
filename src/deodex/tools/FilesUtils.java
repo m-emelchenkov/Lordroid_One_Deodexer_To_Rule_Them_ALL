@@ -219,6 +219,7 @@ public class FilesUtils {
 		if (folder.exists()) {
 			x = ArrayUtils.deletedupricates(FilesUtils.searchrecursively(folder, S.ODEX_EXT)).size();
 			x = x + ArrayUtils.deletedupricates(FilesUtils.searchrecursively(folder, S.COMP_ODEX_EXT)).size();
+			x = x + ArrayUtils.deletedupricates(FilesUtils.searchrecursively(folder, S.COMP_GZ_ODEX_EXT)).size();
 		}
 		return x;
 	}

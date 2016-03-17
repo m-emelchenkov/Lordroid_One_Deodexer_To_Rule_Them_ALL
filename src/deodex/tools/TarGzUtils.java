@@ -107,4 +107,21 @@ public class TarGzUtils {
 
 	    return outputFile;
 	}
+
+	/**
+	 * unGunZip odex file 
+	 * @param odex the odex file to ungunzip
+	 * @param parentFile the folder where to put the uncompressed odex file (same as odex file)
+	 * @return isDecompressed true only if an output odex file was found 
+	 */
+	public static boolean unGzipOdex(File odex, File parentFile) {
+		boolean success = false;
+		try {
+			success = TarGzUtils.unGzip(odex, parentFile).exists();
+		} catch (IOException e) {
+			e.printStackTrace();
+			return false;
+		}
+	    return success;
+	}
 }

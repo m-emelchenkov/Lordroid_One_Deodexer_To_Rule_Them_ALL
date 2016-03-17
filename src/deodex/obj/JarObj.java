@@ -54,6 +54,8 @@ public class JarObj {
 			absoluteName = odexFile.getName().substring(0, odexFile.getName().lastIndexOf("."));
 		} else if (odexFile.getName().endsWith(".odex.xz")) {
 			absoluteName = odexFile.getName().substring(0, odexFile.getName().lastIndexOf(".odex.xz"));
+		} else if (odexFile.getName().endsWith(S.COMP_GZ_ODEX_EXT)){
+			absoluteName = odexFile.getName().substring(0, odexFile.getName().lastIndexOf(".odex.gz"));
 		}
 
 		this.origJar = new File(SessionCfg.getSystemFolder().getAbsolutePath() + File.separator + S.SYSTEM_FRAMEWORK

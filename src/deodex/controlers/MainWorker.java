@@ -29,6 +29,7 @@ import com.alee.laf.progressbar.WebProgressBar;
 import deodex.R;
 import deodex.S;
 import deodex.SessionCfg;
+import deodex.obj.JarObj;
 import deodex.tools.ArrayUtils;
 import deodex.tools.CmdUtils;
 import deodex.tools.Deodexer;
@@ -138,12 +139,15 @@ public class MainWorker implements Runnable, ThreadWatcher, Watchable {
 		ArrayList<File> global = new ArrayList<File>();
 		ArrayList<File> list1 = null;
 		ArrayList<File> list2 = null;
+		ArrayList<File> list3 = null;
 		// system/app odex
 		if (new File(this.folder.getAbsolutePath() + File.separator + S.SYSTEM_APP).exists()) {
 			list1 = FilesUtils.searchrecursively(
 					new File(this.folder.getAbsolutePath() + File.separator + S.SYSTEM_APP), S.ODEX_EXT);
 			list2 = FilesUtils.searchrecursively(
 					new File(this.folder.getAbsolutePath() + File.separator + S.SYSTEM_APP), S.COMP_ODEX_EXT);
+			list3 = FilesUtils.searchrecursively(
+					new File(this.folder.getAbsolutePath() + File.separator + S.SYSTEM_APP), S.COMP_GZ_ODEX_EXT);
 		}
 
 		if (list1 != null && list1.size() > 0) {
@@ -158,12 +162,21 @@ public class MainWorker implements Runnable, ThreadWatcher, Watchable {
 				global.add(f);
 		}
 
+		if (list3 != null && list3.size() > 0) {
+			list3 = ArrayUtils.deletedupricates(list3);
+			for (File f : list3)
+				global.add(f);
+		}
+
+		
 		// system/priv-app odex
 		if (new File(this.folder.getAbsolutePath() + File.separator + S.SYSTEM_PRIV_APP).exists()) {
 			list1 = FilesUtils.searchrecursively(
 					new File(this.folder.getAbsolutePath() + File.separator + S.SYSTEM_PRIV_APP), S.ODEX_EXT);
 			list2 = FilesUtils.searchrecursively(
 					new File(this.folder.getAbsolutePath() + File.separator + S.SYSTEM_PRIV_APP), S.COMP_ODEX_EXT);
+			list3 = FilesUtils.searchrecursively(
+					new File(this.folder.getAbsolutePath() + File.separator + S.SYSTEM_PRIV_APP), S.COMP_GZ_ODEX_EXT);
 
 		}
 
@@ -177,6 +190,11 @@ public class MainWorker implements Runnable, ThreadWatcher, Watchable {
 		if (list2 != null && list2.size() > 0) {
 			list2 = ArrayUtils.deletedupricates(list2);
 			for (File f : list2)
+				global.add(f);
+		}
+		if (list3 != null && list3.size() > 0) {
+			list3 = ArrayUtils.deletedupricates(list3);
+			for (File f : list3)
 				global.add(f);
 		}
 		return ArrayUtils.deletedupricates(global);
@@ -239,9 +257,19 @@ public class MainWorker implements Runnable, ThreadWatcher, Watchable {
 
 		ArrayList<File> tmpList = FilesUtils.searchrecursively(
 				new File(folder.getAbsolutePath() + File.separator + S.SYSTEM_FRAMEWORK), S.COMP_ODEX_EXT);
+		
+		ArrayList<File> tmpList2 = FilesUtils.searchrecursively(
+				new File(folder.getAbsolutePath() + File.separator + S.SYSTEM_FRAMEWORK), S.COMP_GZ_ODEX_EXT);
+		
 		if (tmpList != null && tmpList.size() > 0) {
 			tmpList = ArrayUtils.deletedupricates(tmpList);
 			for (File f : tmpList) {
+				this.worker3List.add(f);
+			}
+		}
+		if(tmpList2 != null && tmpList2.size() > 0){
+			tmpList2 = ArrayUtils.deletedupricates(tmpList2);
+			for (File f : tmpList2) {
 				this.worker3List.add(f);
 			}
 		}
@@ -252,19 +280,14 @@ public class MainWorker implements Runnable, ThreadWatcher, Watchable {
 			ArrayList<File> apksInFram = ArrayUtils
 					.deletedupricates(
 							FilesUtils.searchExactFileNames(
-									new File(folder.getAbsolutePath() + File.separator + S.SYSTEM_FRAMEWORK),
-									(f.getName().endsWith(".odex")
-											? f.getName().substring(0, f.getName().lastIndexOf("."))
-													: f.getName().substring(0, f.getName().lastIndexOf(".odex.xz"))) + ".apk"));
-			Logger.writLog("[MainWorker][I]" + "Searching for "
-					+ (f.getName().endsWith(".odex") ? f.getName().substring(0, f.getName().lastIndexOf("."))
-							: f.getName().substring(0, f.getName().lastIndexOf(".odex.xz")))
-					+ ".apk");
+									new File(folder.getAbsolutePath() + File.separator + S.SYSTEM_FRAMEWORK), new JarObj(f).getAbsoluteName()+".apk" ));
+
+			Logger.writLog("[MainWorker][I]" + "Searching for ");
 			if (!apksInFram.isEmpty()) {
 				temapkinfram.add(f);
 				Logger.writLog("[MainWorker][I]" + "fount moving it to apk worker's list ");
 			} else {
-				Logger.writLog("[MainWorker][I]" + "not found skip ...");
+				Logger.writLog("[MainWorker][I]" + "not found assuming odex file belongs to a .jar file ...");
 			}
 		}
 		for (File f : temapkinfram) {
