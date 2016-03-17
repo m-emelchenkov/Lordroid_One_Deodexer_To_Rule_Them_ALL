@@ -110,7 +110,6 @@ public class R {
 			}
 
 		}
-		System.out.println(value);
 		return legalize(value);
 	}
 	/**
