@@ -1,0 +1,207 @@
+#
+#
+#
+# Copyright 2016 Rachid Boudjelida <rachidboudjelida@gmail.com>
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+#   Language resources file for LUBD
+#   this file will be read with a line reader so no multi-line allowed !
+#    for translation use UTF-8 encoding spaces in the right end of '=' count !
+file.launguage=Italiano
+#
+#
+app.version=v1.23
+app.name=Lordroid One Dedodexer To Rule Them All v1.23
+#
+# first window first launch !
+app.welcome=Benvenuto in LODTRTA!
+app.welcome.message=Questa è la prima volta che avvii questo programma <> scegli la tua lingua :
+app.langBoxLab=scegli la lingua :
+app.buttonNext=Avanti >>
+#
+# path to system choose
+browse.Field= Trascina e rilascia qui i file oppure clicca su Sfoglia per selezionare la cartella system
+browseBtn=sfoglia
+optionalPan=Facoltativo
+zipalignCheck=zipalign
+zipalignCheck.ToolTip=Esegui lo zipalign dell'APK dopo il deodexing
+signCheck=Rifirma (sign) gli APK
+signCheck.ToolTip=Riesegui la firma (sign) degli apk dopo il deodexing (potrebbe essere necessario su alcune ROM e dispositivi)
+deodexNow=Esegui il deodex!
+log.warning=[WARNING]
+log.error=[ ERROR ]
+log.info=[ INFO  ]
+log.success=[SUCCESS]
+log.fail=[FAILED]
+log.no.build.prop=Manca il file build.prop file nella cartella selezionata !
+log.could.not.read.sdk_level=Impossibile leggere il livello dell'sdk dal file build.prop
+log.app.found=Cartella /system/app trovata...  [OK]
+log.app.not.found=Cartella /system/app NON trovata! [IGNORE]
+log.not.a.system.folder=Non ho trovato nessuna delle cartelle [app] [priv-app] [framework] ! Ssei certo di aver scelto la cartella giusta?
+log.privapp.found=Cartella /system/priv-app trovata... [OK]
+log.privapp.not.found=Cartella /system/priv-app folder NON trovata!  
+log.framework.found=Cartella /system/framework folder trovata... [OK]
+log.framwork.not.found=Cartella /system/framework non trovata!
+log.framwork.not.found.error=Cartella /system/framework NON trovata! non si può eseguire il deodex senza! skd > 20!
+log.no.arch.detected=Impossibile determinare il tuo arch ! Arch non supoortata oppure Rom già deodexata
+log.no.boot.oat=Impossibile trovare il file boot.oat ! Non è possibile eseguire il deodex senza! skd > 20!
+log.ok=[OK]
+log.rom.arch=Arch della Rom Arch identificato ===>  
+log.build.prop.found=/system/build.prop trovato... [OK]
+log.copy.to.tmp.failed=[Impossibile copia sulla cartella di lavoro; non è possibile eseguire il deodex !][[SKIPPED]]
+log.extract.to.tmp.failed=[Impossibile decomprire il file odex! Deodex non possibile!][[SKIPPED]]
+log.deodex.failed=[Impossibile eseguire il deodex su questo file! Deodex del file impossibile !][[SKIPPED]]
+log.classes.failed=[Impossibile creare il file classes.dex][APK SKIPPED]
+log.add.classes.failed=[Impossibile aggiungere classes.dex al file][[SKIPPED]]
+log.already.deodex= Deodex già effettuato! [SUCCESS]
+log.putback.apk.failed=[Impossibile copiare il file di nuovo nella sua cartella di origine][[SKIPPED]]
+window.exitbtn=Esci
+window.restartbtn=Indietro
+mainworker.finallog=File di salvato in /logs/yyyy-MM-dd|hh:mm:ss.log
+mainWorker.alljobsDone=TUTTI I PASSI SONO STATI COMPLETATI!
+progress.done=Fine
+progress.bootFiles=Deodex dei file di boot
+progress.apks=Deodex dei file Apk
+progress.jar=Deodex dei file Jar
+overal.progress=Avanzamento complessivo
+dialog.sure.exit=Sei sicuro?
+dialog.sure.exit.message=Per favore, conferma la tua azione; sei certo di volere uscire?
+box.jobs=Numero massimo di job
+log.resign.ok=[sign ok]
+log.resign.fail=[sign fallita!]
+log.zipalign.ok=[zipalign ok]
+log.zipalign.fail=[zipalign fallito]
+alert.deodexNow=L'operazione di deodex consuma tantissime risorse
+alert.deodexNow1=Questa operazione può durare anche un ora in certi casi
+alert.deodexNow.areyousure=Sei certo di voler proseguire?
+alert.deodex.now.title=Conferma la tua scelta
+log.detected.sdk= Livello SDK rilevato:
+log.detected.arch= ARCH identificato:
+log.chosen.folder= Cartella system scelta:
+log.there.is=Ci sono 
+log.to.be.deodexed=su cui eseguire il deodex
+no.odexFiles.wereFound=Non è stato trovato nessun file odex; non posso eseguire il deodex; forse la rom è già deodexed?
+dont.show.this.again=Non chiedere più
+alert.thread.line1=Possiamo usare piu thread simultaneamente per eseguire il deodex degli apk e dei jar
+alert.thread.line2=per ridurre il tempo di esecuzione ma questo consuma più risorse di sistema
+alert.thread.line3=NOTA : se non sai di cosa si sta parlando, o non conosci le reali possiblità
+alert.thread.line4=       del tuo hardware, lascia questo valore come predefinito
+alert.thread.box.dont.ask.again=Usalo come valore predefinito e non riprovare
+zipalign.now.btn=Avvia Zipalign
+log.no.apk.to.zipalign=Nessun apk trovato nella cartella selezionata; sei certo di aver scelto la cartella giusta?
+apk.to.be.zipaligned.log= apk su cui eseguire lo zipalign...
+zipalign.fram.file.chooser.title=Scegli una cartella che contenga degli apk!
+no.job.selected.zipalign.frame=<HTML><p>Devi scegliere almeno una azione, <b>zipalign o sign</b>, altrimenti tutto questo è inutile!</p></HTML>
+you.shall.not.pass=Non dovresti proseguire!
+file= File
+exit= Escu
+tools= Strumento
+batch.zipalign.sign.menu.items=Esegui sign/zipalign in batch
+about.menu= Informazioni
+About.this.program=Informazioni sul programma
+create.zip.btn=Crea zip flashabile
+0000000=Apri la cartella destinazione
+0000001=ODTRTA >> Creatore zip
+0000002=Lordroid batch deodex ODTRTA
+0000003=Copyright Rachid Boudjelida 2016
+0000004=This software è concesso in licenza secondo la GPLV3
+0000005=Informazioni
+0000006=Scegli il nome per il tuo file .zip
+0000007=(Per esempio : myDeodexedRom.zip)
+0000008=Il nome che hai scelto non è valido! Riprova
+0000009=Tieni conti di questo :
+0000010=1 - Questo zip non conterrà la tua ROM completa
+0000011=2 - Perchè questo zip funzioni devi avere la stessa ROM già installata sul tuo telefono !
+0000012=3 - Questo zip flasherà le cartelle /system/app, /system/priv-app, /system/framework e
+0000013=    eliminerà tutti i file odex, oat, art, odex.xz, art.xz; è per questo che l'operazione
+0000014=    è sicura solo se lo zip deodexato corrisponde alla tua ROM
+0000015=4 - Come sempre, FLASHA A TUO RISCHIO
+0000016=5 - Esegui sempre un backup prima di flashare qualsiasi cose sul tuo telefono!
+0000017=Sei daccordo?
+0000018=ATTENZIONE !
+0000019=Impossibile terminare adb server; interruzione...
+0000020=Impossibile avviare adb server; interruzione...
+0000021=adb command è terminato con un codice di errore! Interruzione!
+0000022= E' stato rilevato più di un dispositivo; per favore connetti un unico dispositivo al PC!
+0000023= Non è stato rilevato nessun dispositivo!
+0000024=Assicurati che il dispositov sia connesso e che i driver siano installati
+0000025=Assicurati che il dispositov sia connesso e che le regole udev siano impostate correttamente
+0000026=Assicurati che il dispositov sia connesso; Os X rileva adb da solo, senza bisogno di nessun driver
+0000027= dispositivo rilevato! Nome:
+0000028= il suo stato è:
+0000029=Estrazione del file build.prop dal dispositivo...
+0000030=Impossibile estrarre il file build.prop; interruzione...[FAIL]
+0000031=Il file build.prop è stato estratto con successo dal dispositivo...
+0000032=Tentativo di rilevamento del livello dell'SDK...
+0000033=Impossibile rilevare il livello dell'SDK [FAIL]
+0000034=Il livello dell'SDK è
+0000035=Estrazione di /system/priv-app... (non chiudere questa finestra, l'operazione richiede un po' di tempo)
+0000036= La cartella priv-app non può essere copiata; FAI ATTENZIONE, verrà completamente ignorata!
+0000037=/system/priv-app è stata estratta con successo...
+0000038=Estrazione di /system/app dal dispositivo... (non chiudere questa finestra, l'operazione richiede un po' di tempo)
+0000039= La cartella app non può essere copiata; FAI ATTENZIONE, verrà completamente ignorata!
+0000040=/system/app è stata estratta con successo...
+0000041=Estrazione di /system/framework dal dispositivo... (non chiudere questa finestra, l'operazione richiede un po' di tempo)
+0000042=/system/framework è stata estratta con successo...
+0000043=Estrazione della cartella /system/framework fallita..
+0000044=Numero di serie del dispositivo:
+0000045=Stato del dispositivo:
+0000046=Aggiorna
+0000047=Da cartella
+0000048=Da dispositivo
+0000049=Un'altra operazione è già in corso; non puoi cambiare scheda fino al termine dell'operazione!
+0000050=Per favore scegli il nome per la cartella estratta
+0000051=(Per esempio : myOdexRom)
+0000052= Impostazioni
+0000053=Lingua (verrà modificata al prossimo riavvio)
+0000054=Numero massimo di thread
+0000055=Esegui lo zipalign di tutti gli apk nella cartella selezionata
+0000056=Firma (sign) tutti gli apk nella cartella selezionata
+0000057=<HTML><p>Clicca per scegliere la cartella che contiene gli apk da sottoporre a zipalign/sign</p> <p>NOTA: la ricerca degli apk è ricorsiva</p></HTML>
+0000058=aapt (massima compatibilità)
+0000059=J4zip (dimensione minore)
+0000060=7z (se ti senti sfortunato)
+0000061=Lingua
+0000062=Prestazioni
+0000063=Personalizza gli strumenti
+0000064=Dimensione massima heap
+0000065=Font (verrà modificato dopo al prossimo riavvio)
+0000067=Metodo di compressione
+0000068=<HTML><p>Il <b>font</b> da usare; cambialo se te ne piace un altro</p><p>\no se hai problemi perchè visualizzi caratteri strani</p></HTML>
+0000069=<HTML><p>Lingua da usare</p><p><b>Nota:</b> </br>occorre riavviare l'applicazione perchè la modifica abbia effetto</p></html>
+0000070=<HTML><p>Dimensione massima dell'heap da usare</p><p>modificala solo seha delle eccezioni di tipo OutOfMemoryExceptions</p><p>Il valore predefinito è di <b>512m<b> </p></HTML>
+0000071=<HTML><p>Lo strumento da usare per rimettere classes.dex dentro gli apk</p><p>può influenzare vari aspetti della rom; scegli con saggezza</p><p>se non ne hai un'idea, lascia semplicemente selezionato aapt</p><p> perchè è il tool con la massima compatiblità; se aapt qui non viene visualizzato vuol dire</p></p> che non è supportato dal tuo OS; usa <b>J4zip</b> in alternativa</p></HTML>
+0000072=Impossibile estrarre system, verifica il collegamento via cavo per favore prima di riprovare!
+0000073=<html><p>Il software è stato aggiornato, per favore riavvialo per eseguire la versione aggiornata</p></html>
+0000074=Clicca su Verifica aggiornamenti per cercare online una nuova versione
+0000075=Verifica aggiornamenti ora
+0000076=Apri la pagina dei download
+0000077=Scarica e installa
+0000078=Scaricamento della nuova versione in corso... 
+0000079=Scaricamento della nuova versione in corso... 
+0000080=Installazione della nuova versione in corso, attendere...
+0000081=Estrazione del contenuto in corso ...
+0000082=Si è verificato un errore. Non è possibile scaricare la nuova versione :(
+0000083=Estrazione in corso
+0000084=Fatto!
+0000085=<html><p>Non è possibile decomprire automaticamente l'ultima versione, trova l'archivio di aggiornamento in /updates</p><p>, e per favore decomprimilo manualmente</p></html>
+0000086=La nuova versione è stata installata con successo
+0000087=Impossibile verificare la presenza di nuovi aggiornamenti, si è verificato un errore.
+0000088=Preparazione... 
+0000089=Sto recuperando i dati dal server... 
+0000090=Dati dal server recuperati... 
+0000091=Sto confrontando la tua versione con quella disponibile online... 
+0000092=E' disponibile una nuova versione! 
+0000093=Ottimo, hai già l'ultima versione disponibile!
+0000094=E' disponibile una nuova versione, vai in Informazioni > Verifica per eseguire l'aggiornamento!
+0000096=Hai già l'ultima versione dell'app installata
+0000097=Verifica aggiornamenti del tool all'avvio
