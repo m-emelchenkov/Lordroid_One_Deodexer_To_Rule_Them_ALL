@@ -57,6 +57,7 @@ import deodex.controlers.Watchable;
 import deodex.tools.AdbUtils;
 import deodex.tools.CmdUtils;
 import deodex.tools.FilesUtils;
+import deodex.ui.about.AboutTabbedPan;
 import deodex.ui.about.CheckUpdatePan;
 
 public class Window extends JFrame implements ThreadWatcher, ChangeListener {
@@ -161,9 +162,7 @@ public class Window extends JFrame implements ThreadWatcher, ChangeListener {
 					System.exit(0);
 				}
 			} else if (source.equals(aboutThisMenu)) {
-				JOptionPane.showMessageDialog(getThisFram(),
-						R.getString("0000002") + "\n" + R.getString("0000003") + "\n" + R.getString("0000004"),
-						R.getString("0000005"), JOptionPane.INFORMATION_MESSAGE);
+				Alerts.showAboutDialog(getThisFram());
 			} else if (source.equals(settingsItem)) {
 				Alerts.showAdvancedSettingsDialog(getThisFram());
 			} else if (source.equals(checkUpdateMenu)) {

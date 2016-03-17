@@ -25,12 +25,14 @@ import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
 import deodex.Cfg;
 import deodex.R;
 import deodex.tools.FilesUtils;
 import deodex.tools.PathUtils;
+import deodex.ui.about.AboutTabbedPan;
 import deodex.ui.about.CheckUpdatePan;
 
 public class Alerts {
@@ -149,6 +151,29 @@ public class Alerts {
 		}
 	}
 
+	/**
+	 * 
+	 * @param jFrame
+	 * @return agree the user agreed and wanna proceed ?
+	 */
+	public static boolean showAboutDialog(JFrame jFrame) {
+		int i = 1;
+			JPanel pan = new JPanel();
+			pan.setSize(800,800);
+			pan.setLayout(null);
+			AboutTabbedPan alertPane = new AboutTabbedPan();
+			pan.add(alertPane);
+		
+			JOptionPane pane = new JOptionPane(pan,JOptionPane.PLAIN_MESSAGE);
+			JDialog dialog = pane.createDialog(jFrame, R.getString("alert.deodex.now.title"));
+			dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+			dialog.setSize(800, 800);
+			dialog.setLocationRelativeTo(jFrame);
+			dialog.setVisible(true);
+
+		return i == 0;
+	}
+	
 	/**
 	 * 
 	 * @param comp
