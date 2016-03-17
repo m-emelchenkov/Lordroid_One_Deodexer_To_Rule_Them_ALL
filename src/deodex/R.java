@@ -110,7 +110,7 @@ public class R {
 			}
 
 		}
-
+		System.out.println(value);
 		return legalize(value);
 	}
 	/**
@@ -162,6 +162,9 @@ public class R {
 			String spec = "" + str.charAt(i) + str.charAt(i + 1);
 			if (spec.equals("<>")) {
 				tmp = tmp + '\n';
+				i++;
+			}else if (spec.equals(">>")){
+				tmp = tmp +"=";
 				i++;
 			} else {
 				tmp = tmp + str.charAt(i);

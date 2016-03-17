@@ -165,7 +165,7 @@ public class Alerts {
 			pan.add(alertPane);
 		
 			JOptionPane pane = new JOptionPane(pan,JOptionPane.PLAIN_MESSAGE);
-			JDialog dialog = pane.createDialog(jFrame, R.getString("alert.deodex.now.title"));
+			JDialog dialog = pane.createDialog(jFrame, R.getString("0000123"));
 			dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 			dialog.setSize(800, 800);
 			dialog.setLocationRelativeTo(jFrame);

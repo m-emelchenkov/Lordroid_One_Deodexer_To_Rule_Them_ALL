@@ -20,6 +20,8 @@ package deodex.ui.about;
 
 import javax.swing.JTabbedPane;
 
+import deodex.R;
+
 public class AboutTabbedPan extends JTabbedPane{
 
 	/**
@@ -31,9 +33,9 @@ public class AboutTabbedPan extends JTabbedPane{
 		super(JTabbedPane.LEFT);
 		this.setSize(770, 700);
 		this.setBounds(0,0,770,700);
-		this.addTab("About", new AboutPan());
-		this.addTab("Links", new LinksPan());
-		this.addTab("License", new LicensePan());
+		this.addTab(R.getString("about.menu"), new AboutPan());
+		this.addTab(R.getString("0000112"), new LinksPan());
+		this.addTab(R.getString("0000113"), new LicensePan());
 		
 	}
 	

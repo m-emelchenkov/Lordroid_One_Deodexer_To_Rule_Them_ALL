@@ -148,12 +148,10 @@ public class Window extends JFrame implements ThreadWatcher, ChangeListener {
 					@Override
 					public void run() {
 						String[] cmd = { "java", "-jar", S.TOOLS_JAR.getAbsolutePath(), "BZW" };
-						// TODO Auto-generated method stub
 						CmdUtils.runCommand(cmd);
 					}
 				}).start();
 
-				// new ZipalignWindow(getThisFram());
 			} else if (source.equals(exitMenuItem)) {
 				int i = JOptionPane.showConfirmDialog(getThisFram(), R.getString("dialog.sure.exit.message"),
 						R.getString("dialog.sure.exit"), JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
@@ -311,7 +309,7 @@ public class Window extends JFrame implements ThreadWatcher, ChangeListener {
 			new Thread(adbworker).start();
 
 		} else {
-			JOptionPane.showMessageDialog(deodexNow, "The chosen name is not valid for a file name ! try again");
+			JOptionPane.showMessageDialog(deodexNow, R.getString("0000122"));
 			deodexNow.setEnabled(true);
 			this.workInProgress = false;
 		}

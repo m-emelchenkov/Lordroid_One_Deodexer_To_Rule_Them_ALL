@@ -44,22 +44,22 @@ public class AboutPan extends JPanel {
 		this.setBounds(0,0,600,600);
 		this.setLayout(null);
 		this.setBackground(Color.WHITE);
-		JLabel title = new JLabel("Lordroid One Deodexer To Rule Them All");
+		JLabel title = new JLabel();
 		String text = 
-				"<html><h1 color=\"#7d3c98\" bgcolor=\"#f4d03f\">Lordroid One Deodexer To Rule Them All</h1>"
-				+"<h2 color=\"#f4d03f\" bgcolor=\"#a325a7\">Description :</h2>"
-				+"<p>Lordroid One Deodexer To Rule Them All is a free Software writen in java ,capable of deodexing any android rom under any platform (OS) as long as that OS have JRE 7 or Higher Installed</p>"
-				+"<h2 color=\"#f4d03f\" bgcolor=\"#a325a7\">License :</h2>"
-				+"<p>Software redistributed under GPL V3 see license tab for more details</p>"
-				+"<h2 color=\"#f4d03f =\" bgcolor=\"#a325a7\">Author :</h2>"
-				+"<p>© Rachid Boudjelida rachidboudjelida@gmail.com all rights reserved</p>"
-				+"<h2 color=\"#f4d03f\" bgcolor=\"#a325a7\">Translators :</h2>"
-				+"<p>Droid-Angel (English),realtebo (Italian),Raphael Mangini(Portugues) , pabloc97(spanish)</p>"
-				+"<h2 color=\"#f4d03f\" bgcolor=\"#a325a7\">Used Libraries :</h2>"
-				+"<p>commons-compress-1.10.jar , zip4j_1.3.2.jar ,weblaf-1.28.jar , xz.jar</p>"
-				+"<h2 color=\"#f4d03f\" bgcolor=\"#a325a7\">Used binaries :</h2>"
-				+"<p>oat2dex.jar ,smali.jar ,baksmali.jar ,signApk.jar ,adb ,aapt ,unsquash ,7z.exe</p>"
-				+"</html>";
+				 R.getString("0000099")
+				+R.getString("0000100")
+				+R.getString("0000101")
+				+R.getString("0000102")
+				+R.getString("0000103")
+				+R.getString("0000104")
+				+R.getString("0000105")
+				+R.getString("0000106")
+				+R.getString("0000107")
+				+R.getString("0000108")
+				+R.getString("0000109")
+				+R.getString("0000110")
+				+R.getString("0000111");
+		
 		title.setText(text);
 		title .setBounds(10, -20, 580, 600);
 		title .setFont(R.getNormalFont());
