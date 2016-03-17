@@ -23,7 +23,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Enumeration;
 import java.util.List;
+import java.util.zip.ZipEntry;
 
 import org.apache.commons.compress.compressors.xz.XZCompressorInputStream;
 
@@ -92,8 +94,10 @@ public class ZipTools {
 					FileHeader fileHeader = (FileHeader) fileHeaderList.get(i);
 					String name = fileHeader.getFileName();
 //					if (name.contains("/")) {
+					// FIXME : find a better way to test fail and success 
 //						name = name.substring(name.lastIndexOf("/"));
 //					}
+					if(name.length()>= fileName.length())
 					if (name.contains(fileName)) {
 						return true;
 					}
@@ -103,11 +107,36 @@ public class ZipTools {
 				return false;
 			}
 
-		} catch (ZipException e) {
-			e.printStackTrace();
-			Logger.writLog("[ZipTools][EX]" + e.getStackTrace());
+		} catch (Exception e) {
+			//e.printStackTrace(); don't print the Exception can be a throwable and doesn't have sush method 
+			Logger.writLog("[ZipTools][EX] isFileInZip fail trying fail safe mode instead ");
+			File zip = zipFile.getFile();
+			try {
+				return ZipTools.isFileinZipFailSafe(fileName, new java.util.zip.ZipFile(zip));
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		}
 		return false;
 	}
 
+	public static boolean isFileinZipFailSafe(String fileName, java.util.zip.ZipFile zipFile) {
+		try {
+
+			Enumeration<? extends ZipEntry> zipEntries = zipFile.entries();
+
+				while (zipEntries.hasMoreElements()){
+					
+					if (zipEntries.nextElement().getName().contains(fileName)){
+						return true;
+					}
+				}
+
+		} catch (Exception e) {
+			Logger.writLog("[ZipTools][EX]" + e.getStackTrace());
+			return false;
+		}
+		return false;
+	}
 }
