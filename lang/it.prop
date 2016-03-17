@@ -16,7 +16,7 @@
 #   Language resources file for LUBD
 #   this file will be read with a line reader so no multi-line allowed !
 #    for translation use UTF-8 encoding spaces in the right end of '=' count !
-file.launguage=Italian
+file.launguage=Italiano
 #
 #
 app.version=v1.23
