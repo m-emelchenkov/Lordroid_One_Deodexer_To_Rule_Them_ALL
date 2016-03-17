@@ -57,7 +57,6 @@ import deodex.controlers.Watchable;
 import deodex.tools.AdbUtils;
 import deodex.tools.CmdUtils;
 import deodex.tools.FilesUtils;
-import deodex.ui.about.AboutTabbedPan;
 import deodex.ui.about.CheckUpdatePan;
 
 public class Window extends JFrame implements ThreadWatcher, ChangeListener {
@@ -319,8 +318,8 @@ public class Window extends JFrame implements ThreadWatcher, ChangeListener {
 
 	}
 
-	public void addThreadWatcher() {
-		mainWorker.addThreadWatcher(this);
+	public Window getThisWatcher() {
+		return this;
 	}
 
 	private void deodexNow() {
@@ -344,8 +343,7 @@ public class Window extends JFrame implements ThreadWatcher, ChangeListener {
 				@Override
 				public void run() {
 
-					mainWorker = new MainWorker(SessionCfg.getSystemFolder(), logger, maxJobs);
-					addThreadWatcher();
+					mainWorker = new MainWorker(SessionCfg.getSystemFolder(), logger, maxJobs,getThisWatcher());
 					Thread t = new Thread(mainWorker);
 					t.start();
 				}

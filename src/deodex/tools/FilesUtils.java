@@ -341,7 +341,25 @@ public class FilesUtils {
 
 		}
 
-		// is boot .oat there ?
+
+		// lets detect if the rom is have squashfs
+		File appSquash = new File(systemFolder.getAbsolutePath() + File.separator + "odex.app.sqsh");
+		File privAppSquash = new File(systemFolder.getAbsolutePath() + File.separator + "odex.priv-app.sqsh");
+		File framSquash = new File(systemFolder.getAbsolutePath() + File.separator + "odex.framework.sqsh");
+		
+		boolean isSquash = false;
+		if (appSquash.exists() || privAppSquash.exists() || framSquash.exists()) {
+			log.addLog(R.getString(S.LOG_INFO)
+					+ ".sqsh Files were detected it will be extracted no action needed from user... ");
+			isSquash = true;
+			if (!UnsquashUtils.haveUnsquash()) {
+				log.addLog(R.getString(S.LOG_ERROR)
+						+ "squashfs tools not found ! please refer to the manual for mor info ! ");
+				return false;
+			}
+		}
+		// is boot .oat there may be it's in squash file ? lets skip this check if sqsh files were detected
+		if(!framSquash.exists())
 		if (sdkLevel > 20) {
 			// if (!new File(systemFolder.getAbsolutePath() + File.separator +
 			// S.SYSTEM_FRAMEWORK + File.separator + arch
@@ -359,21 +377,6 @@ public class FilesUtils {
 				SessionCfg.setBootOatFile(bootOat.get(0));
 			}
 		}
-		// lets detect if the rom is have squashfs
-		File appSquash = new File(systemFolder.getAbsolutePath() + File.separator + "odex.app.sqsh");
-		File privAppSquash = new File(systemFolder.getAbsolutePath() + File.separator + "odex.priv-app.sqsh");
-		boolean isSquash = false;
-		if (appSquash.exists() || privAppSquash.exists()) {
-			log.addLog(R.getString(S.LOG_INFO)
-					+ ".sqsh Files were detected it will be extracted no action needed from user... ");
-			isSquash = true;
-			if (!UnsquashUtils.haveUnsquash()) {
-				log.addLog(R.getString(S.LOG_ERROR)
-						+ "squashfs tools not found ! please refer to the manual for mor info ! ");
-				return false;
-			}
-		}
-
 		// Session Settings set them
 		SessionCfg.isSquash = isSquash;
 		SessionCfg.setSdk(sdkLevel);
@@ -395,15 +398,20 @@ public class FilesUtils {
 		int apkCount = getOdexCount(new File(systemFolder.getAbsolutePath() + File.separator + S.SYSTEM_APP))
 				+ getOdexCount(new File(systemFolder.getAbsolutePath() + File.separator + S.SYSTEM_PRIV_APP));
 		int jarCounts = getOdexCount(new File(systemFolder.getAbsolutePath() + File.separator + S.SYSTEM_FRAMEWORK));
-		if (jarCounts + apkCount <= 0) {
+		if (jarCounts + apkCount <= 0 && !isSquash) {
 			log.addLog(R.getString(S.LOG_INFO) + R.getString("no.odexFiles.wereFound"));
 			return false;
 		}
-		log.addLog(R.getString(S.LOG_INFO) + R.getString("log.there.is") + apkCount + " apks "
-				+ R.getString("log.to.be.deodexed"));
-		log.addLog(R.getString(S.LOG_INFO) + R.getString("log.there.is") + jarCounts + " jars "
-				+ R.getString("log.to.be.deodexed"));
+		if (!isSquash){
+			log.addLog(R.getString(S.LOG_INFO) + R.getString("log.there.is") + " "+apkCount + " apks "
+					+ R.getString("log.to.be.deodexed"));
+			log.addLog(R.getString(S.LOG_INFO) + R.getString("log.there.is") + " "+jarCounts + " jars "
+					+ R.getString("log.to.be.deodexed"));
+		} else {
+			log.addLog(R.getString(S.LOG_INFO) + "There is no way to determine the number of odex files ");
+			log.addLog(R.getString(S.LOG_INFO) + "We will determine this once we extract .sqsh files no warries :D");
 
+		}
 		return true;
 	}
 

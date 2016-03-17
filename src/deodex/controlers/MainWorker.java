@@ -50,7 +50,7 @@ public class MainWorker implements Runnable, ThreadWatcher, Watchable {
 	private ArrayList<File> worker4List = new ArrayList<File>();
 	private LoggerPan logPan;
 
-	ThreadWatcher threadWatcher;
+	final ThreadWatcher threadWatcher;
 	File folder;
 
 	BootWorker boot;
@@ -78,7 +78,8 @@ public class MainWorker implements Runnable, ThreadWatcher, Watchable {
 	 * @param maxThreads
 	 *            : an int with the maximum Threads to use default (2)
 	 */
-	public MainWorker(File folder, LoggerPan logPane, int maxThreads) {
+	public MainWorker(File folder, LoggerPan logPane, int maxThreads , ThreadWatcher watcher) {
+		this.threadWatcher = watcher;
 		maxThreading = maxThreads;
 		this.logPan = logPane;
 		this.folder = folder;
@@ -93,7 +94,7 @@ public class MainWorker implements Runnable, ThreadWatcher, Watchable {
 	@Override
 	public void addThreadWatcher(ThreadWatcher watcher) {
 		// TODO Auto-generated method stub
-		threadWatcher = watcher;
+		//threadWatcher = watcher;
 	}
 
 	@Override
@@ -213,30 +214,45 @@ public class MainWorker implements Runnable, ThreadWatcher, Watchable {
 	 */
 	private void init() {
 
-		try {
-			isinitialized = FilesUtils.copyFile(SessionCfg.getBootOatFile(), S.getBootTmp());
-			if (!isinitialized)
-				this.logPan.addLog(R.getString(S.LOG_ERROR) + "couldn't copy boot.oat to working folder aborting ...");
-		} catch (Exception e) {
-			Logger.writLog("[MainWorker][EX]" + e.getStackTrace());
-		}
-		isinitialized = isinitialized && Deodexer.oat2dexBoot(S.getBootTmp());
-		if (!isinitialized) {
-			this.logPan.addLog(R.getString(S.LOG_ERROR) + "couldn't deodex boot.oat aborting ...");
-		}
+
 		// lets unsquash this bitch !
 		if (SessionCfg.isSquash) {
 			boolean unsquash = UnsquashUtils.unsquash(folder);
 			if (!unsquash) {
 				this.logPan
 				.addLog(R.getString(S.LOG_ERROR) + "Failed to unsquash the squash file we can't continue ...");
+				this.threadWatcher.sendFailed(this);
 				isinitialized = false;
+				return ;
 			} else {
-				new File(folder.getAbsolutePath() + File.separator + "odex.app.sqsh").delete();
-				new File(folder.getAbsolutePath() + File.separator + "odex.priv-app.sqsh").delete();
+				//new File(folder.getAbsolutePath() + File.separator + "odex.app.sqsh").delete();
+				//new File(folder.getAbsolutePath() + File.separator + "odex.priv-app.sqsh").delete();
 			}
 		}
-
+		
+		// unsquash first ! 
+		try {
+			if (SessionCfg.getBootOatFile() == null){
+				SessionCfg.setBootOatFile(new File(folder.getAbsolutePath()+File.separator+S.SYSTEM_FRAMEWORK+File.separator+SessionCfg.getArch()+File.separator+"boot.oat"));
+			}
+			isinitialized = FilesUtils.copyFile(SessionCfg.getBootOatFile(), S.getBootTmp());
+			if (!isinitialized){
+				this.threadWatcher.sendFailed(this);
+				this.logPan.addLog(R.getString(S.LOG_ERROR) + "couldn't copy boot.oat to working folder aborting ...");
+				return;
+			}
+		} catch (Exception e) {
+			Logger.writLog("[MainWorker][EX]" + e.getStackTrace());
+			
+		}
+		
+		isinitialized = isinitialized && Deodexer.oat2dexBoot(S.getBootTmp());
+		if (!isinitialized) {
+			this.logPan.addLog(R.getString(S.LOG_ERROR) + "couldn't deodex boot.oat aborting ...");
+			this.threadWatcher.sendFailed(this);
+			return ;
+		}
+		
 		File bootFiles = new File(S.getBootTmpDex().getAbsolutePath());
 
 		// TODO init apklist here

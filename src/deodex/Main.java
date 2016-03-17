@@ -275,8 +275,7 @@ public class Main {
 		}
 		SessionCfg.setSign(sign);
 		SessionCfg.setZipalign(zipalign);
-		MainWorker mainWorker = new MainWorker(systemFolder, logger, 1);
-		mainWorker.addThreadWatcher(new CommandLineWorker(createZip));
+		MainWorker mainWorker = new MainWorker(systemFolder, logger, 1,new CommandLineWorker(createZip));
 		Thread t = new Thread(mainWorker);
 		t.start();
 	}

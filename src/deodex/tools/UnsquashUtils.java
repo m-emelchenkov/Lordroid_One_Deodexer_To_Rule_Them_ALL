@@ -68,12 +68,16 @@ public class UnsquashUtils {
 	public static boolean unsquash(File systemFolder) {
 		File appSquash = new File(systemFolder.getAbsolutePath() + File.separator + "odex.app.sqsh");
 		File privAppSquash = new File(systemFolder.getAbsolutePath() + File.separator + "odex.priv-app.sqsh");
+		File framSquash = new File(systemFolder.getAbsolutePath() + File.separator + "odex.framework.sqsh");
+		
 		File destFile = S.getUnsquash();
 		// make sure the destFile is not there
 		FilesUtils.deleteRecursively(destFile);
 		// get the commands
 		String[] cmd1 = getUnsquashCommand(appSquash, destFile);
 		String[] cmd2 = getUnsquashCommand(privAppSquash, destFile);
+		String[] cmd3 = getUnsquashCommand(framSquash, destFile);
+
 		if (appSquash.exists()) {
 			// unsquash app
 			boolean sucess = (CmdUtils.runCommand(cmd1) == 0);
@@ -115,6 +119,26 @@ public class UnsquashUtils {
 			}
 		}
 
+		if (framSquash.exists()) {
+			// unsquash priv-app
+			boolean sucess = (CmdUtils.runCommand(cmd3) == 0);
+			if (sucess) {
+				ArrayList<File> files = FilesUtils.listAllFiles(destFile);
+				if (!destFile.exists() || files == null || files.size() == 0) {
+					return false;
+				} else {
+					boolean copied = FilesUtils.copyFileRecurcively(destFile,
+							new File(systemFolder.getAbsolutePath() + File.separator + S.SYSTEM_FRAMEWORK));
+					FilesUtils.deleteRecursively(destFile);
+					if (!copied)
+						return false;
+				}
+			} else {
+				Logger.writLog("[UnsquashUtils][E]failed to unsquash " + framSquash.getAbsolutePath());
+				return false;
+			}
+		}
+		
 		return true;
 	}
 }
