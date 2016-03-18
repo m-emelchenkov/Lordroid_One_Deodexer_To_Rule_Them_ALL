@@ -88,7 +88,7 @@ public class Zip {
 		rmCmd.add("-k");
 		rmCmd.add(tempApk.getAbsolutePath());
 		for (File f : classesFiles)
-			rmCmd.add(f.getAbsolutePath());
+			rmCmd.add(f.getName());
 
 		String[] cmdRm = new String[rmCmd.size()];
 		for (int i = 0; i < rmCmd.size(); i++)
