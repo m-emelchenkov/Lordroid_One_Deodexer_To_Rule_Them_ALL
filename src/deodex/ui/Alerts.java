@@ -159,7 +159,7 @@ public class Alerts {
 	public static boolean showAboutDialog(JFrame jFrame) {
 		int i = 1;
 			JPanel pan = new JPanel();
-			pan.setSize(800,800);
+			pan.setSize(820,800);
 			pan.setLayout(null);
 			AboutTabbedPan alertPane = new AboutTabbedPan();
 			pan.add(alertPane);
@@ -167,7 +167,7 @@ public class Alerts {
 			JOptionPane pane = new JOptionPane(pan,JOptionPane.PLAIN_MESSAGE);
 			JDialog dialog = pane.createDialog(jFrame, R.getString("0000123"));
 			dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-			dialog.setSize(800, 800);
+			dialog.setSize(820, 800);
 			dialog.setLocationRelativeTo(jFrame);
 			dialog.setVisible(true);
 
