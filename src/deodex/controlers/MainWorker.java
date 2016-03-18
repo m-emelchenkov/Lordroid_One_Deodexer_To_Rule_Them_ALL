@@ -225,9 +225,10 @@ public class MainWorker implements Runnable, ThreadWatcher, Watchable {
 				isinitialized = false;
 				return ;
 			} else {
-				//new File(folder.getAbsolutePath() + File.separator + "odex.app.sqsh").delete();
-				//new File(folder.getAbsolutePath() + File.separator + "odex.priv-app.sqsh").delete();
-			}
+				new File(folder.getAbsolutePath() + File.separator + "odex.app.sqsh").delete();
+				new File(folder.getAbsolutePath() + File.separator + "odex.priv-app.sqsh").delete();
+				new File(folder.getAbsolutePath() + File.separator + "odex.framework.sqsh").delete();
+				}
 		}
 		
 		// unsquash first ! 
