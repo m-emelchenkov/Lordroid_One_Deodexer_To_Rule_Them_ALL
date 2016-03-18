@@ -22,6 +22,7 @@ import java.io.File;
 import java.util.ArrayList;
 
 import deodex.S;
+import deodex.SessionCfg;
 
 /**
  * 
@@ -69,7 +70,7 @@ public class UnsquashUtils {
 		File appSquash = new File(systemFolder.getAbsolutePath() + File.separator + "odex.app.sqsh");
 		File privAppSquash = new File(systemFolder.getAbsolutePath() + File.separator + "odex.priv-app.sqsh");
 		File framSquash = new File(systemFolder.getAbsolutePath() + File.separator + "odex.framework.sqsh");
-		
+
 		File destFile = S.getUnsquash();
 		// make sure the destFile is not there
 		FilesUtils.deleteRecursively(destFile);
@@ -86,10 +87,28 @@ public class UnsquashUtils {
 				if (!destFile.exists() || files == null || files.size() == 0) {
 					return false;
 				} else {
-					boolean copied = FilesUtils.copyFileRecurcively(destFile,
-							new File(systemFolder.getAbsolutePath() + File.separator + "app"));
-					FilesUtils.deleteRecursively(destFile);
-					if (!copied)
+					boolean copied = true;
+					File appFolder = new File(systemFolder.getAbsolutePath() + File.separator + "app");
+					File[] apkfolders = appFolder.listFiles();
+					for (File f : files) {
+						if (f.getName().contains(".odex")) {
+							ArrayList<File> matchingOdexs = FilesUtils.searchExactFileNames(
+									appFolder, f.getName());
+							if (matchingOdexs == null || matchingOdexs.size() <= 0) {
+								for (File dir : apkfolders) {
+									if (dir.getName()
+											.equals(f.getName().subSequence(0, f.getName().lastIndexOf(".")))) {
+										copied = copied && FilesUtils.copyFile(f, new File(dir.getAbsolutePath() + "/" + f.getName()));
+									}
+								}
+							} else {
+								for (File odex : matchingOdexs)
+									odex.delete();
+								copied = copied && FilesUtils.copyFile(f, matchingOdexs.get(0));
+							}
+						}
+					}
+					if(!copied)
 						return false;
 				}
 			} else {
@@ -107,10 +126,28 @@ public class UnsquashUtils {
 				if (!destFile.exists() || files == null || files.size() == 0) {
 					return false;
 				} else {
-					boolean copied = FilesUtils.copyFileRecurcively(destFile,
-							new File(systemFolder.getAbsolutePath() + File.separator + "priv-app"));
-					FilesUtils.deleteRecursively(destFile);
-					if (!copied)
+					boolean copied = true;
+					File privApp = new File(systemFolder.getAbsolutePath() + File.separator + "priv-app");
+					File[] apkfolders = privApp.listFiles();
+					for (File f : files) {
+						if (f.getName().contains(".odex")) {
+							ArrayList<File> matchingOdexs = FilesUtils.searchExactFileNames(
+									privApp, f.getName());
+							if (matchingOdexs == null || matchingOdexs.size() <= 0) {
+								for (File dir : apkfolders) {
+									if (dir.getName()
+											.equals(f.getName().subSequence(0, f.getName().lastIndexOf(".")))) {
+										copied = copied && FilesUtils.copyFile(f, new File(dir.getAbsolutePath() + "/" + f.getName()));
+									}
+								}
+							} else {
+								for (File odex : matchingOdexs)
+									odex.delete();
+								copied = copied && FilesUtils.copyFile(f, matchingOdexs.get(0));
+							}
+						}
+					}
+					if(!copied)
 						return false;
 				}
 			} else {
@@ -127,10 +164,28 @@ public class UnsquashUtils {
 				if (!destFile.exists() || files == null || files.size() == 0) {
 					return false;
 				} else {
-					boolean copied = FilesUtils.copyFileRecurcively(destFile,
-							new File(systemFolder.getAbsolutePath() + File.separator + S.SYSTEM_FRAMEWORK));
-					FilesUtils.deleteRecursively(destFile);
-					if (!copied)
+					boolean copied = true;
+					File frameworkFolder = new File(systemFolder.getAbsolutePath() + File.separator + S.SYSTEM_FRAMEWORK);
+					File[] apkfolders = frameworkFolder.listFiles();
+					for (File f : files) {
+						if (f.getName().contains(".odex")) {
+							ArrayList<File> matchingOdexs = FilesUtils.searchExactFileNames(
+									frameworkFolder, f.getName());
+							if (matchingOdexs == null || matchingOdexs.size() <= 0) {
+								for (File dir : apkfolders) {
+									if (dir.getName()
+											.equals(f.getName().subSequence(0, f.getName().lastIndexOf(".")))) {
+										copied = copied && FilesUtils.copyFile(f, new File(dir.getAbsolutePath() + "/" + f.getName()));
+									}
+								}
+							} else {
+								for (File odex : matchingOdexs)
+									odex.delete();
+								copied = copied && FilesUtils.copyFile(f, matchingOdexs.get(0));
+							}
+						}
+					}
+					if(!copied)
 						return false;
 				}
 			} else {
@@ -138,7 +193,7 @@ public class UnsquashUtils {
 				return false;
 			}
 		}
-		
+
 		return true;
 	}
 }
