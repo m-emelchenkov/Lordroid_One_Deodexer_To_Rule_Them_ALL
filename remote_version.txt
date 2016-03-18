@@ -1,4 +1,4 @@
-version.incrimental=12
+version.incrimental=13
 download.page=https://goo.gl/H2WrfZ
-download.link=https://goo.gl/agjz70
-version.name=v1.23
+download.link=https://goo.gl/Lz1lJG
+version.name=v1.24
