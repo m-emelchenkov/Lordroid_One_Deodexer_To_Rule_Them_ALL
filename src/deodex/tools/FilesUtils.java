@@ -390,13 +390,16 @@ public class FilesUtils {
 		// rename instead of copy/delete
 		// means less IOs and less time NOTE: ROMs can have up to 2GO all apks
 		// have to be copied from systemFolder
-		// to temp and then copied back so that's 4GO at least lets assume
-		// average users disque speed is 50mb
+		// to temp and then copied back so that's 4GO at least !
+		// lets assume
+		// average users HDD speed is 50mb
 		// 4*1024/50/60 = 1.365333333 minutes that's alot of time !
 		S.setTempDir(systemFolder);
 		log.addLog(R.getString(S.LOG_INFO) + R.getString("log.chosen.folder") + systemFolder);
 		int apkCount = getOdexCount(new File(systemFolder.getAbsolutePath() + File.separator + S.SYSTEM_APP))
-				+ getOdexCount(new File(systemFolder.getAbsolutePath() + File.separator + S.SYSTEM_PRIV_APP));
+				+ getOdexCount(new File(systemFolder.getAbsolutePath() + File.separator + S.SYSTEM_PRIV_APP))+
+				(new File(systemFolder.getAbsolutePath()+"/"+"plugin").exists() ?
+						getOdexCount(new File(systemFolder.getAbsolutePath()+"/"+"plugin")) : 0 );
 		int jarCounts = getOdexCount(new File(systemFolder.getAbsolutePath() + File.separator + S.SYSTEM_FRAMEWORK));
 		if (jarCounts + apkCount <= 0 && !isSquash) {
 			log.addLog(R.getString(S.LOG_INFO) + R.getString("no.odexFiles.wereFound"));
@@ -411,6 +414,9 @@ public class FilesUtils {
 			log.addLog(R.getString(S.LOG_INFO) + "There is no way to determine the number of odex files ");
 			log.addLog(R.getString(S.LOG_INFO) + "We will determine this once we extract .sqsh files no warries :D");
 
+		}
+		if(new File(systemFolder.getAbsolutePath()+"/"+"plugin").exists() && new File(systemFolder.getAbsolutePath()+"/"+"plugin").isDirectory()){
+			log.addLog(R.getString(S.LOG_INFO) + "plugin folder detected ,it will be deodexed if necessary ...");
 		}
 		return true;
 	}

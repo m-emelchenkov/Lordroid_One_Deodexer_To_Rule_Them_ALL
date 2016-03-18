@@ -141,6 +141,7 @@ public class MainWorker implements Runnable, ThreadWatcher, Watchable {
 		ArrayList<File> list1 = null;
 		ArrayList<File> list2 = null;
 		ArrayList<File> list3 = null;
+		//ArrayList<File> list4 = null;
 		// system/app odex
 		if (new File(this.folder.getAbsolutePath() + File.separator + S.SYSTEM_APP).exists()) {
 			list1 = FilesUtils.searchrecursively(
@@ -178,9 +179,39 @@ public class MainWorker implements Runnable, ThreadWatcher, Watchable {
 					new File(this.folder.getAbsolutePath() + File.separator + S.SYSTEM_PRIV_APP), S.COMP_ODEX_EXT);
 			list3 = FilesUtils.searchrecursively(
 					new File(this.folder.getAbsolutePath() + File.separator + S.SYSTEM_PRIV_APP), S.COMP_GZ_ODEX_EXT);
+			
 
 		}
 
+		if (list1 != null && list1.size() > 0) {
+			list1 = ArrayUtils.deletedupricates(list1);
+			for (File f : list1) {
+				global.add(f);
+			}
+		}
+
+		if (list2 != null && list2.size() > 0) {
+			list2 = ArrayUtils.deletedupricates(list2);
+			for (File f : list2)
+				global.add(f);
+		}
+		if (list3 != null && list3.size() > 0) {
+			list3 = ArrayUtils.deletedupricates(list3);
+			for (File f : list3)
+				global.add(f);
+		}
+		
+		// plugin odex files 
+		File plugin = new File(this.folder.getAbsolutePath()+"/"+"plugin");
+		if (plugin.exists() && plugin.isDirectory()){
+			list1 = FilesUtils.searchrecursively(
+					new File(this.folder.getAbsolutePath() + File.separator + "plugin"), S.ODEX_EXT);
+			list2 = FilesUtils.searchrecursively(
+					new File(this.folder.getAbsolutePath() + File.separator + "plugin"), S.COMP_ODEX_EXT);
+			list3 = FilesUtils.searchrecursively(
+					new File(this.folder.getAbsolutePath() + File.separator + "plugin"), S.COMP_GZ_ODEX_EXT);
+		}
+		
 		if (list1 != null && list1.size() > 0) {
 			list1 = ArrayUtils.deletedupricates(list1);
 			for (File f : list1) {
