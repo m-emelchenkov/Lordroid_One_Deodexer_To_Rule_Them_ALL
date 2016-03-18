@@ -489,8 +489,8 @@ public class FilesUtils {
 	 * @return a list of all the matching files
 	 */
 	public static ArrayList<File> searchExactFileNames(File folder, String ext) {
-		Logger.writLog(
-				"[FileUtils][I] searching  for " + ext + " in (Exact file name mode )" + folder.getAbsolutePath());
+//		Logger.writLog(
+//				"[FileUtils][I] searching  for " + ext + " in (Exact file name mode )" + folder.getAbsolutePath());
 		ArrayList<File> list = new ArrayList<File>();
 		File[] files = folder.listFiles();
 		for (File f : files) {
@@ -510,7 +510,7 @@ public class FilesUtils {
 				found = found + list.get(i).getAbsolutePath();
 			}
 		}
-		Logger.writLog("[FilesUtils][I] list of found files = " + found);
+//		Logger.writLog("[FilesUtils][I] list of found files = " + found);
 		return list;
 	}
 
@@ -524,7 +524,7 @@ public class FilesUtils {
 	 * @return ArrayfilesList list of all the matching files
 	 */
 	public static ArrayList<File> searchrecursively(File folder, String ext) {
-		Logger.writLog("[FileUtils][I] searching  for *" + ext + " in " + folder.getAbsolutePath());
+//		Logger.writLog("[FileUtils][I] searching  for *" + ext + " in " + folder.getAbsolutePath());
 		ArrayList<File> list = new ArrayList<File>();
 		File[] files = folder.listFiles();
 		for (File f : files) {
@@ -544,7 +544,7 @@ public class FilesUtils {
 				found = found + list.get(i).getAbsolutePath();
 			}
 		}
-		Logger.writLog("[FilesUtils][I] list of found files = " + found);
+//		Logger.writLog("[FilesUtils][I] list of found files = " + found);
 		return list;
 	}
 }
