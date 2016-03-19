@@ -399,7 +399,9 @@ public class FilesUtils {
 		int apkCount = getOdexCount(new File(systemFolder.getAbsolutePath() + File.separator + S.SYSTEM_APP))
 				+ getOdexCount(new File(systemFolder.getAbsolutePath() + File.separator + S.SYSTEM_PRIV_APP))+
 				(new File(systemFolder.getAbsolutePath()+"/"+"plugin").exists() ?
-						getOdexCount(new File(systemFolder.getAbsolutePath()+"/"+"plugin")) : 0 );
+						getOdexCount(new File(systemFolder.getAbsolutePath()+"/"+"plugin")) : 0 )+
+				(new File(systemFolder.getAbsolutePath()+"/"+"vendor").exists() ?
+						getOdexCount(new File(systemFolder.getAbsolutePath()+"/"+"vendor")) : 0 );
 		int jarCounts = getOdexCount(new File(systemFolder.getAbsolutePath() + File.separator + S.SYSTEM_FRAMEWORK));
 		if (jarCounts + apkCount <= 0 && !isSquash) {
 			log.addLog(R.getString(S.LOG_INFO) + R.getString("no.odexFiles.wereFound"));
@@ -417,6 +419,9 @@ public class FilesUtils {
 		}
 		if(new File(systemFolder.getAbsolutePath()+"/"+"plugin").exists() && new File(systemFolder.getAbsolutePath()+"/"+"plugin").isDirectory()){
 			log.addLog(R.getString(S.LOG_INFO) + "plugin folder detected ,it will be deodexed if necessary ...");
+		}
+		if(new File(systemFolder.getAbsolutePath()+"/"+"vendor").exists() && new File(systemFolder.getAbsolutePath()+"/"+"vendor").isDirectory()){
+			log.addLog(R.getString(S.LOG_INFO) + "vendor folder detected ,it will be deodexed if necessary ...");
 		}
 		return true;
 	}

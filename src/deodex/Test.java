@@ -18,21 +18,27 @@
  */
 package deodex;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import org.apache.commons.compress.archivers.ArchiveException;
 
-import com.alee.laf.WebLookAndFeel;
+import deodex.tools.FilesUtils;
+import deodex.tools.Logger;
+import deodex.tools.ZipTools;
+import net.lingala.zip4j.core.ZipFile;
+import net.lingala.zip4j.exception.ZipException;
 
 public class Test {
 
-	public static void main(String[] args) throws InterruptedException, IOException, ArchiveException {
+	public static void main(String[] args) throws InterruptedException, IOException, ArchiveException, ZipException {
 //		File targz = new File("/tmp/test.tar.gz");
 //		File tar = new File("/tmp/test.tar");
 //		File outDir = new File("/tmp/out");
 //		TarGzUtils.unGzip(targz, new File("/tmp"));
 //		TarGzUtils.unTar(tar, outDir);
-		WebLookAndFeel.install();
+		//WebLookAndFeel.install();
 		R.initResources();
 		//JFrame win = new JFrame();
 		//win.setLocationRelativeTo(null);
@@ -41,6 +47,16 @@ public class Test {
 //		win.add(new CheckUpdatePan());
 //		win.setVisible(true);
 		//Alerts.showUpdateAlertDialog(win);
+		File system = new File("/tmp/sony");
+		ArrayList <File>global = new ArrayList<File>();
+		ArrayList<File> list;
+		list = FilesUtils.searchrecursively(system, ".apk");
+			global.addAll(list);
+		list = FilesUtils.searchrecursively(system, ".jar");
+			global.addAll(list);
+		for (File f : global){
+			Logger.writLog("checking "+f.getName()+" ... deodexed ? " + ZipTools.isFileinZip("classes.dex",new ZipFile( f)));
+		}
 		
 	}
 }

@@ -22,7 +22,6 @@ import java.io.File;
 import java.util.ArrayList;
 
 import deodex.S;
-import deodex.SessionCfg;
 
 /**
  * 
@@ -157,7 +156,7 @@ public class UnsquashUtils {
 		}
 
 		if (framSquash.exists()) {
-			// unsquash priv-app
+			// unsquash framework
 			boolean sucess = (CmdUtils.runCommand(cmd3) == 0);
 			if (sucess) {
 				ArrayList<File> files = FilesUtils.listAllFiles(destFile);

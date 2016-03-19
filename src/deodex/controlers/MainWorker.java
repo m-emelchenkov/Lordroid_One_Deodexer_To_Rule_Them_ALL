@@ -78,7 +78,7 @@ public class MainWorker implements Runnable, ThreadWatcher, Watchable {
 	 * @param maxThreads
 	 *            : an int with the maximum Threads to use default (2)
 	 */
-	public MainWorker(File folder, LoggerPan logPane, int maxThreads , ThreadWatcher watcher) {
+	public MainWorker(File folder, LoggerPan logPane, int maxThreads, ThreadWatcher watcher) {
 		this.threadWatcher = watcher;
 		maxThreading = maxThreads;
 		this.logPan = logPane;
@@ -94,7 +94,7 @@ public class MainWorker implements Runnable, ThreadWatcher, Watchable {
 	@Override
 	public void addThreadWatcher(ThreadWatcher watcher) {
 		// TODO Auto-generated method stub
-		//threadWatcher = watcher;
+		// threadWatcher = watcher;
 	}
 
 	@Override
@@ -141,7 +141,7 @@ public class MainWorker implements Runnable, ThreadWatcher, Watchable {
 		ArrayList<File> list1 = null;
 		ArrayList<File> list2 = null;
 		ArrayList<File> list3 = null;
-		//ArrayList<File> list4 = null;
+		// ArrayList<File> list4 = null;
 		// system/app odex
 		if (new File(this.folder.getAbsolutePath() + File.separator + S.SYSTEM_APP).exists()) {
 			list1 = FilesUtils.searchrecursively(
@@ -170,7 +170,6 @@ public class MainWorker implements Runnable, ThreadWatcher, Watchable {
 				global.add(f);
 		}
 
-		
 		// system/priv-app odex
 		if (new File(this.folder.getAbsolutePath() + File.separator + S.SYSTEM_PRIV_APP).exists()) {
 			list1 = FilesUtils.searchrecursively(
@@ -179,7 +178,6 @@ public class MainWorker implements Runnable, ThreadWatcher, Watchable {
 					new File(this.folder.getAbsolutePath() + File.separator + S.SYSTEM_PRIV_APP), S.COMP_ODEX_EXT);
 			list3 = FilesUtils.searchrecursively(
 					new File(this.folder.getAbsolutePath() + File.separator + S.SYSTEM_PRIV_APP), S.COMP_GZ_ODEX_EXT);
-			
 
 		}
 
@@ -200,18 +198,18 @@ public class MainWorker implements Runnable, ThreadWatcher, Watchable {
 			for (File f : list3)
 				global.add(f);
 		}
-		
-		// plugin odex files 
-		File plugin = new File(this.folder.getAbsolutePath()+"/"+"plugin");
-		if (plugin.exists() && plugin.isDirectory()){
-			list1 = FilesUtils.searchrecursively(
-					new File(this.folder.getAbsolutePath() + File.separator + "plugin"), S.ODEX_EXT);
-			list2 = FilesUtils.searchrecursively(
-					new File(this.folder.getAbsolutePath() + File.separator + "plugin"), S.COMP_ODEX_EXT);
-			list3 = FilesUtils.searchrecursively(
-					new File(this.folder.getAbsolutePath() + File.separator + "plugin"), S.COMP_GZ_ODEX_EXT);
+
+		// plugin odex files
+		File plugin = new File(this.folder.getAbsolutePath() + "/" + "plugin");
+		if (plugin.exists() && plugin.isDirectory()) {
+			list1 = FilesUtils.searchrecursively(new File(this.folder.getAbsolutePath() + File.separator + "plugin"),
+					S.ODEX_EXT);
+			list2 = FilesUtils.searchrecursively(new File(this.folder.getAbsolutePath() + File.separator + "plugin"),
+					S.COMP_ODEX_EXT);
+			list3 = FilesUtils.searchrecursively(new File(this.folder.getAbsolutePath() + File.separator + "plugin"),
+					S.COMP_GZ_ODEX_EXT);
 		}
-		
+
 		if (list1 != null && list1.size() > 0) {
 			list1 = ArrayUtils.deletedupricates(list1);
 			for (File f : list1) {
@@ -229,6 +227,33 @@ public class MainWorker implements Runnable, ThreadWatcher, Watchable {
 			for (File f : list3)
 				global.add(f);
 		}
+
+		// plugin odex files
+		File vendor = new File(this.folder.getAbsolutePath() + "/" + "vendor");
+		if (vendor.exists() && vendor.isDirectory()) {
+			list1 = FilesUtils.searchrecursively(vendor, S.ODEX_EXT);
+			list2 = FilesUtils.searchrecursively(vendor, S.COMP_ODEX_EXT);
+			list3 = FilesUtils.searchrecursively(vendor, S.COMP_GZ_ODEX_EXT);
+		}
+
+		if (list1 != null && list1.size() > 0) {
+			list1 = ArrayUtils.deletedupricates(list1);
+			for (File f : list1) {
+				global.add(f);
+			}
+		}
+
+		if (list2 != null && list2.size() > 0) {
+			list2 = ArrayUtils.deletedupricates(list2);
+			for (File f : list2)
+				global.add(f);
+		}
+		if (list3 != null && list3.size() > 0) {
+			list3 = ArrayUtils.deletedupricates(list3);
+			for (File f : list3)
+				global.add(f);
+		}
+
 		return ArrayUtils.deletedupricates(global);
 	}
 
@@ -245,46 +270,46 @@ public class MainWorker implements Runnable, ThreadWatcher, Watchable {
 	 */
 	private void init() {
 
-
 		// lets unsquash this bitch !
 		if (SessionCfg.isSquash) {
 			boolean unsquash = UnsquashUtils.unsquash(folder);
 			if (!unsquash) {
 				this.logPan
-				.addLog(R.getString(S.LOG_ERROR) + "Failed to unsquash the squash file we can't continue ...");
+						.addLog(R.getString(S.LOG_ERROR) + "Failed to unsquash the squash file we can't continue ...");
 				this.threadWatcher.sendFailed(this);
 				isinitialized = false;
-				return ;
+				return;
 			} else {
 				new File(folder.getAbsolutePath() + File.separator + "odex.app.sqsh").delete();
 				new File(folder.getAbsolutePath() + File.separator + "odex.priv-app.sqsh").delete();
 				new File(folder.getAbsolutePath() + File.separator + "odex.framework.sqsh").delete();
-				}
+			}
 		}
-		
-		// unsquash first ! 
+
+		// unsquash first !
 		try {
-			if (SessionCfg.getBootOatFile() == null){
-				SessionCfg.setBootOatFile(new File(folder.getAbsolutePath()+File.separator+S.SYSTEM_FRAMEWORK+File.separator+SessionCfg.getArch()+File.separator+"boot.oat"));
+			if (SessionCfg.getBootOatFile() == null) {
+				SessionCfg.setBootOatFile(new File(folder.getAbsolutePath() + File.separator + S.SYSTEM_FRAMEWORK
+						+ File.separator + SessionCfg.getArch() + File.separator + "boot.oat"));
 			}
 			isinitialized = FilesUtils.copyFile(SessionCfg.getBootOatFile(), S.getBootTmp());
-			if (!isinitialized){
+			if (!isinitialized) {
 				this.threadWatcher.sendFailed(this);
 				this.logPan.addLog(R.getString(S.LOG_ERROR) + "couldn't copy boot.oat to working folder aborting ...");
 				return;
 			}
 		} catch (Exception e) {
 			Logger.writLog("[MainWorker][EX]" + e.getStackTrace());
-			
+
 		}
-		
+
 		isinitialized = isinitialized && Deodexer.oat2dexBoot(S.getBootTmp());
 		if (!isinitialized) {
 			this.logPan.addLog(R.getString(S.LOG_ERROR) + "couldn't deodex boot.oat aborting ...");
 			this.threadWatcher.sendFailed(this);
-			return ;
+			return;
 		}
-		
+
 		File bootFiles = new File(S.getBootTmpDex().getAbsolutePath());
 
 		// TODO init apklist here
@@ -305,17 +330,17 @@ public class MainWorker implements Runnable, ThreadWatcher, Watchable {
 
 		ArrayList<File> tmpList = FilesUtils.searchrecursively(
 				new File(folder.getAbsolutePath() + File.separator + S.SYSTEM_FRAMEWORK), S.COMP_ODEX_EXT);
-		
+
 		ArrayList<File> tmpList2 = FilesUtils.searchrecursively(
 				new File(folder.getAbsolutePath() + File.separator + S.SYSTEM_FRAMEWORK), S.COMP_GZ_ODEX_EXT);
-		
+
 		if (tmpList != null && tmpList.size() > 0) {
 			tmpList = ArrayUtils.deletedupricates(tmpList);
 			for (File f : tmpList) {
 				this.worker3List.add(f);
 			}
 		}
-		if(tmpList2 != null && tmpList2.size() > 0){
+		if (tmpList2 != null && tmpList2.size() > 0) {
 			tmpList2 = ArrayUtils.deletedupricates(tmpList2);
 			for (File f : tmpList2) {
 				this.worker3List.add(f);
@@ -325,22 +350,25 @@ public class MainWorker implements Runnable, ThreadWatcher, Watchable {
 		// some roms have apks under framwork like LG roms
 		ArrayList<File> temapkinfram = new ArrayList<File>();
 		for (File f : this.worker3List) {
-			ArrayList<File> apksInFram = ArrayUtils
-					.deletedupricates(
-							FilesUtils.searchExactFileNames(
-									new File(folder.getAbsolutePath() + File.separator + S.SYSTEM_FRAMEWORK), new JarObj(f).getAbsoluteName()+".apk" ));
+			ArrayList<File> apksInFram = ArrayUtils.deletedupricates(FilesUtils.searchExactFileNames(
+					new File(folder.getAbsolutePath() + File.separator + S.SYSTEM_FRAMEWORK),
+					f.getName().substring(0, f.getName().lastIndexOf(".")) + ".apk"));
 
 			Logger.writLog("[MainWorker][I]" + "Searching for ");
-			if (!apksInFram.isEmpty()) {
+			if (!apksInFram.isEmpty() && FilesUtils
+					.searchExactFileNames(new File(folder.getAbsolutePath() + File.separator + S.SYSTEM_FRAMEWORK),
+							f.getName().substring(0, f.getName().lastIndexOf(".")) + ".jar")
+					.isEmpty()) {
 				temapkinfram.add(f);
 				Logger.writLog("[MainWorker][I]" + "fount moving it to apk worker's list ");
+				// this.worker3List.remove(f);
 			} else {
 				Logger.writLog("[MainWorker][I]" + "not found assuming odex file belongs to a .jar file ...");
 			}
 		}
 		for (File f : temapkinfram) {
 			this.worker1List.add(f);
-			this.worker3List.remove(f);
+			Logger.writLog(f.getName() + "removed from jar worker ?" + this.worker3List.remove(f));
 		}
 
 		apk1 = new ApkWorker(worker1List, logPan, S.getWorker1Folder(), SessionCfg.isSign(), SessionCfg.isZipalign());
@@ -610,7 +638,7 @@ public class MainWorker implements Runnable, ThreadWatcher, Watchable {
 		String[] oat2dex = { "java", "-jar", S.getAot2Dex(), "-v" };
 		String[] smali = { "java", "-jar", S.getSmali(), "-v" };
 		String[] backsmali = { "java", "-jar", S.getBaksmali(), "-v" };
-		String[] zipalign = { new File(S.getZipalign() ).getAbsolutePath(), "-v" };
+		String[] zipalign = { new File(S.getZipalign()).getAbsolutePath(), "-v" };
 
 		CmdUtils.runCommand(oat2dex);
 		CmdUtils.runCommand(smali);

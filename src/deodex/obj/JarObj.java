@@ -60,10 +60,7 @@ public class JarObj {
 
 		this.origJar = new File(SessionCfg.getSystemFolder().getAbsolutePath() + File.separator + S.SYSTEM_FRAMEWORK
 				+ File.separator + absoluteName + ".jar");
-		if (!this.origJar.exists()) {
-			// we copy a dummy jar to framework
-			FilesUtils.copyFile(S.DUMMY_JAR, this.origJar);
-		}
+
 	}
 
 	/**
@@ -72,6 +69,10 @@ public class JarObj {
 	 * @return true only if the files were copied successfully
 	 */
 	public boolean copyNeedFiles(File tmpFolder) {
+		if (!this.origJar.exists()) {
+			// we copy a dummy jar to framework
+			FilesUtils.copyFile(S.DUMMY_JAR, this.origJar);
+		}
 		this.tmpFolder = new File(tmpFolder.getAbsolutePath() + File.separator + this.absoluteName);
 		System.out.print("JArObj temp folder created ?" + this.tmpFolder.mkdirs() + tmpFolder.mkdirs());
 		if (!this.tmpFolder.exists())
