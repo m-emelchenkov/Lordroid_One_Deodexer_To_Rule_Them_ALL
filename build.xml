@@ -34,7 +34,7 @@
 
 
 
-    <target name="build-Launcher" depends="small-clean">
+    <target name="build-Launcher" >
 	
       	<mkdir dir="bin"/>
         <copy todir="${dir.jarfile}/bin" >  
