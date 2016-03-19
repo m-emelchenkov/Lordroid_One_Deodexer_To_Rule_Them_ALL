@@ -29,7 +29,6 @@ import com.alee.laf.progressbar.WebProgressBar;
 import deodex.R;
 import deodex.S;
 import deodex.SessionCfg;
-import deodex.obj.JarObj;
 import deodex.tools.ArrayUtils;
 import deodex.tools.CmdUtils;
 import deodex.tools.Deodexer;
@@ -38,6 +37,7 @@ import deodex.tools.Logger;
 import deodex.tools.UnsquashUtils;
 
 public class MainWorker implements Runnable, ThreadWatcher, Watchable {
+	public final String[] exts = {S.ODEX_EXT,S.COMP_ODEX_EXT,S.COMP_GZ_ODEX_EXT};
 
 	private int workingThreadCount = 4;
 
@@ -137,124 +137,23 @@ public class MainWorker implements Runnable, ThreadWatcher, Watchable {
 	 * @return the list of apk's odex files in the systemFolder
 	 */
 	private ArrayList<File> getapkOdexFiles() {
-		ArrayList<File> global = new ArrayList<File>();
-		ArrayList<File> list1 = null;
-		ArrayList<File> list2 = null;
-		ArrayList<File> list3 = null;
-		// ArrayList<File> list4 = null;
-		// system/app odex
-		if (new File(this.folder.getAbsolutePath() + File.separator + S.SYSTEM_APP).exists()) {
-			list1 = FilesUtils.searchrecursively(
-					new File(this.folder.getAbsolutePath() + File.separator + S.SYSTEM_APP), S.ODEX_EXT);
-			list2 = FilesUtils.searchrecursively(
-					new File(this.folder.getAbsolutePath() + File.separator + S.SYSTEM_APP), S.COMP_ODEX_EXT);
-			list3 = FilesUtils.searchrecursively(
-					new File(this.folder.getAbsolutePath() + File.separator + S.SYSTEM_APP), S.COMP_GZ_ODEX_EXT);
-		}
-
-		if (list1 != null && list1.size() > 0) {
-			list1 = ArrayUtils.deletedupricates(list1);
-			for (File f : list1) {
-				global.add(f);
-			}
-		}
-		if (list2 != null && list2.size() > 0) {
-			list2 = ArrayUtils.deletedupricates(list2);
-			for (File f : list2)
-				global.add(f);
-		}
-
-		if (list3 != null && list3.size() > 0) {
-			list3 = ArrayUtils.deletedupricates(list3);
-			for (File f : list3)
-				global.add(f);
-		}
-
-		// system/priv-app odex
-		if (new File(this.folder.getAbsolutePath() + File.separator + S.SYSTEM_PRIV_APP).exists()) {
-			list1 = FilesUtils.searchrecursively(
-					new File(this.folder.getAbsolutePath() + File.separator + S.SYSTEM_PRIV_APP), S.ODEX_EXT);
-			list2 = FilesUtils.searchrecursively(
-					new File(this.folder.getAbsolutePath() + File.separator + S.SYSTEM_PRIV_APP), S.COMP_ODEX_EXT);
-			list3 = FilesUtils.searchrecursively(
-					new File(this.folder.getAbsolutePath() + File.separator + S.SYSTEM_PRIV_APP), S.COMP_GZ_ODEX_EXT);
-
-		}
-
-		if (list1 != null && list1.size() > 0) {
-			list1 = ArrayUtils.deletedupricates(list1);
-			for (File f : list1) {
-				global.add(f);
-			}
-		}
-
-		if (list2 != null && list2.size() > 0) {
-			list2 = ArrayUtils.deletedupricates(list2);
-			for (File f : list2)
-				global.add(f);
-		}
-		if (list3 != null && list3.size() > 0) {
-			list3 = ArrayUtils.deletedupricates(list3);
-			for (File f : list3)
-				global.add(f);
-		}
-
-		// plugin odex files
-		File plugin = new File(this.folder.getAbsolutePath() + "/" + "plugin");
-		if (plugin.exists() && plugin.isDirectory()) {
-			list1 = FilesUtils.searchrecursively(new File(this.folder.getAbsolutePath() + File.separator + "plugin"),
-					S.ODEX_EXT);
-			list2 = FilesUtils.searchrecursively(new File(this.folder.getAbsolutePath() + File.separator + "plugin"),
-					S.COMP_ODEX_EXT);
-			list3 = FilesUtils.searchrecursively(new File(this.folder.getAbsolutePath() + File.separator + "plugin"),
-					S.COMP_GZ_ODEX_EXT);
-		}
-
-		if (list1 != null && list1.size() > 0) {
-			list1 = ArrayUtils.deletedupricates(list1);
-			for (File f : list1) {
-				global.add(f);
-			}
-		}
-
-		if (list2 != null && list2.size() > 0) {
-			list2 = ArrayUtils.deletedupricates(list2);
-			for (File f : list2)
-				global.add(f);
-		}
-		if (list3 != null && list3.size() > 0) {
-			list3 = ArrayUtils.deletedupricates(list3);
-			for (File f : list3)
-				global.add(f);
-		}
-
-		// plugin odex files
+		File app = new File(this.folder.getAbsolutePath() + File.separator + S.SYSTEM_APP);
+		File privApp = new File(this.folder.getAbsolutePath() + File.separator + S.SYSTEM_PRIV_APP);
+		File plugin = new File(this.folder.getAbsolutePath() + File.separator + "plugin");
 		File vendor = new File(this.folder.getAbsolutePath() + "/" + "vendor");
-		if (vendor.exists() && vendor.isDirectory()) {
-			list1 = FilesUtils.searchrecursively(vendor, S.ODEX_EXT);
-			list2 = FilesUtils.searchrecursively(vendor, S.COMP_ODEX_EXT);
-			list3 = FilesUtils.searchrecursively(vendor, S.COMP_GZ_ODEX_EXT);
-		}
+		File[] folders = {app,privApp,plugin,vendor};
+		ArrayList<File> odexFiles = new ArrayList<File>();
 
-		if (list1 != null && list1.size() > 0) {
-			list1 = ArrayUtils.deletedupricates(list1);
-			for (File f : list1) {
-				global.add(f);
+		for (File dir : folders)
+		{
+			if(dir.exists() && dir.listFiles().length>0)
+			for (String ext : exts)
+			{
+				odexFiles.addAll(FilesUtils.searchrecursively(dir, ext));
 			}
 		}
+		return ArrayUtils.deletedupricates(odexFiles);
 
-		if (list2 != null && list2.size() > 0) {
-			list2 = ArrayUtils.deletedupricates(list2);
-			for (File f : list2)
-				global.add(f);
-		}
-		if (list3 != null && list3.size() > 0) {
-			list3 = ArrayUtils.deletedupricates(list3);
-			for (File f : list3)
-				global.add(f);
-		}
-
-		return ArrayUtils.deletedupricates(global);
 	}
 
 	/**
@@ -288,10 +187,8 @@ public class MainWorker implements Runnable, ThreadWatcher, Watchable {
 
 		// unsquash first !
 		try {
-			if (SessionCfg.getBootOatFile() == null) {
 				SessionCfg.setBootOatFile(new File(folder.getAbsolutePath() + File.separator + S.SYSTEM_FRAMEWORK
 						+ File.separator + SessionCfg.getArch() + File.separator + "boot.oat"));
-			}
 			isinitialized = FilesUtils.copyFile(SessionCfg.getBootOatFile(), S.getBootTmp());
 			if (!isinitialized) {
 				this.threadWatcher.sendFailed(this);
@@ -323,29 +220,13 @@ public class MainWorker implements Runnable, ThreadWatcher, Watchable {
 		}
 
 		/// framework
-		this.worker3List = FilesUtils.searchrecursively(
-				new File(folder.getAbsolutePath() + File.separator + S.SYSTEM_FRAMEWORK), S.ODEX_EXT);
-		if (this.worker3List != null && this.worker3List.size() > 0)
-			this.worker3List = ArrayUtils.deletedupricates(worker3List);
-
-		ArrayList<File> tmpList = FilesUtils.searchrecursively(
-				new File(folder.getAbsolutePath() + File.separator + S.SYSTEM_FRAMEWORK), S.COMP_ODEX_EXT);
-
-		ArrayList<File> tmpList2 = FilesUtils.searchrecursively(
-				new File(folder.getAbsolutePath() + File.separator + S.SYSTEM_FRAMEWORK), S.COMP_GZ_ODEX_EXT);
-
-		if (tmpList != null && tmpList.size() > 0) {
-			tmpList = ArrayUtils.deletedupricates(tmpList);
-			for (File f : tmpList) {
-				this.worker3List.add(f);
-			}
+		File framework = new File(folder.getAbsolutePath() + File.separator + S.SYSTEM_FRAMEWORK);
+		this .worker3List = new ArrayList<File>();
+		for (String ext : exts){
+			this.worker3List.addAll(FilesUtils.searchrecursively(framework, ext));
 		}
-		if (tmpList2 != null && tmpList2.size() > 0) {
-			tmpList2 = ArrayUtils.deletedupricates(tmpList2);
-			for (File f : tmpList2) {
-				this.worker3List.add(f);
-			}
-		}
+
+		
 
 		// some roms have apks under framwork like LG roms
 		ArrayList<File> temapkinfram = new ArrayList<File>();
@@ -360,16 +241,15 @@ public class MainWorker implements Runnable, ThreadWatcher, Watchable {
 							f.getName().substring(0, f.getName().lastIndexOf(".")) + ".jar")
 					.isEmpty()) {
 				temapkinfram.add(f);
-				Logger.writLog("[MainWorker][I]" + "fount moving it to apk worker's list ");
+				Logger.writLog("[MainWorker][I]" + "Found moving it to apk worker's list ");
 				// this.worker3List.remove(f);
 			} else {
-				Logger.writLog("[MainWorker][I]" + "not found assuming odex file belongs to a .jar file ...");
+				Logger.writLog("[MainWorker][I]" + "Not found assuming odex file belongs to a .jar file ...");
 			}
 		}
-		for (File f : temapkinfram) {
-			this.worker1List.add(f);
-			Logger.writLog(f.getName() + "removed from jar worker ?" + this.worker3List.remove(f));
-		}
+		this .worker1List .addAll(temapkinfram);
+		this .worker3List .removeAll(temapkinfram);
+
 
 		apk1 = new ApkWorker(worker1List, logPan, S.getWorker1Folder(), SessionCfg.isSign(), SessionCfg.isZipalign());
 		apk2 = new ApkWorker(worker2List, logPan, S.getWorker2Folder(), SessionCfg.isSign(), SessionCfg.isZipalign());

@@ -24,10 +24,8 @@ import java.util.ArrayList;
 
 import org.apache.commons.compress.archivers.ArchiveException;
 
+import deodex.tools.ArrayUtils;
 import deodex.tools.FilesUtils;
-import deodex.tools.Logger;
-import deodex.tools.ZipTools;
-import net.lingala.zip4j.core.ZipFile;
 import net.lingala.zip4j.exception.ZipException;
 
 public class Test {
@@ -47,15 +45,18 @@ public class Test {
 //		win.add(new CheckUpdatePan());
 //		win.setVisible(true);
 		//Alerts.showUpdateAlertDialog(win);
-		File system = new File("/tmp/sony");
+		File system = new File("/tmp/sys");
 		ArrayList <File>global = new ArrayList<File>();
 		ArrayList<File> list;
-		list = FilesUtils.searchrecursively(system, ".apk");
+		list = FilesUtils.searchrecursively(system, ".odex");
 			global.addAll(list);
-		list = FilesUtils.searchrecursively(system, ".jar");
-			global.addAll(list);
+//		list = FilesUtils.searchrecursively(system, ".jar");
+//			global.addAll(list);
+			System.out.println("list size = "+global.size());
+			global = ArrayUtils.deletedupricates(global);
+			System.out.println("list size after = "+global.size());
 		for (File f : global){
-			Logger.writLog("checking "+f.getName()+" ... deodexed ? " + ZipTools.isFileinZip("classes.dex",new ZipFile( f)));
+			//Logger.writLog("checking "+f.getName()+" ... deodexed ? " + ZipTools.isFileinZip("classes.dex",new ZipFile( f)));
 		}
 		
 	}
