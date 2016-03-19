@@ -211,7 +211,7 @@ public class ApkWorkerLegacy implements Watchable, Runnable {
 			try {
 				Thread.sleep(2000);
 			} catch (InterruptedException e) {
-				Logger.writLog("[ApkWorkerLegacy][EX]" + e.getStackTrace());
+				Logger.appendLog("[ApkWorkerLegacy][EX]" + e.getStackTrace());
 				e.printStackTrace();
 				// lets make sure the whatcher is always updated even when an
 				// Exception is thrown

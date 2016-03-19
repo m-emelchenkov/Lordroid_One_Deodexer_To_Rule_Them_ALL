@@ -59,9 +59,9 @@ public class TarGzUtils {
 	    while ((entry = (TarArchiveEntry)debInputStream.getNextEntry()) != null) {
 	        final File outputFile = new File(outputDir, entry.getName());
 	        if (entry.isDirectory()) {
-	           Logger.writLog("Attempting to write output directory . "+ outputFile.getAbsolutePath());
+	           Logger.appendLog("Attempting to write output directory . "+ outputFile.getAbsolutePath());
 	            if (!outputFile.exists()) {
-	                Logger.writLog("Attempting to create output directory ."+ outputFile.getAbsolutePath());
+	                Logger.appendLog("Attempting to create output directory ."+ outputFile.getAbsolutePath());
 	                if (!outputFile.mkdirs()) {
 	                    throw new IllegalStateException(String.format("Couldn't create directory %s.", outputFile.getAbsolutePath()));
 	                }

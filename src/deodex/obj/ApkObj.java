@@ -104,11 +104,11 @@ public class ApkObj implements Serializable {
 		setTempClasses2(new File(tmpWorkingFolder.getAbsolutePath() + File.separator + S.CLASSES_2));
 		setTempClasses3(new File(tmpWorkingFolder.getAbsolutePath() + File.separator + S.CLASSES_3));
 
-		Logger.writLog("[ApkObj]" + this.origApk.getName() + "copying " + this.origApk.getAbsolutePath() + " to "
+		Logger.appendLog("[ApkObj]" + this.origApk.getName() + "copying " + this.origApk.getAbsolutePath() + " to "
 				+ tempApk.getAbsolutePath());
 		// FilesUtils.copyFile(this.origApk, tempApk); lets use rename instead
 		this.origApk.renameTo(tempApk);
-		Logger.writLog("[ApkObj]" + "copying " + odexFile.getAbsolutePath() + " to " + tempCompOdex.getAbsolutePath());
+		Logger.appendLog("[ApkObj]" + "copying " + odexFile.getAbsolutePath() + " to " + tempCompOdex.getAbsolutePath());
 		// FilesUtils.copyFile(odexFile, tempCompOdex);
 		odexFile.renameTo(tempCompOdex);
 		return tempApk.exists() && tempCompOdex.exists();

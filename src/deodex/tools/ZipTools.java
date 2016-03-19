@@ -47,16 +47,16 @@ public class ZipTools {
 	public static boolean extractOdex(File odex) throws IOException {
 		File Decomdex;
 		if (odex.getName().endsWith(S.ODEX_EXT)) {
-			Logger.writLog("[ZipTools][I]Decompressing  " + odex.getName() + " not needed");
+			Logger.appendLog("[ZipTools][I]Decompressing  " + odex.getName() + " not needed");
 			return true;
 		} else if (odex.getName().endsWith(S.COMP_GZ_ODEX_EXT)){
-			Logger.writLog("[ZipTools][I]Decompressing  " + odex.getName() + " gzip detected ...");
+			Logger.appendLog("[ZipTools][I]Decompressing  " + odex.getName() + " gzip detected ...");
 			return TarGzUtils.unGzipOdex(odex, odex.getParentFile());
 		} else {
-			Logger.writLog("[ZipTools][I]Decompressing  " + odex.getName() + " xz compression detected ...");
+			Logger.appendLog("[ZipTools][I]Decompressing  " + odex.getName() + " xz compression detected ...");
 			Decomdex = new File(odex.getParentFile().getAbsolutePath() + "/"
 					+ StringUtils.getCropString(odex.getName(), odex.getName().length() - 3));
-			Logger.writLog(
+			Logger.appendLog(
 					"[ZipTools][I]Decompressing  " + odex.getAbsolutePath() + "  to  " + Decomdex.getAbsolutePath());
 			FileInputStream fin = new FileInputStream(odex);
 			BufferedInputStream in = new BufferedInputStream(fin);
@@ -71,7 +71,7 @@ public class ZipTools {
 			xzIn.close();
 
 		}
-		Logger.writLog("[ZipTools][I]Decompressing  " + odex.getAbsolutePath() + "  to  " + Decomdex.getAbsolutePath()
+		Logger.appendLog("[ZipTools][I]Decompressing  " + odex.getAbsolutePath() + "  to  " + Decomdex.getAbsolutePath()
 				+ " success ? " + Decomdex.exists());
 		return Decomdex.exists();
 	}
@@ -85,7 +85,7 @@ public class ZipTools {
 	 */
 	public static boolean isFileinZip(String fileName, ZipFile zipFile) {
 		try {
-			Logger.writLog("[ZipTools][I] about to search " + fileName + " in " + zipFile.getFile().getAbsolutePath());
+			Logger.appendLog("[ZipTools][I] about to search " + fileName + " in " + zipFile.getFile().getAbsolutePath());
 			// Get the list of file headers from the zip file
 			@SuppressWarnings("rawtypes")
 			List fileHeaderList = zipFile.getFileHeaders();
@@ -106,7 +106,7 @@ public class ZipTools {
 				
 		} catch (Exception e) {
 			//e.printStackTrace(); don't print the Exception can be a throwable and doesn't have sush method 
-			Logger.writLog("[ZipTools][EX] isFileInZip fail trying fail safe mode instead ");
+			Logger.appendLog("[ZipTools][EX] isFileInZip fail trying fail safe mode instead ");
 			File zip = zipFile.getFile();
 			try {
 				return ZipTools.isFileinZipFailSafe(fileName, new java.util.zip.ZipFile(zip));
@@ -139,7 +139,7 @@ public class ZipTools {
 				}
 
 		} catch (Exception e) {
-			Logger.writLog("[ZipTools][EX]" + e.getStackTrace());
+			Logger.appendLog("[ZipTools][EX]" + e.getStackTrace());
 			return false;
 		}
 		return false;

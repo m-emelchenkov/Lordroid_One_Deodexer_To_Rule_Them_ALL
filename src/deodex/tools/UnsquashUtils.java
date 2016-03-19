@@ -111,7 +111,7 @@ public class UnsquashUtils {
 						return false;
 				}
 			} else {
-				Logger.writLog("[UnsquashUtils][E]failed to unsquash " + appSquash.getAbsolutePath());
+				Logger.appendLog("[UnsquashUtils][E]failed to unsquash " + appSquash.getAbsolutePath());
 				return false;
 			}
 
@@ -150,7 +150,7 @@ public class UnsquashUtils {
 						return false;
 				}
 			} else {
-				Logger.writLog("[UnsquashUtils][E]failed to unsquash " + privAppSquash.getAbsolutePath());
+				Logger.appendLog("[UnsquashUtils][E]failed to unsquash " + privAppSquash.getAbsolutePath());
 				return false;
 			}
 		}
@@ -188,7 +188,7 @@ public class UnsquashUtils {
 						return false;
 				}
 			} else {
-				Logger.writLog("[UnsquashUtils][E]failed to unsquash " + framSquash.getAbsolutePath());
+				Logger.appendLog("[UnsquashUtils][E]failed to unsquash " + framSquash.getAbsolutePath());
 				return false;
 			}
 		}

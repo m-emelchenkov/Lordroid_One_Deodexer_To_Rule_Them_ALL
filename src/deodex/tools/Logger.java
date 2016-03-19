@@ -82,7 +82,7 @@ public class Logger {
 	 * @param str
 	 *            the log to be saved
 	 */
-	public static synchronized void writLog(String str) {
+	public static synchronized void appendLog(String str) {  
 		getlogFileName();
 		long yourmilliseconds = System.currentTimeMillis();
 		SimpleDateFormat sdf = new SimpleDateFormat("[HH:mm:ss]"); // dd/MMM/yyyy

@@ -42,7 +42,7 @@ public class LangFrame extends JFrame {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
-			Logger.writLog(
+			Logger.appendLog(
 					LOG_HEADER + Logger.INFO + "User choose " + (String) langs.getSelectedItem() + " As language");
 			Cfg.setCurrentLang((String) langs.getSelectedItem());
 			R.initResources();

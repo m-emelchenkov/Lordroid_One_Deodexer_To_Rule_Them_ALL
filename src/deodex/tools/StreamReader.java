@@ -54,11 +54,11 @@ public class StreamReader implements Runnable {
 				String s = br.readLine();
 				if (s == null)
 					break;
-				Logger.writLog("[" + name + "] " + s);
+				Logger.appendLog("[" + name + "] " + s);
 			}
 			is.close();
 		} catch (Exception ex) {
-			Logger.writLog("Problem reading stream " + name + "... :" + ex);
+			Logger.appendLog("Problem reading stream " + name + "... :" + ex);
 		}
 	}
 

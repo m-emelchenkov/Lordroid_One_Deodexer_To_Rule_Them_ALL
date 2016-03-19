@@ -88,12 +88,12 @@ public class JarObj {
 		tmpClasses2 = new File(this.tmpFolder.getAbsolutePath() + File.separator + S.CLASSES_2);
 		tmpClasses3 = new File(this.tmpFolder.getAbsolutePath() + File.separator + S.CLASSES_3);
 
-		Logger.writLog("[JarObj][I] copying " + odexFile + " to " + tmpCompodex);
+		Logger.appendLog("[JarObj][I] copying " + odexFile + " to " + tmpCompodex);
 		boolean copyStatus = this.odexFile.renameTo(this.tmpCompodex);
-		Logger.writLog("[JarObj][I] copy of " + odexFile + " to " + tmpCompodex + " success ? " + copyStatus);
-		Logger.writLog("[JarObj][I] copying " + origJar.getAbsolutePath() + " to " + tmpJar);
+		Logger.appendLog("[JarObj][I] copy of " + odexFile + " to " + tmpCompodex + " success ? " + copyStatus);
+		Logger.appendLog("[JarObj][I] copying " + origJar.getAbsolutePath() + " to " + tmpJar);
 		boolean copyStatus2 = origJar.renameTo(tmpJar);
-		Logger.writLog(
+		Logger.appendLog(
 				"[JarObj][I] copy of " + origJar.getAbsolutePath() + " to " + tmpJar + " success ? " + copyStatus2);
 
 		return this.tmpCompodex.exists() && tmpJar.exists();

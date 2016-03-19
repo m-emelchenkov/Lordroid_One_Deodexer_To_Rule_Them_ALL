@@ -133,12 +133,12 @@ public class Zip {
 	 */
 	public static boolean addFilesToExistingZipJ4Zip(File zipFile, ArrayList<File> files) throws IOException {
 		// lets log the files to be put in the jar file
-		Logger.writLog("[Zip][I] about to put " + files.size() + "files into " + zipFile.getAbsolutePath());
+		Logger.appendLog("[Zip][I] about to put " + files.size() + "files into " + zipFile.getAbsolutePath());
 		String filesNames = "";
 		for (File f : files) {
 			filesNames = filesNames + f.getAbsolutePath() + " :: ";
 		}
-		Logger.writLog("[ZIP][I] files to be added : " + filesNames.substring(0, filesNames.lastIndexOf(":") - 1));
+		Logger.appendLog("[ZIP][I] files to be added : " + filesNames.substring(0, filesNames.lastIndexOf(":") - 1));
 
 		// get a temp file
 		File tempFile = File.createTempFile(zipFile.getName(), null);
@@ -203,7 +203,7 @@ public class Zip {
 			} catch (ZipException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-				Logger.writLog("[ZIP][EX]" + e.getStackTrace());
+				Logger.appendLog("[ZIP][EX]" + e.getStackTrace());
 				success = false;
 			}
 		}
@@ -309,7 +309,7 @@ public class Zip {
 
 			String rootInZip = "system"
 					+ fileToAdd.getParentFile().getAbsolutePath().substring(pathToIgnore.getAbsolutePath().length());
-			Logger.writLog("[Zip][I]putting " + fileToAdd.getAbsolutePath() + " in "
+			Logger.appendLog("[Zip][I]putting " + fileToAdd.getAbsolutePath() + " in "
 					+ zipFile.getFile().getAbsolutePath() + " >> " + rootInZip + File.separator + fileToAdd.getName());
 			parameters.setRootFolderInZip(rootInZip);
 
@@ -317,7 +317,7 @@ public class Zip {
 			zipFile.addFiles(filesToAdd, parameters);
 		} catch (ZipException e) {
 			e.printStackTrace();
-			Logger.writLog("[ZIP][EX]" + e.getStackTrace());
+			Logger.appendLog("[ZIP][EX]" + e.getStackTrace());
 		}
 
 	}

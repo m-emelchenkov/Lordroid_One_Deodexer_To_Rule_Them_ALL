@@ -297,7 +297,7 @@ public class Cfg {
 		} catch (Exception e) {
 			e.printStackTrace();
 			Cfg.setShowDeodexAlert(true);
-			Logger.writLog("[Cfg][EX]" + e.getStackTrace());
+			Logger.appendLog("[Cfg][EX]" + e.getStackTrace());
 		}
 
 		// read show ExitDialog ?
@@ -306,7 +306,7 @@ public class Cfg {
 		} catch (Exception e) {
 			e.printStackTrace();
 			Cfg.setShowExitAlert(true);
-			Logger.writLog("[Cfg][EX]" + e.getStackTrace());
+			Logger.appendLog("[Cfg][EX]" + e.getStackTrace());
 		}
 
 		// read showallertdialog ?
@@ -315,7 +315,7 @@ public class Cfg {
 		} catch (Exception e) {
 			e.printStackTrace();
 			Cfg.setShowThreadAlert(true);
-			Logger.writLog("[Cfg][EX]" + e.getStackTrace());
+			Logger.appendLog("[Cfg][EX]" + e.getStackTrace());
 		}
 
 		// read max jobs
@@ -325,7 +325,7 @@ public class Cfg {
 		} catch (Exception e) {
 			e.printStackTrace();
 			Cfg.setMaxJobs(Cfg.getIdealMaxThread());
-			Logger.writLog("[Cfg][EX]" + e.getStackTrace());
+			Logger.appendLog("[Cfg][EX]" + e.getStackTrace());
 		}
 
 		// read font
@@ -358,7 +358,7 @@ public class Cfg {
 		} catch (Exception e) {
 			e.printStackTrace();
 			Cfg.compresionMethod = 0;
-			Logger.writLog("[Cfg][EX]" + e.getStackTrace());
+			Logger.appendLog("[Cfg][EX]" + e.getStackTrace());
 		}
 		try {
 			//TODO

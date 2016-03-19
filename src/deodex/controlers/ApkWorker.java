@@ -86,17 +86,17 @@ public class ApkWorker implements Runnable {
 	 * 
 	 */
 	private boolean deodexApk(ApkObj apk) {
-		Logger.writLog("[ApkWorker][I]Processing " + apk.getOrigApk().getName() + " ...");
+		Logger.appendLog("[ApkWorker][I]Processing " + apk.getOrigApk().getName() + " ...");
 		// phase 01 copying to temp forlder
-		Logger.writLog("[ApkWorker][I]" + apk.getOrigApk().getName() + " Copying needed Files to working folder ...");
+		Logger.appendLog("[ApkWorker][I]" + apk.getOrigApk().getName() + " Copying needed Files to working folder ...");
 		boolean copyStatus = apk.copyNeededFilesToTempFolder(tmpFolder);
 		if (!copyStatus) { // returns
 			logPan.addLog(R.getString(S.LOG_WARNING) + " [" + apk.getOrigApk().getName() + "]"
 					+ R.getString("log.copy.to.tmp.failed"));
-			Logger.writLog("[ApkWorker][E]" + apk.getOrigApk().getName() + " Failed to copy needed files ");
+			Logger.appendLog("[ApkWorker][E]" + apk.getOrigApk().getName() + " Failed to copy needed files ");
 			return false;
 		}
-		Logger.writLog("[ApkWorker][I]" + apk.getOrigApk().getName() + " copy files to temp folder successfull ! ");
+		Logger.appendLog("[ApkWorker][I]" + apk.getOrigApk().getName() + " copy files to temp folder successfull ! ");
 		progressBar.setValue(progressBar.getValue() + 1);
 		progressBar.setString(R.getString("progress.apks") + " (" + this.getPercent() + "%)");
 		threadWatcher.updateProgress();
@@ -107,7 +107,7 @@ public class ApkWorker implements Runnable {
 			extraxtStatus = ZipTools.extractOdex(apk.getTempCompOdex());
 		} catch (IOException e) {
 			e.printStackTrace();
-			Logger.writLog("[ApkWorker][EX]" + e.getStackTrace());
+			Logger.appendLog("[ApkWorker][EX]" + e.getStackTrace());
 		}
 		if (!extraxtStatus) {
 			logPan.addLog(R.getString(S.LOG_WARNING) + " [" + apk.getOrigApk().getName() + "]"
@@ -121,10 +121,10 @@ public class ApkWorker implements Runnable {
 		// phase 03 deodexing (most of the processing time is spend here)
 		boolean dexStatus = Deodexer.deodexApk(apk.getTempOdex(), apk.getTempDex());
 		if (!dexStatus) {
-			Logger.writLog("[Apkworker][W]" + apk.getOrigApk().getName() + " Failed with method1 trying method 2");
+			Logger.appendLog("[Apkworker][W]" + apk.getOrigApk().getName() + " Failed with method1 trying method 2");
 			dexStatus = Deodexer.deodexApkFailSafe(apk.getTempOdex(), apk.getTempDex());
 			if (!dexStatus) {
-				Logger.writLog("[Apkworker][E]" + apk.getOrigApk().getName() + " Failed to deodex ");
+				Logger.appendLog("[Apkworker][E]" + apk.getOrigApk().getName() + " Failed to deodex ");
 				logPan.addLog(R.getString(S.LOG_WARNING) + " [" + apk.getOrigApk().getName() + "]"
 						+ R.getString("log.deodex.failed"));
 				return false;
@@ -206,7 +206,7 @@ public class ApkWorker implements Runnable {
 		boolean putBackStatus = apk.getTempApkZipalign().renameTo(apk.getOrigApk()); // FilesUtils.copyFile(apk.getTempApkZipalign(),
 																						// apk.getOrigApk());
 		if (!putBackStatus) {
-			Logger.writLog("[ApkWorker][E]Failed to copy back " + apk.getPureName());
+			Logger.appendLog("[ApkWorker][E]Failed to copy back " + apk.getPureName());
 			return false;
 		}
 		// delete the arch folder clearlly we dont need it any more
@@ -285,7 +285,7 @@ public class ApkWorker implements Runnable {
 			Thread.sleep(2000);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
-			Logger.writLog("[ApkWorker][EX]" + e.getStackTrace());
+			Logger.appendLog("[ApkWorker][EX]" + e.getStackTrace());
 			finalMove();
 		}
 		finalMove();

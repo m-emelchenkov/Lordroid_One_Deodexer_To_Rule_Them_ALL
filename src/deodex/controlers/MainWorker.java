@@ -120,7 +120,7 @@ public class MainWorker implements Runnable, ThreadWatcher, Watchable {
 			FilesUtils.deleteRecursively(S.getBootTmp().getParentFile().getParentFile());
 			S.setTempDir(System.getProperty("java.io.tmpdir"));
 			// TODO remove this
-			Logger.writLog("[MainWorker][I]" + "ALL JOBS THERMINATED ");
+			Logger.appendLog("[MainWorker][I]" + "ALL JOBS THERMINATED ");
 			// logPan.addLog(R.getString(S.LOG_INFO)+R.getString("mainWorker.alljobsDone"));
 			// logPan.addLog(R.getString(S.LOG_INFO)+R.getString("mainworker.finallog"));
 			progressBar.setValue(progressBar.getMaximum());
@@ -196,7 +196,7 @@ public class MainWorker implements Runnable, ThreadWatcher, Watchable {
 				return;
 			}
 		} catch (Exception e) {
-			Logger.writLog("[MainWorker][EX]" + e.getStackTrace());
+			Logger.appendLog("[MainWorker][EX]" + e.getStackTrace());
 
 		}
 
@@ -235,16 +235,16 @@ public class MainWorker implements Runnable, ThreadWatcher, Watchable {
 					new File(folder.getAbsolutePath() + File.separator + S.SYSTEM_FRAMEWORK),
 					f.getName().substring(0, f.getName().lastIndexOf(".")) + ".apk"));
 
-			Logger.writLog("[MainWorker][I]" + "Searching for ");
+			Logger.appendLog("[MainWorker][I]" + "Searching for ");
 			if (!apksInFram.isEmpty() && FilesUtils
 					.searchExactFileNames(new File(folder.getAbsolutePath() + File.separator + S.SYSTEM_FRAMEWORK),
 							f.getName().substring(0, f.getName().lastIndexOf(".")) + ".jar")
 					.isEmpty()) {
 				temapkinfram.add(f);
-				Logger.writLog("[MainWorker][I]" + "Found moving it to apk worker's list ");
+				Logger.appendLog("[MainWorker][I]" + "Found moving it to apk worker's list ");
 				// this.worker3List.remove(f);
 			} else {
-				Logger.writLog("[MainWorker][I]" + "Not found assuming odex file belongs to a .jar file ...");
+				Logger.appendLog("[MainWorker][I]" + "Not found assuming odex file belongs to a .jar file ...");
 			}
 		}
 		this .worker1List .addAll(temapkinfram);
@@ -267,21 +267,21 @@ public class MainWorker implements Runnable, ThreadWatcher, Watchable {
 		}
 		boot = new BootWorker(worker4List, S.getWorker4Folder(), this.logPan);
 
-		Logger.writLog("[MainWorker][I]" + "APK list 1");
+		Logger.appendLog("[MainWorker][I]" + "APK list 1");
 		for (File f : this.worker1List) {
-			Logger.writLog("[MainWorker][I]" + f.getAbsolutePath());
+			Logger.appendLog("[MainWorker][I]" + f.getAbsolutePath());
 		}
-		Logger.writLog("[MainWorker][I]" + "APK list 2");
+		Logger.appendLog("[MainWorker][I]" + "APK list 2");
 		for (File f : this.worker2List) {
-			Logger.writLog("[MainWorker][I]" + f.getAbsolutePath());
+			Logger.appendLog("[MainWorker][I]" + f.getAbsolutePath());
 		}
-		Logger.writLog("[MainWorker][I]" + "Jar list 3");
+		Logger.appendLog("[MainWorker][I]" + "Jar list 3");
 		for (File f : this.worker3List) {
-			Logger.writLog("[MainWorker][I]" + f.getAbsolutePath());
+			Logger.appendLog("[MainWorker][I]" + f.getAbsolutePath());
 		}
-		Logger.writLog("[MainWorker][I]" + "boot list 4 (boot)");
+		Logger.appendLog("[MainWorker][I]" + "boot list 4 (boot)");
 		for (File f : this.worker4List) {
-			Logger.writLog("[MainWorker][I]" + f.getAbsolutePath());
+			Logger.appendLog("[MainWorker][I]" + f.getAbsolutePath());
 		}
 
 		apk1.addThreadWatcher(this);
