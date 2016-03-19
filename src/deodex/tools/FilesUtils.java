@@ -128,13 +128,8 @@ public class FilesUtils {
 			out.mkdir();
 			File[] list = in.listFiles();
 			for (File f : list) {
-				// if (f.isDirectory()){
 				status = status
 						&& copyFileRecurcively(f, new File(out.getAbsolutePath() + File.separator + f.getName()));
-				// } else {
-				// status = status && copyFile(f,new
-				// File(out.getAbsolutePath()+File.separator+f.getName()));
-				// }
 			}
 		} else {
 			status = status && copyFile(in, out);
@@ -270,9 +265,6 @@ public class FilesUtils {
 		try {
 			sdkLevel = Integer.parseInt(PropReader.getProp(S.SDK_LEVEL_PROP,
 					new File(systemFolder.getAbsolutePath() + File.separator + S.SYSTEM_BUILD_PROP)));
-			// String str = PropReader.getProp(S.SDK_LEVEL_PROP, new
-			// File(systemFolder.getAbsolutePath()+File.separator+S.SYSTEM_BUILD_PROP));
-			// Logger.logToStdIO("[WHAT ?] "+str);
 		} catch (Exception e) {
 			for (StackTraceElement element : e.getStackTrace())
 				Logger.appendLog("[FilesUtils][EX]" + element.toString());
@@ -361,13 +353,6 @@ public class FilesUtils {
 		// is boot .oat there may be it's in squash file ? lets skip this check if sqsh files were detected
 		if(!framSquash.exists())
 		if (sdkLevel > 20) {
-			// if (!new File(systemFolder.getAbsolutePath() + File.separator +
-			// S.SYSTEM_FRAMEWORK + File.separator + arch
-			// + File.separator + S.SYSTEM_FRAMEWORK_BOOT).exists()) {
-			// log.addLog(R.getString(S.LOG_ERROR) +
-			// R.getString("log.no.boot.oat"));
-			// return false;
-			// }
 			ArrayList<File> bootOat = FilesUtils.searchExactFileNames(
 					new File(systemFolder.getAbsolutePath() + File.separator + S.SYSTEM_FRAMEWORK), "boot.oat");
 			if (bootOat == null || bootOat.size() <= 0) {
@@ -418,10 +403,10 @@ public class FilesUtils {
 
 		}
 		if(new File(systemFolder.getAbsolutePath()+"/"+"plugin").exists() && new File(systemFolder.getAbsolutePath()+"/"+"plugin").isDirectory()){
-			log.addLog(R.getString(S.LOG_INFO) + "plugin folder detected ,it will be deodexed if necessary ...");
+			log.addLog(R.getString(S.LOG_INFO) + "Plugin folder detected ,it will be deodexed if necessary ...");
 		}
 		if(new File(systemFolder.getAbsolutePath()+"/"+"vendor").exists() && new File(systemFolder.getAbsolutePath()+"/"+"vendor").isDirectory()){
-			log.addLog(R.getString(S.LOG_INFO) + "vendor folder detected ,it will be deodexed if necessary ...");
+			log.addLog(R.getString(S.LOG_INFO) + "Vendor folder detected ,it will be deodexed if necessary ...");
 		}
 		return true;
 	}
@@ -477,7 +462,7 @@ public class FilesUtils {
 			for (File f : listAllFiles(framework)) {
 				str = str + (f.getAbsolutePath().substring(framework.getAbsolutePath().length() + 1)) + "\n";
 			}
-		Logger.appendLog("[FilesUtils][D]" + str);
+		Logger.writeSystemFolderFiles("[FilesUtils][D]\n" + str);
 	}
 
 	public static boolean moveFile(File in, File dest) {
@@ -500,8 +485,6 @@ public class FilesUtils {
 	 * @return a list of all the matching files
 	 */
 	public static ArrayList<File> searchExactFileNames(File folder, String ext) {
-//		Logger.appendLog(
-//				"[FileUtils][I] searching  for " + ext + " in (Exact file name mode )" + folder.getAbsolutePath());
 		ArrayList<File> list = new ArrayList<File>();
 		File[] files = folder.listFiles();
 		for (File f : files) {
@@ -513,15 +496,6 @@ public class FilesUtils {
 				list.add(f);
 			}
 		}
-		String found = "";
-		for (int i = 0; i < list.size(); i++) {
-			if (i != list.size() - 1) {
-				found = found + list.get(i).getAbsolutePath() + " :: ";
-			} else {
-				found = found + list.get(i).getAbsolutePath();
-			}
-		}
-//		Logger.appendLog("[FilesUtils][I] list of found files = " + found);
 		return list;
 	}
 
@@ -535,7 +509,6 @@ public class FilesUtils {
 	 * @return ArrayfilesList list of all the matching files
 	 */
 	public static ArrayList<File> searchrecursively(File folder, String ext) {
-//		Logger.appendLog("[FileUtils][I] searching  for *" + ext + " in " + folder.getAbsolutePath());
 		ArrayList<File> list = new ArrayList<File>();
 		File[] files = folder.listFiles();
 		for (File f : files) {
@@ -547,15 +520,7 @@ public class FilesUtils {
 				list.add(f);
 			}
 		}
-		String found = "";
-		for (int i = 0; i < list.size(); i++) {
-			if (i != list.size() - 1) {
-				found = found + list.get(i).getAbsolutePath() + " :: ";
-			} else {
-				found = found + list.get(i).getAbsolutePath();
-			}
-		}
-//		Logger.appendLog("[FilesUtils][I] list of found files = " + found);
+
 		return list;
 	}
 }
