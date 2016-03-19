@@ -121,8 +121,6 @@ public class MainWorker implements Runnable, ThreadWatcher, Watchable {
 			S.setTempDir(System.getProperty("java.io.tmpdir"));
 			// TODO remove this
 			Logger.appendLog("[MainWorker][I]" + "ALL JOBS THERMINATED ");
-			// logPan.addLog(R.getString(S.LOG_INFO)+R.getString("mainWorker.alljobsDone"));
-			// logPan.addLog(R.getString(S.LOG_INFO)+R.getString("mainworker.finallog"));
 			progressBar.setValue(progressBar.getMaximum());
 			progressBar.setString(R.getString("progress.done"));
 			progressBar.setEnabled(false);
@@ -174,7 +172,7 @@ public class MainWorker implements Runnable, ThreadWatcher, Watchable {
 			boolean unsquash = UnsquashUtils.unsquash(folder);
 			if (!unsquash) {
 				this.logPan
-						.addLog(R.getString(S.LOG_ERROR) + "Failed to unsquash the squash file we can't continue ...");
+						.addLog(R.getString(S.LOG_ERROR) + R.getString("0000141"));
 				this.threadWatcher.sendFailed(this);
 				isinitialized = false;
 				return;
@@ -187,12 +185,12 @@ public class MainWorker implements Runnable, ThreadWatcher, Watchable {
 
 		// unsquash first !
 		try {
-				SessionCfg.setBootOatFile(new File(folder.getAbsolutePath() + File.separator + S.SYSTEM_FRAMEWORK
-						+ File.separator + SessionCfg.getArch() + File.separator + "boot.oat"));
+			ArrayList<File> boot = FilesUtils.searchExactFileNames(new File(folder.getAbsolutePath() + File.separator + S.SYSTEM_FRAMEWORK), "boot.oat");
+				SessionCfg.setBootOatFile(boot.get(0));
 			isinitialized = FilesUtils.copyFile(SessionCfg.getBootOatFile(), S.getBootTmp());
 			if (!isinitialized) {
 				this.threadWatcher.sendFailed(this);
-				this.logPan.addLog(R.getString(S.LOG_ERROR) + "couldn't copy boot.oat to working folder aborting ...");
+				this.logPan.addLog(R.getString(S.LOG_ERROR) + R.getString("0000139"));
 				return;
 			}
 		} catch (Exception e) {
@@ -202,7 +200,7 @@ public class MainWorker implements Runnable, ThreadWatcher, Watchable {
 
 		isinitialized = isinitialized && Deodexer.oat2dexBoot(S.getBootTmp());
 		if (!isinitialized) {
-			this.logPan.addLog(R.getString(S.LOG_ERROR) + "couldn't deodex boot.oat aborting ...");
+			this.logPan.addLog(R.getString(S.LOG_ERROR) + R.getString("0000140"));
 			this.threadWatcher.sendFailed(this);
 			return;
 		}
