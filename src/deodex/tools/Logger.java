@@ -54,9 +54,9 @@ public class Logger {
 			Date resultdate = new Date(yourmilliseconds);
 			init++;
 			new File(PathUtils.getExcutionPath() + File.separator + "logs" + File.separator + sdf.format(resultdate)
-					+ "_full.log").getParentFile().mkdirs();
+					+ "/full_log.txt").getParentFile().mkdirs();
 			return PathUtils.getExcutionPath() + File.separator + "logs" + File.separator + sdf.format(resultdate)
-					+ "_full.log";
+					+ "/full_log.txt";
 		}
 
 		return LOG_FILE.getAbsolutePath();

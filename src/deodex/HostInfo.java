@@ -24,7 +24,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.management.ManagementFactory;
 
-import deodex.tools.PathUtils;
+import deodex.tools.Logger;
 
 public class HostInfo {
 	/**
@@ -45,7 +45,7 @@ public class HostInfo {
 
 	public static void logInfo() {
 		try {
-			File f = new File(PathUtils.getExcutionPath() + File.separator + "logs/system_info.txt");
+			File f = new File(Logger.LOG_FILE.getParentFile().getAbsolutePath()+"/system_info.txt");
 			if (f.exists()) {
 				f.delete();
 			}

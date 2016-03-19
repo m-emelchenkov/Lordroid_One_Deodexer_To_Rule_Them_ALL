@@ -143,12 +143,12 @@ public class Main {
 	 */
 	private static void logOsInfo() {
 		// lets log SystemInfos
-		Logger.appendLog("[Tester][I]User Os is " + Cfg.getOs());
-		Logger.appendLog("[Tester][I]Os name : " + Os.getOsName());
-		Logger.appendLog("[Tester][I]User Platform is : " + Os.platform());
-		Logger.appendLog("[Tester][I]JAVA version : " + System.getProperty("java.version"));
-		Logger.appendLog("Available cores (cpu) = " + HostInfo.availableCpus());
-		Logger.appendLog("Max allocated memory = " + HostInfo.getMaxMemory() + " bytes");
+		Logger.appendLog("[Main][I]User Os is " + Cfg.getOs());
+		Logger.appendLog("[Main][I]Os name : " + Os.getOsName());
+		Logger.appendLog("[Main][I]User Platform is : " + Os.platform());
+		Logger.appendLog("[Main][I]JAVA version : " + System.getProperty("java.version"));
+		Logger.appendLog("[Main][I]Available cores (cpu) = " + HostInfo.availableCpus());
+		Logger.appendLog("[Main][I]Max allocated memory = " + HostInfo.getMaxMemory() + " bytes");
 	}
 
 	/**

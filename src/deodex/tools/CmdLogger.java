@@ -49,12 +49,8 @@ public class CmdLogger implements LoggerPan {
 
 	@Override
 	public synchronized void saveToFile() {
-		// TODO Auto-generated method stub
-		long yourmilliseconds = System.currentTimeMillis();
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd_HH.mm.ss"); // dd/MMM/yyyy
-		Date resultdate = new Date(yourmilliseconds);
-		String str = PathUtils.getExcutionPath() + File.separator + "logs" + File.separator + sdf.format(resultdate)
-				+ ".log";
+
+		String str = Logger.LOG_FILE.getParentFile().getAbsolutePath()+ "/Deodexing_log.txt";
 		File logFile = new File(str);
 		this.addLog("Log file saved to " + logFile.getAbsolutePath());
 		PropReader.ArrayToProp(logs, logFile);

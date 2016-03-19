@@ -18,46 +18,9 @@
  */
 package deodex;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-
-import org.apache.commons.compress.archivers.ArchiveException;
-
-import deodex.tools.ArrayUtils;
-import deodex.tools.FilesUtils;
-import net.lingala.zip4j.exception.ZipException;
-
 public class Test {
 
-	public static void main(String[] args) throws InterruptedException, IOException, ArchiveException, ZipException {
-//		File targz = new File("/tmp/test.tar.gz");
-//		File tar = new File("/tmp/test.tar");
-//		File outDir = new File("/tmp/out");
-//		TarGzUtils.unGzip(targz, new File("/tmp"));
-//		TarGzUtils.unTar(tar, outDir);
-		//WebLookAndFeel.install();
-		R.initResources();
-		//JFrame win = new JFrame();
-		//win.setLocationRelativeTo(null);
-//		win.setSize(650, 250);
-//		win.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//		win.add(new CheckUpdatePan());
-//		win.setVisible(true);
-		//Alerts.showUpdateAlertDialog(win);
-		File system = new File("/tmp/sys");
-		ArrayList <File>global = new ArrayList<File>();
-		ArrayList<File> list;
-		list = FilesUtils.searchrecursively(system, ".odex");
-			global.addAll(list);
-//		list = FilesUtils.searchrecursively(system, ".jar");
-//			global.addAll(list);
-			System.out.println("list size = "+global.size());
-			global = ArrayUtils.deletedupricates(global);
-			System.out.println("list size after = "+global.size());
-		for (File f : global){
-			//Logger.writLog("checking "+f.getName()+" ... deodexed ? " + ZipTools.isFileinZip("classes.dex",new ZipFile( f)));
-		}
-		
+	public static void main(String[] args)  {
+			// just for testing purpose 
 	}
 }
