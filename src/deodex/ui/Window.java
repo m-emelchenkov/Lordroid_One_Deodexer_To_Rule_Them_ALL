@@ -497,9 +497,9 @@ public class Window extends JFrame implements ThreadWatcher, ChangeListener {
 		rootPanel.setBackground(R.PANELS_BACK_COLOR);
 		rootPanel.setOpaque(true);
 		// TODO : externalize those
-		JLabel errorLab = new JLabel("<HTML><p>Oops ... we couldn't initialize the working environement "
-				+ " please make sure that you have followed all the guide lines if you think this is a bug please send a bug report along with the full log to rachidboudjelida@gmail.com or post it on XDA </p></HTML>");
-		MyWebButton exit = new MyWebButton("Back");
+		JLabel errorLab = new JLabel(R.getString("0000136")
+				+ R.getString("0000137")+R.getString("0000138"));
+		MyWebButton exit = new MyWebButton(R.getString("window.restartbtn"));
 		exit.addActionListener(new ActionListener() {
 
 			@Override
@@ -666,7 +666,7 @@ public class Window extends JFrame implements ThreadWatcher, ChangeListener {
 		rootPanel.setBackground(new Color(26, 135, 197));
 		rootPanel.setOpaque(true);
 
-		JLabel waiting = new JLabel("De-Optimizing boot.oat this may take a minute...");
+		JLabel waiting = new JLabel(R.getString("0000135"));
 		waiting.setFont(R.getCouriernormal().deriveFont(25.0f));
 		waiting.setBounds(10, 25, 748, 50);
 		waiting.setBackground(new Color(0, 0, 0, 0));
@@ -696,7 +696,7 @@ public class Window extends JFrame implements ThreadWatcher, ChangeListener {
 		this.devieStatusField.setText("  " + formatedDevice.substring(formatedDevice.lastIndexOf("|") + 1));
 		if (!formatedDevice.equals(AdbUtils.NULL_DEVICE)) {
 			this.deodexNow.setEnabled(true);
-			logger.addLog(R.getString(S.LOG_INFO) + "You are good to go :D  click deodex Now to proceed ");
+			logger.addLog(R.getString(S.LOG_INFO) + R.getString("0000134"));
 			SessionCfg.sessionFrom = 1;
 		} else {
 			// TODO POPUP instructions

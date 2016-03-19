@@ -316,15 +316,15 @@ public class FilesUtils {
 					// TODO is this good ? make some research !
 					if (!log.getClass().equals(CmdLogger.class))
 						JOptionPane.showMessageDialog((Component) log,
-								"<HTML><p>No arch was detected and no odex files were found in the system folder!</p><p>This usally means that the rom is already deodexed</p></HTML>",
-								"Rom is already deodexed!", JOptionPane.ERROR_MESSAGE);
+								R.getString("0000130"),
+								R.getString("0000132"), JOptionPane.ERROR_MESSAGE);
 					return false;
 				} else if (bootcount <= 0) {
 					// TODO is this good ? make some research !
 					if (!log.getClass().equals(CmdLogger.class))
 						JOptionPane.showMessageDialog((Component) log,
-								"<HTML><p>No arch was detected and no boot.oat file was found in the system folder </p><p>boot.oat is critical to the depdex process can't do it without it</p></HTML>",
-								"No arch detected", JOptionPane.ERROR_MESSAGE);
+								R.getString("0000131"),
+								R.getString("0000133"), JOptionPane.ERROR_MESSAGE);
 					return false;
 				}
 			} catch (Exception e) {
@@ -342,11 +342,11 @@ public class FilesUtils {
 		boolean isSquash = false;
 		if (appSquash.exists() || privAppSquash.exists() || framSquash.exists()) {
 			log.addLog(R.getString(S.LOG_INFO)
-					+ ".sqsh Files were detected it will be extracted no action needed from user... ");
+					+ R.getString("0000128"));
 			isSquash = true;
 			if (!UnsquashUtils.haveUnsquash()) {
 				log.addLog(R.getString(S.LOG_ERROR)
-						+ "squashfs tools not found ! please refer to the manual for mor info ! ");
+						+ R.getString("0000129"));
 				return false;
 			}
 		}
@@ -398,15 +398,15 @@ public class FilesUtils {
 			log.addLog(R.getString(S.LOG_INFO) + R.getString("log.there.is") + " "+jarCounts + " jars "
 					+ R.getString("log.to.be.deodexed"));
 		} else {
-			log.addLog(R.getString(S.LOG_INFO) + "There is no way to determine the number of odex files ");
-			log.addLog(R.getString(S.LOG_INFO) + "We will determine this once we extract .sqsh files no warries :D");
+			log.addLog(R.getString(S.LOG_INFO) + R.getString("0000127"));
+			log.addLog(R.getString(S.LOG_INFO) + R.getString("0000126"));
 
 		}
 		if(new File(systemFolder.getAbsolutePath()+"/"+"plugin").exists() && new File(systemFolder.getAbsolutePath()+"/"+"plugin").isDirectory()){
-			log.addLog(R.getString(S.LOG_INFO) + "Plugin folder detected ,it will be deodexed if necessary ...");
+			log.addLog(R.getString(S.LOG_INFO) + R.getString("0000125"));
 		}
 		if(new File(systemFolder.getAbsolutePath()+"/"+"vendor").exists() && new File(systemFolder.getAbsolutePath()+"/"+"vendor").isDirectory()){
-			log.addLog(R.getString(S.LOG_INFO) + "Vendor folder detected ,it will be deodexed if necessary ...");
+			log.addLog(R.getString(S.LOG_INFO) + R.getString("0000124"));
 		}
 		return true;
 	}
