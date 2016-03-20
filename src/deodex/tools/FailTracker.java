@@ -22,7 +22,9 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class FailTracker {
 	static BufferedWriter out;
@@ -53,4 +55,13 @@ public class FailTracker {
 		}
 	}
 
+	
+	public static void putToZero(){
+		failCount = 0;
+		failedFiles = new ArrayList<String>();
+		long yourmilliseconds = System.currentTimeMillis();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd | HH:mm:ss"); // dd/MMM/yyyy
+		Date resultdate = new Date(yourmilliseconds);
+		append("Session started at "+sdf.format(resultdate));
+	}
 }

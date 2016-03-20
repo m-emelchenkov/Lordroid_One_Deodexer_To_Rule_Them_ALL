@@ -84,6 +84,7 @@ public class MainWorker implements Runnable, ThreadWatcher, Watchable {
 		maxThreading = maxThreads;
 		this.logPan = logPane;
 		this.folder = folder;
+		FailTracker.putToZero();
 		if (SessionCfg.getSdk() > 20) {
 			init();
 		} else {
