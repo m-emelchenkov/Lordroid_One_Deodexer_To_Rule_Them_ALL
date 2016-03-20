@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <project default="build" name="build lordroid One Batch Deodexer To Rule Them All">
-    <!--this file was created by Eclipse Runnable JAR Export Wizard and edited manually by rachidboudjelida -->
+    <!--this file was created by Eclipse Runnable JAR Export Wizard and edited manually by Rachid Boudjelida -->
     <!--ANT 1.7 is required                                        -->
     <!--define folder properties-->
     <property name="dir.buildfile" value="."/>
     <property name="dir.workspace" value="${dir.buildfile}/.."/>
     <property name="dir.jarfile" value="${dir.buildfile}"/>
-	<property name="app.version" value="v1.24"/>
+	<property name="app.version" value="v1.25"/>
 	<path id="project-classpath">
 		<fileset dir="${dir.jarfile}/libs" includes="*.jar" />
 		<fileset dir="${dir.jarfile}/bins/oat2dex" includes="*.jar" />
