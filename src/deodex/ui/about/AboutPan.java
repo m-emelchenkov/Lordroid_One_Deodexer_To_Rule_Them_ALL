@@ -21,6 +21,7 @@
  */
 package deodex.ui.about;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 
 import javax.swing.JLabel;
@@ -40,9 +41,9 @@ public class AboutPan extends JPanel {
 	private static final long serialVersionUID = 1L;
 
 	public AboutPan(){
-		this.setSize(600,600);
-		this.setBounds(0,0,600,600);
-		this.setLayout(null);
+		//this.setSize(600,600);
+		//this.setBounds(0,0,600,600);
+		this.setLayout(new BorderLayout());
 		this.setBackground(Color.WHITE);
 		JLabel title = new JLabel();
 		String text = 
@@ -61,10 +62,10 @@ public class AboutPan extends JPanel {
 				+R.getString("0000111");
 		
 		title.setText(text);
-		title .setBounds(10, -20, 580, 600);
+		//title .setBounds(10, -20, 580, 600);
 		title .setFont(R.getNormalFont());
 		title .setBackground(Color.WHITE);
 
-		this.add(title);
+		this.add(title,BorderLayout.CENTER);
 	}
 }
