@@ -226,7 +226,8 @@ public class MainWorker implements Runnable, ThreadWatcher, Watchable {
 		for (String ext : exts) {
 			this.worker3List.addAll(FilesUtils.searchrecursively(framework, ext));
 		}
-
+		
+		this.worker3List = ArrayUtils.deletedupricates(this.worker3List);
 		// some roms have apks under framwork like LG roms
 		ArrayList<File> temapkinfram = new ArrayList<File>();
 		for (File f : this.worker3List) {
@@ -246,6 +247,7 @@ public class MainWorker implements Runnable, ThreadWatcher, Watchable {
 				Logger.appendLog("[MainWorker][I]" + "Not found assuming odex file belongs to a .jar file ...");
 			}
 		}
+		temapkinfram = ArrayUtils.deletedupricates(temapkinfram);
 		this.worker1List.addAll(temapkinfram);
 		this.worker3List.removeAll(temapkinfram);
 
