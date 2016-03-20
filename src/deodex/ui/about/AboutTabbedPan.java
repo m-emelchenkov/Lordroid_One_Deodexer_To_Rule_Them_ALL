@@ -39,6 +39,8 @@ public class AboutTabbedPan extends JTabbedPane{
 		this.addTab(R.getString("0000112"), new LinksPan());
 		this.addTab(R.getString("0000113"), new LicensePan());
 		this.setBackgroundAt(2, Color.WHITE);
+		this.setBackgroundAt(0, Color.WHITE);
+		
 	}
 	
 
