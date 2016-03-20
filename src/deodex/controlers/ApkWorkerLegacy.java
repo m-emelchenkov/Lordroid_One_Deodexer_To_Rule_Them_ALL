@@ -27,6 +27,7 @@ import deodex.R;
 import deodex.S;
 import deodex.obj.ApkLegacy;
 import deodex.tools.Deodexer;
+import deodex.tools.FailTracker;
 import deodex.tools.FilesUtils;
 import deodex.tools.Logger;
 import deodex.tools.Zip;
@@ -201,6 +202,7 @@ public class ApkWorkerLegacy implements Watchable, Runnable {
 					apk.reverseMove();
 					logPan.addLog(
 							R.getString(S.LOG_ERROR) + "[" + apk.origApk.getName() + "]" + R.getString(S.LOG_FAIL));
+					FailTracker.addFailed(apk.origApk);
 				}
 				progressBar.setValue(progressBar.getValue() + 1);
 				progressBar.setString(R.getString("progress.apks") + " " + this.percent());

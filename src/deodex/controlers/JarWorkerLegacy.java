@@ -27,6 +27,7 @@ import deodex.R;
 import deodex.S;
 import deodex.obj.JarLegacy;
 import deodex.tools.Deodexer;
+import deodex.tools.FailTracker;
 import deodex.tools.FilesUtils;
 import deodex.tools.Logger;
 import deodex.tools.Zip;
@@ -154,6 +155,7 @@ public class JarWorkerLegacy implements Watchable, Runnable {
 				} else {
 					logPan.addLog(
 							R.getString(S.LOG_ERROR) + "[" + jar.origJar.getName() + "]" + R.getString(S.LOG_FAIL));
+					FailTracker.addFailed(jar.origJar);
 				}
 				progressBar.setValue(progressBar.getValue() + 1);
 				progressBar.setString(R.getString("progress.jar") + " " + this.percent());

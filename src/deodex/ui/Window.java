@@ -56,6 +56,7 @@ import deodex.controlers.ThreadWatcher;
 import deodex.controlers.Watchable;
 import deodex.tools.AdbUtils;
 import deodex.tools.CmdUtils;
+import deodex.tools.FailTracker;
 import deodex.tools.FilesUtils;
 import deodex.ui.about.CheckUpdatePan;
 
@@ -612,13 +613,28 @@ public class Window extends JFrame implements ThreadWatcher, ChangeListener {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
-				int agree = JOptionPane.showConfirmDialog(zipIt,
+				int fail = 0;
+				int agree = 1;
+				if(FailTracker.failCount > 0){
+					String failedApks = "";
+					for (String str : FailTracker.failedFiles){
+						failedApks = failedApks +"<p>"+str+"</p>";
+					}
+					fail = JOptionPane.showConfirmDialog(zipIt,
+							R.getString("0000142")+
+									failedApks+
+							R.getString("0000143")+
+									R.getString("0000144"),
+							R.getString("0000018"), JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+				}
+				if(fail == 0)
+				agree = JOptionPane.showConfirmDialog(zipIt,
 						R.getString("0000009") + "\n" + R.getString("0000010") + "\n" + R.getString("0000011") + "\n"
 								+ R.getString("0000012") + "\n" + R.getString("0000013") + "\n" + R.getString("0000014")
 								+ "\n" + R.getString("0000015") + "\n" + R.getString("0000016") + "\n\n"
 								+ R.getString("0000017"),
 						R.getString("0000018"), JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
-				if (agree == 0) {
+				if (agree == 0 && fail == 0) {
 					String name = JOptionPane.showInputDialog(zipIt,
 							R.getString("0000006") + "\n" + R.getString("0000007"));
 					if (name != null) {
@@ -648,8 +664,7 @@ public class Window extends JFrame implements ThreadWatcher, ChangeListener {
 			}
 
 		});
-		//
-		// rootPanel.add(logo);
+		
 		rootPanel.add(logger);
 		rootPanel.add(mainWorker.mainPannel);
 		rootPanel.add(quitbtn);

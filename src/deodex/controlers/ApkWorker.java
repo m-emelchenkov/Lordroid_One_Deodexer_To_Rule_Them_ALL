@@ -28,6 +28,7 @@ import deodex.R;
 import deodex.S;
 import deodex.obj.ApkObj;
 import deodex.tools.Deodexer;
+import deodex.tools.FailTracker;
 import deodex.tools.FilesUtils;
 import deodex.tools.Logger;
 import deodex.tools.Zip;
@@ -46,7 +47,7 @@ public class ApkWorker implements Runnable {
 	private boolean zipAlignStatus = false;
 
 	/**
-	 * constructor the argument is a list of the APk objectes to be deodexed
+	 * constructor the argument is a list of the APk objects to be deodexed
 	 * (lolipop and above)
 	 * 
 	 * @param apkFoldersList
@@ -265,6 +266,7 @@ public class ApkWorker implements Runnable {
 					apkObj.reverseMove();
 					logPan.addLog(R.getString(S.LOG_ERROR) + "[" + new ApkObj(apk).getOrigApk().getName() + "]"
 							+ R.getString(S.LOG_FAIL));
+					FailTracker.addFailed(apkObj.getOrigApk());
 				} else {
 					logPan.addLog(
 							R.getString(S.LOG_INFO) + "[" + new ApkObj(apk).getOrigApk().getName() + "]"

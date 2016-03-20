@@ -29,6 +29,7 @@ import deodex.S;
 import deodex.SessionCfg;
 import deodex.obj.JarObj;
 import deodex.tools.Deodexer;
+import deodex.tools.FailTracker;
 import deodex.tools.FilesUtils;
 import deodex.tools.Logger;
 import deodex.tools.Zip;
@@ -251,6 +252,7 @@ public class JarWorker implements Runnable, Watchable {
 					Logger.appendLog("[JarWorker][E] " + new JarObj(jar).getAbsoluteName() + ".jar [FAILED]");
 					logPan.addLog(R.getString(S.LOG_WARNING) + "[" + new JarObj(jar).getAbsoluteName() + ".jar]"
 							+ " [FAILED]");
+					FailTracker.addFailed(jarObj.getOrigJar());
 				}
 				this.progressBar.setValue(this.progressBar.getValue() + 1);
 				progressBar.setString(R.getString("progress.jar") + " " + this.getPercent() + "%");

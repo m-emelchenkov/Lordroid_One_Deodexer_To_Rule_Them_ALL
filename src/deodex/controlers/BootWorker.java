@@ -26,6 +26,7 @@ import com.alee.laf.progressbar.WebProgressBar;
 import deodex.R;
 import deodex.S;
 import deodex.SessionCfg;
+import deodex.tools.FailTracker;
 import deodex.tools.FilesUtils;
 import deodex.tools.Logger;
 import deodex.tools.Zip;
@@ -165,7 +166,7 @@ public class BootWorker implements Runnable, Watchable {
 			} else {
 				log.addLog(R.getString(S.LOG_ERROR) + "[" + file.getName().substring(0, file.getName().lastIndexOf("."))
 						+ ".jar]" + " [FAILED ]");
-
+				FailTracker.addFailed(new File(file.getName().substring(0, file.getName().lastIndexOf("."))+".jar"));
 			}
 			progressBar.setValue(progressBar.getValue() + 1);
 			progressBar.setString(R.getString("progress.bootFiles") + " " + this.percent());
