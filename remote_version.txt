@@ -1,4 +1,4 @@
-version.incrimental=13
+version.incrimental=14
 download.page=https://goo.gl/H2WrfZ
-download.link=https://goo.gl/Lz1lJG
-version.name=v1.24
+download.link=https://github.com/lord-ralf-adolf/Lordroid_One_Deodexer_To_Rule_Them_ALL/releases/download/v1.25/lordroid_ODTRTA_v1.25_ALL.tar.gz
+version.name=v1.25
