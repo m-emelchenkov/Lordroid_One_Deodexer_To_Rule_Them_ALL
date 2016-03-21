@@ -16,23 +16,32 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package deodex;
+package deodex.ui.about;
 
-import java.io.File;
-import java.io.IOException;
-import java.net.URL;
+import java.awt.Color;
 
-import deodex.tools.FilesUtils;
+import javax.swing.JTabbedPane;
 
-public class Test {
+import deodex.R;
 
-	public static void main(String[] args) throws IOException  {
-			// just for testing purpose 
-		for (int i = 0 ; i< 2 ; i++){
-			URL url = new URL("http://prodroid.eu5.org/lordroid/release.php");
-			url.openConnection();
-			System.out.println(""+i);
-			FilesUtils.copyFile(url.openStream(), new File("/tmp/link"));
-		}
+public class AboutTabbedPan extends JTabbedPane{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	public AboutTabbedPan(){
+		super(JTabbedPane.LEFT);
+		this.setSize(770, 700);
+		this.setBounds(0,0,770,700);
+		this.addTab(R.getString("about.menu"), new AboutPan());
+		this.addTab(R.getString("0000112"), new LinksPan());
+		this.addTab(R.getString("0000113"), new LicensePan());
+		this.setBackgroundAt(2, Color.WHITE);
+		this.setBackgroundAt(0, Color.WHITE);
+		
 	}
+	
+
 }

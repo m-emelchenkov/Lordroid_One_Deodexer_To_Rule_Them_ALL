@@ -19,8 +19,8 @@
 file.launguage=Italiano
 #
 #
-app.version=v1.23
-app.name=Lordroid One Dedodexer To Rule Them All v1.23
+app.version=v1.25
+app.name=Lordroid One Dedodexer To Rule Them All v1.25
 #
 # first window first launch !
 app.welcome=Benvenuto in LODTRTA!
@@ -205,3 +205,51 @@ create.zip.btn=Crea zip flashabile
 0000094=E' disponibile una nuova versione, vai in Informazioni > Verifica per eseguire l'aggiornamento!
 0000096=Hai già l'ultima versione dell'app installata
 0000097=Verifica aggiornamenti del tool all'avvio
+# translations ended up here last time 
+0000098=Check for updates
+0000099=<html><body ><h1 color>>"#7d3c98" bgcolor>>"#f4d03f">    Lordroid One Deodexer To Rule Them All</h1>
+0000100=<h2 color>>"#f4d03f" bgcolor>>"#a325a7">    Description :</h2>
+0000101=<p >Lordroid One Deodexer To Rule Them All is a free Software writen in java capable of deodexing any android rom under any platform (OS) as long as that OS have JRE 7 or Higher Installed</p>
+0000102=<h2 color>>"#f4d03f" bgcolor>>"#a325a7">    License :</h2>
+0000103=<p>Software redistributed under GPL V3 see license tab for more details</p>
+0000104=<h2 color>>"#f4d03f" bgcolor>>"#a325a7">    Author :</h2>
+0000105=<p>© Rachid Boudjelida rachidboudjelida@gmail.com all rights reserved</p>
+0000106=<h2 color>>"#f4d03f" bgcolor>>"#a325a7">    Translators :</h2>
+0000107=<p>Droid-Angel (English),realtebo (Italian),Raphael Mangini(Portugues) , pabloc97(spanish)</p>
+0000108=<h2 color>>"#f4d03f" bgcolor>>"#a325a7">    Used Libraries : </h2>
+0000109=<p>commons-compress-1.10.jar , zip4j_1.3.2.jar ,weblaf-1.28.jar , xz.jar</p>
+0000110=<h2 color>>"#f4d03f" bgcolor>>"#a325a7">    Used binaries :</h2>
+0000111=<p>oat2dex.jar ,smali.jar ,baksmali.jar ,signApk.jar ,adb ,aapt ,unsquash ,7z.exe</p></body></html>
+0000112=Links
+0000113=License
+0000114=Visite XDA Thread
+0000115=See sources (Github)
+0000116=Report issue (Github)
+0000117=Report issue (XDA)
+0000118=Write a review (XDA)
+0000119=Post feature request (XDA)
+0000120=Open latest release page
+0000121=Send an email to the developer
+0000122=The chosen name is not valid for a file name ! try again
+0000123=About this software
+0000124=Vendor folder detected ,it will be deodexed if necessary ...
+0000125=Plugin folder detected ,it will be deodexed if necessary ...
+0000126=We will determine this once we extract .sqsh files no warries :D
+0000127=There is no way to determine the number of odex files 
+0000128=.sqsh Files were detected it will be extracted no action needed from user... 
+0000129=squashfs tools not found ! please refer to the manual for more info ! 
+0000130=<HTML><p>No arch was detected and no odex files were found in the system folder!</p><p>This usally means that the rom is already deodexed</p></HTML>
+0000131=<HTML><p>No arch was detected and no boot.oat file was found in the system folder </p><p>boot.oat is critical to the depdex process can't do it without it</p></HTML>No arch was detected and no boot.oat file was found in the system folder </p><p>boot.oat is critical to the depdex process can't do it without it</p></HTML>
+0000132=Rom is already deodexed!
+0000133=No arch detected
+0000134=You are good to go :D  click deodex Now to proceed 
+0000135=De-Optimizing boot.oat this may take a minute...
+0000136=<HTML><p>Oops ... we couldn't initialize the working environement 
+0000137= please make sure that you have followed all the guide lines if you think this is a bug 
+0000138=please send a bug report along with the full log to rachidboudjelida@gmail.com or post it on XDA </p></HTML>
+0000139=Couldn't copy boot.oat to working folder aborting ...
+0000140=Couldn't deodex boot.oat aborting ...
+0000141=Failed to unsquash the squash file we can't continue ...
+0000142=<html><p>The following files failed to deodex </p>
+0000143=<p>creating a flashable zip can lead to <b>bootloops</b> or device not boot at all !</p>
+0000144=<p>are you <b>SURE</b> you wanna proceed ?</p></html>

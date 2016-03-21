@@ -143,12 +143,12 @@ public class Main {
 	 */
 	private static void logOsInfo() {
 		// lets log SystemInfos
-		Logger.writLog("[Tester][I]User Os is " + Cfg.getOs());
-		Logger.writLog("[Tester][I]Os name : " + Os.getOsName());
-		Logger.writLog("[Tester][I]User Platform is : " + Os.platform());
-		Logger.writLog("[Tester][I]JAVA version : " + System.getProperty("java.version"));
-		Logger.writLog("Available cores (cpu) = " + HostInfo.availableCpus());
-		Logger.writLog("Max allocated memory = " + HostInfo.getMaxMemory() + " bytes");
+		Logger.appendLog("[Main][I]User Os is " + Cfg.getOs());
+		Logger.appendLog("[Main][I]Os name : " + Os.getOsName());
+		Logger.appendLog("[Main][I]User Platform is : " + Os.platform());
+		Logger.appendLog("[Main][I]JAVA version : " + System.getProperty("java.version"));
+		Logger.appendLog("[Main][I]Available cores (cpu) = " + HostInfo.availableCpus());
+		Logger.appendLog("[Main][I]Max allocated memory = " + HostInfo.getMaxMemory() + " bytes");
 	}
 
 	/**
@@ -275,8 +275,7 @@ public class Main {
 		}
 		SessionCfg.setSign(sign);
 		SessionCfg.setZipalign(zipalign);
-		MainWorker mainWorker = new MainWorker(systemFolder, logger, 1);
-		mainWorker.addThreadWatcher(new CommandLineWorker(createZip));
+		MainWorker mainWorker = new MainWorker(systemFolder, logger, 1,new CommandLineWorker(createZip));
 		Thread t = new Thread(mainWorker);
 		t.start();
 	}

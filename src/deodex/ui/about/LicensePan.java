@@ -16,23 +16,48 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package deodex;
+/**
+ * 
+ */
+package deodex.ui.about;
 
-import java.io.File;
+
+import java.awt.BorderLayout;
 import java.io.IOException;
 import java.net.URL;
 
-import deodex.tools.FilesUtils;
+import javax.swing.JEditorPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
-public class Test {
+import deodex.R;
 
-	public static void main(String[] args) throws IOException  {
-			// just for testing purpose 
-		for (int i = 0 ; i< 2 ; i++){
-			URL url = new URL("http://prodroid.eu5.org/lordroid/release.php");
-			url.openConnection();
-			System.out.println(""+i);
-			FilesUtils.copyFile(url.openStream(), new File("/tmp/link"));
+/**
+ * @author lord-ralf-adolf
+ *
+ */
+public class LicensePan extends JPanel {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	JEditorPane text ;
+	public LicensePan(){
+		this.setSize(600,600);
+		this.setLayout(new BorderLayout());
+		this.setBackground(R.PANELS_BACK_COLOR);
+		this.setBounds(0, 0, 600, 600);
+		URL url = Thread.currentThread().getContextClassLoader().getResource("license.html");
+		try {
+			text = new JEditorPane(url);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+		text.setEditable(false);
+		this.add(new JScrollPane(text),BorderLayout.CENTER);
+
 	}
 }

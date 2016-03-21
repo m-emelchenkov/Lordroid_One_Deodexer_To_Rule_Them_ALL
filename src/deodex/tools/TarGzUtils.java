@@ -59,9 +59,9 @@ public class TarGzUtils {
 	    while ((entry = (TarArchiveEntry)debInputStream.getNextEntry()) != null) {
 	        final File outputFile = new File(outputDir, entry.getName());
 	        if (entry.isDirectory()) {
-	           Logger.writLog("Attempting to write output directory . "+ outputFile.getAbsolutePath());
+	           Logger.appendLog("Attempting to write output directory . "+ outputFile.getAbsolutePath());
 	            if (!outputFile.exists()) {
-	                Logger.writLog("Attempting to create output directory ."+ outputFile.getAbsolutePath());
+	                Logger.appendLog("Attempting to create output directory ."+ outputFile.getAbsolutePath());
 	                if (!outputFile.mkdirs()) {
 	                    throw new IllegalStateException(String.format("Couldn't create directory %s.", outputFile.getAbsolutePath()));
 	                }
@@ -106,5 +106,22 @@ public class TarGzUtils {
 	    out.close();
 
 	    return outputFile;
+	}
+
+	/**
+	 * unGunZip odex file 
+	 * @param odex the odex file to ungunzip
+	 * @param parentFile the folder where to put the uncompressed odex file (same as odex file)
+	 * @return isDecompressed true only if an output odex file was found 
+	 */
+	public static boolean unGzipOdex(File odex, File parentFile) {
+		boolean success = false;
+		try {
+			success = TarGzUtils.unGzip(odex, parentFile).exists();
+		} catch (IOException e) {
+			e.printStackTrace();
+			return false;
+		}
+	    return success;
 	}
 }

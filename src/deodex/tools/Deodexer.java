@@ -74,7 +74,7 @@ public class Deodexer {
 		CmdUtils.runCommand(cmd);
 
 		if (!smaliFolder.exists()) {
-			Logger.writLog("[Deodexer][E]Failed at baksmali " + odexFile.getName());
+			Logger.appendLog("[Deodexer][E]Failed at baksmali " + odexFile.getName());
 			return false;
 		}
 		CmdUtils.runCommand(cmd2);
@@ -123,13 +123,13 @@ public class Deodexer {
 		if (HostInfo.getMaxMemory() > S.SAFE_HEAP_SIZE) {
 			String[] cmd = { "boot", bootOat.getAbsolutePath() };
 			try {
-				Logger.writLog("[Deodexer][I] trying to de-optimize boot.oat using oat2dex as library ....");
+				Logger.appendLog("[Deodexer][I] trying to de-optimize boot.oat using oat2dex as library ....");
 				org.rh.smaliex.Main.main(cmd);
 			} catch (Exception e) {
 				return oat2dexBootCmdWay(bootOat);
 			}
 		} else {
-			Logger.writLog("[Deodexer][W] detected heap size is too low running oat2dex in a separate process ...");
+			Logger.appendLog("[Deodexer][W] detected heap size is too low running oat2dex in a separate process ...");
 			return oat2dexBootCmdWay(bootOat);
 		}
 		return S.getBootTmpDex().exists();
@@ -141,8 +141,8 @@ public class Deodexer {
 	 * @return true only id the dex boot folder was created
 	 */
 	public static boolean oat2dexBootCmdWay(File bootOat) {
-		Logger.writLog("[Deodexer][E] de-optimize boot.oat using oat2dex as library ...." + "[failed]");
-		Logger.writLog("[Deodexer][I] trying to de-optimize boot.oat using oat2dex as binary ....");
+		Logger.appendLog("[Deodexer][E] de-optimize boot.oat using oat2dex as library ...." + "[failed]");
+		Logger.appendLog("[Deodexer][I] trying to de-optimize boot.oat using oat2dex as binary ....");
 		String[] cmd1 = { "java", Cfg.getMaxHeadSizeArg(), "-jar", S.getAot2Dex(), "boot", bootOat.getAbsolutePath() };
 		CmdUtils.runCommand(cmd1);
 

@@ -27,6 +27,7 @@ import deodex.R;
 import deodex.S;
 import deodex.obj.JarLegacy;
 import deodex.tools.Deodexer;
+import deodex.tools.FailTracker;
 import deodex.tools.FilesUtils;
 import deodex.tools.Logger;
 import deodex.tools.Zip;
@@ -75,20 +76,20 @@ public class JarWorkerLegacy implements Watchable, Runnable {
 	 * @return true only if the jar file was deodexed
 	 */
 	private boolean deodexJar(JarLegacy jar) {
-		Logger.writLog("[JarWorkerLegacy][I][" + jar.getOrigJar().getName() + "]"
+		Logger.appendLog("[JarWorkerLegacy][I][" + jar.getOrigJar().getName() + "]"
 				+ " about to copy needed files to working dir ");
 		boolean copyStatus = jar.copyNeededFiles(tempFolder);
 		if (!copyStatus) {
-			Logger.writLog("[JarWorkerLegacy][E][" + jar.getOrigJar().getName() + "] failed to copy to working dir ");
+			Logger.appendLog("[JarWorkerLegacy][E][" + jar.getOrigJar().getName() + "] failed to copy to working dir ");
 			this.logPan.addLog(
 					R.getString(S.LOG_WARNING) + "[" + jar.getOrigJar() + "]" + R.getString("log.copy.to.tmp.failed"));
 			return false;
 		}
 		// deodexing
-		Logger.writLog("[JarWorkerLegacy][I][" + jar.getOrigJar().getName() + "] about to deodex odex file ");
+		Logger.appendLog("[JarWorkerLegacy][I][" + jar.getOrigJar().getName() + "] about to deodex odex file ");
 		boolean deodexStatus = Deodexer.deoDexApkLegacy(jar.tempOdex, jar.classes);
 		if (!deodexStatus) {
-			Logger.writLog("[JarWorkerLegacy][E][" + jar.getOrigJar().getName() + "] deodex odex file FAILED");
+			Logger.appendLog("[JarWorkerLegacy][E][" + jar.getOrigJar().getName() + "] deodex odex file FAILED");
 			this.logPan.addLog(
 					R.getString(S.LOG_WARNING) + "[" + jar.getOrigJar() + "]" + R.getString("log.deodex.failed"));
 			return false;
@@ -96,12 +97,12 @@ public class JarWorkerLegacy implements Watchable, Runnable {
 		// putback
 		ArrayList<File> classes = new ArrayList<File>();
 		classes.add(jar.classes);
-		Logger.writLog("[JarWorkerLegacy][I][" + jar.getOrigJar().getName() + "] about to put "
+		Logger.appendLog("[JarWorkerLegacy][I][" + jar.getOrigJar().getName() + "] about to put "
 				+ jar.classes.getAbsolutePath() + "back in ");
 		boolean putBack = false;
 		putBack = Zip.addFilesToExistingZip(jar.tempJar, classes);
 		if (!putBack) {
-			Logger.writLog("[JarWorkerLegacy][I][" + jar.getOrigJar().getName() + "] put "
+			Logger.appendLog("[JarWorkerLegacy][I][" + jar.getOrigJar().getName() + "] put "
 					+ jar.classes.getAbsolutePath() + "back in failed");
 			this.logPan.addLog(
 					R.getString(S.LOG_WARNING) + "[" + jar.getOrigJar() + "]" + R.getString("log.add.classes.failed"));
@@ -146,7 +147,7 @@ public class JarWorkerLegacy implements Watchable, Runnable {
 		if (this.jarList != null && !this.jarList.isEmpty()) {
 			for (File f : this.jarList) {
 				JarLegacy jar = new JarLegacy(f);
-				Logger.writLog("[JarWorkerLegacy][I] processing " + jar.getOrigJar());
+				Logger.appendLog("[JarWorkerLegacy][I] processing " + jar.getOrigJar());
 				success = this.deodexJar(jar);
 				if (success) {
 					logPan.addLog(
@@ -154,6 +155,7 @@ public class JarWorkerLegacy implements Watchable, Runnable {
 				} else {
 					logPan.addLog(
 							R.getString(S.LOG_ERROR) + "[" + jar.origJar.getName() + "]" + R.getString(S.LOG_FAIL));
+					FailTracker.addFailed(jar.origJar);
 				}
 				progressBar.setValue(progressBar.getValue() + 1);
 				progressBar.setString(R.getString("progress.jar") + " " + this.percent());
@@ -171,7 +173,7 @@ public class JarWorkerLegacy implements Watchable, Runnable {
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-				Logger.writLog("[JarWorkerLegacy][EX]" + e.getStackTrace());
+				Logger.appendLog("[JarWorkerLegacy][EX]" + e.getStackTrace());
 				FilesUtils.deleteRecursively(tempFolder);
 				progressBar.setValue(progressBar.getMaximum());
 				progressBar.setEnabled(false);

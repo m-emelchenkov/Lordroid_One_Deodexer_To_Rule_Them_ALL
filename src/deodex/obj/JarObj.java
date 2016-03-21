@@ -54,14 +54,13 @@ public class JarObj {
 			absoluteName = odexFile.getName().substring(0, odexFile.getName().lastIndexOf("."));
 		} else if (odexFile.getName().endsWith(".odex.xz")) {
 			absoluteName = odexFile.getName().substring(0, odexFile.getName().lastIndexOf(".odex.xz"));
+		} else if (odexFile.getName().endsWith(S.COMP_GZ_ODEX_EXT)){
+			absoluteName = odexFile.getName().substring(0, odexFile.getName().lastIndexOf(".odex.gz"));
 		}
 
 		this.origJar = new File(SessionCfg.getSystemFolder().getAbsolutePath() + File.separator + S.SYSTEM_FRAMEWORK
 				+ File.separator + absoluteName + ".jar");
-		if (!this.origJar.exists()) {
-			// we copy a dummy jar to framework
-			FilesUtils.copyFile(S.DUMMY_JAR, this.origJar);
-		}
+
 	}
 
 	/**
@@ -70,6 +69,10 @@ public class JarObj {
 	 * @return true only if the files were copied successfully
 	 */
 	public boolean copyNeedFiles(File tmpFolder) {
+		if (!this.origJar.exists()) {
+			// we copy a dummy jar to framework
+			FilesUtils.copyFile(S.DUMMY_JAR, this.origJar);
+		}
 		this.tmpFolder = new File(tmpFolder.getAbsolutePath() + File.separator + this.absoluteName);
 		System.out.print("JArObj temp folder created ?" + this.tmpFolder.mkdirs() + tmpFolder.mkdirs());
 		if (!this.tmpFolder.exists())
@@ -85,12 +88,12 @@ public class JarObj {
 		tmpClasses2 = new File(this.tmpFolder.getAbsolutePath() + File.separator + S.CLASSES_2);
 		tmpClasses3 = new File(this.tmpFolder.getAbsolutePath() + File.separator + S.CLASSES_3);
 
-		Logger.writLog("[JarObj][I] copying " + odexFile + " to " + tmpCompodex);
+		Logger.appendLog("[JarObj][I] copying " + odexFile + " to " + tmpCompodex);
 		boolean copyStatus = this.odexFile.renameTo(this.tmpCompodex);
-		Logger.writLog("[JarObj][I] copy of " + odexFile + " to " + tmpCompodex + " success ? " + copyStatus);
-		Logger.writLog("[JarObj][I] copying " + origJar.getAbsolutePath() + " to " + tmpJar);
+		Logger.appendLog("[JarObj][I] copy of " + odexFile + " to " + tmpCompodex + " success ? " + copyStatus);
+		Logger.appendLog("[JarObj][I] copying " + origJar.getAbsolutePath() + " to " + tmpJar);
 		boolean copyStatus2 = origJar.renameTo(tmpJar);
-		Logger.writLog(
+		Logger.appendLog(
 				"[JarObj][I] copy of " + origJar.getAbsolutePath() + " to " + tmpJar + " success ? " + copyStatus2);
 
 		return this.tmpCompodex.exists() && tmpJar.exists();

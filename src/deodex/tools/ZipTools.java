@@ -23,13 +23,14 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Enumeration;
 import java.util.List;
+import java.util.zip.ZipEntry;
 
 import org.apache.commons.compress.compressors.xz.XZCompressorInputStream;
 
 import deodex.S;
 import net.lingala.zip4j.core.ZipFile;
-import net.lingala.zip4j.exception.ZipException;
 import net.lingala.zip4j.model.FileHeader;
 
 public class ZipTools {
@@ -46,12 +47,16 @@ public class ZipTools {
 	public static boolean extractOdex(File odex) throws IOException {
 		File Decomdex;
 		if (odex.getName().endsWith(S.ODEX_EXT)) {
-			Logger.writLog("[ZipTools][I]Decompressing  " + odex.getName() + " not needed");
+			Logger.appendLog("[ZipTools][I]Decompressing  " + odex.getName() + " not needed");
 			return true;
+		} else if (odex.getName().endsWith(S.COMP_GZ_ODEX_EXT)){
+			Logger.appendLog("[ZipTools][I]Decompressing  " + odex.getName() + " gzip detected ...");
+			return TarGzUtils.unGzipOdex(odex, odex.getParentFile());
 		} else {
+			Logger.appendLog("[ZipTools][I]Decompressing  " + odex.getName() + " xz compression detected ...");
 			Decomdex = new File(odex.getParentFile().getAbsolutePath() + "/"
 					+ StringUtils.getCropString(odex.getName(), odex.getName().length() - 3));
-			Logger.writLog(
+			Logger.appendLog(
 					"[ZipTools][I]Decompressing  " + odex.getAbsolutePath() + "  to  " + Decomdex.getAbsolutePath());
 			FileInputStream fin = new FileInputStream(odex);
 			BufferedInputStream in = new BufferedInputStream(fin);
@@ -66,7 +71,7 @@ public class ZipTools {
 			xzIn.close();
 
 		}
-		Logger.writLog("[ZipTools][I]Decompressing  " + odex.getAbsolutePath() + "  to  " + Decomdex.getAbsolutePath()
+		Logger.appendLog("[ZipTools][I]Decompressing  " + odex.getAbsolutePath() + "  to  " + Decomdex.getAbsolutePath()
 				+ " success ? " + Decomdex.exists());
 		return Decomdex.exists();
 	}
@@ -80,34 +85,63 @@ public class ZipTools {
 	 */
 	public static boolean isFileinZip(String fileName, ZipFile zipFile) {
 		try {
-			Logger.writLog("[ZipTools][I] about to search " + fileName + " in " + zipFile.getFile().getAbsolutePath());
+			Logger.appendLog("[ZipTools][I] about to search " + fileName + " in " + zipFile.getFile().getAbsolutePath());
 			// Get the list of file headers from the zip file
 			@SuppressWarnings("rawtypes")
 			List fileHeaderList = zipFile.getFileHeaders();
 
 			// Loop through the file headers
 			// TODO why some zips throw OutOfBoundsException ? weird zips ?
-			try {
+
 				for (int i = 0; i < fileHeaderList.size(); i++) {
 					FileHeader fileHeader = (FileHeader) fileHeaderList.get(i);
 					String name = fileHeader.getFileName();
-//					if (name.contains("/")) {
-//						name = name.substring(name.lastIndexOf("/"));
-//					}
+					
+					if(name.length()>= fileName.length())
 					if (name.contains(fileName)) {
 						return true;
 					}
 				
 				} 
-			}	catch (Exception e){
-				return false;
+				
+		} catch (Exception e) {
+			//e.printStackTrace(); don't print the Exception can be a throwable and doesn't have sush method 
+			Logger.appendLog("[ZipTools][EX] isFileInZip fail trying fail safe mode instead ");
+			File zip = zipFile.getFile();
+			try {
+				return ZipTools.isFileinZipFailSafe(fileName, new java.util.zip.ZipFile(zip));
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
 			}
-
-		} catch (ZipException e) {
-			e.printStackTrace();
-			Logger.writLog("[ZipTools][EX]" + e.getStackTrace());
 		}
 		return false;
 	}
 
+	/**
+	 * check if the given fileName matches a file in the given zipFile
+	 * without extraction ,file name can contain full paths in zip like
+	 * '/path/myFile.txt 
+	 * @param fileName file name to search fot
+	 * @param zipFile the zip in which we will search for the file 
+	 * @return isFileFound returns true is a file matches the given file 
+	 */
+	public static boolean isFileinZipFailSafe(String fileName, java.util.zip.ZipFile zipFile) {
+		try {
+
+			Enumeration<? extends ZipEntry> zipEntries = zipFile.entries();
+
+				while (zipEntries.hasMoreElements()){
+					
+					if (zipEntries.nextElement().getName().contains(fileName)){
+						return true;
+					}
+				}
+
+		} catch (Exception e) {
+			Logger.appendLog("[ZipTools][EX]" + e.getStackTrace());
+			return false;
+		}
+		return false;
+	}
 }

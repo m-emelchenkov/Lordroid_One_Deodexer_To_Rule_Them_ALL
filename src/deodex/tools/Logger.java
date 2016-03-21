@@ -54,9 +54,9 @@ public class Logger {
 			Date resultdate = new Date(yourmilliseconds);
 			init++;
 			new File(PathUtils.getExcutionPath() + File.separator + "logs" + File.separator + sdf.format(resultdate)
-					+ "_full.log").getParentFile().mkdirs();
+					+ "/full_log.txt").getParentFile().mkdirs();
 			return PathUtils.getExcutionPath() + File.separator + "logs" + File.separator + sdf.format(resultdate)
-					+ "_full.log";
+					+ "/full_log.txt";
 		}
 
 		return LOG_FILE.getAbsolutePath();
@@ -82,7 +82,7 @@ public class Logger {
 	 * @param str
 	 *            the log to be saved
 	 */
-	public static synchronized void writLog(String str) {
+	public static synchronized void appendLog(String str) {  
 		getlogFileName();
 		long yourmilliseconds = System.currentTimeMillis();
 		SimpleDateFormat sdf = new SimpleDateFormat("[HH:mm:ss]"); // dd/MMM/yyyy
@@ -95,6 +95,33 @@ public class Logger {
 			out.write(sdf.format(resultdate) + str);
 			if (!str.endsWith("\n"))
 				;
+			out.newLine();
+			out.flush();
+			out.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+	
+	/**
+	 * write the given String to a new line in the log file
+	 * 
+	 * @param str
+	 *            the log to be saved
+	 */
+	public static synchronized void writeSystemFolderFiles(String str) {  
+		getlogFileName();
+		long yourmilliseconds = System.currentTimeMillis();
+		SimpleDateFormat sdf = new SimpleDateFormat("[HH:mm:ss]"); // dd/MMM/yyyy
+		Date resultdate = new Date(yourmilliseconds);
+		if (logToStd)
+			System.out.println(sdf.format(resultdate) + str);
+		BufferedWriter out;
+		try {
+			out = new BufferedWriter(new FileWriter(new File(LOG_FILE.getParentFile().getAbsolutePath()+"/system_files.txt"), true));
+			out.write(sdf.format(resultdate) + str);
 			out.newLine();
 			out.flush();
 			out.close();

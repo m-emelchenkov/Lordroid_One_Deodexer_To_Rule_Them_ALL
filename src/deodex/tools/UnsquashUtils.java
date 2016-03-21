@@ -68,12 +68,16 @@ public class UnsquashUtils {
 	public static boolean unsquash(File systemFolder) {
 		File appSquash = new File(systemFolder.getAbsolutePath() + File.separator + "odex.app.sqsh");
 		File privAppSquash = new File(systemFolder.getAbsolutePath() + File.separator + "odex.priv-app.sqsh");
+		File framSquash = new File(systemFolder.getAbsolutePath() + File.separator + "odex.framework.sqsh");
+
 		File destFile = S.getUnsquash();
 		// make sure the destFile is not there
 		FilesUtils.deleteRecursively(destFile);
 		// get the commands
 		String[] cmd1 = getUnsquashCommand(appSquash, destFile);
 		String[] cmd2 = getUnsquashCommand(privAppSquash, destFile);
+		String[] cmd3 = getUnsquashCommand(framSquash, destFile);
+
 		if (appSquash.exists()) {
 			// unsquash app
 			boolean sucess = (CmdUtils.runCommand(cmd1) == 0);
@@ -82,14 +86,32 @@ public class UnsquashUtils {
 				if (!destFile.exists() || files == null || files.size() == 0) {
 					return false;
 				} else {
-					boolean copied = FilesUtils.copyFileRecurcively(destFile,
-							new File(systemFolder.getAbsolutePath() + File.separator + "app"));
-					FilesUtils.deleteRecursively(destFile);
-					if (!copied)
+					boolean copied = true;
+					File appFolder = new File(systemFolder.getAbsolutePath() + File.separator + "app");
+					File[] apkfolders = appFolder.listFiles();
+					for (File f : files) {
+						if (f.getName().contains(".odex")) {
+							ArrayList<File> matchingOdexs = FilesUtils.searchExactFileNames(
+									appFolder, f.getName());
+							if (matchingOdexs == null || matchingOdexs.size() <= 0) {
+								for (File dir : apkfolders) {
+									if (dir.getName()
+											.equals(f.getName().subSequence(0, f.getName().lastIndexOf(".")))) {
+										copied = copied && FilesUtils.copyFile(f, new File(dir.getAbsolutePath() + "/" + f.getName()));
+									}
+								}
+							} else {
+								for (File odex : matchingOdexs)
+									odex.delete();
+								copied = copied && FilesUtils.copyFile(f, matchingOdexs.get(0));
+							}
+						}
+					}
+					if(!copied)
 						return false;
 				}
 			} else {
-				Logger.writLog("[UnsquashUtils][E]failed to unsquash " + appSquash.getAbsolutePath());
+				Logger.appendLog("[UnsquashUtils][E]failed to unsquash " + appSquash.getAbsolutePath());
 				return false;
 			}
 
@@ -103,14 +125,70 @@ public class UnsquashUtils {
 				if (!destFile.exists() || files == null || files.size() == 0) {
 					return false;
 				} else {
-					boolean copied = FilesUtils.copyFileRecurcively(destFile,
-							new File(systemFolder.getAbsolutePath() + File.separator + "priv-app"));
-					FilesUtils.deleteRecursively(destFile);
-					if (!copied)
+					boolean copied = true;
+					File privApp = new File(systemFolder.getAbsolutePath() + File.separator + "priv-app");
+					File[] apkfolders = privApp.listFiles();
+					for (File f : files) {
+						if (f.getName().contains(".odex")) {
+							ArrayList<File> matchingOdexs = FilesUtils.searchExactFileNames(
+									privApp, f.getName());
+							if (matchingOdexs == null || matchingOdexs.size() <= 0) {
+								for (File dir : apkfolders) {
+									if (dir.getName()
+											.equals(f.getName().subSequence(0, f.getName().lastIndexOf(".")))) {
+										copied = copied && FilesUtils.copyFile(f, new File(dir.getAbsolutePath() + "/" + f.getName()));
+									}
+								}
+							} else {
+								for (File odex : matchingOdexs)
+									odex.delete();
+								copied = copied && FilesUtils.copyFile(f, matchingOdexs.get(0));
+							}
+						}
+					}
+					if(!copied)
 						return false;
 				}
 			} else {
-				Logger.writLog("[UnsquashUtils][E]failed to unsquash " + privAppSquash.getAbsolutePath());
+				Logger.appendLog("[UnsquashUtils][E]failed to unsquash " + privAppSquash.getAbsolutePath());
+				return false;
+			}
+		}
+
+		if (framSquash.exists()) {
+			// unsquash framework
+			boolean sucess = (CmdUtils.runCommand(cmd3) == 0);
+			if (sucess) {
+				ArrayList<File> files = FilesUtils.listAllFiles(destFile);
+				if (!destFile.exists() || files == null || files.size() == 0) {
+					return false;
+				} else {
+					boolean copied = true;
+					File frameworkFolder = new File(systemFolder.getAbsolutePath() + File.separator + S.SYSTEM_FRAMEWORK);
+					File[] apkfolders = frameworkFolder.listFiles();
+					for (File f : files) {
+						if (f.getName().contains(".odex")) {
+							ArrayList<File> matchingOdexs = FilesUtils.searchExactFileNames(
+									frameworkFolder, f.getName());
+							if (matchingOdexs == null || matchingOdexs.size() <= 0) {
+								for (File dir : apkfolders) {
+									if (dir.getName()
+											.equals(f.getName().subSequence(0, f.getName().lastIndexOf(".")))) {
+										copied = copied && FilesUtils.copyFile(f, new File(dir.getAbsolutePath() + "/" + f.getName()));
+									}
+								}
+							} else {
+								for (File odex : matchingOdexs)
+									odex.delete();
+								copied = copied && FilesUtils.copyFile(f, matchingOdexs.get(0));
+							}
+						}
+					}
+					if(!copied)
+						return false;
+				}
+			} else {
+				Logger.appendLog("[UnsquashUtils][E]failed to unsquash " + framSquash.getAbsolutePath());
 				return false;
 			}
 		}

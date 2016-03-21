@@ -72,10 +72,10 @@ public class PathUtils {
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
-			Logger.writLog("[PathUtils][EX]  " + e1.getStackTrace());
+			Logger.appendLog("[PathUtils][EX]  " + e1.getStackTrace());
 		}
 		String calledfrom = f.getAbsolutePath().substring(0, f.getAbsolutePath().lastIndexOf(File.separator));
-		Logger.writLog("[PathUtils][I] we were called from " + calledfrom);
-		Logger.writLog("[PathUtils][I] we are located in : " + getExcutionPath());
+		Logger.appendLog("[PathUtils][I] we were called from " + calledfrom);
+		Logger.appendLog("[PathUtils][I] we are located in : " + getExcutionPath());
 	}
 }

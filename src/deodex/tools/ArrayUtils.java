@@ -20,68 +20,30 @@ package deodex.tools;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Set;
+import java.util.TreeSet;
 
 public class ArrayUtils {
 
 	/**
-	 * search and delete the files with the same file name (the full path
-	 * doesn't matter)
-	 * 
-	 * @param list
-	 *            list of files
-	 * @return the list of files with no duplicates
+	 * remove all duplicate file names from the list with 
+	 * full path doesn't matter only the name matters
+	 * @param filesList a list of files
+	 * @return filesListWithNoFileNaleDuplicates
 	 */
-	public static ArrayList<File> deletedupricates(ArrayList<File> list) {
+	public static ArrayList<File> deletedupricates(ArrayList<File> filesList) {
+	    Set<File> s = new TreeSet<File>(new Comparator<File>() {
 
-		int[] index = getDuplicatesindex(list);
-		for (int x = 0; x < index.length; x++) {
-			list.remove(index[x] - x);
-		}
-		return list;
-	}
+	        @Override
+	        public int compare(File o1, File o2) {
+	        		return o1.getName().compareTo(o2.getName()); 
+	        }
+	    });
+	    s.addAll(filesList);
 
-	/**
-	 * 
-	 * @param list
-	 *            a list of files
-	 * @return the number of duplicated file name even with different paths
-	 */
-	public static int duplicateCount(ArrayList<File> list) {
-		int x = 0;
-		ArrayList<File> tempList = new ArrayList<File>();
-
-		for (int i = 0; i < list.size() - 1; i++) {
-
-			for (int n = i + 1; n < list.size(); n++) {
-				if (list.get(i).getName().equals(list.get(n).getName())) {
-					tempList.add(list.get(i));
-					x++;
-
-				}
-			}
-		}
-
-		return x;
-	}
-
-	/**
-	 * 
-	 * @param list
-	 *            a list of files
-	 * @return an array with the duplicated files index on the given list
-	 */
-	public static int[] getDuplicatesindex(ArrayList<File> list) {
-		int index[] = new int[duplicateCount(list)];
-		for (int ii = 0, y = 0; ii < list.size() - 1; ii++) {
-
-			for (int n = ii + 1; n < list.size(); n++) {
-				if (list.get(ii).getName().equals(list.get(n).getName())) {
-					index[y] = ii;
-					y++;
-				}
-			}
-		}
-		return index;
+	    filesList = new ArrayList<File> (s);
+	    return filesList;
 	}
 
 }

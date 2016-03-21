@@ -39,7 +39,7 @@ public class CmdUtils {
 
 		for (String str : cmd)
 			strCmd = strCmd + str + " ";
-		Logger.writLog(strCmd);
+		Logger.appendLog(strCmd);
 
 		Runtime rt = Runtime.getRuntime();
 		Process proc = null;
@@ -68,7 +68,7 @@ public class CmdUtils {
 				proc.destroy();
 		}
 
-		Logger.writLog("It's exit value was : " + exitValue);
+		Logger.appendLog("It's exit value was : " + exitValue);
 
 		proc.destroy();
 		return exitValue;

@@ -1,0 +1,4 @@
+version.incrimental=15
+download.page=http://www.lordroid.tk/lordroid/openpage.php
+download.link=http://www.lordroid.tk/lordroid/release.php
+version.name=v1.25

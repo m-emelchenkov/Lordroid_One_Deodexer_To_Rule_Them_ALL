@@ -40,6 +40,7 @@ import com.alee.laf.list.WebListElement;
 import deodex.R;
 import deodex.S;
 import deodex.controlers.LoggerPan;
+import deodex.tools.Logger;
 import deodex.tools.PathUtils;
 import deodex.tools.PropReader;
 
@@ -160,11 +161,8 @@ public class LoggerPane extends JPanel implements LoggerPan {
 
 	@Override
 	public synchronized void saveToFile() {
-		long yourmilliseconds = System.currentTimeMillis();
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd_HH.mm.ss"); // dd/MMM/yyyy
-		Date resultdate = new Date(yourmilliseconds);
-		String str = PathUtils.getExcutionPath() + File.separator + "logs" + File.separator + sdf.format(resultdate)
-				+ ".log";
+		String str = Logger.LOG_FILE.getParentFile().getAbsolutePath()+ "/Deodexing_log.txt";
+
 		File logFile = new File(str);
 
 		ArrayList<String> logs = new ArrayList<String>();
