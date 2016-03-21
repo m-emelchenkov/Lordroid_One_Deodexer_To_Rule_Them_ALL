@@ -18,9 +18,21 @@
  */
 package deodex;
 
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
+
+import deodex.tools.FilesUtils;
+
 public class Test {
 
-	public static void main(String[] args)  {
+	public static void main(String[] args) throws IOException  {
 			// just for testing purpose 
+		for (int i = 0 ; i< 2 ; i++){
+			URL url = new URL("http://prodroid.eu5.org/lordroid/release.php");
+			url.openConnection();
+			System.out.println(""+i);
+			FilesUtils.copyFile(url.openStream(), new File("/tmp/link"));
+		}
 	}
 }

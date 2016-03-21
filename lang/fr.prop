@@ -254,4 +254,3 @@ create.zip.btn=Créer un zip flashable
 0000142=<html><p>The following files failed to deodex </p>
 0000143=<p>creating a flashable zip can lead to <b>bootloops</b> or device not boot at all !</p>
 0000144=<p>are you <b>SURE</b> you wanna proceed ?</p></html>
-0000145=/data-app folder detected it will be deodexed if necessary ...

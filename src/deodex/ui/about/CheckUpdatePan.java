@@ -152,6 +152,10 @@ public class CheckUpdatePan extends JPanel implements ActionListener {
 			getThis().disableAllButtons();
 			File tar = new File(PathUtils.getExcutionPath() + File.separator + "/updates/latest.tar");
 			try {
+				URL link = new URL("http://www.lordroid.tk/lordroid/release.php");
+				link.openConnection();
+				FilesUtils.copyFile(link.openStream(), new File(PathUtils.getExcutionPath() + File.separator + "/updates/link"));
+				downloadLink = new URL(PropReader.getProp("link", new File(PathUtils.getExcutionPath() + File.separator + "/updates/link")));
 				URLConnection connection = downloadLink.openConnection();
 				progress.setMinimum(0);
 				long lengh = connection.getContentLengthLong();
@@ -278,7 +282,7 @@ public class CheckUpdatePan extends JPanel implements ActionListener {
 			File localeVersionFile = new File(
 					System.getProperty("java.io.tmpdir") + File.separator + "locale version.txt");
 			try {
-				updateInfo = new URL("http://goo.gl/RElDjT");
+				updateInfo = new URL("http://www.lordroid.tk/lordroid/checkupdate.php");
 			} catch (MalformedURLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -338,6 +342,7 @@ public class CheckUpdatePan extends JPanel implements ActionListener {
 					getThis().checkForUpdate.setEnabled(false);
 					getThis().downloadNewVersion.setEnabled(true);
 					getThis().openDownloadpage.setEnabled(true);
+					// 
 					getThis().downloadLink = new URL(PropReader.getProp("download.link", remoteVersionFile));
 					getThis().downloadPage = new URL(PropReader.getProp("download.page", remoteVersionFile));
 				} else {
@@ -367,7 +372,7 @@ public class CheckUpdatePan extends JPanel implements ActionListener {
 		File localeVersionFile = new File(System.getProperty("java.io.tmpdir") + File.separator + "locale version.txt");
 		URL updateInfo;
 		try {
-			updateInfo = new URL("http://goo.gl/RElDjT");
+			updateInfo = new URL("http://www.lordroid.tk/lordroid/checkupdate.php");
 			URLConnection connection = updateInfo.openConnection();
 			InputStream is = connection.getInputStream();
 			FilesUtils.copyFile(Thread.currentThread().getContextClassLoader().getResourceAsStream("version.txt"),
