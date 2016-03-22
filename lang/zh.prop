@@ -1,0 +1,234 @@
+#
+# 
+# 
+# Copyright 2016 Rachid Boudjelida <rachidboudjelida@gmail.com>
+# 
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+# 
+# This program is distributed in the hope that it will be rootPaneluseful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+#   Language resources file for LUBD
+#   this file will be read with a line reader so no multi-line allowed !
+#	for translation use UTF-8 encoding spaces in the right end of '=' count !
+file.launguage=中文简体
+#
+#
+app.version=v1.24
+app.name=Lordroid One Dedodexer To Rule Them All v1.24
+#
+# first window first launch !
+app.welcome=欢迎来到 LODTRTA!
+app.welcome.message=这是你第一次启动这个程序 <> 请选择你的语言 :
+app.langBoxLab=选择语言 : 
+app.buttonNext=下一步 >>
+#
+# path to system choose 
+browse.Field=拖拽或单击浏览选择系统文件夹
+browseBtn=浏览
+optionalPan=可选
+zipalignCheck=zipalign
+zipalignCheck.ToolTip=deodex之后进行zipalign APK
+signCheck=签名APK
+signCheck.ToolTip=refirmar apk's despues del deodexeo(puede ser necesario en algunas roms y dispositivos)
+deodexNow=Deodex开始
+log.warning=[警告] 
+log.error=[ 错误 ] 
+log.info=[ 信息 ] 
+log.success=[成功] 
+log.fail=[失败] 
+log.no.build.prop=没有建立。支持文件在选定的文件夹!
+log.could.not.read.sdk_level=不能从build.prop读sdk级别
+log.app.found=carpeta /system/app 发现!...  [OK]
+log.app.not.found=carpeta /system/app 没找到 ! [IGNORE] 
+log.not.a.system.folder=未找到 [app] [priv-app] [framework]文件夹，你确定选择了正确的文件夹？
+log.privapp.found=发现/system/priv-app 文件夹[OK] 
+log.privapp.not.found=未发现 /system/priv-app文件夹 !  
+log.framework.found=发现 /system/framework文件夹 [OK]
+log.framwork.not.found=未发现 /system/framework文件夹 ! 
+log.framwork.not.found.error=未发现 /system/framework文件夹!不能 DEODEX skd > 20 !
+log.no.arch.detected=不能确定你的 arch! 或者是不支持或者你的rom已经deodex。
+log.no.boot.oat=不能发现 boot.oat!没有他不能进行deodex! sdk > 20 !
+log.ok=[OK]
+log.rom.arch=Rom arch detectado ===>  
+log.build.prop.found=/system/build.prop 已经找到[OK]
+log.copy.to.tmp.failed=[不能复制到工作文件夹，所以不能deodex] [跳过]
+log.extract.to.tmp.failed=[不能提取压缩odex文件!不能deodex!][跳过]
+log.deodex.failed=不能deodex odex文件!不能deodex !][跳过]
+log.classes.failed=[不能deodex odex文件!不能deodex这][跳过APK]
+log.add.classes.failed=[不能增加 classes.dex 文件][跳过]
+log.already.deodex= 已经 deodex ! [成功]
+log.putback.apk.failed=[未能复制文件回到它的原始文件夹][跳过]
+window.exitbtn=退出
+window.restartbtn=返回
+mainworker.finallog=日志文件保存到/logs/yyyy-MM-dd|hh:mm:ss.log
+mainWorker.alljobsDone=所有工作结束!
+progress.done=完成
+progress.bootFiles=正在Deodex boot文件
+progress.apks=正在Deodex apks
+progress.jar=正在Deodex jar 	
+overal.progress=整体进度
+dialog.sure.exit=你确定吗?
+dialog.sure.exit.message=请确认你的行动,你确定你想要退出吗?
+box.jobs=MAX jos
+log.resign.ok=[签名]
+log.resign.fail=[签名失败!]
+log.zipalign.ok=[zipalign]
+log.zipalign.fail=[zipalign 失败]
+alert.deodexNow=Deodexing是一个非常耗费资源的过程
+alert.deodexNow1=这个过程在某些情况下需要一个小时
+alert.deodexNow.areyousure=你确定要继续吗?
+alert.deodex.now.title=确认你的操作
+log.detected.sdk=检测 Sdk水平 
+log.detected.arch= 检测ARCH: 
+log.chosen.folder= 选择系统文件夹system : 
+log.there.is=在这儿 
+log.to.be.deodexed=将要deodex
+no.odexFiles.wereFound=没有发现odex 文件，或者已经被deodex化。
+dont.show.this.again=不再显示
+alert.thread.line1=我们可以使用多个线程deodex apk 或者jars
+alert.thread.line2=没有发现odex文件不能deodex或罗已经deodexed吗?
+alert.thread.line3=注意:如果你不知道这是什么或者你的硬件
+alert.thread.line4= 功能默认这个值是默认选中
+alert.thread.box.dont.ask.again=功能默认这个值是默认选中
+zipalign.now.btn=Zipalign开始
+log.no.apk.to.zipalign=No hay apks en la carpeta seleccionada, estás seguro que has cogido la carpeta correcta?
+apk.to.be.zipaligned.log= 没有apks，请确定正确的文件夹 ...
+zipalign.fram.file.chooser.title=请选择含有apks文件夹!
+no.job.selected.zipalign.frame=<HTML><p>你至少选择一个工程<b>zipalign/sign</b>否则是无效的 !</p></HTML>
+you.shall.not.pass=不能通过
+file=文件 
+exit=退出  
+tools=工具
+batch.zipalign.sign.menu.items=批量sign/zipalign
+about.menu=关于
+About.this.program=关于工程（医生汉化）
+create.zip.btn=创建一个能刷的包
+0000000=打开文件夹
+0000001=ODTRTA >> zip创建者
+0000002=Lordroid批量deodex
+0000003=Copyright Rachid Boudjelida 2016
+0000004=软件版本 GPLV3
+0000005=关于
+0000006=请为你的 zip 文件命名
+0000007=比如: myDeodexedRom.zip)
+0000008=选择名称是无效的!再试一次
+0000009=请注意 :
+0000010=1-这个zip文件不包含你所有rom文件。
+0000011=2-防止这个zip包出现意外，请准备一个完美包。
+0000012=3-这个rom包将要刷入flash /system/app & /system/priv-app & /system/framework
+0000013=如果deodex 包是正确的，删除odex,oat,art,odex.xz,art.xz 
+0000014=安装odexa到rom中
+0000015=4-在你设备中刷入
+0000016=5-刷入手机之前备份系统!
+0000017=你确定吗?
+0000018=警告!
+0000019=adb不能被禁止，失败
+0000020=adb不能开始..失败
+0000021=adb命令返回值为零!失败
+0000022=发现了多种设备请只有一个设备连接到电脑! 
+0000023=没有任何设备发现
+0000024=确保设备连接和驱动程序安装
+0000025=确保设备正确连接
+0000026=确保你的设备连接到电脑，没有其他adb端口被占用
+0000027=设备提取名字 = 
+0000028=状态 : 
+0000029=从设备中提取 build.prop
+0000030=不能提取 build.prop.[ ERRROR ]
+0000031=build.prop 已经被成功提取 ...
+0000032=试图确定sdk...
+0000033=不能检测 sdk[ ERROR ]
+0000034=检测到 Sdk水平 
+0000035=提取 /system/priv-app ...
+0000036=priv-app 文件夹不能被复制,小心我们会忽略它!
+0000037=/system/priv-app 成功提取.
+0000039=从设备提取app!不要关闭窗口
+0000039= 应用程序文件夹不能被复制,小心我们将忽略它!!
+0000040=成功解压 /system/app 
+0000041=成功解压 /system/framework...
+0000042=成功解压 /system/framework
+0000043=解压 /system/framework失败 ...
+0000044=多个设备
+0000045=设备状态
+0000046=刷新
+0000047=from folder
+0000048=fome device
+0000049=运行过程中你不能改变标签,直到操作完成
+0000050=请为你释放文件夹命名
+0000051=(比如 myOdexRom)
+0000052=设置
+0000053=语言 (讲下一个添加)
+0000054=最大使用线程
+#last translation ended here 
+0000055=从选择的文件夹Zipalign优化所有app
+0000056=从选择的文件夹签名所有app
+0000057=<HTML><p>Click to choose the folder containing apks to be zipaligned/signed</p> <p>NOTE: the search for apks is recursive</p></HTML>
+0000058=aapt (best compatibility)
+0000059=J4zip (smaller size)
+0000060=7z (if you feel unlucky)
+0000061=Language
+0000062=Performance
+0000063=Customize tools
+0000064=Max Heap Size
+0000065=Font (will be available next launch)
+0000067=Compression Method
+0000068=<HTML><p>The <b>font</b> to be used ,change this if you like an other font </p><p>\nor if you have trouble displaying some weird chars</p></HTML>
+0000069=<HTML><p>The Language to be used</p><p><b>Note:</b> </br>you need to restart the application in order for the changes to take effect</p></html>
+0000070=<HTML><p>the max heap size to be used</p><p>only change this if you are having OutOfMemoryExceptions</p><p>The default Value is <b>512m<b> </p></HTML>
+0000071=<HTML><p>The tool to be used to put back classes.dex into apk</p><p>can affect various aspect of the rom it self choose wisely</p><p>if you have no idea what this is just leave it on aapt</p><p> because it is the most compatible if aapt is not shown to you here</p></p> it is not supported by tour OS use <b>J4zip</b> instead</p></HTML>
+0000072=Couldn't extract system please check your cable and your phone before trying again !
+0000073=<html><p>The software was update please re-Launch the software for the changes to take effects </p></html>
+0000074=Click check for update to check if there is a new version
+0000075=Check new update Now
+0000076=Open download page
+0000077=Download & Install
+0000078=Downloading new version ... 
+0000079=Downloading new version ... 
+0000080=Installing new version please wait ...
+0000081=Extracting content  ...
+0000082=An error has occurred couldn't Download new version :(
+0000083=Extracting 
+0000084=Done !
+0000085=<html><p>Could not extract new version find update archive under /updates</p><p> please extract it manually  </p></html>
+0000086=New version Installed successfully
+0000087=An error has occurred can't check for updates
+0000088=Preparing ... 
+0000089=Fetching data from server ... 
+0000090=Data was fetched from server ... 
+0000091=Comparing local and remote versions  ... 
+0000092=New Version found ! 
+0000093=Congrats ,You already have the latest version available !
+0000094=New version available go to  about > check for Update to update to latest !
+0000096=You have the latest version installed
+0000097=Check for updates on startup
+0000098=Check for updates
+0000099=<html><h1 color>>"#7d3c98" bgcolor>>"#f4d03f">Lordroid One Deodexer To Rule Them All</h1>
+0000100=<h2 color>>"#f4d03f" bgcolor>>"#a325a7">Description :</h2>
+0000101=<p>Lordroid One Deodexer To Rule Them All is a free Software writen in java ,capable of deodexing any android rom under any platform (OS) as long as that OS have JRE 7 or Higher Installed</p>
+0000102=<h2 color>>"#f4d03f" bgcolor>>"#a325a7">License :</h2>
+0000103=<p>Software redistributed under GPL V3 see license tab for more details</p>
+0000104=<h2 color>>"#f4d03f" bgcolor>>"#a325a7">Author :</h2>
+0000105=<p>© Rachid Boudjelida rachidboudjelida@gmail.com all rights reserved</p>
+0000106=<h2 color>>"#f4d03f" bgcolor>>"#a325a7">Translators :</h2>
+0000107=<p>Droid-Angel (English),realtebo (Italian),Raphael Mangini(Portugues) , pabloc97(spanish)</p>
+0000108=<h2 color>>"#f4d03f" bgcolor>>"#a325a7">Used Libraries : </h2>
+0000109=<p>commons-compress-1.10.jar , zip4j_1.3.2.jar ,weblaf-1.28.jar , xz.jar</p>
+0000110=<h2 color>>"#f4d03f" bgcolor>>"#a325a7">Used binaries :</h2>
+0000111=<p>oat2dex.jar ,smali.jar ,baksmali.jar ,signApk.jar ,adb ,aapt ,unsquash ,7z.exe</p></html>
+0000112=Links
+0000113=License
+0000114=Visite XDA Thread
+0000115=See sources (Github)
+0000116=Report issue (Github)
+0000117=Report issue (XDA)
+0000118=Write a review (XDA)
+0000119=Post feature request (XDA)
+0000120=Open latest release page
+0000121=Send an email to the developer
+0000122=The chosen name is not valid for a file name ! try again
+0000123=About this software
