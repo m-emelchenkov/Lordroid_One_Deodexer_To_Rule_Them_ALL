@@ -198,7 +198,7 @@ public class FilesUtils {
 			}
 		}
 		if (folder.listFiles() == null || folder.listFiles().length <= 0) {
-			Logger.appendLog("[FilesUtils][I] deleting because it is umpty " + folder.getAbsolutePath());
+			Logger.appendLog("[FilesUtils][I] deleting because it is empty " + folder.getAbsolutePath());
 			folder.delete();
 		}
 	}

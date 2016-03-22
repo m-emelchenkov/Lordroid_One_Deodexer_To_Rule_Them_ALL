@@ -119,8 +119,10 @@ public class MainWorker implements Runnable, ThreadWatcher, Watchable {
 						S.SYSTEM_FRAMEWORK_BOOT_ART));
 
 			}
-			FilesUtils.deleteUmptyFoldersInFolder(
-					new File(folder.getAbsolutePath() + File.separator + S.SYSTEM_FRAMEWORK));
+			// lets make sure there is no leftover empty dir 
+			// not that they will cause any effect later on phone
+			// just to make it clean 
+			FilesUtils.deleteUmptyFoldersInFolder(folder);
 
 			FilesUtils.deleteRecursively(S.getBootTmp().getParentFile().getParentFile());
 			S.setTempDir(System.getProperty("java.io.tmpdir"));
