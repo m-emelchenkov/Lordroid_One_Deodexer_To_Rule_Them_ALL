@@ -23,6 +23,7 @@ import java.util.ArrayList;
 
 import deodex.S;
 import deodex.SessionCfg;
+import deodex.tools.FailTracker;
 import deodex.tools.FilesUtils;
 import deodex.tools.Zip;
 import net.lingala.zip4j.core.ZipFile;
@@ -69,6 +70,13 @@ public class CommandLineWorker implements ThreadWatcher {
 			createFlashableZip();
 		}
 		System.out.println("ALL Threads Terminated !");
+		if(FailTracker.failCount > 0){
+			System.out.println("List of files fail to deodex :");
+		for (String str : FailTracker.failedFiles)
+			System.out.println(str);
+		} else {
+			System.out.println("All apks and jars were deodexed !");
+		}
 	}
 
 	/**
@@ -77,26 +85,12 @@ public class CommandLineWorker implements ThreadWatcher {
 	 */
 	private void initFilesList() { // FIXME: Duplicated in FlachableZipCreater
 									// the GUI version move it somewhere else
-		ArrayList<File> list0 = FilesUtils
-				.searchrecursively(new File(systemFolder.getAbsolutePath() + File.separator + S.SYSTEM_APP), ".apk");
+		fileToAdd.addAll(FilesUtils
+				.searchrecursively(systemFolder, ".apk"));
 
-		ArrayList<File> list1 = FilesUtils.searchrecursively(
-				new File(systemFolder.getAbsolutePath() + File.separator + S.SYSTEM_PRIV_APP), ".apk");
+		fileToAdd.addAll(FilesUtils.searchrecursively(
+				systemFolder, ".jar"));
 
-		ArrayList<File> list2 = FilesUtils.searchrecursively(
-				new File(systemFolder.getAbsolutePath() + File.separator + S.SYSTEM_FRAMEWORK), ".apk");
-
-		ArrayList<File> list3 = FilesUtils.searchrecursively(
-				new File(systemFolder.getAbsolutePath() + File.separator + S.SYSTEM_FRAMEWORK), ".jar");
-
-		for (File f : list0)
-			this.fileToAdd.add(f);
-		for (File f : list1)
-			this.fileToAdd.add(f);
-		for (File f : list2)
-			this.fileToAdd.add(f);
-		for (File f : list3)
-			this.fileToAdd.add(f);
 	}
 
 	@Override

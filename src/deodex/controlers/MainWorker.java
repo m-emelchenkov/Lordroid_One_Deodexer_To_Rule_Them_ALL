@@ -295,6 +295,10 @@ public class MainWorker implements Runnable, ThreadWatcher, Watchable {
 		tasks.add(apk2);
 		tasks.add(jar);
 		tasks.add(boot);
+		// FIXME : this should not be initialized on command line worker 
+		// because it's useless ! don't just add a condition here otherwise 
+		// all set and get progress will throw nullpointer exception
+		// do this on a clear head 
 		this.initPannel();
 	}
 
