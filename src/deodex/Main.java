@@ -158,13 +158,20 @@ public class Main {
 	 */
 	public static void main(String args[]) {
 
+		if (Cfg.isFirstLaunch()) {
+			// Init config
+			Cfg.setCurrentLang(S.ENGLISH);
+		} else {
+			// Load config
+			Cfg.readCfg();
+		}
+
 		if (args == null || args.length == 0) {
 			WebLookAndFeel.install();
 			PathUtils.logCallingProcessLocation();
 			logOsInfo();
 			HostInfo.logInfo();
 			if (Cfg.isFirstLaunch()) {
-				Cfg.setCurrentLang(S.ENGLISH);
 				R.initResources();
 				EventQueue.invokeLater(new Runnable() {
 
@@ -176,7 +183,6 @@ public class Main {
 				});
 
 			} else {
-				Cfg.readCfg();
 				R.initResources();
 				S.initTempFolders();
 				EventQueue.invokeLater(new Runnable() {
@@ -189,7 +195,6 @@ public class Main {
 				});
 
 			}
-
 		} else if (args.length > 2) {
 			Logger.logToStd = false;
 			printHelp();
